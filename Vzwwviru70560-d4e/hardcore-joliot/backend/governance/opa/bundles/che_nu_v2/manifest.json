@@ -1,0 +1,19 @@
+{
+  "revision": "v2.0.0",
+  "roots": ["che_nu"],
+  "metadata": {
+    "name": "CHE·NU Governance Bundle",
+    "version": "2.0.0",
+    "description": "Complete 7-rule governance pack for CHE·NU™ V69",
+    "principles": [
+      "Default deny",
+      "Explicit allowlists",
+      "Human approval for high-impact",
+      "Explainability required",
+      "XR read-only",
+      "Audit logging required",
+      "Synthetic only"
+    ],
+    "created_at": "2026-01-05T00:00:00Z"
+  }
+}

@@ -1,0 +1,136 @@
+{
+  "version": "v1",
+  "factors": {
+    "profile_archetype": [
+      "novice_guided",
+      "novice_impatient",
+      "interCautious_balanced",
+      "entrepreneur_fast",
+      "expert_autonomous",
+      "team_manager",
+      "researcher_systematic",
+      "community_organizer",
+      "creative_studio_builder",
+      "skeptical_low_trust"
+    ],
+    "circumstance": [
+      "exploration_phase",
+      "urgent_decision",
+      "deadline_crunch",
+      "high_risk_sensitive",
+      "multi_party_conflict",
+      "resource_discovery",
+      "integration_rollout",
+      "xr_onboarding",
+      "maintenance_cleanup",
+      "incident_response"
+    ],
+    "cadence": [
+      "low",
+      "medium",
+      "high",
+      "burst"
+    ],
+    "time_pressure": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "reversibility": [
+      "high",
+      "medium",
+      "low"
+    ],
+    "visibility": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "trust_in_ai": [
+      0.1,
+      0.3,
+      0.5,
+      0.7,
+      0.9
+    ],
+    "noise_tolerance": [
+      0.1,
+      0.3,
+      0.5,
+      0.7,
+      0.9
+    ],
+    "budget_profile": [
+      "tight",
+      "normal",
+      "large",
+      "unlimited"
+    ],
+    "connectivity_profile": [
+      "stable",
+      "flaky",
+      "offline_periods",
+      "high_latency"
+    ],
+    "integration_set": [
+      [],
+      [
+        "integrations.gdrive"
+      ],
+      [
+        "integrations.clickup"
+      ],
+      [
+        "integrations.email"
+      ],
+      [
+        "integrations.calendar"
+      ],
+      [
+        "integrations.gdrive",
+        "integrations.email"
+      ],
+      [
+        "integrations.gdrive",
+        "integrations.clickup",
+        "integrations.calendar",
+        "integrations.email"
+      ]
+    ],
+    "comms_mix": [
+      [
+        "comms.chat"
+      ],
+      [
+        "comms.chat",
+        "comms.calls"
+      ],
+      [
+        "comms.chat",
+        "meetings.core"
+      ],
+      [
+        "comms.chat",
+        "comms.calls",
+        "meetings.core"
+      ]
+    ],
+    "xr_level": [
+      "none",
+      "preflight_only",
+      "blueprint_basic",
+      "renderer_live"
+    ],
+    "governance_strictness": [
+      "low",
+      "medium",
+      "high"
+    ],
+    "automation_level": [
+      "manual",
+      "assisted",
+      "semi_auto",
+      "auto"
+    ]
+  }
+}

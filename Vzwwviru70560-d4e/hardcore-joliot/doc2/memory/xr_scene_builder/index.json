@@ -1,0 +1,18 @@
+{
+  "role": "xr_scene_builder",
+  "name": "XR Scene Builder",
+  "description": "XR Scene generation JSON schema + examples",
+  "files": [
+    "role.md",
+    "rules.md",
+    "style.md",
+    "examples.md",
+    "forbidden.md",
+    "notes.md",
+    "integration.md",
+    "todo.md"
+  ],
+  "safe": true,
+  "non_autonomous": true,
+  "version": "1.0"
+}

@@ -1,0 +1,171 @@
+# =====================================================
+# CHE·NU — FOUNDATION FREEZE
+# Status: FINAL
+# Authority: FOUNDATION
+# Version: 1.0.0
+#
+# Ce document gèle les lois fondamentales.
+# Aucune modification n'est permise.
+# L'humain reste souverain.
+#
+# ❄️ GELÉ POUR L'HUMANITÉ
+# =====================================================
+
+freeze:
+  purpose: >
+    Geler les lois fondamentales, les principes structurels
+    et les sphères canoniques afin d'empêcher toute dérive,
+    toute capture du système et toute modification implicite.
+  version: "1.0.0"
+  status: "FINAL"
+  authority: "FOUNDATION"
+
+# ===========================================
+# ÉLÉMENTS GELÉS
+# ===========================================
+frozen:
+  - global_laws
+  - ethics
+  - privacy_principles
+  - reversibility
+  - silence_modes
+  - sphere_boundaries
+  - universe_view_principles
+
+# ===========================================
+# LOIS GELÉES (RÉSUMÉ)
+# ===========================================
+laws:
+  law_1:
+    id: 1
+    name: "Human sovereignty over data"
+    description: "L'humain est propriétaire de ses données"
+    status: "FROZEN"
+    
+  law_2:
+    id: 2
+    name: "No implicit evaluation of humans"
+    description: "Aucune évaluation implicite des humains"
+    status: "FROZEN"
+    
+  law_3:
+    id: 3
+    name: "No behavioral manipulation"
+    description: "Aucune manipulation comportementale"
+    status: "FROZEN"
+    
+  law_4:
+    id: 4
+    name: "Explicit consent for cross-context actions"
+    description: "Consentement explicite pour actions cross-contexte"
+    status: "FROZEN"
+    
+  law_5:
+    id: 5
+    name: "Clarity and calm UX"
+    description: "Clarté et calme dans l'interface"
+    status: "FROZEN"
+    
+  law_6:
+    id: 6
+    name: "Reversibility by default"
+    description: "Réversibilité par défaut"
+    status: "FROZEN"
+
+# ===========================================
+# SPHÈRES CANONIQUES
+# ===========================================
+canonical_spheres:
+  - id: "personal"
+    name: "Personnel"
+    emoji: "👤"
+    status: "FROZEN"
+    
+  - id: "methodology"
+    name: "Methodology"
+    emoji: "🧠"
+    status: "FROZEN"
+    
+  - id: "business"
+    name: "Business"
+    emoji: "🏢"
+    status: "FROZEN"
+    
+  - id: "scholar"
+    name: "Scholar"
+    emoji: "🎓"
+    status: "FROZEN"
+    
+  - id: "creative_studio"
+    name: "Creative Studio"
+    emoji: "🎨"
+    status: "FROZEN"
+    
+  - id: "social_media"
+    name: "Social & Media"
+    emoji: "🎉"
+    status: "FROZEN"
+    
+  - id: "xr_meeting"
+    name: "XR / Meeting"
+    emoji: "🕶️"
+    status: "FROZEN"
+    
+  - id: "institutions"
+    name: "Institutions / Government"
+    emoji: "🏛️"
+    status: "FROZEN"
+
+# ===========================================
+# POLITIQUE DE MODIFICATION
+# ===========================================
+modification:
+  allowed:
+    - description: "new_spheres"
+      condition: "must inherit all frozen laws"
+      
+    - description: "new_agents"
+      condition: "must be scope-limited"
+      
+    - description: "new_views"
+      condition: "must be non-manipulative"
+
+  forbidden:
+    - "modifying_frozen_laws"
+    - "bypassing_privacy"
+    - "hidden_scoring"
+    - "influence_engines"
+    - "behavioral_optimization"
+    - "implicit_profiling"
+    - "attention_capture"
+
+# ===========================================
+# VÉRIFICATION
+# ===========================================
+verification:
+  required_for_extension: true
+  automated_checks: "supported"
+  human_confirmation: "mandatory"
+  
+  checklist:
+    - "Inherits all frozen laws"
+    - "No privacy violation"
+    - "No behavioral optimization"
+    - "Reversible by default"
+    - "Human approved"
+
+# ===========================================
+# SIGNATURE
+# ===========================================
+signature:
+  algorithm: "SHA-256"
+  status: "PENDING"
+  note: "Sign with foundation-lock.sh"
+
+# ===========================================
+# RÉSULTAT
+# ===========================================
+result:
+  status: "ACTIVE"
+  warning: "Core laws are immutable"
+  message: "FOUNDATION FREEZE v1 ACTIVE"

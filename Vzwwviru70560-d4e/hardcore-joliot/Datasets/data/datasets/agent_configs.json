@@ -1,0 +1,2286 @@
+{
+  "agents": [
+    {
+      "agent_id": "AG_L1_PLANNING_HEAD",
+      "level": "L1",
+      "department": "PLANNING",
+      "name": "Directeur Planification",
+      "description": "Agent L1 responsable du d\u00e9partement Planification",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.7,
+      "max_tokens": 8192,
+      "tools": [
+        "planner",
+        "analyzer",
+        "reporter"
+      ],
+      "memory_access": "read_only",
+      "capabilities": [
+        "Capability 1",
+        "Capability 2",
+        "Capability 3",
+        "Capability 4",
+        "Capability 5",
+        "Capability 6",
+        "Capability 7"
+      ],
+      "metrics": {
+        "tasks_processed": 35736,
+        "success_rate": 0.971,
+        "avg_response_ms": 857
+      },
+      "config": {
+        "retry_count": 3,
+        "timeout_seconds": 30,
+        "fallback_llm": "gpt-4-turbo"
+      }
+    },
+    {
+      "agent_id": "AG_L2_PLANNING_01",
+      "level": "L2",
+      "department": "PLANNING",
+      "reports_to": "AG_L1_PLANNING_HEAD",
+      "name": "Chef \u00c9quipe Planification 1",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 7848,
+        "success_rate": 0.941
+      }
+    },
+    {
+      "agent_id": "AG_L2_PLANNING_02",
+      "level": "L2",
+      "department": "PLANNING",
+      "reports_to": "AG_L1_PLANNING_HEAD",
+      "name": "Chef \u00c9quipe Planification 2",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 3322,
+        "success_rate": 0.963
+      }
+    },
+    {
+      "agent_id": "AG_L2_PLANNING_03",
+      "level": "L2",
+      "department": "PLANNING",
+      "reports_to": "AG_L1_PLANNING_HEAD",
+      "name": "Chef \u00c9quipe Planification 3",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 9284,
+        "success_rate": 0.942
+      }
+    },
+    {
+      "agent_id": "AG_L3_PLANNING_001",
+      "level": "L3",
+      "department": "PLANNING",
+      "reports_to": "AG_L2_PLANNING_01",
+      "name": "Sp\u00e9cialiste Planification 1",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 1",
+      "metrics": {
+        "tasks_processed": 3331,
+        "success_rate": 0.917
+      }
+    },
+    {
+      "agent_id": "AG_L3_PLANNING_002",
+      "level": "L3",
+      "department": "PLANNING",
+      "reports_to": "AG_L2_PLANNING_02",
+      "name": "Sp\u00e9cialiste Planification 2",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 2",
+      "metrics": {
+        "tasks_processed": 3883,
+        "success_rate": 0.95
+      }
+    },
+    {
+      "agent_id": "AG_L3_PLANNING_003",
+      "level": "L3",
+      "department": "PLANNING",
+      "reports_to": "AG_L2_PLANNING_03",
+      "name": "Sp\u00e9cialiste Planification 3",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 3",
+      "metrics": {
+        "tasks_processed": 4528,
+        "success_rate": 0.935
+      }
+    },
+    {
+      "agent_id": "AG_L3_PLANNING_004",
+      "level": "L3",
+      "department": "PLANNING",
+      "reports_to": "AG_L2_PLANNING_01",
+      "name": "Sp\u00e9cialiste Planification 4",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 4",
+      "metrics": {
+        "tasks_processed": 4015,
+        "success_rate": 0.963
+      }
+    },
+    {
+      "agent_id": "AG_L3_PLANNING_005",
+      "level": "L3",
+      "department": "PLANNING",
+      "reports_to": "AG_L2_PLANNING_02",
+      "name": "Sp\u00e9cialiste Planification 5",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 5",
+      "metrics": {
+        "tasks_processed": 4677,
+        "success_rate": 0.944
+      }
+    },
+    {
+      "agent_id": "AG_L3_PLANNING_006",
+      "level": "L3",
+      "department": "PLANNING",
+      "reports_to": "AG_L2_PLANNING_03",
+      "name": "Sp\u00e9cialiste Planification 6",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 6",
+      "metrics": {
+        "tasks_processed": 2302,
+        "success_rate": 0.949
+      }
+    },
+    {
+      "agent_id": "AG_L3_PLANNING_007",
+      "level": "L3",
+      "department": "PLANNING",
+      "reports_to": "AG_L2_PLANNING_01",
+      "name": "Sp\u00e9cialiste Planification 7",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 7",
+      "metrics": {
+        "tasks_processed": 4041,
+        "success_rate": 0.955
+      }
+    },
+    {
+      "agent_id": "AG_L3_PLANNING_008",
+      "level": "L3",
+      "department": "PLANNING",
+      "reports_to": "AG_L2_PLANNING_02",
+      "name": "Sp\u00e9cialiste Planification 8",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 8",
+      "metrics": {
+        "tasks_processed": 1617,
+        "success_rate": 0.937
+      }
+    },
+    {
+      "agent_id": "AG_L3_PLANNING_009",
+      "level": "L3",
+      "department": "PLANNING",
+      "reports_to": "AG_L2_PLANNING_03",
+      "name": "Sp\u00e9cialiste Planification 9",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 9",
+      "metrics": {
+        "tasks_processed": 3440,
+        "success_rate": 0.945
+      }
+    },
+    {
+      "agent_id": "AG_L3_PLANNING_010",
+      "level": "L3",
+      "department": "PLANNING",
+      "reports_to": "AG_L2_PLANNING_01",
+      "name": "Sp\u00e9cialiste Planification 10",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 10",
+      "metrics": {
+        "tasks_processed": 3542,
+        "success_rate": 0.923
+      }
+    },
+    {
+      "agent_id": "AG_L3_PLANNING_011",
+      "level": "L3",
+      "department": "PLANNING",
+      "reports_to": "AG_L2_PLANNING_02",
+      "name": "Sp\u00e9cialiste Planification 11",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 11",
+      "metrics": {
+        "tasks_processed": 3873,
+        "success_rate": 0.951
+      }
+    },
+    {
+      "agent_id": "AG_L3_PLANNING_012",
+      "level": "L3",
+      "department": "PLANNING",
+      "reports_to": "AG_L2_PLANNING_03",
+      "name": "Sp\u00e9cialiste Planification 12",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 12",
+      "metrics": {
+        "tasks_processed": 3244,
+        "success_rate": 0.968
+      }
+    },
+    {
+      "agent_id": "AG_L3_PLANNING_013",
+      "level": "L3",
+      "department": "PLANNING",
+      "reports_to": "AG_L2_PLANNING_01",
+      "name": "Sp\u00e9cialiste Planification 13",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 13",
+      "metrics": {
+        "tasks_processed": 2055,
+        "success_rate": 0.906
+      }
+    },
+    {
+      "agent_id": "AG_L3_PLANNING_014",
+      "level": "L3",
+      "department": "PLANNING",
+      "reports_to": "AG_L2_PLANNING_02",
+      "name": "Sp\u00e9cialiste Planification 14",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 14",
+      "metrics": {
+        "tasks_processed": 4068,
+        "success_rate": 0.947
+      }
+    },
+    {
+      "agent_id": "AG_L1_ESTIMATION_HEAD",
+      "level": "L1",
+      "department": "ESTIMATION",
+      "name": "Directeur Estimation",
+      "description": "Agent L1 responsable du d\u00e9partement Estimation",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.7,
+      "max_tokens": 8192,
+      "tools": [
+        "planner",
+        "analyzer",
+        "reporter"
+      ],
+      "memory_access": "read_only",
+      "capabilities": [
+        "Capability 1",
+        "Capability 2",
+        "Capability 3",
+        "Capability 4",
+        "Capability 5",
+        "Capability 6",
+        "Capability 7"
+      ],
+      "metrics": {
+        "tasks_processed": 16588,
+        "success_rate": 0.961,
+        "avg_response_ms": 1501
+      },
+      "config": {
+        "retry_count": 3,
+        "timeout_seconds": 30,
+        "fallback_llm": "gpt-4-turbo"
+      }
+    },
+    {
+      "agent_id": "AG_L2_ESTIMATION_01",
+      "level": "L2",
+      "department": "ESTIMATION",
+      "reports_to": "AG_L1_ESTIMATION_HEAD",
+      "name": "Chef \u00c9quipe Estimation 1",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 3696,
+        "success_rate": 0.964
+      }
+    },
+    {
+      "agent_id": "AG_L2_ESTIMATION_02",
+      "level": "L2",
+      "department": "ESTIMATION",
+      "reports_to": "AG_L1_ESTIMATION_HEAD",
+      "name": "Chef \u00c9quipe Estimation 2",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 3194,
+        "success_rate": 0.958
+      }
+    },
+    {
+      "agent_id": "AG_L2_ESTIMATION_03",
+      "level": "L2",
+      "department": "ESTIMATION",
+      "reports_to": "AG_L1_ESTIMATION_HEAD",
+      "name": "Chef \u00c9quipe Estimation 3",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 3110,
+        "success_rate": 0.957
+      }
+    },
+    {
+      "agent_id": "AG_L3_ESTIMATION_001",
+      "level": "L3",
+      "department": "ESTIMATION",
+      "reports_to": "AG_L2_ESTIMATION_01",
+      "name": "Sp\u00e9cialiste Estimation 1",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 1",
+      "metrics": {
+        "tasks_processed": 3832,
+        "success_rate": 0.922
+      }
+    },
+    {
+      "agent_id": "AG_L3_ESTIMATION_002",
+      "level": "L3",
+      "department": "ESTIMATION",
+      "reports_to": "AG_L2_ESTIMATION_02",
+      "name": "Sp\u00e9cialiste Estimation 2",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 2",
+      "metrics": {
+        "tasks_processed": 4197,
+        "success_rate": 0.962
+      }
+    },
+    {
+      "agent_id": "AG_L3_ESTIMATION_003",
+      "level": "L3",
+      "department": "ESTIMATION",
+      "reports_to": "AG_L2_ESTIMATION_03",
+      "name": "Sp\u00e9cialiste Estimation 3",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 3",
+      "metrics": {
+        "tasks_processed": 1370,
+        "success_rate": 0.908
+      }
+    },
+    {
+      "agent_id": "AG_L3_ESTIMATION_004",
+      "level": "L3",
+      "department": "ESTIMATION",
+      "reports_to": "AG_L2_ESTIMATION_01",
+      "name": "Sp\u00e9cialiste Estimation 4",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 4",
+      "metrics": {
+        "tasks_processed": 1613,
+        "success_rate": 0.922
+      }
+    },
+    {
+      "agent_id": "AG_L3_ESTIMATION_005",
+      "level": "L3",
+      "department": "ESTIMATION",
+      "reports_to": "AG_L2_ESTIMATION_02",
+      "name": "Sp\u00e9cialiste Estimation 5",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 5",
+      "metrics": {
+        "tasks_processed": 2835,
+        "success_rate": 0.964
+      }
+    },
+    {
+      "agent_id": "AG_L3_ESTIMATION_006",
+      "level": "L3",
+      "department": "ESTIMATION",
+      "reports_to": "AG_L2_ESTIMATION_03",
+      "name": "Sp\u00e9cialiste Estimation 6",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 6",
+      "metrics": {
+        "tasks_processed": 4906,
+        "success_rate": 0.95
+      }
+    },
+    {
+      "agent_id": "AG_L3_ESTIMATION_007",
+      "level": "L3",
+      "department": "ESTIMATION",
+      "reports_to": "AG_L2_ESTIMATION_01",
+      "name": "Sp\u00e9cialiste Estimation 7",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 7",
+      "metrics": {
+        "tasks_processed": 1693,
+        "success_rate": 0.904
+      }
+    },
+    {
+      "agent_id": "AG_L3_ESTIMATION_008",
+      "level": "L3",
+      "department": "ESTIMATION",
+      "reports_to": "AG_L2_ESTIMATION_02",
+      "name": "Sp\u00e9cialiste Estimation 8",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 8",
+      "metrics": {
+        "tasks_processed": 2624,
+        "success_rate": 0.961
+      }
+    },
+    {
+      "agent_id": "AG_L3_ESTIMATION_009",
+      "level": "L3",
+      "department": "ESTIMATION",
+      "reports_to": "AG_L2_ESTIMATION_03",
+      "name": "Sp\u00e9cialiste Estimation 9",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 9",
+      "metrics": {
+        "tasks_processed": 4130,
+        "success_rate": 0.932
+      }
+    },
+    {
+      "agent_id": "AG_L3_ESTIMATION_010",
+      "level": "L3",
+      "department": "ESTIMATION",
+      "reports_to": "AG_L2_ESTIMATION_01",
+      "name": "Sp\u00e9cialiste Estimation 10",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 10",
+      "metrics": {
+        "tasks_processed": 2930,
+        "success_rate": 0.933
+      }
+    },
+    {
+      "agent_id": "AG_L3_ESTIMATION_011",
+      "level": "L3",
+      "department": "ESTIMATION",
+      "reports_to": "AG_L2_ESTIMATION_02",
+      "name": "Sp\u00e9cialiste Estimation 11",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 11",
+      "metrics": {
+        "tasks_processed": 3767,
+        "success_rate": 0.965
+      }
+    },
+    {
+      "agent_id": "AG_L1_COMPLIANCE_HEAD",
+      "level": "L1",
+      "department": "COMPLIANCE",
+      "name": "Directeur Conformit\u00e9",
+      "description": "Agent L1 responsable du d\u00e9partement Conformit\u00e9",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.7,
+      "max_tokens": 8192,
+      "tools": [
+        "planner",
+        "analyzer",
+        "reporter"
+      ],
+      "memory_access": "read_only",
+      "capabilities": [
+        "Capability 1",
+        "Capability 2",
+        "Capability 3",
+        "Capability 4",
+        "Capability 5",
+        "Capability 6",
+        "Capability 7"
+      ],
+      "metrics": {
+        "tasks_processed": 47013,
+        "success_rate": 0.975,
+        "avg_response_ms": 988
+      },
+      "config": {
+        "retry_count": 3,
+        "timeout_seconds": 30,
+        "fallback_llm": "gpt-4-turbo"
+      }
+    },
+    {
+      "agent_id": "AG_L2_COMPLIANCE_01",
+      "level": "L2",
+      "department": "COMPLIANCE",
+      "reports_to": "AG_L1_COMPLIANCE_HEAD",
+      "name": "Chef \u00c9quipe Conformit\u00e9 1",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 4209,
+        "success_rate": 0.923
+      }
+    },
+    {
+      "agent_id": "AG_L2_COMPLIANCE_02",
+      "level": "L2",
+      "department": "COMPLIANCE",
+      "reports_to": "AG_L1_COMPLIANCE_HEAD",
+      "name": "Chef \u00c9quipe Conformit\u00e9 2",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 7608,
+        "success_rate": 0.956
+      }
+    },
+    {
+      "agent_id": "AG_L2_COMPLIANCE_03",
+      "level": "L2",
+      "department": "COMPLIANCE",
+      "reports_to": "AG_L1_COMPLIANCE_HEAD",
+      "name": "Chef \u00c9quipe Conformit\u00e9 3",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 5976,
+        "success_rate": 0.935
+      }
+    },
+    {
+      "agent_id": "AG_L3_COMPLIANCE_001",
+      "level": "L3",
+      "department": "COMPLIANCE",
+      "reports_to": "AG_L2_COMPLIANCE_01",
+      "name": "Sp\u00e9cialiste Conformit\u00e9 1",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 1",
+      "metrics": {
+        "tasks_processed": 2732,
+        "success_rate": 0.944
+      }
+    },
+    {
+      "agent_id": "AG_L3_COMPLIANCE_002",
+      "level": "L3",
+      "department": "COMPLIANCE",
+      "reports_to": "AG_L2_COMPLIANCE_02",
+      "name": "Sp\u00e9cialiste Conformit\u00e9 2",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 2",
+      "metrics": {
+        "tasks_processed": 1043,
+        "success_rate": 0.923
+      }
+    },
+    {
+      "agent_id": "AG_L3_COMPLIANCE_003",
+      "level": "L3",
+      "department": "COMPLIANCE",
+      "reports_to": "AG_L2_COMPLIANCE_03",
+      "name": "Sp\u00e9cialiste Conformit\u00e9 3",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 3",
+      "metrics": {
+        "tasks_processed": 3510,
+        "success_rate": 0.949
+      }
+    },
+    {
+      "agent_id": "AG_L3_COMPLIANCE_004",
+      "level": "L3",
+      "department": "COMPLIANCE",
+      "reports_to": "AG_L2_COMPLIANCE_01",
+      "name": "Sp\u00e9cialiste Conformit\u00e9 4",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 4",
+      "metrics": {
+        "tasks_processed": 586,
+        "success_rate": 0.949
+      }
+    },
+    {
+      "agent_id": "AG_L3_COMPLIANCE_005",
+      "level": "L3",
+      "department": "COMPLIANCE",
+      "reports_to": "AG_L2_COMPLIANCE_02",
+      "name": "Sp\u00e9cialiste Conformit\u00e9 5",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 5",
+      "metrics": {
+        "tasks_processed": 1545,
+        "success_rate": 0.919
+      }
+    },
+    {
+      "agent_id": "AG_L3_COMPLIANCE_006",
+      "level": "L3",
+      "department": "COMPLIANCE",
+      "reports_to": "AG_L2_COMPLIANCE_03",
+      "name": "Sp\u00e9cialiste Conformit\u00e9 6",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 6",
+      "metrics": {
+        "tasks_processed": 2940,
+        "success_rate": 0.947
+      }
+    },
+    {
+      "agent_id": "AG_L3_COMPLIANCE_007",
+      "level": "L3",
+      "department": "COMPLIANCE",
+      "reports_to": "AG_L2_COMPLIANCE_01",
+      "name": "Sp\u00e9cialiste Conformit\u00e9 7",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 7",
+      "metrics": {
+        "tasks_processed": 3230,
+        "success_rate": 0.941
+      }
+    },
+    {
+      "agent_id": "AG_L3_COMPLIANCE_008",
+      "level": "L3",
+      "department": "COMPLIANCE",
+      "reports_to": "AG_L2_COMPLIANCE_02",
+      "name": "Sp\u00e9cialiste Conformit\u00e9 8",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 8",
+      "metrics": {
+        "tasks_processed": 1857,
+        "success_rate": 0.954
+      }
+    },
+    {
+      "agent_id": "AG_L3_COMPLIANCE_009",
+      "level": "L3",
+      "department": "COMPLIANCE",
+      "reports_to": "AG_L2_COMPLIANCE_03",
+      "name": "Sp\u00e9cialiste Conformit\u00e9 9",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 9",
+      "metrics": {
+        "tasks_processed": 700,
+        "success_rate": 0.914
+      }
+    },
+    {
+      "agent_id": "AG_L3_COMPLIANCE_010",
+      "level": "L3",
+      "department": "COMPLIANCE",
+      "reports_to": "AG_L2_COMPLIANCE_01",
+      "name": "Sp\u00e9cialiste Conformit\u00e9 10",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 10",
+      "metrics": {
+        "tasks_processed": 4272,
+        "success_rate": 0.958
+      }
+    },
+    {
+      "agent_id": "AG_L3_COMPLIANCE_011",
+      "level": "L3",
+      "department": "COMPLIANCE",
+      "reports_to": "AG_L2_COMPLIANCE_02",
+      "name": "Sp\u00e9cialiste Conformit\u00e9 11",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 11",
+      "metrics": {
+        "tasks_processed": 4254,
+        "success_rate": 0.933
+      }
+    },
+    {
+      "agent_id": "AG_L3_COMPLIANCE_012",
+      "level": "L3",
+      "department": "COMPLIANCE",
+      "reports_to": "AG_L2_COMPLIANCE_03",
+      "name": "Sp\u00e9cialiste Conformit\u00e9 12",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 12",
+      "metrics": {
+        "tasks_processed": 1341,
+        "success_rate": 0.94
+      }
+    },
+    {
+      "agent_id": "AG_L3_COMPLIANCE_013",
+      "level": "L3",
+      "department": "COMPLIANCE",
+      "reports_to": "AG_L2_COMPLIANCE_01",
+      "name": "Sp\u00e9cialiste Conformit\u00e9 13",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 13",
+      "metrics": {
+        "tasks_processed": 4269,
+        "success_rate": 0.964
+      }
+    },
+    {
+      "agent_id": "AG_L3_COMPLIANCE_014",
+      "level": "L3",
+      "department": "COMPLIANCE",
+      "reports_to": "AG_L2_COMPLIANCE_02",
+      "name": "Sp\u00e9cialiste Conformit\u00e9 14",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 14",
+      "metrics": {
+        "tasks_processed": 1710,
+        "success_rate": 0.922
+      }
+    },
+    {
+      "agent_id": "AG_L3_COMPLIANCE_015",
+      "level": "L3",
+      "department": "COMPLIANCE",
+      "reports_to": "AG_L2_COMPLIANCE_03",
+      "name": "Sp\u00e9cialiste Conformit\u00e9 15",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 15",
+      "metrics": {
+        "tasks_processed": 1115,
+        "success_rate": 0.955
+      }
+    },
+    {
+      "agent_id": "AG_L3_COMPLIANCE_016",
+      "level": "L3",
+      "department": "COMPLIANCE",
+      "reports_to": "AG_L2_COMPLIANCE_01",
+      "name": "Sp\u00e9cialiste Conformit\u00e9 16",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 16",
+      "metrics": {
+        "tasks_processed": 4305,
+        "success_rate": 0.958
+      }
+    },
+    {
+      "agent_id": "AG_L1_QUALITY_HEAD",
+      "level": "L1",
+      "department": "QUALITY",
+      "name": "Directeur Qualit\u00e9",
+      "description": "Agent L1 responsable du d\u00e9partement Qualit\u00e9",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.7,
+      "max_tokens": 8192,
+      "tools": [
+        "planner",
+        "analyzer",
+        "reporter"
+      ],
+      "memory_access": "read_only",
+      "capabilities": [
+        "Capability 1",
+        "Capability 2",
+        "Capability 3",
+        "Capability 4",
+        "Capability 5",
+        "Capability 6",
+        "Capability 7"
+      ],
+      "metrics": {
+        "tasks_processed": 48042,
+        "success_rate": 0.967,
+        "avg_response_ms": 1639
+      },
+      "config": {
+        "retry_count": 3,
+        "timeout_seconds": 30,
+        "fallback_llm": "gpt-4-turbo"
+      }
+    },
+    {
+      "agent_id": "AG_L2_QUALITY_01",
+      "level": "L2",
+      "department": "QUALITY",
+      "reports_to": "AG_L1_QUALITY_HEAD",
+      "name": "Chef \u00c9quipe Qualit\u00e9 1",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 5805,
+        "success_rate": 0.962
+      }
+    },
+    {
+      "agent_id": "AG_L2_QUALITY_02",
+      "level": "L2",
+      "department": "QUALITY",
+      "reports_to": "AG_L1_QUALITY_HEAD",
+      "name": "Chef \u00c9quipe Qualit\u00e9 2",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 5578,
+        "success_rate": 0.931
+      }
+    },
+    {
+      "agent_id": "AG_L2_QUALITY_03",
+      "level": "L2",
+      "department": "QUALITY",
+      "reports_to": "AG_L1_QUALITY_HEAD",
+      "name": "Chef \u00c9quipe Qualit\u00e9 3",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 2051,
+        "success_rate": 0.926
+      }
+    },
+    {
+      "agent_id": "AG_L3_QUALITY_001",
+      "level": "L3",
+      "department": "QUALITY",
+      "reports_to": "AG_L2_QUALITY_01",
+      "name": "Sp\u00e9cialiste Qualit\u00e9 1",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 1",
+      "metrics": {
+        "tasks_processed": 4776,
+        "success_rate": 0.941
+      }
+    },
+    {
+      "agent_id": "AG_L3_QUALITY_002",
+      "level": "L3",
+      "department": "QUALITY",
+      "reports_to": "AG_L2_QUALITY_02",
+      "name": "Sp\u00e9cialiste Qualit\u00e9 2",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 2",
+      "metrics": {
+        "tasks_processed": 4856,
+        "success_rate": 0.945
+      }
+    },
+    {
+      "agent_id": "AG_L3_QUALITY_003",
+      "level": "L3",
+      "department": "QUALITY",
+      "reports_to": "AG_L2_QUALITY_03",
+      "name": "Sp\u00e9cialiste Qualit\u00e9 3",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 3",
+      "metrics": {
+        "tasks_processed": 4485,
+        "success_rate": 0.923
+      }
+    },
+    {
+      "agent_id": "AG_L3_QUALITY_004",
+      "level": "L3",
+      "department": "QUALITY",
+      "reports_to": "AG_L2_QUALITY_01",
+      "name": "Sp\u00e9cialiste Qualit\u00e9 4",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 4",
+      "metrics": {
+        "tasks_processed": 727,
+        "success_rate": 0.939
+      }
+    },
+    {
+      "agent_id": "AG_L3_QUALITY_005",
+      "level": "L3",
+      "department": "QUALITY",
+      "reports_to": "AG_L2_QUALITY_02",
+      "name": "Sp\u00e9cialiste Qualit\u00e9 5",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 5",
+      "metrics": {
+        "tasks_processed": 1404,
+        "success_rate": 0.937
+      }
+    },
+    {
+      "agent_id": "AG_L3_QUALITY_006",
+      "level": "L3",
+      "department": "QUALITY",
+      "reports_to": "AG_L2_QUALITY_03",
+      "name": "Sp\u00e9cialiste Qualit\u00e9 6",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 6",
+      "metrics": {
+        "tasks_processed": 3798,
+        "success_rate": 0.926
+      }
+    },
+    {
+      "agent_id": "AG_L3_QUALITY_007",
+      "level": "L3",
+      "department": "QUALITY",
+      "reports_to": "AG_L2_QUALITY_01",
+      "name": "Sp\u00e9cialiste Qualit\u00e9 7",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 7",
+      "metrics": {
+        "tasks_processed": 2747,
+        "success_rate": 0.954
+      }
+    },
+    {
+      "agent_id": "AG_L3_QUALITY_008",
+      "level": "L3",
+      "department": "QUALITY",
+      "reports_to": "AG_L2_QUALITY_02",
+      "name": "Sp\u00e9cialiste Qualit\u00e9 8",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 8",
+      "metrics": {
+        "tasks_processed": 1729,
+        "success_rate": 0.921
+      }
+    },
+    {
+      "agent_id": "AG_L1_SAFETY_HEAD",
+      "level": "L1",
+      "department": "SAFETY",
+      "name": "Directeur S\u00e9curit\u00e9",
+      "description": "Agent L1 responsable du d\u00e9partement S\u00e9curit\u00e9",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.7,
+      "max_tokens": 8192,
+      "tools": [
+        "planner",
+        "analyzer",
+        "reporter"
+      ],
+      "memory_access": "read_only",
+      "capabilities": [
+        "Capability 1",
+        "Capability 2",
+        "Capability 3",
+        "Capability 4",
+        "Capability 5",
+        "Capability 6",
+        "Capability 7"
+      ],
+      "metrics": {
+        "tasks_processed": 48012,
+        "success_rate": 0.976,
+        "avg_response_ms": 1378
+      },
+      "config": {
+        "retry_count": 3,
+        "timeout_seconds": 30,
+        "fallback_llm": "gpt-4-turbo"
+      }
+    },
+    {
+      "agent_id": "AG_L2_SAFETY_01",
+      "level": "L2",
+      "department": "SAFETY",
+      "reports_to": "AG_L1_SAFETY_HEAD",
+      "name": "Chef \u00c9quipe S\u00e9curit\u00e9 1",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 3325,
+        "success_rate": 0.955
+      }
+    },
+    {
+      "agent_id": "AG_L2_SAFETY_02",
+      "level": "L2",
+      "department": "SAFETY",
+      "reports_to": "AG_L1_SAFETY_HEAD",
+      "name": "Chef \u00c9quipe S\u00e9curit\u00e9 2",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 6800,
+        "success_rate": 0.94
+      }
+    },
+    {
+      "agent_id": "AG_L2_SAFETY_03",
+      "level": "L2",
+      "department": "SAFETY",
+      "reports_to": "AG_L1_SAFETY_HEAD",
+      "name": "Chef \u00c9quipe S\u00e9curit\u00e9 3",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 6989,
+        "success_rate": 0.971
+      }
+    },
+    {
+      "agent_id": "AG_L3_SAFETY_001",
+      "level": "L3",
+      "department": "SAFETY",
+      "reports_to": "AG_L2_SAFETY_01",
+      "name": "Sp\u00e9cialiste S\u00e9curit\u00e9 1",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 1",
+      "metrics": {
+        "tasks_processed": 4582,
+        "success_rate": 0.963
+      }
+    },
+    {
+      "agent_id": "AG_L3_SAFETY_002",
+      "level": "L3",
+      "department": "SAFETY",
+      "reports_to": "AG_L2_SAFETY_02",
+      "name": "Sp\u00e9cialiste S\u00e9curit\u00e9 2",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 2",
+      "metrics": {
+        "tasks_processed": 2068,
+        "success_rate": 0.9
+      }
+    },
+    {
+      "agent_id": "AG_L3_SAFETY_003",
+      "level": "L3",
+      "department": "SAFETY",
+      "reports_to": "AG_L2_SAFETY_03",
+      "name": "Sp\u00e9cialiste S\u00e9curit\u00e9 3",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 3",
+      "metrics": {
+        "tasks_processed": 1384,
+        "success_rate": 0.915
+      }
+    },
+    {
+      "agent_id": "AG_L3_SAFETY_004",
+      "level": "L3",
+      "department": "SAFETY",
+      "reports_to": "AG_L2_SAFETY_01",
+      "name": "Sp\u00e9cialiste S\u00e9curit\u00e9 4",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 4",
+      "metrics": {
+        "tasks_processed": 3532,
+        "success_rate": 0.931
+      }
+    },
+    {
+      "agent_id": "AG_L3_SAFETY_005",
+      "level": "L3",
+      "department": "SAFETY",
+      "reports_to": "AG_L2_SAFETY_02",
+      "name": "Sp\u00e9cialiste S\u00e9curit\u00e9 5",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 5",
+      "metrics": {
+        "tasks_processed": 3343,
+        "success_rate": 0.923
+      }
+    },
+    {
+      "agent_id": "AG_L3_SAFETY_006",
+      "level": "L3",
+      "department": "SAFETY",
+      "reports_to": "AG_L2_SAFETY_03",
+      "name": "Sp\u00e9cialiste S\u00e9curit\u00e9 6",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 6",
+      "metrics": {
+        "tasks_processed": 1015,
+        "success_rate": 0.95
+      }
+    },
+    {
+      "agent_id": "AG_L3_SAFETY_007",
+      "level": "L3",
+      "department": "SAFETY",
+      "reports_to": "AG_L2_SAFETY_01",
+      "name": "Sp\u00e9cialiste S\u00e9curit\u00e9 7",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 7",
+      "metrics": {
+        "tasks_processed": 1040,
+        "success_rate": 0.964
+      }
+    },
+    {
+      "agent_id": "AG_L3_SAFETY_008",
+      "level": "L3",
+      "department": "SAFETY",
+      "reports_to": "AG_L2_SAFETY_02",
+      "name": "Sp\u00e9cialiste S\u00e9curit\u00e9 8",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 8",
+      "metrics": {
+        "tasks_processed": 1498,
+        "success_rate": 0.932
+      }
+    },
+    {
+      "agent_id": "AG_L3_SAFETY_009",
+      "level": "L3",
+      "department": "SAFETY",
+      "reports_to": "AG_L2_SAFETY_03",
+      "name": "Sp\u00e9cialiste S\u00e9curit\u00e9 9",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 9",
+      "metrics": {
+        "tasks_processed": 3952,
+        "success_rate": 0.902
+      }
+    },
+    {
+      "agent_id": "AG_L3_SAFETY_010",
+      "level": "L3",
+      "department": "SAFETY",
+      "reports_to": "AG_L2_SAFETY_01",
+      "name": "Sp\u00e9cialiste S\u00e9curit\u00e9 10",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 10",
+      "metrics": {
+        "tasks_processed": 3277,
+        "success_rate": 0.934
+      }
+    },
+    {
+      "agent_id": "AG_L3_SAFETY_011",
+      "level": "L3",
+      "department": "SAFETY",
+      "reports_to": "AG_L2_SAFETY_02",
+      "name": "Sp\u00e9cialiste S\u00e9curit\u00e9 11",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 11",
+      "metrics": {
+        "tasks_processed": 1214,
+        "success_rate": 0.947
+      }
+    },
+    {
+      "agent_id": "AG_L3_SAFETY_012",
+      "level": "L3",
+      "department": "SAFETY",
+      "reports_to": "AG_L2_SAFETY_03",
+      "name": "Sp\u00e9cialiste S\u00e9curit\u00e9 12",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 12",
+      "metrics": {
+        "tasks_processed": 2240,
+        "success_rate": 0.944
+      }
+    },
+    {
+      "agent_id": "AG_L1_DOCUMENTS_HEAD",
+      "level": "L1",
+      "department": "DOCUMENTS",
+      "name": "Directeur Documentation",
+      "description": "Agent L1 responsable du d\u00e9partement Documentation",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.7,
+      "max_tokens": 8192,
+      "tools": [
+        "planner",
+        "analyzer",
+        "reporter"
+      ],
+      "memory_access": "read_only",
+      "capabilities": [
+        "Capability 1",
+        "Capability 2",
+        "Capability 3",
+        "Capability 4",
+        "Capability 5",
+        "Capability 6",
+        "Capability 7"
+      ],
+      "metrics": {
+        "tasks_processed": 11704,
+        "success_rate": 0.986,
+        "avg_response_ms": 1121
+      },
+      "config": {
+        "retry_count": 3,
+        "timeout_seconds": 30,
+        "fallback_llm": "gpt-4-turbo"
+      }
+    },
+    {
+      "agent_id": "AG_L2_DOCUMENTS_01",
+      "level": "L2",
+      "department": "DOCUMENTS",
+      "reports_to": "AG_L1_DOCUMENTS_HEAD",
+      "name": "Chef \u00c9quipe Documentation 1",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 9488,
+        "success_rate": 0.965
+      }
+    },
+    {
+      "agent_id": "AG_L2_DOCUMENTS_02",
+      "level": "L2",
+      "department": "DOCUMENTS",
+      "reports_to": "AG_L1_DOCUMENTS_HEAD",
+      "name": "Chef \u00c9quipe Documentation 2",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 9320,
+        "success_rate": 0.92
+      }
+    },
+    {
+      "agent_id": "AG_L2_DOCUMENTS_03",
+      "level": "L2",
+      "department": "DOCUMENTS",
+      "reports_to": "AG_L1_DOCUMENTS_HEAD",
+      "name": "Chef \u00c9quipe Documentation 3",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 7638,
+        "success_rate": 0.923
+      }
+    },
+    {
+      "agent_id": "AG_L3_DOCUMENTS_001",
+      "level": "L3",
+      "department": "DOCUMENTS",
+      "reports_to": "AG_L2_DOCUMENTS_01",
+      "name": "Sp\u00e9cialiste Documentation 1",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 1",
+      "metrics": {
+        "tasks_processed": 3612,
+        "success_rate": 0.966
+      }
+    },
+    {
+      "agent_id": "AG_L3_DOCUMENTS_002",
+      "level": "L3",
+      "department": "DOCUMENTS",
+      "reports_to": "AG_L2_DOCUMENTS_02",
+      "name": "Sp\u00e9cialiste Documentation 2",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 2",
+      "metrics": {
+        "tasks_processed": 4273,
+        "success_rate": 0.962
+      }
+    },
+    {
+      "agent_id": "AG_L3_DOCUMENTS_003",
+      "level": "L3",
+      "department": "DOCUMENTS",
+      "reports_to": "AG_L2_DOCUMENTS_03",
+      "name": "Sp\u00e9cialiste Documentation 3",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 3",
+      "metrics": {
+        "tasks_processed": 4975,
+        "success_rate": 0.905
+      }
+    },
+    {
+      "agent_id": "AG_L3_DOCUMENTS_004",
+      "level": "L3",
+      "department": "DOCUMENTS",
+      "reports_to": "AG_L2_DOCUMENTS_01",
+      "name": "Sp\u00e9cialiste Documentation 4",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 4",
+      "metrics": {
+        "tasks_processed": 3616,
+        "success_rate": 0.924
+      }
+    },
+    {
+      "agent_id": "AG_L3_DOCUMENTS_005",
+      "level": "L3",
+      "department": "DOCUMENTS",
+      "reports_to": "AG_L2_DOCUMENTS_02",
+      "name": "Sp\u00e9cialiste Documentation 5",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 5",
+      "metrics": {
+        "tasks_processed": 4140,
+        "success_rate": 0.965
+      }
+    },
+    {
+      "agent_id": "AG_L3_DOCUMENTS_006",
+      "level": "L3",
+      "department": "DOCUMENTS",
+      "reports_to": "AG_L2_DOCUMENTS_03",
+      "name": "Sp\u00e9cialiste Documentation 6",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 6",
+      "metrics": {
+        "tasks_processed": 3800,
+        "success_rate": 0.963
+      }
+    },
+    {
+      "agent_id": "AG_L3_DOCUMENTS_007",
+      "level": "L3",
+      "department": "DOCUMENTS",
+      "reports_to": "AG_L2_DOCUMENTS_01",
+      "name": "Sp\u00e9cialiste Documentation 7",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 7",
+      "metrics": {
+        "tasks_processed": 3113,
+        "success_rate": 0.914
+      }
+    },
+    {
+      "agent_id": "AG_L3_DOCUMENTS_008",
+      "level": "L3",
+      "department": "DOCUMENTS",
+      "reports_to": "AG_L2_DOCUMENTS_02",
+      "name": "Sp\u00e9cialiste Documentation 8",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 8",
+      "metrics": {
+        "tasks_processed": 3208,
+        "success_rate": 0.945
+      }
+    },
+    {
+      "agent_id": "AG_L3_DOCUMENTS_009",
+      "level": "L3",
+      "department": "DOCUMENTS",
+      "reports_to": "AG_L2_DOCUMENTS_03",
+      "name": "Sp\u00e9cialiste Documentation 9",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 9",
+      "metrics": {
+        "tasks_processed": 4374,
+        "success_rate": 0.958
+      }
+    },
+    {
+      "agent_id": "AG_L3_DOCUMENTS_010",
+      "level": "L3",
+      "department": "DOCUMENTS",
+      "reports_to": "AG_L2_DOCUMENTS_01",
+      "name": "Sp\u00e9cialiste Documentation 10",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 10",
+      "metrics": {
+        "tasks_processed": 2971,
+        "success_rate": 0.919
+      }
+    },
+    {
+      "agent_id": "AG_L1_COMMUNICATION_HEAD",
+      "level": "L1",
+      "department": "COMMUNICATION",
+      "name": "Directeur Communication",
+      "description": "Agent L1 responsable du d\u00e9partement Communication",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.7,
+      "max_tokens": 8192,
+      "tools": [
+        "planner",
+        "analyzer",
+        "reporter"
+      ],
+      "memory_access": "read_only",
+      "capabilities": [
+        "Capability 1",
+        "Capability 2",
+        "Capability 3",
+        "Capability 4",
+        "Capability 5",
+        "Capability 6",
+        "Capability 7"
+      ],
+      "metrics": {
+        "tasks_processed": 22268,
+        "success_rate": 0.976,
+        "avg_response_ms": 913
+      },
+      "config": {
+        "retry_count": 3,
+        "timeout_seconds": 30,
+        "fallback_llm": "gpt-4-turbo"
+      }
+    },
+    {
+      "agent_id": "AG_L2_COMMUNICATION_01",
+      "level": "L2",
+      "department": "COMMUNICATION",
+      "reports_to": "AG_L1_COMMUNICATION_HEAD",
+      "name": "Chef \u00c9quipe Communication 1",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 8214,
+        "success_rate": 0.924
+      }
+    },
+    {
+      "agent_id": "AG_L2_COMMUNICATION_02",
+      "level": "L2",
+      "department": "COMMUNICATION",
+      "reports_to": "AG_L1_COMMUNICATION_HEAD",
+      "name": "Chef \u00c9quipe Communication 2",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 2521,
+        "success_rate": 0.965
+      }
+    },
+    {
+      "agent_id": "AG_L2_COMMUNICATION_03",
+      "level": "L2",
+      "department": "COMMUNICATION",
+      "reports_to": "AG_L1_COMMUNICATION_HEAD",
+      "name": "Chef \u00c9quipe Communication 3",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 8458,
+        "success_rate": 0.956
+      }
+    },
+    {
+      "agent_id": "AG_L3_COMMUNICATION_001",
+      "level": "L3",
+      "department": "COMMUNICATION",
+      "reports_to": "AG_L2_COMMUNICATION_01",
+      "name": "Sp\u00e9cialiste Communication 1",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 1",
+      "metrics": {
+        "tasks_processed": 2677,
+        "success_rate": 0.906
+      }
+    },
+    {
+      "agent_id": "AG_L3_COMMUNICATION_002",
+      "level": "L3",
+      "department": "COMMUNICATION",
+      "reports_to": "AG_L2_COMMUNICATION_02",
+      "name": "Sp\u00e9cialiste Communication 2",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 2",
+      "metrics": {
+        "tasks_processed": 1018,
+        "success_rate": 0.903
+      }
+    },
+    {
+      "agent_id": "AG_L3_COMMUNICATION_003",
+      "level": "L3",
+      "department": "COMMUNICATION",
+      "reports_to": "AG_L2_COMMUNICATION_03",
+      "name": "Sp\u00e9cialiste Communication 3",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 3",
+      "metrics": {
+        "tasks_processed": 2126,
+        "success_rate": 0.948
+      }
+    },
+    {
+      "agent_id": "AG_L3_COMMUNICATION_004",
+      "level": "L3",
+      "department": "COMMUNICATION",
+      "reports_to": "AG_L2_COMMUNICATION_01",
+      "name": "Sp\u00e9cialiste Communication 4",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 4",
+      "metrics": {
+        "tasks_processed": 4084,
+        "success_rate": 0.904
+      }
+    },
+    {
+      "agent_id": "AG_L3_COMMUNICATION_005",
+      "level": "L3",
+      "department": "COMMUNICATION",
+      "reports_to": "AG_L2_COMMUNICATION_02",
+      "name": "Sp\u00e9cialiste Communication 5",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 5",
+      "metrics": {
+        "tasks_processed": 1978,
+        "success_rate": 0.944
+      }
+    },
+    {
+      "agent_id": "AG_L3_COMMUNICATION_006",
+      "level": "L3",
+      "department": "COMMUNICATION",
+      "reports_to": "AG_L2_COMMUNICATION_03",
+      "name": "Sp\u00e9cialiste Communication 6",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 6",
+      "metrics": {
+        "tasks_processed": 1439,
+        "success_rate": 0.915
+      }
+    },
+    {
+      "agent_id": "AG_L1_CREATIVE_HEAD",
+      "level": "L1",
+      "department": "CREATIVE",
+      "name": "Directeur Studio Cr\u00e9atif",
+      "description": "Agent L1 responsable du d\u00e9partement Studio Cr\u00e9atif",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.7,
+      "max_tokens": 8192,
+      "tools": [
+        "planner",
+        "analyzer",
+        "reporter"
+      ],
+      "memory_access": "read_only",
+      "capabilities": [
+        "Capability 1",
+        "Capability 2",
+        "Capability 3",
+        "Capability 4",
+        "Capability 5",
+        "Capability 6",
+        "Capability 7"
+      ],
+      "metrics": {
+        "tasks_processed": 31509,
+        "success_rate": 0.987,
+        "avg_response_ms": 1195
+      },
+      "config": {
+        "retry_count": 3,
+        "timeout_seconds": 30,
+        "fallback_llm": "gpt-4-turbo"
+      }
+    },
+    {
+      "agent_id": "AG_L2_CREATIVE_01",
+      "level": "L2",
+      "department": "CREATIVE",
+      "reports_to": "AG_L1_CREATIVE_HEAD",
+      "name": "Chef \u00c9quipe Studio Cr\u00e9atif 1",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 8188,
+        "success_rate": 0.931
+      }
+    },
+    {
+      "agent_id": "AG_L2_CREATIVE_02",
+      "level": "L2",
+      "department": "CREATIVE",
+      "reports_to": "AG_L1_CREATIVE_HEAD",
+      "name": "Chef \u00c9quipe Studio Cr\u00e9atif 2",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 7079,
+        "success_rate": 0.98
+      }
+    },
+    {
+      "agent_id": "AG_L2_CREATIVE_03",
+      "level": "L2",
+      "department": "CREATIVE",
+      "reports_to": "AG_L1_CREATIVE_HEAD",
+      "name": "Chef \u00c9quipe Studio Cr\u00e9atif 3",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.5,
+      "max_tokens": 4096,
+      "metrics": {
+        "tasks_processed": 2328,
+        "success_rate": 0.953
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_001",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_01",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 1",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 1",
+      "metrics": {
+        "tasks_processed": 4786,
+        "success_rate": 0.936
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_002",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_02",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 2",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 2",
+      "metrics": {
+        "tasks_processed": 2353,
+        "success_rate": 0.94
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_003",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_03",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 3",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 3",
+      "metrics": {
+        "tasks_processed": 2701,
+        "success_rate": 0.938
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_004",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_01",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 4",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 4",
+      "metrics": {
+        "tasks_processed": 2839,
+        "success_rate": 0.957
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_005",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_02",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 5",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 5",
+      "metrics": {
+        "tasks_processed": 4564,
+        "success_rate": 0.941
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_006",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_03",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 6",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 6",
+      "metrics": {
+        "tasks_processed": 4392,
+        "success_rate": 0.921
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_007",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_01",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 7",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 7",
+      "metrics": {
+        "tasks_processed": 4328,
+        "success_rate": 0.963
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_008",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_02",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 8",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 8",
+      "metrics": {
+        "tasks_processed": 3776,
+        "success_rate": 0.929
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_009",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_03",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 9",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 9",
+      "metrics": {
+        "tasks_processed": 4829,
+        "success_rate": 0.954
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_010",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_01",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 10",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 10",
+      "metrics": {
+        "tasks_processed": 3558,
+        "success_rate": 0.951
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_011",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_02",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 11",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 11",
+      "metrics": {
+        "tasks_processed": 4364,
+        "success_rate": 0.955
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_012",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_03",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 12",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 12",
+      "metrics": {
+        "tasks_processed": 4842,
+        "success_rate": 0.952
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_013",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_01",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 13",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 13",
+      "metrics": {
+        "tasks_processed": 4842,
+        "success_rate": 0.913
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_014",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_02",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 14",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 14",
+      "metrics": {
+        "tasks_processed": 2825,
+        "success_rate": 0.901
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_015",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_03",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 15",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 15",
+      "metrics": {
+        "tasks_processed": 2743,
+        "success_rate": 0.944
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_016",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_01",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 16",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 16",
+      "metrics": {
+        "tasks_processed": 2798,
+        "success_rate": 0.914
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_017",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_02",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 17",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 17",
+      "metrics": {
+        "tasks_processed": 1729,
+        "success_rate": 0.901
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_018",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_03",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 18",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 18",
+      "metrics": {
+        "tasks_processed": 722,
+        "success_rate": 0.927
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_019",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_01",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 19",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 19",
+      "metrics": {
+        "tasks_processed": 2791,
+        "success_rate": 0.933
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_020",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_02",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 20",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 20",
+      "metrics": {
+        "tasks_processed": 2263,
+        "success_rate": 0.91
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_021",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_03",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 21",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 21",
+      "metrics": {
+        "tasks_processed": 2512,
+        "success_rate": 0.902
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_022",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_01",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 22",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 22",
+      "metrics": {
+        "tasks_processed": 1258,
+        "success_rate": 0.929
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_023",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_02",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 23",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 23",
+      "metrics": {
+        "tasks_processed": 3342,
+        "success_rate": 0.967
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_024",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_03",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 24",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 24",
+      "metrics": {
+        "tasks_processed": 2086,
+        "success_rate": 0.921
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_025",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_01",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 25",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 25",
+      "metrics": {
+        "tasks_processed": 4840,
+        "success_rate": 0.94
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_026",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_02",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 26",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 26",
+      "metrics": {
+        "tasks_processed": 1172,
+        "success_rate": 0.912
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_027",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_03",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 27",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 27",
+      "metrics": {
+        "tasks_processed": 4460,
+        "success_rate": 0.948
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_028",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_01",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 28",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 28",
+      "metrics": {
+        "tasks_processed": 4771,
+        "success_rate": 0.91
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_029",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_02",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 29",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 29",
+      "metrics": {
+        "tasks_processed": 3125,
+        "success_rate": 0.968
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_030",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_03",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 30",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 30",
+      "metrics": {
+        "tasks_processed": 1033,
+        "success_rate": 0.954
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_031",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_01",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 31",
+      "llm_preference": "gemini-pro",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 31",
+      "metrics": {
+        "tasks_processed": 4365,
+        "success_rate": 0.938
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_032",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_02",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 32",
+      "llm_preference": "claude-sonnet-4",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 32",
+      "metrics": {
+        "tasks_processed": 4364,
+        "success_rate": 0.964
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_033",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_03",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 33",
+      "llm_preference": "gpt-4-turbo",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 33",
+      "metrics": {
+        "tasks_processed": 3397,
+        "success_rate": 0.909
+      }
+    },
+    {
+      "agent_id": "AG_L3_CREATIVE_034",
+      "level": "L3",
+      "department": "CREATIVE",
+      "reports_to": "AG_L2_CREATIVE_01",
+      "name": "Sp\u00e9cialiste Studio Cr\u00e9atif 34",
+      "llm_preference": "ollama-llama3",
+      "temperature": 0.3,
+      "max_tokens": 2048,
+      "specialization": "Specialty 34",
+      "metrics": {
+        "tasks_processed": 1698,
+        "success_rate": 0.945
+      }
+    }
+  ],
+  "count": 143
+}

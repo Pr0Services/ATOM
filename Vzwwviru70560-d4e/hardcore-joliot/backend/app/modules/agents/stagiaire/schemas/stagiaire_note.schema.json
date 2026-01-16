@@ -1,0 +1,101 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "StagiaireNote",
+  "type": "object",
+  "required": [
+    "note_id",
+    "timestamp",
+    "sphere",
+    "intent_summary",
+    "learning_value",
+    "recurrence_estimate",
+    "priority",
+    "promotion_status"
+  ],
+  "properties": {
+    "note_id": {
+      "type": "string"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "sphere": {
+      "type": "string"
+    },
+    "sector": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "intent_summary": {
+      "type": "string"
+    },
+    "ambiguities": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "outsourcing_used": {
+      "type": "boolean"
+    },
+    "outsourcing_reason": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "user_signal": {
+      "type": "string",
+      "enum": [
+        "silent",
+        "rephrase",
+        "correct",
+        "approve",
+        "unknown"
+      ]
+    },
+    "learning_value": {
+      "type": "string",
+      "enum": [
+        "low",
+        "med",
+        "high"
+      ]
+    },
+    "recurrence_estimate": {
+      "type": "string",
+      "enum": [
+        "low",
+        "med",
+        "high"
+      ]
+    },
+    "priority": {
+      "type": "string",
+      "enum": [
+        "low",
+        "med",
+        "high"
+      ]
+    },
+    "question_candidate": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "promotion_status": {
+      "type": "string",
+      "enum": [
+        "none",
+        "candidate",
+        "promoted",
+        "rejected"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

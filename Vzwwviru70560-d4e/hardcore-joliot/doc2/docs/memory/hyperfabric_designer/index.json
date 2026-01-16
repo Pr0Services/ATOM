@@ -1,0 +1,7 @@
+{
+  "role": "hyperfabric_designer",
+  "title": "HyperFabric Designer",
+  "files": ["role.md","rules.md","style.md","examples.md","forbidden.md","notes.md","integration.md","todo.md"],
+  "safe": true,
+  "version": "1.0"
+}

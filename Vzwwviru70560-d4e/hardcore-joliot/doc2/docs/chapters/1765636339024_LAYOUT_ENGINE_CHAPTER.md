@@ -1,0 +1,1052 @@
+# LAYOUT ENGINE — COMPLETE SPECIFICATION
+## CHE·NU Visual Infrastructure Engine v30
+
+---
+
+# PART 1: FOUNDATION
+
+## Section 1: Definition
+
+The **Layout Engine** is CHE·NU's dynamic visual structuring system. It is not merely a UI framework—it is an **OS-grade cognitive layout system** that determines how information is presented, organized, and experienced across all CHE·NU interfaces.
+
+The Layout Engine controls:
+
+| Component | Description |
+|-----------|-------------|
+| **Grid Layout** | Structural arrangement of elements |
+| **Spacing** | Consistent whitespace and breathing room |
+| **Alignment** | Element positioning and relationships |
+| **Cell Structures** | Atomic visual units |
+| **Component Sizing** | Dynamic element dimensions |
+| **Responsive Transformation** | Adaptation across devices |
+| **Visual Hierarchy** | Importance through design |
+| **Typography Rules** | Text presentation standards |
+| **Color Theming** | Identity-based visual systems |
+| **Multi-Mode Transitions** | Smooth view changes |
+| **Identity-Based Design** | Sphere and domain theming |
+
+### OS-Level Consistency
+
+The Layout Engine gives CHE·NU its distinctive visual identity—comparable to how macOS provides visual consistency across all Apple applications. However, CHE·NU's Layout Engine goes further by incorporating **AI intelligence** into layout decisions.
+
+### Integration Points
+
+The Layout Engine integrates with:
+- Workspace Engine
+- OCW (Operational Cognitive Workspace)
+- Multi-Identity System
+- XR Transitions
+- DataSpace Display Logic
+- Thread Views
+- Meeting System
+- All Workspace Modes (Document, Board, Dashboard, Timeline, Diagram, Hybrid)
+- Governance Display Rules
+
+---
+
+## Section 2: Layout Principles
+
+The Layout Engine operates according to five core principles:
+
+### A. Clarity
+
+Information must be readable and well-structured at all times.
+
+| Clarity Rule | Implementation |
+|--------------|----------------|
+| **Hierarchy** | Clear visual importance levels |
+| **Grouping** | Related items visually connected |
+| **Contrast** | Sufficient differentiation |
+| **Whitespace** | Breathing room for comprehension |
+| **Consistency** | Predictable patterns |
+
+### B. Adaptability
+
+Layouts change dynamically according to multiple factors:
+
+| Factor | Adaptation Response |
+|--------|---------------------|
+| **Workspace Mode** | Different arrangements per mode |
+| **Data Type** | Appropriate presentation for content |
+| **Domain** | Domain-specific visual patterns |
+| **Sphere** | Identity-appropriate theming |
+| **Device** | Screen-optimized layouts |
+| **Identity Theme** | User's visual preferences |
+
+### C. Governed Visibility
+
+Sensitive content appearance is controlled by permissions:
+
+| Visibility State | Visual Treatment |
+|------------------|------------------|
+| **Accessible** | Full display |
+| **Restricted** | Blurred with lock icon |
+| **Hidden** | Not rendered |
+| **Pending Elevation** | Outlined with request option |
+| **Cross-Identity** | Invisible |
+
+### D. Intent-Driven
+
+The layout rearranges based on detected user intent:
+
+| Intent | Layout Response |
+|--------|-----------------|
+| **Focus on writing** | Expand document panel, minimize others |
+| **Review tasks** | Bring board to primary position |
+| **Analyze data** | Maximize dashboard with charts |
+| **Collaborate** | Split view with chat visible |
+| **Present** | Full-screen focus mode |
+
+### E. Visual Intelligence
+
+The layout actively highlights important information:
+
+| Highlight Type | Visual Treatment |
+|----------------|------------------|
+| **Important Items** | Elevated, accented border |
+| **Deadlines** | Countdown badge, color urgency |
+| **Risks** | Warning colors, alert icons |
+| **Opportunities** | Positive accent, sparkle indicator |
+| **Agent Suggestions** | Subtle glow, suggestion card |
+
+---
+
+## Section 3: Cell System (Core Concept)
+
+CHE·NU uses a **Cell-Based Interface Model**. Cells are the atomic visual units that compose all layouts.
+
+### Cell Contents
+
+Cells can contain any of:
+
+| Content Type | Cell Behavior |
+|--------------|---------------|
+| **Text** | Editable, formattable |
+| **Icons** | Indicative, actionable |
+| **Documents** | Preview, expandable |
+| **Tasks** | Status, actionable |
+| **Media** | Thumbnail, playable |
+| **Diagrams** | Interactive, zoomable |
+| **Tables** | Scrollable, sortable |
+| **XR Anchors** | Portal to spatial view |
+| **Agent Notes** | AI-generated content |
+| **DataSpace Metadata** | Summary cards |
+
+### Cell Interactions
+
+Cells support rich interactions:
+
+| Interaction | Description |
+|-------------|-------------|
+| **Resizing** | Drag edges to change dimensions |
+| **Dragging** | Reposition within layout |
+| **Snapping** | Align to grid or other cells |
+| **Grouping** | Combine into collections |
+| **Stacking** | Layer cells (z-index) |
+| **Linking** | Connect related cells |
+| **Merging** | Combine into single cell |
+| **Folding** | Collapse to summary |
+| **Color Coding** | Apply visual categorization |
+| **Tagging** | Attach metadata labels |
+
+### Cell Styling
+
+The Layout Engine manages cell appearance:
+
+| Style Property | Token System |
+|----------------|--------------|
+| **Spacing Rules** | XS, S, M, L, XL, XXL |
+| **Padding** | Internal spacing tokens |
+| **Margins** | External spacing tokens |
+| **Shadow Depth** | Elevation levels 0-5 |
+| **Border Curvature** | Radius tokens (none, sm, md, lg, full) |
+| **Background Style** | Solid, gradient, transparent, blur |
+
+---
+
+## Section 4: Grid Engine
+
+All Workspace layouts are built using the **Adaptive Grid Engine**.
+
+### Grid Types
+
+| Grid Type | Use Case | Description |
+|-----------|----------|-------------|
+| **Fixed** | Structured layouts | Predetermined column/row counts |
+| **Fluid** | Responsive content | Percentage-based sizing |
+| **Hybrid** | Mixed needs | Fixed + fluid combinations |
+| **Asymmetric** | Creative layouts | Intentionally unbalanced |
+| **Modular Tile** | Dashboards | Repeating tile patterns |
+| **Column-Based** | Documents | Traditional document flow |
+| **Infinite Canvas** | OCW/Whiteboard | Boundless workspace |
+
+### Grid Adaptation
+
+The grid adapts dynamically to:
+
+| Factor | Adaptation |
+|--------|------------|
+| **Screen Size** | Column count, cell dimensions |
+| **Working Mode** | Grid type selection |
+| **DataSpace Type** | Optimized arrangement |
+| **Content Volume** | Density adjustment |
+| **User Preference** | Saved configurations |
+
+### Grid Specifications
+
+```
+Desktop Grid (1920px+):
+├── 12 columns
+├── 24px gutter
+├── 48px margins
+└── Fluid column width
+
+Tablet Grid (768px-1919px):
+├── 8 columns
+├── 16px gutter
+├── 32px margins
+└── Fluid column width
+
+Mobile Grid (<768px):
+├── 4 columns
+├── 12px gutter
+├── 16px margins
+└── Fluid column width
+
+XR Grid (Spatial):
+├── 3D coordinate system
+├── Spatial gutters (arm's length)
+├── Depth layers (near/mid/far)
+└── Head-locked vs world-locked
+```
+
+---
+
+## Section 5: Workspace Mode Layouts
+
+The Layout Engine defines specific layouts for each Workspace mode:
+
+### A. Document Mode
+
+```
+┌─────────────────────────────────────────────────┐
+│ ┌─────────────────────┐  ┌────────────────────┐ │
+│ │                     │  │   AI Side Panel    │ │
+│ │                     │  │  ┌──────────────┐  │ │
+│ │   Document Column   │  │  │ Suggestions  │  │ │
+│ │                     │  │  └──────────────┘  │ │
+│ │  - Section markers  │  │  ┌──────────────┐  │ │
+│ │  - Visual anchors   │  │  │  Analysis    │  │ │
+│ │                     │  │  └──────────────┘  │ │
+│ │                     │  │  ┌──────────────┐  │ │
+│ │                     │  │  │   Actions    │  │ │
+│ └─────────────────────┘  │  └──────────────┘  │ │
+│                          └────────────────────┘ │
+└─────────────────────────────────────────────────┘
+```
+
+Features:
+- Column layout optimized for reading
+- Floating AI side panel (collapsible)
+- Section markers in margin
+- Visual anchors for navigation
+- Focus mode (hide side panel)
+
+### B. Board Mode
+
+```
+┌─────────────────────────────────────────────────┐
+│ ┌─────────┐ ┌─────────┐ ┌─────────┐ ┌─────────┐ │
+│ │ Column 1│ │ Column 2│ │ Column 3│ │ Column 4│ │
+│ │ ┌─────┐ │ │ ┌─────┐ │ │ ┌─────┐ │ │ ┌─────┐ │ │
+│ │ │Card │ │ │ │Card │ │ │ │Card │ │ │ │Card │ │ │
+│ │ └─────┘ │ │ └─────┘ │ │ └─────┘ │ │ └─────┘ │ │
+│ │ ┌─────┐ │ │ ┌─────┐ │ │ ┌─────┐ │ │         │ │
+│ │ │Card │ │ │ │Card │ │ │ │Card │ │ │         │ │
+│ │ └─────┘ │ │ └─────┘ │ │ └─────┘ │ │         │ │
+│ │ ┌─────┐ │ │         │ │         │ │         │ │
+│ │ │Card │ │ │         │ │         │ │         │ │
+│ │ └─────┘ │ │         │ │         │ │         │ │
+│ └─────────┘ └─────────┘ └─────────┘ └─────────┘ │
+└─────────────────────────────────────────────────┘
+```
+
+Features:
+- Kanban columns
+- Swimlanes (optional)
+- Draggable task cells
+- Priority visualization (color, position)
+- WIP limits indicator
+- Column actions
+
+### C. Timeline Mode
+
+```
+┌─────────────────────────────────────────────────┐
+│ ← Past                                 Future → │
+│ ─────●─────────●─────────●─────────●──────────  │
+│      │         │         │         │            │
+│  ┌───┴───┐ ┌───┴───┐ ┌───┴───┐ ┌───┴───┐       │
+│  │ Event │ │ Event │ │ Event │ │ Event │       │
+│  │   1   │ │   2   │ │   3   │ │   4   │       │
+│  └───────┘ └───────┘ └───────┘ └───────┘       │
+│       ╲________╱         │                      │
+│        dependency        │                      │
+└─────────────────────────────────────────────────┘
+```
+
+Features:
+- Horizontal time flow
+- Milestone nodes
+- Dependency connectors
+- Zoom levels (day/week/month/year)
+- Today marker
+- Progress indicators
+
+### D. Spreadsheet Mode
+
+```
+┌─────────────────────────────────────────────────┐
+│ fx │ =SUM(B2:B10)                               │
+├────┬────────┬────────┬────────┬────────┬───────┤
+│    │   A    │   B    │   C    │   D    │  ...  │
+├────┼────────┼────────┼────────┼────────┼───────┤
+│  1 │ Header │ Header │ Header │ Header │       │
+├────┼────────┼────────┼────────┼────────┼───────┤
+│  2 │ Data   │ 1,234  │ Data   │ Data   │       │
+├────┼────────┼────────┼────────┼────────┼───────┤
+│  3 │ Data   │ 5,678  │ Data   │ Data   │       │
+└────┴────────┴────────┴────────┴────────┴───────┘
+```
+
+Features:
+- Cell matrix with coordinates
+- Formula bar
+- Column/row resizing
+- Conditional highlighting
+- Freeze panes
+- Filter/sort controls
+
+### E. Dashboard Mode
+
+```
+┌─────────────────────────────────────────────────┐
+│ ┌─────────────────┐ ┌─────────────────────────┐ │
+│ │      KPI        │ │        Chart            │ │
+│ │    ┌─────┐      │ │    📊 📈 📉            │ │
+│ │    │ 85% │      │ │                         │ │
+│ │    └─────┘      │ │                         │ │
+│ └─────────────────┘ └─────────────────────────┘ │
+│ ┌─────────────────┐ ┌─────────────────────────┐ │
+│ │  Alert Card     │ │     Data Table          │ │
+│ │  ⚠️ Warning     │ │  ┌───┬───┬───┬───┐     │ │
+│ │                 │ │  │   │   │   │   │     │ │
+│ │                 │ │  └───┴───┴───┴───┘     │ │
+│ └─────────────────┘ └─────────────────────────┘ │
+└─────────────────────────────────────────────────┘
+```
+
+Features:
+- KPI cards
+- Charts (line, bar, pie, etc.)
+- Alert highlights
+- Data tables
+- Real-time updates
+- Drag-to-resize tiles
+
+### F. Diagram Mode
+
+```
+┌─────────────────────────────────────────────────┐
+│                                                 │
+│     ┌─────┐         ┌─────┐         ┌─────┐    │
+│     │Node │────────▶│Node │────────▶│Node │    │
+│     │  A  │         │  B  │         │  C  │    │
+│     └─────┘         └─────┘         └─────┘    │
+│         │               │               │       │
+│         │               │               │       │
+│         ▼               ▼               ▼       │
+│     ┌─────┐         ┌─────┐         ┌─────┐    │
+│     │Node │         │Node │         │Node │    │
+│     │  D  │         │  E  │         │  F  │    │
+│     └─────┘         └─────┘         └─────┘    │
+│                                                 │
+└─────────────────────────────────────────────────┘
+```
+
+Features:
+- Nodes (multiple shapes)
+- Connectors (smart routing)
+- Auto-align/distribute
+- Grouping
+- Layers
+- Mini-map navigation
+
+### G. Whiteboard Mode
+
+```
+┌─────────────────────────────────────────────────┐
+│                                                 │
+│   ┌─────┐                        ●───────●     │
+│   │Sticky│     ┌────────────┐      drawing     │
+│   │ Note │     │   Shape    │                  │
+│   └─────┘     └────────────┘   ┌─────────┐    │
+│                                │  Frame   │    │
+│        ✏️ Free drawing         │   Group  │    │
+│           ～～～～              │         │    │
+│                                └─────────┘    │
+│                                                │
+│   [Agent Annotation Layer - toggleable]        │
+│                                                 │
+└─────────────────────────────────────────────────┘
+```
+
+Features:
+- Free placement (infinite canvas)
+- Sticky notes
+- Shape library
+- Drawing tools
+- Agent annotation layers
+- Frames for grouping
+- Collaboration cursors
+
+### H. XR Transition Mode
+
+```
+2D View                        XR View
+┌───────────────┐             ┌───────────────┐
+│ ┌───┐ ┌───┐  │             │    ╱▔▔▔╲      │
+│ │   │ │   │  │  ───────▶   │   ╱ 3D  ╲     │
+│ └───┘ └───┘  │             │  ╱ Space  ╲    │
+│              │             │ ╱__________╲   │
+└───────────────┘             └───────────────┘
+
+Spatial anchors map 2D → 3D
+XR panel frames preserve layout context
+```
+
+Features:
+- 2D → 3D layout transformation
+- Spatial anchors
+- XR panel frames
+- Preserved context
+- Smooth transitions
+
+### I. Hybrid Mode
+
+Examples of hybrid layouts:
+
+```
+Document + Board:
+┌───────────────────┬───────────────────┐
+│                   │  Column  Column   │
+│    Document       │  ┌───┐  ┌───┐    │
+│    Panel          │  │   │  │   │    │
+│                   │  └───┘  └───┘    │
+│                   │  ┌───┐           │
+│                   │  │   │           │
+│                   │  └───┘           │
+└───────────────────┴───────────────────┘
+
+Timeline + Task Panel:
+┌─────────────────────────────────────────┐
+│ ──●───────●───────●───────●──────────   │
+│   Timeline                               │
+├─────────────────────────────────────────┤
+│  ┌───────┐ ┌───────┐ ┌───────┐         │
+│  │ Task  │ │ Task  │ │ Task  │         │
+│  └───────┘ └───────┘ └───────┘         │
+└─────────────────────────────────────────┘
+```
+
+---
+
+## Section 6: Typography System
+
+CHE·NU employs a comprehensive typographic system:
+
+### Title Hierarchy
+
+| Level | Font | Size | Weight | Use |
+|-------|------|------|--------|-----|
+| **H1** | System Sans | 32px | Bold | Page titles |
+| **H2** | System Sans | 24px | Semibold | Section headers |
+| **H3** | System Sans | 20px | Semibold | Subsections |
+| **H4** | System Sans | 16px | Medium | Groups |
+| **H5** | System Sans | 14px | Medium | Labels |
+| **H6** | System Sans | 12px | Medium | Captions |
+
+### Body Text
+
+| Type | Font | Size | Line Height |
+|------|------|------|-------------|
+| **Body Large** | System Sans | 16px | 1.6 |
+| **Body Regular** | System Sans | 14px | 1.5 |
+| **Body Small** | System Sans | 12px | 1.4 |
+
+### Specialized Styles
+
+| Style | Specification | Use |
+|-------|---------------|-----|
+| **Captions** | 11px, gray-500 | Image descriptions, hints |
+| **Code Blocks** | Monospace, 14px | Technical content |
+| **Domain Accent** | Varies by domain | Domain-specific emphasis |
+| **XR Typography** | 18px minimum | Legibility in 3D space |
+
+### Identity-Based Typography
+
+| Identity Theme | Primary Font | Accent Font |
+|----------------|--------------|-------------|
+| **Personal** | Friendly sans | Rounded sans |
+| **Enterprise** | Professional sans | Serif accent |
+| **Creative** | Modern sans | Display font |
+| **Construction** | Industrial sans | Condensed |
+
+---
+
+## Section 7: Color System
+
+### Sphere-Based Themes
+
+| Sphere | Primary | Secondary | Accent |
+|--------|---------|-----------|--------|
+| **Personal** | Soft Blue (#4A90D9) | Light Gray | Warm Yellow |
+| **Enterprise** | Deep Neutral (#2C3E50) | Slate | Gold |
+| **Creative** | Purple (#8E44AD) | Gradient | Pink/Cyan |
+| **Architecture** | Graphite (#34495E) | Blueprint Blue | Copper |
+| **Construction** | Industrial Yellow (#F39C12) | Gray | Orange |
+| **Immobilier** | Navy (#1A365D) | Green (#2E7D32) | Gold |
+| **Community** | Turquoise (#17A2B8) | White | Coral |
+
+### Status-Based Colors
+
+| Status | Color | Hex | Use |
+|--------|-------|-----|-----|
+| **Success** | Green | #27AE60 | Completed, positive |
+| **Warning** | Amber | #F39C12 | Attention needed |
+| **Danger** | Red | #E74C3C | Error, critical |
+| **Info** | Blue | #3498DB | Informational |
+| **Neutral** | Gray | #95A5A6 | Default state |
+
+### Mode-Based Colors
+
+| Mode | Background | Text | Accent |
+|------|------------|------|--------|
+| **Light Mode** | White (#FFFFFF) | Dark Gray (#2C3E50) | Blue |
+| **Dark Mode** | Dark (#1A1A2E) | Light (#E8E8E8) | Cyan |
+| **High Contrast** | Black (#000000) | White (#FFFFFF) | Yellow |
+| **XR Safety** | Neutral gray | High contrast | Neon accents |
+
+---
+
+## Section 8: Spacing System
+
+Spacing follows a modular scale:
+
+### Spacing Tokens
+
+| Token | Value | Use Case |
+|-------|-------|----------|
+| **XS** | 4px | Tight spacing, inline elements |
+| **S** | 8px | Related items, compact lists |
+| **M** | 16px | Standard spacing, cards |
+| **L** | 24px | Section spacing, groups |
+| **XL** | 32px | Major sections |
+| **XXL** | 48px | Page sections, hero areas |
+
+### Application
+
+| Element | Internal Padding | External Margin |
+|---------|------------------|-----------------|
+| **Buttons** | S (8px) | S (8px) |
+| **Cards** | M (16px) | M (16px) |
+| **Panels** | L (24px) | M (16px) |
+| **Sections** | XL (32px) | L (24px) |
+| **Pages** | XXL (48px) | - |
+
+---
+
+## Section 9: Transition Engine
+
+The Transition Engine manages smooth visual changes between modes:
+
+### Mode Transitions
+
+| From | To | Transition Type |
+|------|-----|-----------------|
+| Board | Timeline | Horizontal morph |
+| Document | Board | Split expansion |
+| Whiteboard | XR | Depth projection |
+| Diagram | Dashboard | Node-to-card morph |
+| Spreadsheet | Document | Row-to-paragraph |
+
+### Transition Properties
+
+| Property | Value |
+|----------|-------|
+| **Duration** | 300ms (default) |
+| **Easing** | ease-out |
+| **Preserve** | Data continuity |
+| **Fallback** | Instant if performance issue |
+
+### Transition Requirements
+
+1. **Smooth**: No jarring visual changes
+2. **Informative**: User understands what changed
+3. **Reversible**: Can return to previous mode
+4. **Governed**: No information leakage during transition
+
+---
+
+## Section 10: Responsive Behavior
+
+The layout adapts across devices:
+
+### Device Breakpoints
+
+| Device | Width | Layout Adjustment |
+|--------|-------|-------------------|
+| **Desktop XL** | 1920px+ | Full feature display |
+| **Desktop** | 1440-1919px | Standard layout |
+| **Laptop** | 1024-1439px | Reduced columns |
+| **Tablet** | 768-1023px | Stacked panels |
+| **Mobile** | < 768px | Single column |
+| **XR** | Spatial | 3D layout system |
+
+### Responsive Rules
+
+| Rule | Implementation |
+|------|----------------|
+| **Collapsing Panels** | Side panels become drawers |
+| **Stacking Items** | Horizontal becomes vertical |
+| **Reflowing Text** | Column width adjusts |
+| **Resizing Cells** | Percentage-based sizing |
+| **Folding Metadata** | Compact summaries |
+
+### Multi-Screen Support
+
+- Span workspaces across monitors
+- XR extends 2D displays
+- Independent panel placement
+- Synchronized state
+
+---
+
+## Section 11: Agent Visualization
+
+Agents appear in the layout through multiple channels:
+
+### Agent Display Options
+
+| Display Type | Visual Treatment | Use Case |
+|--------------|------------------|----------|
+| **Side Panels** | Dedicated panel space | Extended analysis |
+| **Annotation Bubbles** | Inline callouts | Contextual suggestions |
+| **Avatars (2D)** | Character icons | Agent presence |
+| **Avatars (XR)** | 3D representations | Spatial presence |
+| **Suggestion Cards** | Card-based UI | Action recommendations |
+| **Insight Overlays** | Semi-transparent layers | Data highlighting |
+
+### Agent Governance Rules
+
+| Rule | Implementation |
+|------|----------------|
+| **Non-Intrusive** | Suggestions dismissible |
+| **Accessible Explanations** | Expand for reasoning |
+| **Activity Logs** | View agent actions |
+| **Consent-Based** | User controls visibility |
+
+---
+
+## Section 12: Data Governance Visual Rules
+
+Visual cues communicate governance state:
+
+### Visibility States
+
+| State | Visual Treatment |
+|-------|------------------|
+| **Hidden (Identity)** | Not rendered |
+| **Restricted (Permission)** | Blur with lock icon |
+| **Sensitive** | Warning border, access log |
+| **Cross-Domain Protected** | Shield icon |
+| **Awaiting Elevation** | Outlined with request button |
+
+### Visual Indicators
+
+| Indicator | Icon | Color | Meaning |
+|-----------|------|-------|---------|
+| **Lock** | 🔒 | Gray | Access restricted |
+| **Blur Mask** | - | Frosted | Content hidden |
+| **Shield** | 🛡️ | Blue | Protected |
+| **Faded** | - | 50% opacity | Limited access |
+| **Collapsed** | ▶ | Gray | Expandable |
+
+---
+
+## Section 13: Specialized Domain Layouts
+
+Each domain has optimized layouts:
+
+### Immobilier Layout
+
+```
+┌─────────────────────────────────────────────────┐
+│  Property Cards (Grid)                          │
+│  ┌─────────┐ ┌─────────┐ ┌─────────┐           │
+│  │ 🏠 Apt  │ │ 🏠 House│ │ 🏢 Comm │           │
+│  │ $1,200  │ │ $2,500  │ │ $5,000  │           │
+│  │ ● Rented│ │ ○ Vacant│ │ ● Rented│           │
+│  └─────────┘ └─────────┘ └─────────┘           │
+├─────────────────────────────────────────────────┤
+│  ⚠️ Maintenance Alert: Unit 102 - Plumbing     │
+├─────────────────────────────────────────────────┤
+│  Building → Unit Grid                           │
+│  ┌─────────────────────────────────────────┐   │
+│  │ 123 Main St                              │   │
+│  │ ├── Unit 101 [Jean D.] ● $1,200         │   │
+│  │ ├── Unit 102 [Marie T.] ● $1,150        │   │
+│  │ └── Unit 103 [VACANT]   ○ $1,300        │   │
+│  └─────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────┘
+```
+
+### Construction Layout
+
+```
+┌─────────────────────────────────────────────────┐
+│  Material Tables                                │
+│  ┌────────────────────────────────────────┐    │
+│  │ Material    │ Qty  │ Unit │ Total      │    │
+│  │ Concrete    │ 50   │ m³   │ $15,000    │    │
+│  │ Steel       │ 2000 │ kg   │ $8,000     │    │
+│  └────────────────────────────────────────┘    │
+├─────────────────────────────────────────────────┤
+│  Estimation Block: Total $156,000              │
+├─────────────────────────────────────────────────┤
+│  Gantt Dependencies                             │
+│  ═══●═══════●═══════●═══════●═══▶             │
+│     │       │       │       │                   │
+│  Foundation  Framing   Roof   Finish            │
+└─────────────────────────────────────────────────┘
+```
+
+### Architecture Layout
+
+```
+┌─────────────────────────────────────────────────┐
+│  Blueprint Viewer                               │
+│  ┌─────────────────────────────────────────┐   │
+│  │           [Floor Plan View]              │   │
+│  │    ┌────────┬────────┐                  │   │
+│  │    │ Living │ Kitchen│                  │   │
+│  │    │        │        │                  │   │
+│  │    ├────────┼────────┤                  │   │
+│  │    │Bedroom │  Bath  │                  │   │
+│  │    └────────┴────────┘                  │   │
+│  └─────────────────────────────────────────┘   │
+├─────────────────────────────────────────────────┤
+│  [View in XR] 🥽  Preview Window               │
+└─────────────────────────────────────────────────┘
+```
+
+### Finance Layout
+
+```
+┌─────────────────────────────────────────────────┐
+│  ┌──────────────┐  ┌──────────────────────────┐│
+│  │    Revenue   │  │      Trend Chart         ││
+│  │   $45,200    │  │    📈 ─────────────      ││
+│  │   ▲ +12%     │  │                          ││
+│  └──────────────┘  └──────────────────────────┘│
+│  Cashflow Timeline                              │
+│  ──$──$──$──$──$──$──$──$──$──$──▶            │
+│  Jan Feb Mar Apr May Jun Jul Aug Sep Oct       │
+├─────────────────────────────────────────────────┤
+│  Expense Breakdown Grid                         │
+│  [Materials 40%] [Labor 35%] [Overhead 25%]    │
+└─────────────────────────────────────────────────┘
+```
+
+### Creative Layout
+
+```
+┌─────────────────────────────────────────────────┐
+│  Script Panel                    Asset Browser  │
+│  ┌─────────────────────┐  ┌─────────────────┐  │
+│  │ INT. OFFICE - DAY   │  │ 🖼️ 🖼️ 🖼️       │  │
+│  │                     │  │ 🎥 🎥 🎥       │  │
+│  │ Character enters... │  │ 🎵 🎵 🎵       │  │
+│  └─────────────────────┘  └─────────────────┘  │
+├─────────────────────────────────────────────────┤
+│  Storyboard Layout                              │
+│  ┌────┐ ┌────┐ ┌────┐ ┌────┐ ┌────┐           │
+│  │ S1 │ │ S2 │ │ S3 │ │ S4 │ │ S5 │           │
+│  └────┘ └────┘ └────┘ └────┘ └────┘           │
+└─────────────────────────────────────────────────┘
+```
+
+### Social/Community Layout
+
+```
+┌─────────────────────────────────────────────────┐
+│  Feed                          Groups           │
+│  ┌─────────────────────┐  ┌─────────────────┐  │
+│  │ 👤 Post from User   │  │ 👥 Group 1      │  │
+│  │ "Just finished..."  │  │ 👥 Group 2      │  │
+│  └─────────────────────┘  │ 👥 Group 3      │  │
+│  ┌─────────────────────┐  └─────────────────┘  │
+│  │ 👤 Another post     │                       │
+│  │ "Check out this..." │  Events               │
+│  └─────────────────────┘  ┌─────────────────┐  │
+│                           │ 📅 Workshop     │  │
+│                           │ 📅 Meetup       │  │
+│                           └─────────────────┘  │
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+## Section 14: Integration with DataSpace Engine
+
+The Layout Engine renders DataSpaces visually:
+
+### DataSpace Cards
+
+```
+┌─────────────────────────────┐
+│ 📁 Project: Kitchen Reno    │
+│ ────────────────────────── │
+│ Domain: Construction        │
+│ Status: ● Active            │
+│ Updated: 2 hours ago        │
+│ Tasks: 5/12 complete        │
+├─────────────────────────────┤
+│ [Open] [Archive] [Share]    │
+└─────────────────────────────┘
+```
+
+### DataSpace Relationship Graph
+
+Visual representation of linked DataSpaces:
+
+```
+        ┌─────────┐
+        │Building │
+        │DataSpace│
+        └────┬────┘
+             │
+    ┌────────┼────────┐
+    │        │        │
+┌───┴───┐┌───┴───┐┌───┴───┐
+│Unit101││Unit102││Unit103│
+└───┬───┘└───┬───┘└───────┘
+    │        │
+┌───┴───┐┌───┴───┐
+│Tenant ││Maint. │
+│Thread ││Thread │
+└───────┘└───────┘
+```
+
+### Navigation Transitions
+
+- Smooth zoom into child DataSpaces
+- Breadcrumb trail maintained
+- Drag-and-drop between DataSpaces
+- Visual feedback on relationships
+
+---
+
+## Section 15: Integration with Thread Engine
+
+Threads render within layouts:
+
+### Thread Display Options
+
+| Display | Visual |
+|---------|--------|
+| **Collapsible Blocks** | Expandable containers |
+| **Message Bubbles** | Chat-style conversation |
+| **Timeline Nodes** | Chronological events |
+| **Content Cells** | Attached documents/tasks |
+| **Agent Feedback** | AI annotation anchors |
+
+### Thread Layout
+
+```
+┌─────────────────────────────────────────────────┐
+│ Thread: Kitchen Renovation Planning             │
+├─────────────────────────────────────────────────┤
+│ ┌─────────────────────────────────────────────┐│
+│ │ 👤 Jo - Mar 15                              ││
+│ │ "Let's start planning the kitchen..."       ││
+│ └─────────────────────────────────────────────┘│
+│ ┌─────────────────────────────────────────────┐│
+│ │ 🤖 Agent - Mar 15                           ││
+│ │ "I've analyzed your space. Here are..."    ││
+│ │ [📎 Layout Options.pdf]                    ││
+│ └─────────────────────────────────────────────┘│
+│ ┌─────────────────────────────────────────────┐│
+│ │ 📌 DECISION: Budget set at $30,000          ││
+│ └─────────────────────────────────────────────┘│
+│ ┌─────────────────────────────────────────────┐│
+│ │ ✅ TASK: Get contractor quotes              ││
+│ │    Assigned: Jo | Due: Mar 22               ││
+│ └─────────────────────────────────────────────┘│
+└─────────────────────────────────────────────────┘
+```
+
+---
+
+## Section 16: Integration with Backstage Intelligence
+
+Backstage Intelligence guides layout decisions:
+
+### Backstage Commands
+
+| Command | Layout Response |
+|---------|-----------------|
+| "Highlight important items" | Priority elevation, accent colors |
+| "Collapse irrelevant details" | Auto-fold sections |
+| "Auto-organize whiteboard" | Cluster related items |
+| "Bring related items closer" | Spatial regrouping |
+| "Focus on deadlines" | Timeline prominence |
+
+### Governance Override
+
+All Backstage suggestions respect governance:
+- Cannot reveal hidden content
+- Cannot bypass permissions
+- Cannot cross identity boundaries
+- All actions are logged
+
+---
+
+## Section 17: Investor Book Positioning
+
+The Layout Engine represents a major competitive advantage:
+
+### Strategic Value
+
+| Aspect | Value |
+|--------|-------|
+| **Not Just UI** | OS-grade cognitive layout system |
+| **Data Adaptation** | Layout responds to content meaning |
+| **Task Adaptation** | Layout responds to user activity |
+| **Domain Adaptation** | Specialized views per domain |
+| **Identity Adaptation** | Personalized per user identity |
+| **Multimodal** | 2D ↔ XR transformation |
+| **System Consistency** | Apple-level polish with AI intelligence |
+
+### Competitive Moat
+
+| Advantage | Detail |
+|-----------|--------|
+| **Deep Integration** | Layout is not a skin—it's architecture |
+| **AI-Powered** | Machine learning drives layout decisions |
+| **Domain Expertise** | Years of domain knowledge encoded |
+| **XR Native** | Built for spatial computing from day one |
+
+### Why Traditional Software Cannot Replicate
+
+1. **Requires full system rewrite** - Not a layer to add
+2. **Domain knowledge embedded** - Years of research
+3. **AI training required** - Needs data and iterations
+4. **XR complexity** - Different paradigm entirely
+
+---
+
+## Section 18: Diagram Requirements
+
+### Required Diagrams
+
+1. **Layout Engine Architecture**: Component relationships
+2. **Cell System**: Atomic unit structure
+3. **Grid Engine**: Grid types and adaptation
+4. **Identity-Based Theming**: Theme inheritance
+5. **Mode Transitions**: State machine
+6. **Whiteboard Adaptive Layout**: Infinite canvas structure
+7. **XR Layout Bridge**: 2D to 3D mapping
+8. **DataSpace-to-Layout Mapping**: Container to view
+
+---
+
+## Section 19: Technical Implementation
+
+### CSS Architecture
+
+```css
+/* Spacing tokens */
+:root {
+  --spacing-xs: 4px;
+  --spacing-s: 8px;
+  --spacing-m: 16px;
+  --spacing-l: 24px;
+  --spacing-xl: 32px;
+  --spacing-xxl: 48px;
+}
+
+/* Typography scale */
+:root {
+  --font-size-h1: 32px;
+  --font-size-h2: 24px;
+  --font-size-h3: 20px;
+  --font-size-body: 14px;
+  --font-size-caption: 11px;
+}
+
+/* Sphere themes */
+.sphere-personal {
+  --color-primary: #4A90D9;
+  --color-secondary: #F5F5F5;
+}
+
+.sphere-enterprise {
+  --color-primary: #2C3E50;
+  --color-secondary: #7F8C8D;
+}
+```
+
+### Layout Components
+
+```typescript
+interface LayoutConfig {
+  mode: WorkspaceMode;
+  grid: GridConfig;
+  spacing: SpacingConfig;
+  theme: ThemeConfig;
+  responsive: ResponsiveConfig;
+}
+
+interface Cell {
+  id: string;
+  type: CellType;
+  position: Position;
+  size: Size;
+  content: CellContent;
+  style: CellStyle;
+}
+
+interface Grid {
+  columns: number;
+  rows: number;
+  gutter: number;
+  margin: number;
+  type: GridType;
+}
+```
+
+### API Endpoints
+
+```
+GET  /api/v1/layout/config           # Get layout configuration
+POST /api/v1/layout/transform        # Transform between modes
+GET  /api/v1/layout/theme/:sphere    # Get sphere theme
+POST /api/v1/layout/cells/arrange    # Arrange cells
+GET  /api/v1/layout/responsive/:device  # Device-specific config
+```
+
+---
+
+*Layout Engine Complete Specification v30*
+*CHE·NU — The Intelligent Operating System*

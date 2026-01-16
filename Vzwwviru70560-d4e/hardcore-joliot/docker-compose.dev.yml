@@ -1,0 +1,55 @@
+# CHE·NU™ V75 — Docker Compose Development
+# ==========================================
+# Usage: docker-compose -f docker-compose.dev.yml up
+
+version: '3.8'
+
+services:
+  # ===========================================
+  # DATABASE - PostgreSQL (Dev)
+  # ===========================================
+  postgres:
+    image: postgres:15-alpine
+    container_name: chenu-postgres-dev
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: chenu
+      POSTGRES_PASSWORD: chenu_dev_password
+      POSTGRES_DB: chenu_dev
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+      - ./docker/init-db.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    networks:
+      - chenu-dev-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U chenu"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ===========================================
+  # CACHE - Redis (Dev)
+  # ===========================================
+  redis:
+    image: redis:7-alpine
+    container_name: chenu-redis-dev
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_dev_data:/data
+    networks:
+      - chenu-dev-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+networks:
+  chenu-dev-network:
+    driver: bridge
+
+volumes:
+  postgres_dev_data:
+  redis_dev_data:

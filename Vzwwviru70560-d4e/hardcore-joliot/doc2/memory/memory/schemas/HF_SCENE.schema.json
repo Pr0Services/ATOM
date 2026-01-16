@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "HF_SCENE",
+  "type": "object",
+  "required": ["hyperfabric"],
+  "properties": {
+    "hyperfabric": {
+      "type": "object",
+      "required": ["id", "safe"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^HF_"},
+        "nodes": {"type": "array"},
+        "links": {"type": "array"},
+        "slices": {"type": "array"},
+        "safe": {"type": "boolean", "const": true}
+      }
+    }
+  }
+}

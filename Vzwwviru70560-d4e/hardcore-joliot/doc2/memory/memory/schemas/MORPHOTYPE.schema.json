@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MORPHOTYPE",
+  "type": "object",
+  "required": ["morphotype"],
+  "properties": {
+    "morphotype": {
+      "type": "object",
+      "required": ["id", "geometry", "safe"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^MORPH_"},
+        "name": {"type": "string"},
+        "geometry": {"type": "string", "enum": ["sphere", "cube", "cylinder", "cone", "torus", "plane", "ring", "capsule", "composite"]},
+        "scale": {"type": "object"},
+        "material": {"type": "string"},
+        "safe": {"type": "boolean", "const": true}
+      }
+    }
+  }
+}

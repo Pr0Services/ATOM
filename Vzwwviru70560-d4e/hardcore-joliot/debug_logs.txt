@@ -1,0 +1,10 @@
+ 
+[2026-01-13 21:13:56,13] === AT.OM SYSTEM STARTUP === 
+[2026-01-13 21:13:56,18] Working directory: C:\Users\pro-s\.claude-worktrees\Vzwwviru70560-d4e\hardcore-joliot 
+[2026-01-13 21:13:56,42] Python found: py - Python 3.12.10 
+[2026-01-13 21:13:56,53] Node.js found: v20.19.6 
+[2026-01-13 21:13:56,55] No virtual environment found, using global Python 
+[2026-01-13 21:13:57,09] Starting servers... 
+[2026-01-13 21:13:57,12] Backend started on port 8000 
+[2026-01-13 21:14:02,18] Frontend started on port 3000 
+[2026-01-13 21:14:05,28] === AT.OM SYSTEM READY === 

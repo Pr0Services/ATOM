@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en-CA">
+<head>
+  <meta charset="UTF-8">
+  <title>CHE·NU - Investor Q&A</title>
+  <style>
+    body { font-family: 'Inter', sans-serif; max-width: 800px; margin: 0 auto; padding: 40px; }
+    .header { text-align: center; margin-bottom: 40px; border-bottom: 3px solid #4a6a4a; padding-bottom: 20px; }
+    .logo { font-size: 32px; font-weight: bold; color: #4a6a4a; }
+    .qa-item { margin: 25px 0; padding: 20px; background: #f9f9f9; border-radius: 8px; border-left: 4px solid #4a6a4a; }
+    .qa-item.not-covered { border-left-color: #ff9e4a; background: #fff8e1; }
+    .question { font-weight: bold; color: #333; margin-bottom: 10px; font-size: 16px; }
+    .answer { color: #666; line-height: 1.7; }
+    .status { font-size: 12px; color: #888; margin-top: 10px; }
+    .coverage { padding: 15px; background: #e8f5e9; border-radius: 8px; margin-bottom: 30px; }
+    .signature { margin-top: 40px; padding: 15px; background: #f5f5f5; font-family: monospace; font-size: 11px; }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">❓ Investor Q&A</div>
+    <p>CHE·NU - Governed Intelligence Operating System</p>
+  </div>
+
+  <div class="coverage">
+    <strong>Coverage:</strong> {{COVERED_COUNT}}/{{TOTAL_COUNT}} questions covered
+  </div>
+
+  {{QA_ITEMS}}
+
+  <div class="signature">
+    <p><strong>Export ID:</strong> {{EXPORT_ID}}</p>
+    <p><strong>Date:</strong> {{EXPORT_DATE}}</p>
+    <p><strong>Hash:</strong> {{CONTENT_HASH}}</p>
+  </div>
+</body>
+</html>

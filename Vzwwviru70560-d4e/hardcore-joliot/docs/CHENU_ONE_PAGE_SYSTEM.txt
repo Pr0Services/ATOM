@@ -1,0 +1,108 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    CHE·NU™ — ONE-PAGE SYSTEM DIAGRAM                         ║
+║                      Governed Intelligence Operating System                   ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+                              ┌─────────────────┐
+                              │   USER ENTRY    │
+                              │  Login / Open   │
+                              └────────┬────────┘
+                                       │
+                                       ▼
+                         ╔═════════════════════════════╗
+                         ║       ◆ DIAMOND HUB        ║
+                         ║    Central Convergence     ║
+                         ╚═════════════╤═════════════╝
+                                       │
+              ┌────────────────────────┼────────────────────────┐
+              │                        │                        │
+              ▼                        ▼                        ▼
+    ┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+    │  🔔 SIGNALS     │     │ 📍 CONTEXT      │     │    UI HUBS      │
+    │  Alerts·Tasks   │     │    BUREAU       │     │  (Max 2 Visible)│
+    │  Meetings       │     │                 │     │                 │
+    └─────────────────┘     │  Identity       │     │ • Communication │
+                            │  Sphere (×8)    │     │ • Navigation    │
+                            │  Project        │     │ • Workspace     │
+                            └────────┬────────┘     └─────────────────┘
+                                     │
+                                     │ CONFIRM_CONTEXT
+                                     ▼
+                            ┌─────────────────┐
+                            │ ⚡ ACTION       │
+                            │    BUREAU       │
+                            │                 │
+                            │ • Quick Actions │
+                            │ • Nova Guidance │
+                            │ • Recent WS     │
+                            └────────┬────────┘
+                                     │
+                                     │ EXECUTE
+                                     ▼
+                            ┌─────────────────┐
+                            │ 🔧 WORKSPACE    │
+                            │                 │
+                            │ Draft → Staging │
+                            │     → Review    │
+                            │     → Saved     │
+                            └────────┬────────┘
+                                     │
+                                     │ DELEGATE
+                                     ▼
+                            ┌─────────────────┐
+                            │ 🤖 AGENT        │
+                            │    WORKSPACE    │
+                            │                 │
+                            │ Isolated        │
+                            │ Logged          │
+                            │ Proposes Only   │
+                            └─────────────────┘
+
+    ╔═══════════════════════════════════════════════════════════════════╗
+    ║                     🛡️ GOVERNANCE LAYER                          ║
+    ║         Laws • Budgets • Audit • Security                         ║
+    ║         (Wraps ALL bureaux and agent workspaces)                  ║
+    ╚═══════════════════════════════════════════════════════════════════╝
+
+
+═══════════════════════════════════════════════════════════════════════════════
+                              THE 8 SPHERES
+═══════════════════════════════════════════════════════════════════════════════
+
+    1. 🏠 Personal          5. 👥 Community
+    2. 💼 Business          6. 📱 Social & Media
+    3. 🏛️ Government        7. 🎬 Entertainment
+    4. 🎨 Creative Studio   8. 🤝 My Team
+
+
+═══════════════════════════════════════════════════════════════════════════════
+                              CANONICAL FLOW
+═══════════════════════════════════════════════════════════════════════════════
+
+    ENTRY → DIAMOND → CONTEXT BUREAU → ACTION BUREAU → WORKSPACE
+                            ↑                               │
+                            └───────── CHANGE CONTEXT ──────┘
+
+
+═══════════════════════════════════════════════════════════════════════════════
+                           THE 4 GOLDEN RULES
+═══════════════════════════════════════════════════════════════════════════════
+
+    🚫  No step is ever skipped. Context Bureau is mandatory.
+    🧠  Intelligence pre-fills. Never bypasses.
+    ↩️  Backward navigation always allowed.
+    🔄  Context change invalidates workspace.
+
+
+═══════════════════════════════════════════════════════════════════════════════
+                              STATUS
+═══════════════════════════════════════════════════════════════════════════════
+
+    🔒 CANONICAL — This is the authoritative reference
+    🧊 FROZEN    — No structural changes allowed
+    📘 UNIVERSAL — Same for dev, design, investors, XR, mobile, desktop
+
+
+───────────────────────────────────────────────────────────────────────────────
+                    CHE·NU™ — Clarity • Governance • Intelligence
+───────────────────────────────────────────────────────────────────────────────

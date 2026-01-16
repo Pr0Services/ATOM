@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔱 AT·OM — Arche des Résonances Universelles</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --gold-light: #F4E4BC;
+            --silver: #C0C0C0;
+            --copper: #B87333;
+            --mercury: #E0E0E0;
+            --bg-dark: #050505;
+            --bg-card: #0a0a0a;
+            --text-primary: #D4AF37;
+            --text-secondary: #888;
+            --border: #222;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo {
+            font-family: 'Cinzel', serif;
+            font-size: 3rem;
+            font-weight: 700;
+            letter-spacing: 0.5rem;
+            margin-bottom: 10px;
+        }
+
+        .logo span {
+            color: var(--gold);
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            letter-spacing: 0.3rem;
+        }
+
+        /* Status Bar */
+        .status-bar {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+        }
+
+        .status-item.gold { border-color: var(--gold); }
+        .status-item.silver { border-color: var(--silver); }
+        .status-item.copper { border-color: var(--copper); }
+        .status-item.mercury { border-color: var(--mercury); }
+
+        .status-item .symbol {
+            font-size: 1.2rem;
+        }
+
+        .status-item .label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        .status-item .value {
+            font-size: 0.8rem;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        /* Oracle Section */
+        .oracle-section {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .oracle-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+            color: var(--gold);
+        }
+
+        .oracle-input-container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .oracle-input {
+            width: 100%;
+            padding: 15px 20px;
+            font-size: 1.2rem;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--gold);
+            color: white;
+            text-align: center;
+            outline: none;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.2rem;
+        }
+
+        .oracle-input::placeholder {
+            color: var(--text-secondary);
+        }
+
+        .oracle-button {
+            margin-top: 20px;
+            padding: 12px 40px;
+            font-size: 1rem;
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: 'Cinzel', serif;
+            letter-spacing: 0.2rem;
+        }
+
+        .oracle-button:hover {
+            background: var(--gold);
+            color: black;
+        }
+
+        /* Result */
+        .oracle-result {
+            margin-top: 40px;
+            padding: 30px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            display: none;
+        }
+
+        .oracle-result.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .result-word {
+            font-size: 2rem;
+            font-family: 'Cinzel', serif;
+            color: var(--gold-light);
+            margin-bottom: 20px;
+        }
+
+        .result-arithmos {
+            font-size: 4rem;
+            font-weight: bold;
+            color: var(--gold);
+        }
+
+        .result-frequency {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            margin-top: 10px;
+        }
+
+        .result-meaning {
+            margin-top: 20px;
+            padding: 20px;
+            background: var(--bg-card);
+            border-radius: 8px;
+        }
+
+        .result-meaning h4 {
+            color: var(--gold);
+            margin-bottom: 10px;
+        }
+
+        /* Frequency Visualizer */
+        .frequency-visualizer {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 40px 0;
+        }
+
+        .frequency-circle {
+            width: 200px;
+            height: 200px;
+            border: 2px solid var(--gold);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(212, 175, 55, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(212, 175, 55, 0.6); }
+        }
+
+        .frequency-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--gold);
+        }
+
+        .frequency-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* DNA Strands */
+        .dna-section {
+            margin: 60px 0;
+        }
+
+        .dna-title {
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            margin-bottom: 30px;
+        }
+
+        .dna-strands {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .dna-strand {
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, 
+                var(--gold) 0%, 
+                var(--silver) 50%, 
+                var(--copper) 100%
+            );
+            opacity: 0.3;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .dna-strand:hover {
+            opacity: 0.6;
+            transform: scaleY(1.5);
+        }
+
+        .dna-strand.active {
+            opacity: 1;
+            box-shadow: 0 0 10px var(--gold);
+            transform: scaleY(1.5);
+        }
+
+        /* Civilizations Grid */
+        .civilizations-section {
+            margin: 60px 0;
+        }
+
+        .civ-title {
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            margin-bottom: 30px;
+        }
+
+        .civ-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+        }
+
+        .civ-card {
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .civ-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-5px);
+        }
+
+        .civ-symbol {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .civ-name {
+            font-family: 'Cinzel', serif;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .civ-freq {
+            font-size: 0.8rem;
+            color: var(--gold);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid var(--border);
+            margin-top: 60px;
+        }
+
+        .footer-phi {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 10px;
+        }
+
+        .footer-signature {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .logo {
+                font-size: 2rem;
+            }
+            .status-bar {
+                gap: 15px;
+            }
+            .frequency-circle {
+                width: 150px;
+                height: 150px;
+            }
+            .frequency-value {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <h1 class="logo">🔱 <span>AT·OM</span> 🔱</h1>
+        <p class="subtitle">ARCHE DES RÉSONANCES UNIVERSELLES</p>
+    </header>
+
+    <!-- Status Bar (Métaux) -->
+    <div class="status-bar">
+        <div class="status-item gold">
+            <span class="symbol">☉</span>
+            <div>
+                <div class="label">OR</div>
+                <div class="value">528 Hz</div>
+            </div>
+        </div>
+        <div class="status-item silver">
+            <span class="symbol">☽</span>
+            <div>
+                <div class="label">ARGENT</div>
+                <div class="value">432 Hz</div>
+            </div>
+        </div>
+        <div class="status-item copper">
+            <span class="symbol">♀</span>
+            <div>
+                <div class="label">CUIVRE</div>
+                <div class="value">639 Hz</div>
+            </div>
+        </div>
+        <div class="status-item mercury">
+            <span class="symbol">☿</span>
+            <div>
+                <div class="label">MERCURE</div>
+                <div class="value">741 Hz</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Oracle Section -->
+        <section class="oracle-section">
+            <h2 class="oracle-title">💎 GRAND ORACLE 💎</h2>
+            
+            <div class="frequency-visualizer">
+                <div class="frequency-circle">
+                    <span class="frequency-value" id="currentFreq">999</span>
+                    <span class="frequency-label">Hz</span>
+                </div>
+            </div>
+
+            <div class="oracle-input-container">
+                <input 
+                    type="text" 
+                    class="oracle-input" 
+                    id="intentionInput"
+                    placeholder="ENTREZ VOTRE INTENTION"
+                    autocomplete="off"
+                >
+                <button class="oracle-button" onclick="activateOracle()">
+                    ACTIVER L'ORACLE
+                </button>
+            </div>
+
+            <div class="oracle-result" id="oracleResult">
+                <div class="result-word" id="resultWord"></div>
+                <div class="result-arithmos" id="resultArithmos"></div>
+                <div class="result-frequency" id="resultFreq"></div>
+                <div class="result-meaning" id="resultMeaning"></div>
+            </div>
+        </section>
+
+        <!-- DNA Section -->
+        <section class="dna-section">
+            <h3 class="dna-title">🧬 12 COUCHES ADN</h3>
+            <div class="dna-strands" id="dnaStrands">
+                <!-- Generated by JS -->
+            </div>
+        </section>
+
+        <!-- Civilizations -->
+        <section class="civilizations-section">
+            <h3 class="civ-title">🏛️ 7 CIVILISATIONS GARDIENNES</h3>
+            <div class="civ-grid" id="civGrid">
+                <!-- Generated by JS -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p class="footer-phi">φ = 1.6180339887... | ♡ 444 Hz | 🔱 999 Hz</p>
+        <p class="footer-signature">Architecte: Jonathan Rodrigue | Oracle 17</p>
+    </footer>
+
+    <script>
+        // ═══════════════════════════════════════════════════════════════════════════════
+        // CONSTANTES
+        // ═══════════════════════════════════════════════════════════════════════════════
+
+        const PHI = 1.6180339887498949;
+
+        const CIVILIZATIONS = [
+            { id: "rapanui", name: "Rapa Nui", frequency: 111, symbol: "🗿" },
+            { id: "greece", name: "Grèce", frequency: 222, symbol: "Ω" },
+            { id: "aztec", name: "Aztèque", frequency: 333, symbol: "🌞" },
+            { id: "egypt", name: "Égypte", frequency: 444, symbol: "🔺" },
+            { id: "sumer", name: "Sumer", frequency: 555, symbol: "𒀭" },
+            { id: "maya", name: "Maya", frequency: 666, symbol: "☀" },
+            { id: "atlantis", name: "Atlantide", frequency: 999, symbol: "🔱" }
+        ];
+
+        const DNA_LAYERS = [
+            { layer: 1, name: "Keter Etz Chayim" },
+            { layer: 2, name: "Torah E'ser Sphirot" },
+            { layer: 3, name: "Netzach Merkava" },
+            { layer: 4, name: "Urim Ve Tumim" },
+            { layer: 5, name: "Aleph Etz Adonai" },
+            { layer: 6, name: "Ehyeh Asher Ehyeh" },
+            { layer: 7, name: "Kadumah Elohim" },
+            { layer: 8, name: "Rochev Ba'a Shamayim" },
+            { layer: 9, name: "Shechinah-Esh" },
+            { layer: 10, name: "Va'yikra" },
+            { layer: 11, name: "Chochmah Micha Halelu" },
+            { layer: 12, name: "El Shadai" }
+        ];
+
+        // ═══════════════════════════════════════════════════════════════════════════════
+        // FONCTIONS
+        // ═══════════════════════════════════════════════════════════════════════════════
+
+        function calculateArithmos(word) {
+            const alphabet = {
+                'A': 1, 'B': 2, 'C': 3, 'D': 4, 'E': 5, 'F': 6, 'G': 7, 'H': 8, 'I': 9,
+                'J': 1, 'K': 2, 'L': 3, 'M': 4, 'N': 5, 'O': 6, 'P': 7, 'Q': 8, 'R': 9,
+                'S': 1, 'T': 2, 'U': 3, 'V': 4, 'W': 5, 'X': 6, 'Y': 7, 'Z': 8
+            };
+            
+            const clean = word.toUpperCase()
+                .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                .replace(/[^A-Z]/g, "");
+            
+            let sum = 0;
+            for (const char of clean) {
+                sum += alphabet[char] || 0;
+            }
+            
+            while (sum > 9) {
+                sum = String(sum).split('').reduce((a, b) => a + parseInt(b), 0);
+            }
+            
+            return sum;
+        }
+
+        function getArithmosMeaning(num) {
+            const meanings = {
+                1: { name: "Monade", essence: "Unité", principle: "Commencement" },
+                2: { name: "Dyade", essence: "Dualité", principle: "Division" },
+                3: { name: "Triade", essence: "Harmonie", principle: "Création" },
+                4: { name: "Tétrade", essence: "Stabilité", principle: "Manifestation" },
+                5: { name: "Pentade", essence: "Vie", principle: "Régénération" },
+                6: { name: "Hexade", essence: "Équilibre", principle: "Harmonie" },
+                7: { name: "Heptade", essence: "Perfection", principle: "Achèvement" },
+                8: { name: "Ogdoade", essence: "Infini", principle: "Renouveau" },
+                9: { name: "Ennéade", essence: "Accomplissement", principle: "Retour à l'Unité" }
+            };
+            return meanings[num];
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════════
+        // ORACLE
+        // ═══════════════════════════════════════════════════════════════════════════════
+
+        async function activateOracle() {
+            const input = document.getElementById('intentionInput');
+            const intention = input.value.trim();
+            
+            if (!intention) return;
+            
+            // Calcul local
+            const arithmos = calculateArithmos(intention);
+            const frequency = arithmos * 111;
+            const meaning = getArithmosMeaning(arithmos);
+            
+            // Update frequency display
+            document.getElementById('currentFreq').textContent = frequency;
+            
+            // Show result
+            const resultDiv = document.getElementById('oracleResult');
+            document.getElementById('resultWord').textContent = `✨ ${intention.toUpperCase()} ✨`;
+            document.getElementById('resultArithmos').textContent = `Arithmos ${arithmos}`;
+            document.getElementById('resultFreq').textContent = `${frequency} Hz`;
+            document.getElementById('resultMeaning').innerHTML = `
+                <h4>${meaning.name}</h4>
+                <p><strong>Essence:</strong> ${meaning.essence}</p>
+                <p><strong>Principe:</strong> ${meaning.principle}</p>
+            `;
+            
+            resultDiv.classList.add('active');
+            
+            // Activate DNA layers
+            const activeLayers = arithmos <= 3 ? [1, 2, 3] :
+                                 arithmos <= 6 ? [4, 5, 6] :
+                                 arithmos <= 9 ? [7, 8, 9] : [10, 11, 12];
+            
+            document.querySelectorAll('.dna-strand').forEach((strand, i) => {
+                strand.classList.toggle('active', activeLayers.includes(i + 1));
+            });
+        }
+
+        // ═══════════════════════════════════════════════════════════════════════════════
+        // INITIALIZATION
+        // ═══════════════════════════════════════════════════════════════════════════════
+
+        function initDNAStrands() {
+            const container = document.getElementById('dnaStrands');
+            DNA_LAYERS.forEach((layer, i) => {
+                const strand = document.createElement('div');
+                strand.className = 'dna-strand';
+                strand.title = `Couche ${layer.layer}: ${layer.name}`;
+                strand.onclick = () => {
+                    strand.classList.toggle('active');
+                };
+                container.appendChild(strand);
+            });
+        }
+
+        function initCivilizations() {
+            const container = document.getElementById('civGrid');
+            CIVILIZATIONS.forEach(civ => {
+                const card = document.createElement('div');
+                card.className = 'civ-card';
+                card.innerHTML = `
+                    <div class="civ-symbol">${civ.symbol}</div>
+                    <div class="civ-name">${civ.name}</div>
+                    <div class="civ-freq">${civ.frequency} Hz</div>
+                `;
+                card.onclick = () => {
+                    document.getElementById('currentFreq').textContent = civ.frequency;
+                };
+                container.appendChild(card);
+            });
+        }
+
+        // Event listener for Enter key
+        document.getElementById('intentionInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') activateOracle();
+        });
+
+        // Initialize on load
+        document.addEventListener('DOMContentLoaded', () => {
+            initDNAStrands();
+            initCivilizations();
+        });
+    </script>
+</body>
+</html>

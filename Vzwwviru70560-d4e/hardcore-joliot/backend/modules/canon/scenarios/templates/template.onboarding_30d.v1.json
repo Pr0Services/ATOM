@@ -1,0 +1,130 @@
+{
+  "template_id": "template.onboarding_30d.v1",
+  "label": "Onboarding → First Value → Integration → Habit (30 days)",
+  "phases": [
+    {
+      "id": "phase.0_signup",
+      "steps": [
+        {
+          "id": "step.register",
+          "needs": [
+            "need.trust",
+            "need.safety"
+          ]
+        },
+        {
+          "id": "step.identity_bootstrap",
+          "needs": [
+            "need_identity",
+            "need.trust"
+          ]
+        },
+        {
+          "id": "step.sphere_select",
+          "needs": [
+            "need.organization",
+            "need.discovery"
+          ]
+        },
+        {
+          "id": "step.first_thread",
+          "needs": [
+            "need.memory",
+            "need.clarity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase.1_first_value",
+      "steps": [
+        {
+          "id": "step.nova_first_chat",
+          "needs": [
+            "need.clarity",
+            "need.execution",
+            "need.communication"
+          ]
+        },
+        {
+          "id": "step.checkpoint_first",
+          "needs": [
+            "need.governance",
+            "need.trust"
+          ]
+        },
+        {
+          "id": "step.decision_point_first",
+          "needs": [
+            "need.clarity",
+            "need.governance"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase.2_integration",
+      "steps": [
+        {
+          "id": "step.activate_integrations",
+          "needs": [
+            "need.communication",
+            "need.organization",
+            "need.coordination"
+          ]
+        },
+        {
+          "id": "step.import_data",
+          "needs": [
+            "need.discovery",
+            "need.memory",
+            "need.organization"
+          ]
+        },
+        {
+          "id": "step.sync_tasks",
+          "needs": [
+            "need.coordination",
+            "need.execution"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase.3_habit_loop_30d",
+      "steps": [
+        {
+          "id": "step.daily_cycle",
+          "needs": [
+            "need.memory",
+            "need.execution",
+            "need.learning",
+            "need.performance"
+          ]
+        },
+        {
+          "id": "step.weekly_review",
+          "needs": [
+            "need.learning",
+            "need.governance",
+            "need.clarity"
+          ]
+        },
+        {
+          "id": "step.monthly_retrospective",
+          "needs": [
+            "need.learning",
+            "need.trust",
+            "need.organization"
+          ]
+        }
+      ]
+    }
+  ],
+  "invariants": [
+    "append_only_threads",
+    "identity_boundary_enforced",
+    "governance_before_execution_on_sensitive_actions",
+    "warns_silent_by_default"
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "template_id": "template.interlaced_comms_modules.v1",
+  "label": "Interlaced comms (chat/call/meeting) + modules (threads/nova/governance/integrations/xr)",
+  "phases": [
+    {
+      "id": "phase.0_entry",
+      "steps": [
+        {
+          "id": "step.thread_lobby_entry",
+          "needs": [
+            "need.trust",
+            "need_presence"
+          ]
+        },
+        {
+          "id": "step.set_mode",
+          "needs": [
+            "need.clarity",
+            "need.trust"
+          ]
+        },
+        {
+          "id": "step.xr_preflight_optional",
+          "needs": [
+            "need_presence",
+            "need.trust"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase.1_comms_braid",
+      "steps": [
+        {
+          "id": "step.chat_burst",
+          "needs": [
+            "need.communication",
+            "need.execution"
+          ]
+        },
+        {
+          "id": "step.call_live",
+          "needs": [
+            "need.communication",
+            "need.clarity",
+            "need.memory"
+          ]
+        },
+        {
+          "id": "step.meeting_minutes",
+          "needs": [
+            "need.memory",
+            "need.organization"
+          ]
+        },
+        {
+          "id": "step.integration_ping",
+          "needs": [
+            "need.discovery",
+            "need.organization"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase.2_governance_events",
+      "steps": [
+        {
+          "id": "step.trigger_policy_edge",
+          "needs": [
+            "need.governance",
+            "need.safety"
+          ]
+        },
+        {
+          "id": "step.checkpoint_gate",
+          "needs": [
+            "need.trust",
+            "need.governance"
+          ]
+        },
+        {
+          "id": "step.decision_point_queue",
+          "needs": [
+            "need.coordination",
+            "need.clarity"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase.3_stabilize",
+      "steps": [
+        {
+          "id": "step.backlog_triage",
+          "needs": [
+            "need.learning",
+            "need.governance"
+          ]
+        },
+        {
+          "id": "step.metrics_review",
+          "needs": [
+            "need.learning",
+            "need.performance",
+            "need.trust"
+          ]
+        }
+      ]
+    }
+  ],
+  "invariants": [
+    "warns_silent_by_default",
+    "checkpoint_on_external_actions",
+    "append_only_threads",
+    "identity_boundary_enforced"
+  ]
+}

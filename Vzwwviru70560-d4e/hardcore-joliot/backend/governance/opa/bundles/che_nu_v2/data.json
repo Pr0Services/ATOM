@@ -1,0 +1,102 @@
+{
+  "che_nu": {
+    "config": {
+      "allow_prod": false,
+      "allow_autogen_in_pilot": false,
+      "max_simulation_steps": 5000,
+      "exports_require_human": true,
+      "deny_real_data_in_labs": true,
+      "synthetic_only": true,
+      "xr_read_only": true
+    },
+    "prod_allowlist": {
+      "tenants": [],
+      "routes": [],
+      "agent_blueprints": []
+    },
+    "sensitive_data_allowlist": {
+      "tenants": [],
+      "agent_blueprints": []
+    },
+    "feature_flags": {
+      "enable_pqc_signatures": false,
+      "enable_causal_engine": true,
+      "enable_immutable_audit": true,
+      "enable_xr_wasm_verify": false,
+      "enable_neuromorphic": false
+    },
+    "spheres": {
+      "personal": {
+        "enabled": true,
+        "sensitive_by_default": true
+      },
+      "business": {
+        "enabled": true,
+        "sensitive_by_default": false
+      },
+      "health": {
+        "enabled": true,
+        "sensitive_by_default": true,
+        "execution_restricted": true
+      },
+      "creative": {
+        "enabled": true,
+        "sensitive_by_default": false
+      },
+      "data_ai": {
+        "enabled": true,
+        "export_requires_hitl": true
+      },
+      "operations": {
+        "enabled": true,
+        "connect_requires_hitl": true
+      },
+      "communication": {
+        "enabled": true,
+        "outbound_requires_hitl": true
+      },
+      "finance": {
+        "enabled": true,
+        "write_requires_hitl": true
+      },
+      "legal_compliance": {
+        "enabled": true,
+        "all_mutations_require_hitl": true
+      }
+    },
+    "agent_levels": {
+      "L0": {
+        "name": "Nova (System Intelligence)",
+        "autonomy": "informational",
+        "can_execute": false,
+        "can_mutate": false
+      },
+      "L1": {
+        "name": "User-Hired Agents",
+        "autonomy": "assisted",
+        "can_execute": false,
+        "can_propose": true,
+        "can_plan": true
+      },
+      "L2": {
+        "name": "Platform Agents",
+        "autonomy": "governed",
+        "can_execute": true,
+        "requires_hitl_for_exec": true
+      },
+      "L3": {
+        "name": "System Agents",
+        "autonomy": "restricted",
+        "can_execute": true,
+        "requires_hitl_for_exec": true,
+        "prod_disabled": true
+      }
+    },
+    "audit": {
+      "enabled": true,
+      "log_all_decisions": true,
+      "retention_days": 365,
+      "include_trace_context": true
+    }
+  }
+}

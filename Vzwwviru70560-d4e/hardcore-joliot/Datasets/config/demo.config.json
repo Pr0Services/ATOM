@@ -1,0 +1,30 @@
+{
+  "demo_mode": true,
+  "investor_presentation": true,
+  "sample_data": {
+    "memory_units": 75,
+    "decisions": 15,
+    "sessions": 12,
+    "archives": 8,
+    "events": 2000
+  },
+  "features": {
+    "show_tree_laws_banner": true,
+    "show_governance_status": true,
+    "show_signing_info": true,
+    "show_audit_trail": true,
+    "enable_presenter_overlay": true
+  },
+  "demo_users": [
+    {"id": "demo_investor", "role": "investor", "display_name": "Investisseur Demo"},
+    {"id": "demo_presenter", "role": "presenter", "display_name": "Présentateur Demo"},
+    {"id": "demo_developer", "role": "developer", "display_name": "Développeur Demo"},
+    {"id": "demo_guest", "role": "guest", "display_name": "Invité Demo"}
+  ],
+  "default_user": "demo_investor",
+  "branding": {
+    "logo": "🏠",
+    "primary_color": "#4a9eff",
+    "secondary_color": "#81c784"
+  }
+}

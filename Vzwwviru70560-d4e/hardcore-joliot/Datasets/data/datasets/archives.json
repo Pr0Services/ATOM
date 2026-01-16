@@ -1,0 +1,61 @@
+{
+  "archives": [
+    {
+      "archive_id": "ARCH_001",
+      "type": "proposal",
+      "title": "Proposition expir\u00e9e",
+      "archived_at": "2024-12-06T00:00:00Z",
+      "reason": "expired"
+    },
+    {
+      "archive_id": "ARCH_002",
+      "type": "proposal",
+      "title": "Proposition rejet\u00e9e",
+      "archived_at": "2024-12-09T00:00:00Z",
+      "reason": "expired"
+    },
+    {
+      "archive_id": "ARCH_003",
+      "type": "session",
+      "title": "Session d\u00e9mo",
+      "archived_at": "2024-10-21T00:00:00Z",
+      "reason": "expired"
+    },
+    {
+      "archive_id": "ARCH_004",
+      "type": "export",
+      "title": "Export narratif",
+      "archived_at": "2024-11-30T00:00:00Z",
+      "reason": "expired"
+    },
+    {
+      "archive_id": "ARCH_005",
+      "type": "proposal",
+      "title": "Proposition expir\u00e9e 2",
+      "archived_at": "2024-11-28T00:00:00Z",
+      "reason": "expired"
+    },
+    {
+      "archive_id": "ARCH_006",
+      "type": "session",
+      "title": "Session investisseur",
+      "archived_at": "2024-11-19T00:00:00Z",
+      "reason": "expired"
+    },
+    {
+      "archive_id": "ARCH_007",
+      "type": "decision",
+      "title": "D\u00e9cision obsol\u00e8te",
+      "archived_at": "2024-11-23T00:00:00Z",
+      "reason": "expired"
+    },
+    {
+      "archive_id": "ARCH_008",
+      "type": "export",
+      "title": "Rapport incident",
+      "archived_at": "2024-11-26T00:00:00Z",
+      "reason": "expired"
+    }
+  ],
+  "count": 8
+}

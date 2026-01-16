@@ -1,0 +1,18 @@
+{
+  "role": "global",
+  "name": "Global",
+  "description": "General notes, versioning, FREEZE copies",
+  "files": [
+    "role.md",
+    "rules.md",
+    "style.md",
+    "examples.md",
+    "forbidden.md",
+    "notes.md",
+    "integration.md",
+    "todo.md"
+  ],
+  "safe": true,
+  "non_autonomous": true,
+  "version": "1.0"
+}

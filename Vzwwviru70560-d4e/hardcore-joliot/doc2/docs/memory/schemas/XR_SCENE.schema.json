@@ -1,0 +1,23 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "XR_SCENE",
+  "type": "object",
+  "required": ["xr_scene"],
+  "properties": {
+    "xr_scene": {
+      "type": "object",
+      "required": ["id", "name", "safe"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^XR_SCENE_"},
+        "name": {"type": "string"},
+        "type": {"type": "string", "enum": ["meeting", "workspace", "gallery", "custom"]},
+        "rooms": {"type": "array"},
+        "portals": {"type": "array"},
+        "anchors": {"type": "array"},
+        "props": {"type": "array"},
+        "lights": {"type": "array"},
+        "safe": {"type": "boolean", "const": true}
+      }
+    }
+  }
+}

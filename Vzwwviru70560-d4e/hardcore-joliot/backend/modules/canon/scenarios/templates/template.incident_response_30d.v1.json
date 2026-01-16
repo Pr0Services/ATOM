@@ -1,0 +1,92 @@
+{
+  "template_id": "template.incident_response_30d.v1",
+  "label": "30‑day onboarding includes an incident week (security, latency, or integration failure)",
+  "phases": [
+    {
+      "id": "phase.0_normal_onboarding",
+      "steps": [
+        {
+          "id": "step.setup",
+          "needs": [
+            "need.trust",
+            "need.organization"
+          ]
+        },
+        {
+          "id": "step.first_value",
+          "needs": [
+            "need.execution",
+            "need.clarity"
+          ]
+        },
+        {
+          "id": "step.integrations_light",
+          "needs": [
+            "need.discovery",
+            "need.communication"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase.1_incident_week",
+      "steps": [
+        {
+          "id": "step.detect_anomaly",
+          "needs": [
+            "need.governance",
+            "need.trust",
+            "need.performance"
+          ]
+        },
+        {
+          "id": "step.escalate_selective",
+          "needs": [
+            "need.coordination",
+            "need.governance"
+          ]
+        },
+        {
+          "id": "step.apply_patches",
+          "needs": [
+            "need.execution",
+            "need.governance"
+          ]
+        },
+        {
+          "id": "step.postmortem",
+          "needs": [
+            "need.learning",
+            "need.memory"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase.2_recovery",
+      "steps": [
+        {
+          "id": "step_restore_habit",
+          "needs": [
+            "need.resilience",
+            "need.performance",
+            "need.trust"
+          ]
+        },
+        {
+          "id": "step_expand_integrations",
+          "needs": [
+            "need.organization",
+            "need.coordination"
+          ]
+        }
+      ]
+    }
+  ],
+  "invariants": [
+    "no_event_deletes",
+    "audit_all_patches",
+    "decision_points_for_unresolved_risks",
+    "resilience_under_faults"
+  ]
+}

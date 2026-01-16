@@ -1,0 +1,155 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "CHE·NU API",
+    "description": "Governed Intelligence Operating System API",
+    "version": "1.0.0",
+    "contact": {
+      "name": "CHE·NU Team",
+      "email": "contact@che-nu.com"
+    },
+    "license": {
+      "name": "Proprietary"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api",
+      "description": "Development server"
+    },
+    {
+      "url": "https://api.che-nu.com/v1",
+      "description": "Production server"
+    }
+  ],
+  "tags": [
+    { "name": "Authentication", "description": "User authentication endpoints" },
+    { "name": "Identities", "description": "Identity management" },
+    { "name": "Spheres", "description": "Sphere navigation" },
+    { "name": "DataSpaces", "description": "DataSpace containers" },
+    { "name": "Threads", "description": "Thread artifacts" },
+    { "name": "Agents", "description": "Agent orchestration" },
+    { "name": "Governance", "description": "Governed execution pipeline" },
+    { "name": "Meetings", "description": "Meeting system" },
+    { "name": "Workspaces", "description": "Workspace engine" },
+    { "name": "OneClick", "description": "1-Click assistant" },
+    { "name": "Properties", "description": "Real estate management" },
+    { "name": "Construction", "description": "Construction projects" },
+    { "name": "OCW", "description": "Online Collaborative Whiteboard" },
+    { "name": "XR", "description": "XR/VR rooms" },
+    { "name": "Backstage", "description": "Backstage intelligence" },
+    { "name": "Memory", "description": "Memory governance" },
+    { "name": "Files", "description": "File management" },
+    { "name": "Notifications", "description": "Notifications" }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string", "format": "uuid" },
+          "email": { "type": "string", "format": "email" },
+          "full_name": { "type": "string" },
+          "created_at": { "type": "string", "format": "date-time" }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "properties": {
+          "success": { "type": "boolean", "example": false },
+          "error": {
+            "type": "object",
+            "properties": {
+              "code": { "type": "string" },
+              "message": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Register new user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password", "full_name"],
+                "properties": {
+                  "email": { "type": "string", "format": "email" },
+                  "password": { "type": "string", "minLength": 8 },
+                  "full_name": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "User created successfully"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Login user",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["email", "password"],
+                "properties": {
+                  "email": { "type": "string", "format": "email" },
+                  "password": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "token": { "type": "string" },
+                        "user": { "$ref": "#/components/schemas/User" }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ]
+}

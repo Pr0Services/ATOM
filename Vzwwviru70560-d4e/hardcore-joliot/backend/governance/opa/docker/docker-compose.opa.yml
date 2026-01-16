@@ -1,0 +1,77 @@
+# ============================================================================
+# CHE·NU™ V69 — OPA Docker Compose
+# ============================================================================
+# Version: 2.0.0
+# Purpose: Run OPA server with CHE·NU governance bundle
+# ============================================================================
+
+version: "3.9"
+
+services:
+  # --------------------------------------------------------------------------
+  # OPA Server
+  # --------------------------------------------------------------------------
+  opa:
+    image: openpolicyagent/opa:0.60.0
+    container_name: chenu-opa
+    command:
+      - "run"
+      - "--server"
+      - "--addr=0.0.0.0:8181"
+      - "--set=decision_logs.console=true"
+      - "--set=status.console=true"
+      - "--bundle"
+      - "/bundles/che_nu_v2"
+    volumes:
+      - ../bundles:/bundles:ro
+    ports:
+      - "8181:8181"
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:8181/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    restart: unless-stopped
+    networks:
+      - chenu-network
+    labels:
+      - "com.chenu.service=opa"
+      - "com.chenu.version=v69"
+
+  # --------------------------------------------------------------------------
+  # OPA Bundle Server (for remote bundle loading in prod)
+  # --------------------------------------------------------------------------
+  bundle-server:
+    image: nginx:alpine
+    container_name: chenu-bundle-server
+    volumes:
+      - ../bundles:/usr/share/nginx/html/bundles:ro
+    ports:
+      - "8080:80"
+    networks:
+      - chenu-network
+    profiles:
+      - bundle-server
+
+networks:
+  chenu-network:
+    driver: bridge
+    name: chenu-network
+
+# ============================================================================
+# Usage:
+# --------------------------------------------------------------------------
+# Development:
+#   docker compose -f docker-compose.opa.yml up -d
+#
+# With bundle server:
+#   docker compose -f docker-compose.opa.yml --profile bundle-server up -d
+#
+# Test policy:
+#   curl -X POST http://localhost:8181/v1/data/che_nu/core/result \
+#     -H "Content-Type: application/json" \
+#     -d @test_input.json
+#
+# Run OPA tests:
+#   docker exec chenu-opa opa test /bundles -v
+# ============================================================================

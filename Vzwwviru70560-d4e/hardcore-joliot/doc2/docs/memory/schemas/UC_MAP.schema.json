@@ -1,0 +1,21 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "UC_MAP",
+  "type": "object",
+  "required": ["uc_map"],
+  "properties": {
+    "uc_map": {
+      "type": "object",
+      "required": ["id", "name", "safe"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^UC_MAP_"},
+        "name": {"type": "string"},
+        "regions": {"type": "array"},
+        "paths": {"type": "array"},
+        "layers": {"type": "array"},
+        "legend": {"type": "object"},
+        "safe": {"type": "boolean", "const": true}
+      }
+    }
+  }
+}

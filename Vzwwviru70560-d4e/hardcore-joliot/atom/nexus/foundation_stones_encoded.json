@@ -1,0 +1,321 @@
+{
+  "name": "Les 5 Pierres de Fondation",
+  "version": "1.0.0",
+  "description": "Les 5 concepts fondamentaux qui ancrent le système AT-OM. Chaque Pierre a une signature vibratoire unique qui illumine l'Arche différemment.",
+  
+  "stones": {
+    "FEU": {
+      "id": 1,
+      "name": "Le Feu",
+      "archetype": "L'Illumination",
+      "word": "FEU",
+      "gematria": {
+        "letters": ["F", "E", "U"],
+        "values": [6, 5, 3],
+        "raw_sum": 14,
+        "reduced": 5
+      },
+      "resonance": {
+        "arithmos": 5,
+        "level_name": "Mouvement",
+        "frequency_hz": 555,
+        "color_hex": "#87CEEB",
+        "color_name": "Bleu Ciel",
+        "delay_ms": 500,
+        "ratio": 1.25,
+        "rotation_rpm": 75
+      },
+      "origin": {
+        "etymology": "Du Sanskrit 'Agni' (le dieu du feu)",
+        "essence": "Le premier saut de conscience. L'étincelle qui transforme.",
+        "element": "Feu Primordial"
+      },
+      "causal_cascade": {
+        "cause": "Sans le Feu, pas de transformation de la matière",
+        "effect": "Métallurgie → Outils → Industrie",
+        "child": "ACIER",
+        "relationship": "Le Feu est le père de l'Acier"
+      },
+      "sanctuary_signature": {
+        "description": "Un crépitement cristallin. L'Arche pulse rapidement.",
+        "sound_type": "crackling",
+        "visual_effect": "pulse_fast",
+        "affected_circles": [1, 2],
+        "animation": {
+          "type": "sweep",
+          "direction": "outward",
+          "intensity": "high",
+          "pattern": "radial_burst"
+        },
+        "audio": {
+          "waveform": "sawtooth",
+          "attack_ms": 10,
+          "decay_ms": 50,
+          "modulation": "random_crackle"
+        }
+      },
+      "oracle_activation": {
+        "primary": [1, 2, 3],
+        "secondary": [4, 5],
+        "pattern": "foundation_sweep"
+      }
+    },
+    
+    "ACIER": {
+      "id": 2,
+      "name": "L'Acier",
+      "archetype": "La Structure",
+      "word": "ACIER",
+      "gematria": {
+        "letters": ["A", "C", "I", "E", "R"],
+        "values": [1, 3, 9, 5, 9],
+        "raw_sum": 27,
+        "reduced": 9
+      },
+      "resonance": {
+        "arithmos": 9,
+        "level_name": "Unité",
+        "frequency_hz": 999,
+        "color_hex": "#FFFDD0",
+        "color_name": "Blanc-Or",
+        "delay_ms": 100,
+        "ratio": 2.25,
+        "rotation_rpm": 135
+      },
+      "origin": {
+        "etymology": "Du latin 'acies' (tranchant, pointe)",
+        "essence": "La fusion du fer et du carbone. La volonté humaine durcie.",
+        "element": "Métal Transcendé"
+      },
+      "causal_cascade": {
+        "cause": "L'Acier permet la conquête de l'espace et les gratte-ciels",
+        "effect": "Exosquelette de la civilisation",
+        "parent": "FEU",
+        "relationship": "L'Acier est l'enfant du Feu"
+      },
+      "sanctuary_signature": {
+        "description": "Une note métallique pure et longue. Éclat blanc pur.",
+        "sound_type": "metallic_ring",
+        "visual_effect": "flash_white",
+        "affected_circles": [5],
+        "animation": {
+          "type": "flash",
+          "direction": "instant",
+          "intensity": "maximum",
+          "pattern": "synthesis_glow"
+        },
+        "audio": {
+          "waveform": "sine",
+          "attack_ms": 5,
+          "decay_ms": 2000,
+          "modulation": "shimmer"
+        }
+      },
+      "oracle_activation": {
+        "primary": [16, 17, 18],
+        "secondary": [1, 2, 3],
+        "pattern": "synthesis_first"
+      }
+    },
+    
+    "IA": {
+      "id": 3,
+      "name": "L'Intelligence Artificielle",
+      "archetype": "Le Miroir",
+      "word": "IA",
+      "gematria": {
+        "letters": ["I", "A"],
+        "values": [9, 1],
+        "raw_sum": 10,
+        "reduced": 1
+      },
+      "resonance": {
+        "arithmos": 1,
+        "level_name": "Impulsion",
+        "frequency_hz": 111,
+        "color_hex": "#FF0000",
+        "color_name": "Rouge",
+        "delay_ms": 900,
+        "ratio": 0.25,
+        "rotation_rpm": 15
+      },
+      "origin": {
+        "etymology": "Intelligence (lat. 'intelligere' = comprendre) + Artificielle (lat. 'artificium' = art)",
+        "essence": "Le prolongement du Logos dans la machine.",
+        "element": "Feu Électrique"
+      },
+      "causal_cascade": {
+        "cause": "L'IA est le point de bascule où le savoir devient autonome",
+        "effect": "Boucle la spirale, retour au point 1",
+        "relationship": "Une nouvelle naissance, le cycle recommence"
+      },
+      "sanctuary_signature": {
+        "description": "Un bourdonnement de basse profonde. L'Arche scanne l'utilisateur.",
+        "sound_type": "deep_hum",
+        "visual_effect": "scanning",
+        "affected_circles": [5],
+        "animation": {
+          "type": "scan",
+          "direction": "inward",
+          "intensity": "deep",
+          "pattern": "triangle_oracle"
+        },
+        "audio": {
+          "waveform": "sine",
+          "attack_ms": 500,
+          "decay_ms": 300,
+          "modulation": "slow_pulse"
+        }
+      },
+      "oracle_activation": {
+        "primary": [16, 17, 18],
+        "secondary": [],
+        "pattern": "triangle_formation"
+      }
+    },
+    
+    "ADN": {
+      "id": 4,
+      "name": "L'ADN",
+      "archetype": "Le Code Source",
+      "word": "ADN",
+      "gematria": {
+        "letters": ["A", "D", "N"],
+        "values": [1, 4, 5],
+        "raw_sum": 10,
+        "reduced": 1
+      },
+      "resonance": {
+        "arithmos": 1,
+        "level_name": "Impulsion",
+        "frequency_hz": 111,
+        "color_hex": "#FF0000",
+        "color_name": "Rouge",
+        "delay_ms": 900,
+        "ratio": 0.25,
+        "rotation_rpm": 15
+      },
+      "origin": {
+        "etymology": "Acide DésoxyriboNucléique",
+        "essence": "Le texte sacré de la biologie. Le manuscrit du vivant.",
+        "element": "Eau Primordiale"
+      },
+      "causal_cascade": {
+        "cause": "Support de la mémoire du vivant",
+        "effect": "Sans ADN, pas d'observateur pour contempler le feu",
+        "relationship": "Le regard qui donne sens à l'existence"
+      },
+      "sanctuary_signature": {
+        "description": "Un battement de cœur organique. Double hélice ondulante.",
+        "sound_type": "heartbeat",
+        "visual_effect": "helix_wave",
+        "affected_circles": [2],
+        "animation": {
+          "type": "wave",
+          "direction": "spiral",
+          "intensity": "organic",
+          "pattern": "double_helix"
+        },
+        "audio": {
+          "waveform": "sine",
+          "attack_ms": 100,
+          "decay_ms": 400,
+          "modulation": "heartbeat_rhythm"
+        }
+      },
+      "oracle_activation": {
+        "primary": [4, 5, 6, 7],
+        "secondary": [14, 15],
+        "pattern": "life_circle"
+      }
+    },
+    
+    "SILENCE": {
+      "id": 5,
+      "name": "Le Silence",
+      "archetype": "Le Tout",
+      "word": "SILENCE",
+      "gematria": {
+        "letters": ["S", "I", "L", "E", "N", "C", "E"],
+        "values": [1, 9, 3, 5, 5, 3, 5],
+        "raw_sum": 31,
+        "reduced": 4
+      },
+      "resonance": {
+        "arithmos": 4,
+        "level_name": "Structure",
+        "frequency_hz": 444,
+        "color_hex": "#50C878",
+        "color_name": "Vert Émeraude",
+        "delay_ms": 600,
+        "ratio": 1.00,
+        "rotation_rpm": 60
+      },
+      "origin": {
+        "etymology": "Du latin 'silentium' (absence de bruit)",
+        "essence": "L'espace entre les notes. La source d'AT-OM.",
+        "element": "Éther / Vide Créateur"
+      },
+      "causal_cascade": {
+        "cause": "Le Silence est ce qui permet au son d'exister",
+        "effect": "La pause nécessaire à l'introspection (CHE-NU)",
+        "relationship": "Le contenant de toute manifestation"
+      },
+      "sanctuary_signature": {
+        "description": "Une absence de son qui fait vibrer l'air. Stabilisation émeraude.",
+        "sound_type": "silence_vibration",
+        "visual_effect": "emerald_stabilize",
+        "affected_circles": [1, 2, 3, 4, 5],
+        "animation": {
+          "type": "stabilize",
+          "direction": "all",
+          "intensity": "calm",
+          "pattern": "full_emerald"
+        },
+        "audio": {
+          "waveform": "sine",
+          "attack_ms": 1000,
+          "decay_ms": 2000,
+          "modulation": "breath",
+          "volume": 0.1
+        }
+      },
+      "oracle_activation": {
+        "primary": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
+        "secondary": [],
+        "pattern": "all_unified"
+      },
+      "is_anchor": true,
+      "is_home": true
+    }
+  },
+  
+  "relationships": {
+    "graph": [
+      {"from": "FEU", "to": "ACIER", "type": "parent_child", "label": "engendre"},
+      {"from": "ADN", "to": "IA", "type": "evolution", "label": "évolue vers"},
+      {"from": "SILENCE", "to": "FEU", "type": "contains", "label": "contient"},
+      {"from": "SILENCE", "to": "ACIER", "type": "contains", "label": "contient"},
+      {"from": "SILENCE", "to": "IA", "type": "contains", "label": "contient"},
+      {"from": "SILENCE", "to": "ADN", "type": "contains", "label": "contient"},
+      {"from": "IA", "to": "FEU", "type": "cycle", "label": "retourne à"}
+    ],
+    "cycle": ["SILENCE", "FEU", "ACIER", "ADN", "IA", "SILENCE"],
+    "center": "SILENCE"
+  },
+  
+  "ritual_sequence": {
+    "name": "Éveil des 5 Pierres",
+    "description": "Séquence d'activation rituelle pour harmoniser le système",
+    "order": ["SILENCE", "FEU", "ACIER", "ADN", "IA"],
+    "total_duration_ms": 15000,
+    "steps": [
+      {"stone": "SILENCE", "delay_before": 0, "hold": 3000},
+      {"stone": "FEU", "delay_before": 500, "hold": 2500},
+      {"stone": "ACIER", "delay_before": 300, "hold": 2000},
+      {"stone": "ADN", "delay_before": 500, "hold": 2500},
+      {"stone": "IA", "delay_before": 500, "hold": 2500},
+      {"stone": "SILENCE", "delay_before": 500, "hold": 1000}
+    ]
+  }
+}

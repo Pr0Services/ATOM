@@ -1,0 +1,21 @@
+[
+  "backend/tests/test_construction.py::test_add_equipment",
+  "backend/tests/test_construction.py::test_add_subcontractor",
+  "backend/tests/test_construction.py::test_agent_initialization",
+  "backend/tests/test_construction.py::test_change_order_cannot_execute_without_approval",
+  "backend/tests/test_construction.py::test_change_order_requires_approval_rule1",
+  "backend/tests/test_construction.py::test_create_daily_log",
+  "backend/tests/test_construction.py::test_create_project",
+  "backend/tests/test_construction.py::test_create_punch_item",
+  "backend/tests/test_construction.py::test_create_rfi",
+  "backend/tests/test_construction.py::test_create_task",
+  "backend/tests/test_construction.py::test_equipment_alphabetical_rule5",
+  "backend/tests/test_construction.py::test_health_check",
+  "backend/tests/test_construction.py::test_project_analytics",
+  "backend/tests/test_construction.py::test_projects_alphabetical_rule5",
+  "backend/tests/test_construction.py::test_punch_items_alphabetical_by_location_rule5",
+  "backend/tests/test_construction.py::test_rfis_chronological_rule5",
+  "backend/tests/test_construction.py::test_safety_inspection_fail_governance",
+  "backend/tests/test_construction.py::test_safety_inspection_requires_approval_rule1",
+  "backend/tests/test_construction.py::test_subcontractors_alphabetical_not_by_rating_rule5"
+]

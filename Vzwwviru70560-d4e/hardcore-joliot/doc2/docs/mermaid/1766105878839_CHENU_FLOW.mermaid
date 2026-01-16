@@ -1,0 +1,33 @@
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#3EB4A2', 'primaryTextColor': '#fff', 'primaryBorderColor': '#7C0000', 'lineColor': '#5BA9FF', 'secondaryColor': '#006100', 'tertiaryColor': '#fff'}}}%%
+
+flowchart TD
+    %% Entry
+    A[🚀 ENTRY<br/>App Open / Diamond Hub] 
+    
+    %% Context Bureau
+    B[📍 CONTEXT BUREAU<br/>Identity + Sphere + Project]
+    
+    %% Action Bureau  
+    C[⚡ ACTION BUREAU<br/>Quick Actions + Workspaces]
+    
+    %% Workspace
+    D[🔧 WORKSPACE<br/>Execution Canvas]
+
+    %% Main Flow
+    A -->|"ENTER_APP<br/>(auto 500ms)"| B
+    B -->|"CONFIRM_CONTEXT<br/>(identity+sphere valid)"| C
+    C -->|"OPEN_WORKSPACE"| D
+    
+    %% Back flows
+    D -.->|"BACK_TO_ACTIONS"| C
+    C -.->|"CHANGE_CONTEXT"| B
+    D -.->|"CHANGE_CONTEXT<br/>(invalidates ws)"| B
+    
+    %% Self loops
+    B -.->|"SELECT_*"| B
+
+    %% Styling
+    style A fill:#1a1a1a,stroke:#3EB4A2,color:#fff
+    style B fill:#1a1a1a,stroke:#FFB04D,color:#fff
+    style C fill:#1a1a1a,stroke:#5BA9FF,color:#fff
+    style D fill:#1a1a1a,stroke:#FF8BAA,color:#fff

@@ -1,0 +1,15 @@
+{
+  "candidate_id": "promo_0001",
+  "note_ids": [
+    "note_0001",
+    "note_0007",
+    "note_0012"
+  ],
+  "sphere": "tech",
+  "sector": "platform",
+  "pattern_title": "Activation stagiaire = rituel de fin",
+  "pattern_description": "Le stagiaire n’est déclenché qu’à la fin d’une conversation et ne doit jamais intervenir à chaud. Un cooldown de 15 minutes suit une fausse alerte (silence).",
+  "evidence_count": 3,
+  "promotion_decision": "pending",
+  "review_notes": null
+}

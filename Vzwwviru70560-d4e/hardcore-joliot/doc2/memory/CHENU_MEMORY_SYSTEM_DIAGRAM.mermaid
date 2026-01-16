@@ -1,0 +1,85 @@
+flowchart TD
+
+%% ============================
+%% MEMORY SYSTEM CORE
+%% ============================
+
+A[CHE·NU_MEMORY_MANAGER\n-non-autonomous, documentary only-] 
+    -->|ADD_TO_MEMORY| B[/memory/]
+A -->|READ_MEMORY| B
+
+%% ============================
+%% MEMORY ROOT
+%% ============================
+
+B --> BO[global/]
+B --> C1[orchestrator/]
+B --> C2[xr_scene_builder/]
+B --> C3[workspace_architect/]
+B --> C4[hyperfabric_designer/]
+B --> C5[cartography_designer/]
+B --> C6[depth_lens_system/]
+B --> C7[projection_engine/]
+B --> C8[morphology_designer/]
+B --> C9[schemas/]
+
+%% ============================
+%% ROLE MEMORY STRUCTURE
+%% ============================
+
+subgraph RoleTemplate [ROLE MEMORY TEMPLATE]
+    R1(role.md)
+    R2(rules.md)
+    R3(style.md)
+    R4(examples.md)
+    R5(forbidden.md)
+    R6(notes.md)
+    R7(integration.md)
+    R8(todo.md)
+    R9(index.json)
+end
+
+%% Each role folder contains the same files
+C1 --> R1
+C1 --> R2
+C1 --> R3
+C1 --> R4
+C1 --> R5
+C1 --> R6
+C1 --> R7
+C1 --> R8
+C1 --> R9
+
+C2 --> R1
+C3 --> R1
+C4 --> R1
+C5 --> R1
+C6 --> R1
+C7 --> R1
+C8 --> R1
+C9 --> R1
+
+%% ============================
+%% GLOBAL INDEX
+%% ============================
+
+B --> IDX[index.md\n-global memory index-]
+IDX --> C1
+IDX --> C2
+IDX --> C3
+IDX --> C4
+IDX --> C5
+IDX --> C6
+IDX --> C7
+IDX --> C8
+IDX --> C9
+
+%% ============================
+%% COMMANDS
+%% ============================
+
+CMD1[[ADD_TO_MEMORY]]
+CMD2[[READ_MEMORY]]
+
+CMD1 --> A
+CMD2 --> A

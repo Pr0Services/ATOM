@@ -1,0 +1,44 @@
+{
+  "version": "82.0.0",
+  "codename": "Calendrier Vivant",
+  "release_date": "2026-01-09",
+  "heartbeat": 444,
+  "tuning": "A=444Hz",
+  "architect": "Jonathan Rodrigue",
+  "oracle": "Oracle 17",
+  "features": [
+    "AT·OM Arithmos (9 niveaux, 111-999 Hz)",
+    "Tzolkin Maya (13 Tons × 20 Nawals)",
+    "Yi-King (64 Hexagrammes)",
+    "Kabbale (10 Sephiroth + 22 Sentiers)",
+    "Chakras (7 centres + Solfège sacré)",
+    "Moteur Cosmique Unifié",
+    "Interface CosmicOracle",
+    "Oracle Quotidien Multi-systèmes"
+  ],
+  "systems": {
+    "AT_OM": {
+      "version": "2.0.0",
+      "levels": 9,
+      "frequencies": "111-999 Hz"
+    },
+    "Maya": {
+      "tons": 13,
+      "nawals": 20,
+      "tzolkin": 260
+    },
+    "YiKing": {
+      "trigrams": 8,
+      "hexagrams": 64
+    },
+    "Kabbale": {
+      "sephiroth": 10,
+      "paths": 22,
+      "worlds": 4
+    },
+    "Chakras": {
+      "centers": 7,
+      "solfeggio": "396-963 Hz"
+    }
+  }
+}

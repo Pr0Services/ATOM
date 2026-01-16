@@ -1,0 +1,49 @@
+stateDiagram-v2
+    [*] --> entry : App Launch
+    
+    entry --> context_bureau : ENTER_APP / auto
+    
+    state context_bureau {
+        direction TB
+        [*] --> preselect_context
+        preselect_context --> identity_ready : auto-fill if unique
+        identity_ready --> sphere_ready : auto-fill if unique
+        sphere_ready --> project_optional
+        project_optional --> context_valid
+        context_valid --> [*]
+    }
+    
+    context_bureau --> context_bureau : SELECT_IDENTITY
+    context_bureau --> context_bureau : SELECT_SPHERE
+    context_bureau --> context_bureau : SELECT_PROJECT
+    context_bureau --> action_bureau : CONFIRM_CONTEXT
+    
+    state action_bureau {
+        direction TB
+        [*] --> suggest_actions
+        suggest_actions --> show_workspaces
+        show_workspaces --> nova_suggestions
+        nova_suggestions --> [*]
+    }
+    
+    action_bureau --> workspace : OPEN_WORKSPACE
+    action_bureau --> workspace : CREATE_NOTE
+    action_bureau --> workspace : CREATE_TASK
+    action_bureau --> workspace : CALL_AGENT
+    action_bureau --> context_bureau : CHANGE_CONTEXT
+    
+    state workspace {
+        direction TB
+        [*] --> lock_context
+        lock_context --> canvas_active
+        canvas_active --> execution_mode
+        execution_mode --> [*]
+        
+        note right of lock_context : Context is LOCKED
+    }
+    
+    workspace --> action_bureau : BACK_TO_ACTIONS
+    workspace --> context_bureau : CHANGE_CONTEXT
+    
+    note right of context_bureau : Intelligence PRE-FILLS<br/>Never BYPASSES
+    note right of workspace : Context change<br/>INVALIDATES workspace

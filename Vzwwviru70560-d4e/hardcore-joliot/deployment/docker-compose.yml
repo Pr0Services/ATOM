@@ -1,0 +1,206 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# AT·OM SYSTEM - DOCKER COMPOSE
+# Canon AT·OM Deployment Configuration
+#
+# Optimized for:
+# - 350 simultaneous WebSocket connections (L'Essaim)
+# - Minimal latency (<50ms)
+# - 999Hz frequency stability
+#
+# Recommended: DigitalOcean Droplet Premium Intel (4GB+ RAM)
+# ═══════════════════════════════════════════════════════════════════════════
+
+version: '3.8'
+
+services:
+  # ─────────────────────────────────────────────────────────────────────────
+  # AT·OM API - Le Moteur Principal
+  # ─────────────────────────────────────────────────────────────────────────
+  atom-api:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: atom-api
+    restart: unless-stopped
+    environment:
+      - ENV=production
+      - DEBUG=false
+      - DATABASE_URL=${DATABASE_URL}
+      - REDIS_URL=redis://atom-redis:6379/0
+      - SECRET_KEY=${SECRET_KEY}
+      - FREQUENCY_TARGET=999
+      - ESSAIM_SIZE=350
+      - ZERO_LOG=true
+      - CORS_ORIGINS=${CORS_ORIGINS}
+      - WS_MAX_CONNECTIONS=500
+      - WS_PING_INTERVAL=30
+    ports:
+      - "8000:8000"
+    depends_on:
+      - atom-redis
+      - atom-db
+    networks:
+      - atom-network
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '1'
+          memory: 1G
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v1/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # AT·OM WebSocket Server - L'Essaim Real-Time
+  # ─────────────────────────────────────────────────────────────────────────
+  atom-websocket:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile.websocket
+    container_name: atom-websocket
+    restart: unless-stopped
+    environment:
+      - ENV=production
+      - REDIS_URL=redis://atom-redis:6379/1
+      - WS_MAX_CONNECTIONS=500
+      - WS_BUFFER_SIZE=65536
+      - ESSAIM_SIZE=350
+      - FREQUENCY_TARGET=999
+      - BROADCAST_INTERVAL_MS=16  # 60fps for fluid animation
+    ports:
+      - "8001:8001"
+    depends_on:
+      - atom-redis
+    networks:
+      - atom-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+    # Optimize for WebSocket connections
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Redis - Cache & Pub/Sub for WebSockets
+  # ─────────────────────────────────────────────────────────────────────────
+  atom-redis:
+    image: redis:7-alpine
+    container_name: atom-redis
+    restart: unless-stopped
+    command: >
+      redis-server
+      --appendonly yes
+      --maxmemory 512mb
+      --maxmemory-policy allkeys-lru
+      --tcp-keepalive 300
+      --timeout 0
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    networks:
+      - atom-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 512M
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # PostgreSQL - Database (Optional: Use Supabase instead)
+  # ─────────────────────────────────────────────────────────────────────────
+  atom-db:
+    image: postgres:15-alpine
+    container_name: atom-db
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_DB=atom_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ../backend/migrations/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - atom-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d atom_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ─────────────────────────────────────────────────────────────────────────
+  # Nginx - Reverse Proxy & SSL Termination
+  # ─────────────────────────────────────────────────────────────────────────
+  atom-nginx:
+    image: nginx:alpine
+    container_name: atom-nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./ssl:/etc/nginx/ssl:ro
+      - ./nginx/logs:/var/log/nginx
+    depends_on:
+      - atom-api
+      - atom-websocket
+    networks:
+      - atom-network
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5'
+          memory: 256M
+
+# ═══════════════════════════════════════════════════════════════════════════
+# VOLUMES
+# ═══════════════════════════════════════════════════════════════════════════
+
+volumes:
+  redis-data:
+    driver: local
+  postgres-data:
+    driver: local
+
+# ═══════════════════════════════════════════════════════════════════════════
+# NETWORKS
+# ═══════════════════════════════════════════════════════════════════════════
+
+networks:
+  atom-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16

@@ -1,0 +1,70 @@
+%%{init: {'theme': 'dark', 'themeVariables': { 'primaryColor': '#3EB4A2', 'primaryTextColor': '#fff', 'lineColor': '#5BA9FF', 'secondaryColor': '#1a1a1a', 'tertiaryColor': '#333', 'background': '#0a0a0a', 'mainBkg': '#1a1a1a', 'nodeBorder': '#3EB4A2'}}}%%
+
+flowchart TD
+    %% ENTRY
+    A[User Entry<br/>Login / App Open] --> B[DIAMOND HUB<br/>Central Convergence]
+
+    %% DIAMOND HUB
+    B -->|Reflect Context| C[Context Bureau]
+    B -->|Notifications / Status| N[System Signals<br/>Alerts · Tasks · Meetings]
+
+    %% CONTEXT BUREAU
+    C -->|Select / Confirm| C1[Identity<br/>Personal · Business · Gov]
+    C -->|Select / Confirm| C2[Sphere<br/>8 Canonical Spheres]
+    C -->|Optional| C3[Project Context]
+
+    C -->|Context Validated| D[Action Bureau]
+
+    %% ACTION BUREAU
+    D -->|Decide What To Do| D1[Quick Actions<br/>Create · Open · Delegate]
+    D -->|Suggestions| D2[Nova Guidance]
+    D -->|Recent| D3[Recent Workspaces]
+
+    D -->|Execute| E[Workspace]
+
+    %% WORKSPACE
+    E -->|Draft| E1[Draft State]
+    E -->|Staging| E2[Staging State]
+    E -->|Review| E3[Review & Approval]
+    E3 -->|Versioned Output| E4[Saved Version]
+
+    %% AGENTS
+    E -->|Send Task| F[Agent Workspace<br/>Isolated & Logged]
+    F -->|Proposed Result| E2
+
+    %% HUBS (GLOBAL)
+    subgraph H[UI Hubs - Max 2 Visible]
+        H1[Communication Hub<br/>Nova · Chat · Voice]
+        H2[Navigation Hub<br/>Identity · Sphere · Project]
+        H3[Workspace Hub<br/>Canvas · Tools · Diff]
+    end
+
+    B --- H
+    C --- H2
+    D --- H2
+    E --- H3
+    B --- H1
+
+    %% GOVERNANCE
+    subgraph G[Governance Layer]
+        G1[Laws]
+        G2[Budgets]
+        G3[Audit]
+        G4[Security]
+    end
+    
+    G --- C
+    G --- D
+    G --- E
+    G --- F
+
+    %% STYLING
+    style A fill:#1a1a1a,stroke:#76E6C7,color:#fff
+    style B fill:#D8B26A,stroke:#D8B26A,color:#000
+    style C fill:#1a1a1a,stroke:#FFB04D,color:#fff
+    style D fill:#1a1a1a,stroke:#5BA9FF,color:#fff
+    style E fill:#1a1a1a,stroke:#FF8BAA,color:#fff
+    style F fill:#1a1a1a,stroke:#8B5CF6,color:#fff
+    style N fill:#1a1a1a,stroke:#3EB4A2,color:#fff
+    style H fill:#0d0d0d,stroke:#333,color:#888
+    style G fill:#2F4C39,stroke:#3F7249,color:#fff

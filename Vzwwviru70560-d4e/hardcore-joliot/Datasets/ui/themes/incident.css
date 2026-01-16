@@ -1,0 +1,30 @@
+/**
+ * CHE·NU Demo System V51
+ * Theme: Incident Mode
+ * High contrast forensic view
+ */
+
+:root {
+  --bg-primary: #0d0d0d;
+  --bg-secondary: #1a0a0a;
+  --bg-tertiary: #2a1a1a;
+  --border-color: #4a2a2a;
+  --text-primary: #ff6b6b;
+  --text-secondary: #ff9999;
+  --accent-critical: #ff0000;
+  --accent-warning: #ff6600;
+}
+
+.incident-mode {
+  font-family: 'Courier New', monospace;
+}
+
+.incident-mode .event-critical {
+  background-color: rgba(255, 0, 0, 0.2);
+  border-left: 4px solid var(--accent-critical);
+}
+
+.incident-mode .event-warning {
+  background-color: rgba(255, 102, 0, 0.2);
+  border-left: 4px solid var(--accent-warning);
+}

@@ -1,0 +1,112 @@
+{
+  "$schema": "https://chenu.ai/schemas/app-config-v51.json",
+  "app": {
+    "name": "CHE·NU Demo System",
+    "version": "51.0.0",
+    "environment": "demo",
+    "debug": false,
+    "language": "fr-CA",
+    "fallback_language": "en-CA"
+  },
+  "modules": {
+    "reflection_room": {
+      "enabled": true,
+      "default_entry": true,
+      "context_loading": "opt_in",
+      "proposal_generation": true,
+      "auto_save_drafts": false
+    },
+    "memory_inspector": {
+      "enabled": true,
+      "mode": "read_only",
+      "show_relations": true,
+      "graph_view": true
+    },
+    "incident_mode": {
+      "enabled": true,
+      "max_events_display": 1000,
+      "auto_scroll": true,
+      "flagging": true
+    },
+    "demo_replay": {
+      "enabled": true,
+      "mode": "forensic",
+      "speeds": [0.5, 1, 2, 4],
+      "default_speed": 1
+    },
+    "presenter_mode": {
+      "enabled": true,
+      "overlay_position": "bottom_right",
+      "show_timer": true,
+      "show_notes": true
+    }
+  },
+  "tree_laws": {
+    "law1_no_auto_write": {
+      "enabled": true,
+      "enforcement": "hard_block",
+      "logging": true
+    },
+    "law2_no_autonomous_decision": {
+      "enabled": true,
+      "enforcement": "hard_block",
+      "logging": true
+    },
+    "law3_total_transparency": {
+      "enabled": true,
+      "enforcement": "mandatory_logging",
+      "logging": true
+    }
+  },
+  "proposals": {
+    "default_ttl_hours": 24,
+    "max_ttl_hours": 168,
+    "auto_approve": false,
+    "min_confidence": 0.7,
+    "require_human_review": true
+  },
+  "exports": {
+    "enabled": true,
+    "formats": ["pdf", "json", "html"],
+    "signing": {
+      "enabled": true,
+      "algorithm": "HMAC-SHA256",
+      "default_key": "demo_key_001"
+    },
+    "templates": {
+      "narrative": "narrative_fr.html",
+      "investor_qa": "investor_qa_fr.html",
+      "incident_report": "incident_report.html",
+      "replay_summary": "replay_summary.html"
+    }
+  },
+  "events": {
+    "store_type": "append_only",
+    "max_events_per_session": 10000,
+    "retention": "permanent",
+    "categories": ["navigation", "module", "proposal", "memory", "demo", "presenter", "export", "system", "error"]
+  },
+  "ui": {
+    "theme": "dark",
+    "available_themes": ["dark", "light", "incident"],
+    "animations": true,
+    "cognitive_load_indicator": true,
+    "sidebar_collapsed": false
+  },
+  "demo": {
+    "available_flows": ["FLOW_ULTRA_SHORT_90S", "FLOW_LIVE_DEMO"],
+    "default_flow": "FLOW_ULTRA_SHORT_90S",
+    "sample_data_enabled": true,
+    "presenter_notes_visible": true
+  },
+  "api": {
+    "base_url": "/api/v1",
+    "timeout_ms": 30000,
+    "retry_count": 3
+  },
+  "storage": {
+    "type": "local_first",
+    "sync_enabled": false,
+    "encryption": false
+  }
+}

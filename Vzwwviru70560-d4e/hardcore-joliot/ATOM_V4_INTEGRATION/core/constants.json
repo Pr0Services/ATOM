@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "AT-OM Sacred Frequency Matrix",
+  "version": "1.0.0",
+  "description": "Matrice immuable des 9 résonances fondamentales. Base de calcul pour tout le système AT-OM.",
+  "anchor_frequency": 444,
+  "tuning_system": "just_intonation",
+  "reference_note": "LA",
+  
+  "matrix": {
+    "1": {
+      "name": "Impulsion",
+      "name_en": "Impulse",
+      "frequency_hz": 111,
+      "color_hex": "#FF0000",
+      "color_name": "Rouge",
+      "color_rgb": [255, 0, 0],
+      "resonance_ratio": 0.25,
+      "distance_from_anchor": -333,
+      "animation_delay_ms": 900,
+      "animation_speed": "very_slow",
+      "density": "maximum",
+      "element": "Feu Primordial",
+      "chakra": "Racine",
+      "archetype": "Le Commencement"
+    },
+    "2": {
+      "name": "Dualité",
+      "name_en": "Duality",
+      "frequency_hz": 222,
+      "color_hex": "#FF7F00",
+      "color_name": "Orange",
+      "color_rgb": [255, 127, 0],
+      "resonance_ratio": 0.50,
+      "distance_from_anchor": -222,
+      "animation_delay_ms": 800,
+      "animation_speed": "slow",
+      "density": "high",
+      "element": "Eau",
+      "chakra": "Sacré",
+      "archetype": "La Polarité"
+    },
+    "3": {
+      "name": "Mental",
+      "name_en": "Mind",
+      "frequency_hz": 333,
+      "color_hex": "#FFFF00",
+      "color_name": "Jaune",
+      "color_rgb": [255, 255, 0],
+      "resonance_ratio": 0.75,
+      "distance_from_anchor": -111,
+      "animation_delay_ms": 700,
+      "animation_speed": "moderate",
+      "density": "medium_high",
+      "element": "Feu Solaire",
+      "chakra": "Plexus Solaire",
+      "archetype": "La Trinité"
+    },
+    "4": {
+      "name": "Structure",
+      "name_en": "Structure",
+      "frequency_hz": 444,
+      "color_hex": "#50C878",
+      "color_name": "Vert Émeraude",
+      "color_rgb": [80, 200, 120],
+      "resonance_ratio": 1.00,
+      "distance_from_anchor": 0,
+      "animation_delay_ms": 600,
+      "animation_speed": "reference",
+      "density": "balanced",
+      "element": "Air / Cœur",
+      "chakra": "Cœur",
+      "archetype": "L'Ancre",
+      "is_home_frequency": true
+    },
+    "5": {
+      "name": "Mouvement",
+      "name_en": "Movement",
+      "frequency_hz": 555,
+      "color_hex": "#87CEEB",
+      "color_name": "Bleu Ciel",
+      "color_rgb": [135, 206, 235],
+      "resonance_ratio": 1.25,
+      "distance_from_anchor": 111,
+      "animation_delay_ms": 500,
+      "animation_speed": "fast",
+      "density": "medium_low",
+      "element": "Éther",
+      "chakra": "Gorge",
+      "archetype": "Le Changement"
+    },
+    "6": {
+      "name": "Harmonie",
+      "name_en": "Harmony",
+      "frequency_hz": 666,
+      "color_hex": "#4B0082",
+      "color_name": "Indigo",
+      "color_rgb": [75, 0, 130],
+      "resonance_ratio": 1.50,
+      "distance_from_anchor": 222,
+      "animation_delay_ms": 400,
+      "animation_speed": "very_fast",
+      "density": "low",
+      "element": "Lumière",
+      "chakra": "Troisième Œil",
+      "archetype": "L'Équilibre"
+    },
+    "7": {
+      "name": "Silence",
+      "name_en": "Silence",
+      "frequency_hz": 777,
+      "color_hex": "#EE82EE",
+      "color_name": "Violet",
+      "color_rgb": [238, 130, 238],
+      "resonance_ratio": 1.75,
+      "distance_from_anchor": 333,
+      "animation_delay_ms": 300,
+      "animation_speed": "ultra_fast",
+      "density": "minimal",
+      "element": "Vide",
+      "chakra": "Couronne",
+      "archetype": "Le Mystère"
+    },
+    "8": {
+      "name": "Infini",
+      "name_en": "Infinity",
+      "frequency_hz": 888,
+      "color_hex": "#FFC0CB",
+      "color_name": "Rose",
+      "color_rgb": [255, 192, 203],
+      "resonance_ratio": 2.00,
+      "distance_from_anchor": 444,
+      "animation_delay_ms": 200,
+      "animation_speed": "instant",
+      "density": "ethereal",
+      "element": "Amour",
+      "chakra": "Âme",
+      "archetype": "Le Miroir"
+    },
+    "9": {
+      "name": "Unité",
+      "name_en": "Unity",
+      "frequency_hz": 999,
+      "color_hex": "#FFFDD0",
+      "color_name": "Blanc-Or",
+      "color_rgb": [255, 253, 208],
+      "resonance_ratio": 2.25,
+      "distance_from_anchor": 555,
+      "animation_delay_ms": 100,
+      "animation_speed": "flash",
+      "density": "transcendent",
+      "element": "Source",
+      "chakra": "Étoile",
+      "archetype": "L'Achèvement"
+    }
+  },
+  
+  "master_numbers": {
+    "11": {
+      "name": "Maître Illuminateur",
+      "frequency_hz": 1111,
+      "color_hex": "#FFFFFF",
+      "color_name": "Blanc Pur",
+      "resonance_ratio": 2.50,
+      "is_master": true
+    },
+    "22": {
+      "name": "Maître Bâtisseur",
+      "frequency_hz": 2222,
+      "color_hex": "#FFD700",
+      "color_name": "Or",
+      "resonance_ratio": 5.00,
+      "is_master": true
+    },
+    "33": {
+      "name": "Maître Enseignant",
+      "frequency_hz": 3333,
+      "color_hex": "#E6E6FA",
+      "color_name": "Lavande",
+      "resonance_ratio": 7.50,
+      "is_master": true
+    }
+  },
+  
+  "formulas": {
+    "resonance_ratio": "frequency / 444",
+    "distance_from_anchor": "frequency - 444",
+    "animation_delay": "900 - ((arithmos_value - 1) * 100)",
+    "vibrational_speed": "1000 / frequency"
+  },
+  
+  "audio_config": {
+    "base_frequency": 444,
+    "tuning": "just_intonation",
+    "waveform": "sine",
+    "attack_ms": 50,
+    "decay_ms": 100,
+    "sustain_level": 0.7,
+    "release_ms": 200
+  },
+  
+  "metadata": {
+    "created": "2025-01-08",
+    "author": "AT-OM System",
+    "immutable": true,
+    "version_locked": true
+  }
+}

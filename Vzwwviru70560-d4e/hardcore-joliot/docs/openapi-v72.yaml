@@ -1,0 +1,1101 @@
+openapi: 3.1.0
+info:
+  title: CHE·NU™ V72 API
+  description: |
+    Governed Intelligence Operating System API
+    
+    ## GOUVERNANCE > EXÉCUTION
+    
+    All sensitive actions require checkpoint approval.
+    
+    ### Principles
+    - No autonomous agents
+    - Human-in-the-loop for critical actions
+    - Complete audit trail
+    - READ-ONLY XR interface
+  version: '72.0.0'
+  contact:
+    name: CHE·NU Support
+    email: api@chenu.io
+  license:
+    name: Proprietary
+    url: https://chenu.io/license
+
+servers:
+  - url: http://localhost:8000/api/v1
+    description: Development
+  - url: https://staging.chenu.io/api/v1
+    description: Staging
+  - url: https://api.chenu.io/v1
+    description: Production
+
+tags:
+  - name: Auth
+    description: Authentication endpoints
+  - name: Spheres
+    description: 9 life spheres management
+  - name: Threads
+    description: Thread lifecycle management
+  - name: Decisions
+    description: Decision points with aging system
+  - name: Agents
+    description: AI agents marketplace
+  - name: Governance
+    description: Checkpoints and audit
+  - name: Nova
+    description: System intelligence chat
+  - name: Notifications
+    description: User notifications
+  - name: Search
+    description: Global search
+  - name: Dashboard
+    description: Dashboard statistics
+
+security:
+  - bearerAuth: []
+
+paths:
+  # ═══════════════════════════════════════════════════════════════════════════
+  # AUTH
+  # ═══════════════════════════════════════════════════════════════════════════
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Login user
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/logout:
+    post:
+      tags: [Auth]
+      summary: Logout user
+      responses:
+        '200':
+          $ref: '#/components/responses/Success'
+
+  /auth/me:
+    get:
+      tags: [Auth]
+      summary: Get current user
+      responses:
+        '200':
+          description: Current user profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResponse'
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # SPHERES
+  # ═══════════════════════════════════════════════════════════════════════════
+  /spheres:
+    get:
+      tags: [Spheres]
+      summary: List all spheres
+      responses:
+        '200':
+          description: List of 9 spheres
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SpheresResponse'
+
+  /spheres/{sphereId}:
+    get:
+      tags: [Spheres]
+      summary: Get sphere by ID
+      parameters:
+        - $ref: '#/components/parameters/sphereId'
+      responses:
+        '200':
+          description: Sphere details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SphereResponse'
+
+  /spheres/{sphereId}/stats:
+    get:
+      tags: [Spheres]
+      summary: Get sphere statistics
+      parameters:
+        - $ref: '#/components/parameters/sphereId'
+      responses:
+        '200':
+          description: Sphere statistics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SphereStatsResponse'
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # THREADS
+  # ═══════════════════════════════════════════════════════════════════════════
+  /threads:
+    get:
+      tags: [Threads]
+      summary: List threads
+      parameters:
+        - name: sphere_id
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/ThreadStatus'
+        - name: maturity_level
+          in: query
+          schema:
+            $ref: '#/components/schemas/MaturityLevel'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          description: List of threads
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThreadsResponse'
+
+    post:
+      tags: [Threads]
+      summary: Create thread
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateThreadRequest'
+      responses:
+        '201':
+          description: Thread created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThreadResponse'
+
+  /threads/{threadId}:
+    get:
+      tags: [Threads]
+      summary: Get thread by ID
+      parameters:
+        - $ref: '#/components/parameters/threadId'
+      responses:
+        '200':
+          description: Thread details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThreadResponse'
+
+  /threads/{threadId}/archive:
+    post:
+      tags: [Threads]
+      summary: Archive thread (requires checkpoint)
+      parameters:
+        - $ref: '#/components/parameters/threadId'
+      responses:
+        '200':
+          description: Checkpoint created for approval
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckpointResponse'
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # DECISIONS
+  # ═══════════════════════════════════════════════════════════════════════════
+  /decisions:
+    get:
+      tags: [Decisions]
+      summary: List decisions
+      parameters:
+        - name: sphere_id
+          in: query
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/DecisionStatus'
+        - name: aging_level
+          in: query
+          schema:
+            $ref: '#/components/schemas/AgingLevel'
+        - name: priority
+          in: query
+          schema:
+            $ref: '#/components/schemas/Priority'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          description: List of decisions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DecisionsResponse'
+
+  /decisions/make:
+    post:
+      tags: [Decisions]
+      summary: Make a decision (select option)
+      description: Creates a checkpoint for approval
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MakeDecisionRequest'
+      responses:
+        '200':
+          description: Checkpoint created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckpointResponse'
+
+  /decisions/stats:
+    get:
+      tags: [Decisions]
+      summary: Get decision statistics
+      responses:
+        '200':
+          description: Decision stats
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DecisionStatsResponse'
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # AGENTS
+  # ═══════════════════════════════════════════════════════════════════════════
+  /agents:
+    get:
+      tags: [Agents]
+      summary: List agents
+      parameters:
+        - name: level
+          in: query
+          schema:
+            type: integer
+            minimum: 0
+            maximum: 3
+        - name: domain
+          in: query
+          schema:
+            type: string
+        - name: hired_only
+          in: query
+          schema:
+            type: boolean
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          description: List of agents
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentsResponse'
+
+  /agents/hire:
+    post:
+      tags: [Agents]
+      summary: Hire an agent
+      description: Creates a checkpoint for approval
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HireAgentRequest'
+      responses:
+        '200':
+          description: Checkpoint created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckpointResponse'
+
+  /agents/suggestions:
+    post:
+      tags: [Agents]
+      summary: Get agent suggestions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AgentSuggestionContext'
+      responses:
+        '200':
+          description: Suggested agents
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentSuggestionsResponse'
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # GOVERNANCE
+  # ═══════════════════════════════════════════════════════════════════════════
+  /checkpoints:
+    get:
+      tags: [Governance]
+      summary: List checkpoints
+      parameters:
+        - name: status
+          in: query
+          schema:
+            $ref: '#/components/schemas/CheckpointStatus'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          description: List of checkpoints
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckpointsResponse'
+
+  /checkpoints/pending:
+    get:
+      tags: [Governance]
+      summary: Get pending checkpoints
+      responses:
+        '200':
+          description: Pending checkpoints
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckpointsResponse'
+
+  /checkpoints/resolve:
+    post:
+      tags: [Governance]
+      summary: Resolve checkpoint (approve/reject)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResolveCheckpointRequest'
+      responses:
+        '200':
+          description: Checkpoint resolved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckpointResponse'
+
+  /governance/metrics:
+    get:
+      tags: [Governance]
+      summary: Get governance metrics
+      responses:
+        '200':
+          description: Governance metrics
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GovernanceMetricsResponse'
+
+  /governance/audit:
+    get:
+      tags: [Governance]
+      summary: Get audit log
+      parameters:
+        - name: type
+          in: query
+          schema:
+            $ref: '#/components/schemas/AuditEventType'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          description: Audit events
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditLogResponse'
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # NOVA
+  # ═══════════════════════════════════════════════════════════════════════════
+  /nova/chat:
+    post:
+      tags: [Nova]
+      summary: Chat with Nova
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovaChatRequest'
+      responses:
+        '200':
+          description: Nova response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NovaChatResponse'
+
+  /nova/history:
+    get:
+      tags: [Nova]
+      summary: Get chat history
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/limit'
+      responses:
+        '200':
+          description: Chat history
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NovaHistoryResponse'
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # SEARCH
+  # ═══════════════════════════════════════════════════════════════════════════
+  /search:
+    get:
+      tags: [Search]
+      summary: Global search
+      parameters:
+        - name: q
+          in: query
+          required: true
+          schema:
+            type: string
+            minLength: 2
+        - name: types
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+      responses:
+        '200':
+          description: Search results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SearchResponse'
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # DASHBOARD
+  # ═══════════════════════════════════════════════════════════════════════════
+  /dashboard/stats:
+    get:
+      tags: [Dashboard]
+      summary: Get dashboard statistics
+      responses:
+        '200':
+          description: Dashboard stats
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardStatsResponse'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    sphereId:
+      name: sphereId
+      in: path
+      required: true
+      schema:
+        type: string
+    threadId:
+      name: threadId
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+    page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 20
+
+  schemas:
+    # Enums
+    ThreadStatus:
+      type: string
+      enum: [active, paused, completed, archived]
+    
+    MaturityLevel:
+      type: string
+      enum: [SEED, SPROUTING, GROWING, MATURE, RIPE]
+    
+    DecisionStatus:
+      type: string
+      enum: [pending, approved, rejected, deferred, expired]
+    
+    Priority:
+      type: string
+      enum: [low, medium, high, critical]
+    
+    AgingLevel:
+      type: string
+      enum: [GREEN, YELLOW, RED, BLINK, ARCHIVE]
+    
+    CheckpointStatus:
+      type: string
+      enum: [pending, approved, rejected, expired]
+    
+    RiskLevel:
+      type: string
+      enum: [low, medium, high, critical]
+    
+    AuditEventType:
+      type: string
+      enum: [checkpoint, decision, agent_action, data_access, config_change]
+
+    # Models
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        email:
+          type: string
+          format: email
+        username:
+          type: string
+        avatar_url:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        preferences:
+          type: object
+
+    Sphere:
+      type: object
+      properties:
+        id:
+          type: string
+        name_fr:
+          type: string
+        name_en:
+          type: string
+        icon:
+          type: string
+        color:
+          type: string
+        order:
+          type: integer
+        stats:
+          $ref: '#/components/schemas/SphereStats'
+
+    SphereStats:
+      type: object
+      properties:
+        threads_count:
+          type: integer
+        decisions_count:
+          type: integer
+        agents_count:
+          type: integer
+        files_count:
+          type: integer
+        meetings_count:
+          type: integer
+
+    Thread:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        founding_intent:
+          type: string
+        sphere_id:
+          type: string
+        status:
+          $ref: '#/components/schemas/ThreadStatus'
+        maturity_level:
+          $ref: '#/components/schemas/MaturityLevel'
+        maturity_score:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+
+    Decision:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        description:
+          type: string
+        sphere_id:
+          type: string
+        status:
+          $ref: '#/components/schemas/DecisionStatus'
+        priority:
+          $ref: '#/components/schemas/Priority'
+        aging_level:
+          $ref: '#/components/schemas/AgingLevel'
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/DecisionOption'
+        ai_suggestions:
+          type: array
+          items:
+            $ref: '#/components/schemas/AISuggestion'
+
+    DecisionOption:
+      type: object
+      properties:
+        id:
+          type: string
+        label:
+          type: string
+        description:
+          type: string
+        pros:
+          type: array
+          items:
+            type: string
+        cons:
+          type: array
+          items:
+            type: string
+
+    AISuggestion:
+      type: object
+      properties:
+        id:
+          type: string
+        type:
+          type: string
+          enum: [recommendation, warning, info]
+        content:
+          type: string
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+
+    Agent:
+      type: object
+      properties:
+        id:
+          type: string
+        name_fr:
+          type: string
+        name_en:
+          type: string
+        level:
+          type: integer
+          minimum: 0
+          maximum: 3
+        domain:
+          type: string
+        capabilities:
+          type: array
+          items:
+            type: string
+        cost:
+          type: integer
+        is_hired:
+          type: boolean
+
+    Checkpoint:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        action_type:
+          type: string
+        description:
+          type: string
+        requested_by:
+          type: string
+        status:
+          $ref: '#/components/schemas/CheckpointStatus'
+        risk_level:
+          $ref: '#/components/schemas/RiskLevel'
+        created_at:
+          type: string
+          format: date-time
+
+    # Request bodies
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          minLength: 8
+
+    CreateThreadRequest:
+      type: object
+      required: [title, founding_intent, sphere_id]
+      properties:
+        title:
+          type: string
+          minLength: 3
+          maxLength: 200
+        founding_intent:
+          type: string
+          minLength: 10
+          maxLength: 1000
+        sphere_id:
+          type: string
+
+    MakeDecisionRequest:
+      type: object
+      required: [decision_id, selected_option_id]
+      properties:
+        decision_id:
+          type: string
+        selected_option_id:
+          type: string
+        notes:
+          type: string
+
+    HireAgentRequest:
+      type: object
+      required: [agent_id]
+      properties:
+        agent_id:
+          type: string
+        sphere_id:
+          type: string
+
+    AgentSuggestionContext:
+      type: object
+      properties:
+        sphere_id:
+          type: string
+        thread_id:
+          type: string
+        task_description:
+          type: string
+
+    ResolveCheckpointRequest:
+      type: object
+      required: [checkpoint_id, action]
+      properties:
+        checkpoint_id:
+          type: string
+        action:
+          type: string
+          enum: [approve, reject]
+        notes:
+          type: string
+
+    NovaChatRequest:
+      type: object
+      required: [message]
+      properties:
+        message:
+          type: string
+          maxLength: 4000
+        context:
+          type: object
+
+    # Responses
+    LoginResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            user:
+              $ref: '#/components/schemas/User'
+            access_token:
+              type: string
+            refresh_token:
+              type: string
+            expires_at:
+              type: string
+              format: date-time
+
+    UserResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/User'
+
+    SpheresResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Sphere'
+
+    SphereResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/Sphere'
+
+    SphereStatsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/SphereStats'
+
+    ThreadsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Thread'
+
+    ThreadResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/Thread'
+
+    DecisionsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Decision'
+
+    DecisionStatsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            total:
+              type: integer
+            by_aging:
+              type: object
+            by_priority:
+              type: object
+
+    AgentsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Agent'
+
+    AgentSuggestionsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              agent_id:
+                type: string
+              reason:
+                type: string
+              relevance_score:
+                type: number
+
+    CheckpointsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Checkpoint'
+
+    CheckpointResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          $ref: '#/components/schemas/Checkpoint'
+
+    GovernanceMetricsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            checkpoints:
+              type: object
+            agents:
+              type: object
+            decisions:
+              type: object
+
+    AuditLogResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            type: object
+
+    NovaChatResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            message:
+              type: object
+            suggestions:
+              type: array
+            checkpoint:
+              $ref: '#/components/schemas/Checkpoint'
+
+    NovaHistoryResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: array
+          items:
+            type: object
+
+    SearchResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            threads:
+              type: array
+            decisions:
+              type: array
+            agents:
+              type: array
+            files:
+              type: array
+
+    DashboardStatsResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        data:
+          type: object
+          properties:
+            decisions_pending:
+              type: integer
+            threads_active:
+              type: integer
+            agents_hired:
+              type: integer
+            checkpoints_pending:
+              type: integer
+            governance_score:
+              type: integer
+
+  responses:
+    Success:
+      description: Success
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+              message:
+                type: string
+
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              success:
+                type: boolean
+                example: false
+              error:
+                type: object
+                properties:
+                  code:
+                    type: string
+                    example: UNAUTHORIZED
+                  message:
+                    type: string

@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(test:*)",
+      "Bash(wc:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npm test:*)",
+      "Bash(timeout 20 npm run dev:*)",
+      "Bash(npm run build:*)",
+      "Bash(cd:*)",
+      "Bash(dir:*)",
+      "Bash(findstr:*)",
+      "Bash(powershell -Command \"Get-ChildItem ''D:\\\\Vzwwviru70560-d4e\\\\hardcore-joliot\\\\backend\\\\api\\\\routes'' -Name\")",
+      "Bash(powershell -Command \"Get-ChildItem ''D:\\\\Vzwwviru70560-d4e\\\\hardcore-joliot\\\\backend\\\\routers'' | ForEach-Object { Write-Output \\($_Name\\) }\")",
+      "Bash(xargs ls:*)",
+      "Bash(python3:*)",
+      "Bash(python -m py_compile:*)",
+      "Bash(node --check:*)",
+      "Bash(python:*)"
+    ]
+  }
+}

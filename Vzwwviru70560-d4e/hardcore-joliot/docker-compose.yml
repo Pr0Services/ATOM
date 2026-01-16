@@ -1,0 +1,130 @@
+version: '3.8'
+
+# CHE·NU™ V75 — Docker Compose Production
+# =========================================
+
+services:
+  # ===========================================
+  # BACKEND - FastAPI
+  # ===========================================
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: chenu-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - PORT=8000
+      - HOST=0.0.0.0
+      - DATABASE_URL=postgresql://chenu:chenu@postgres:5432/chenu
+      - REDIS_URL=redis://redis:6379/0
+      - ENV=production
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - ./backend:/app
+    networks:
+      - chenu-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/v2/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ===========================================
+  # FRONTEND - React/Vite
+  # ===========================================
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: chenu-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - chenu-network
+    restart: unless-stopped
+
+  # ===========================================
+  # DATABASE - PostgreSQL
+  # ===========================================
+  postgres:
+    image: postgres:15-alpine
+    container_name: chenu-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=chenu
+      - POSTGRES_PASSWORD=chenu
+      - POSTGRES_DB=chenu
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - chenu-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U chenu"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ===========================================
+  # CACHE - Redis
+  # ===========================================
+  redis:
+    image: redis:7-alpine
+    container_name: chenu-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - chenu-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ===========================================
+  # OPA - Open Policy Agent (Governance)
+  # ===========================================
+  opa:
+    image: openpolicyagent/opa:latest
+    container_name: chenu-opa
+    ports:
+      - "8181:8181"
+    command:
+      - "run"
+      - "--server"
+      - "--log-level=info"
+    volumes:
+      - ./backend/governance/opa/policies:/policies
+    networks:
+      - chenu-network
+    restart: unless-stopped
+
+# ===========================================
+# NETWORKS
+# ===========================================
+networks:
+  chenu-network:
+    driver: bridge
+
+# ===========================================
+# VOLUMES
+# ===========================================
+volumes:
+  postgres_data:
+  redis_data:

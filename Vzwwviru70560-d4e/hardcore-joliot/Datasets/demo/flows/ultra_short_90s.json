@@ -1,0 +1,112 @@
+{
+  "flow_id": "FLOW_ULTRA_SHORT_90S",
+  "name": "Ultra-Court 90 Secondes",
+  "name_en": "Ultra-Short 90 Seconds",
+  "description": "Démonstration rapide pour elevator pitch couvrant les concepts essentiels",
+  "duration_estimate": "90 seconds",
+  "target_audience": ["investors", "executives", "first_contact"],
+  "version": "1.0",
+  "created_at": "2025-12-01T00:00:00Z",
+  "steps": [
+    {
+      "step_id": "STEP_01_WELCOME",
+      "step_number": 1,
+      "title": "Bienvenue CHE·NU",
+      "title_en": "Welcome to CHE·NU",
+      "description": "Introduction au système d'intelligence gouvernée",
+      "duration_seconds": 15,
+      "target_module": "public_site",
+      "presenter_notes": "Commencez par le nom - CHE·NU signifie 'Chez Nous'. Expliquez que c'est un système d'IA gouverné, pas autonome.",
+      "talking_points": [
+        "CHE·NU = 'Chez Nous' en français",
+        "Governed Intelligence Operating System",
+        "Conçu pour l'industrie de la construction au Québec"
+      ],
+      "visual_cues": ["Logo animation", "Tagline display"],
+      "transition": "fade"
+    },
+    {
+      "step_id": "STEP_02_TREE_LAWS",
+      "step_number": 2,
+      "title": "Les Tree Laws",
+      "title_en": "The Tree Laws",
+      "description": "Présentation des trois lois constitutionnelles",
+      "duration_seconds": 20,
+      "target_module": "public_site",
+      "presenter_notes": "CRUCIAL: Insistez sur le fait que ces lois sont IMMUABLES. Elles ne peuvent jamais être contournées.",
+      "talking_points": [
+        "Loi 1: Pas d'écriture mémoire automatique",
+        "Loi 2: Pas de décision autonome",
+        "Loi 3: Transparence totale",
+        "Ces lois sont constitutionnelles et immuables"
+      ],
+      "visual_cues": ["Tree Laws banner", "Checkmarks animation"],
+      "transition": "slide"
+    },
+    {
+      "step_id": "STEP_03_REFLECTION",
+      "step_number": 3,
+      "title": "Salle de Réflexion",
+      "title_en": "Reflection Room",
+      "description": "Démonstration du module principal sans contexte imposé",
+      "duration_seconds": 20,
+      "target_module": "reflection_room",
+      "presenter_notes": "Montrez que l'utilisateur entre SANS contexte préchargé. Les propositions sont générées mais attendent l'approbation humaine.",
+      "talking_points": [
+        "Point d'entrée principal",
+        "Aucun contexte imposé",
+        "Propositions générées automatiquement",
+        "Mais jamais appliquées sans approbation"
+      ],
+      "demo_actions": [
+        {"action": "add_block", "content": "Exemple de pensée"},
+        {"action": "show_proposal", "highlight": true}
+      ],
+      "transition": "slide"
+    },
+    {
+      "step_id": "STEP_04_INCIDENT",
+      "step_number": 4,
+      "title": "Mode Incident",
+      "title_en": "Incident Mode",
+      "description": "Démonstration de la transparence totale",
+      "duration_seconds": 20,
+      "target_module": "incident_mode",
+      "presenter_notes": "Montrez que TOUT est tracé. Chaque événement est visible. C'est la preuve de la Loi 3.",
+      "talking_points": [
+        "Chaque action est enregistrée",
+        "Timeline complète des événements",
+        "Exportable pour audit",
+        "Rien n'est caché"
+      ],
+      "visual_cues": ["Event list scrolling", "Timeline markers"],
+      "transition": "slide"
+    },
+    {
+      "step_id": "STEP_05_CONCLUSION",
+      "step_number": 5,
+      "title": "Conclusion",
+      "title_en": "Conclusion",
+      "description": "Récapitulatif et prochaines étapes",
+      "duration_seconds": 15,
+      "target_module": "public_site",
+      "presenter_notes": "Terminez en répétant le message clé: CHE·NU est gouverné, pas autonome. Proposez une démo complète.",
+      "talking_points": [
+        "CHE·NU: L'IA propose, l'humain dispose",
+        "Semi-living: mémoire + trace + attente",
+        "Questions?",
+        "Démo complète disponible"
+      ],
+      "call_to_action": "Voulez-vous voir la démo complète?",
+      "transition": "fade"
+    }
+  ],
+  "metadata": {
+    "total_duration_seconds": 90,
+    "step_count": 5,
+    "modules_covered": ["public_site", "reflection_room", "incident_mode"],
+    "key_concepts": ["tree_laws", "governance", "transparency", "proposals"],
+    "recommended_for": "first_meeting",
+    "follow_up": "FLOW_LIVE_DEMO"
+  }
+}

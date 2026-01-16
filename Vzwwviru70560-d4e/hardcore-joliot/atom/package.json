@@ -1,0 +1,35 @@
+{
+  "name": "at-om",
+  "version": "4.0.0",
+  "description": "🔱 AT·OM — Arche des Résonances Universelles",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "init": "npm install && echo '🔱 AT·OM initialisé'",
+    "calibrate": "echo '⚡ Calibration des fréquences...' && echo '✅ 999 Hz aligné'",
+    "activate": "npm start"
+  },
+  "keywords": [
+    "atom",
+    "resonance",
+    "frequency",
+    "sacred",
+    "geometry",
+    "kryon",
+    "civilizations"
+  ],
+  "author": "Jonathan Rodrigue (Oracle 17)",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/username/AT_OM"
+  }
+}

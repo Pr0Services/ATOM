@@ -1,0 +1,65 @@
+{
+  "report_id": "VER_REPORT_001",
+  "report_type": "signature_verification",
+  "generated_at": "2025-12-30T18:00:00Z",
+  "summary": {
+    "total_exports_verified": 10,
+    "valid_signatures": 10,
+    "invalid_signatures": 0,
+    "verification_success_rate": 1.0
+  },
+  "verifications": [
+    {
+      "export_id": "EXP_20251101_001",
+      "export_type": "demo_narrative",
+      "verification_result": {
+        "valid": true,
+        "errors": [],
+        "key_id": "demo_key_001",
+        "verified_at": "2025-12-30T18:00:01Z"
+      },
+      "signature": {
+        "algorithm": "HMAC-SHA256",
+        "content_hash": "a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456"
+      }
+    },
+    {
+      "export_id": "EXP_20251104_002",
+      "export_type": "investor_qa",
+      "verification_result": {
+        "valid": true,
+        "errors": [],
+        "key_id": "demo_key_001",
+        "verified_at": "2025-12-30T18:00:02Z"
+      },
+      "signature": {
+        "algorithm": "HMAC-SHA256",
+        "content_hash": "b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef1234567a"
+      }
+    },
+    {
+      "export_id": "EXP_20251107_003",
+      "export_type": "incident_report",
+      "verification_result": {
+        "valid": true,
+        "errors": [],
+        "key_id": "demo_key_002",
+        "verified_at": "2025-12-30T18:00:03Z"
+      },
+      "signature": {
+        "algorithm": "HMAC-SHA384",
+        "content_hash": "c3d4e5f6789012345678901234567890abcdef1234567890abcdef1234567ab2"
+      }
+    }
+  ],
+  "key_status": {
+    "demo_key_001": "active",
+    "demo_key_002": "active",
+    "demo_key_003": "active"
+  },
+  "recommendations": [
+    "All signatures are valid",
+    "Consider rotating keys after 1000 signatures",
+    "Enable Ed25519 for production use"
+  ]
+}

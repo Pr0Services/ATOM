@@ -1,0 +1,31 @@
+{
+  "layout_version": "0.1",
+  "title": "AT-OM Encyclopedia Entry Layout",
+  "sections": [
+    {
+      "id": "overview",
+      "label": "Overview",
+      "fields": ["title", "summary", "anchors"]
+    },
+    {
+      "id": "arithmos",
+      "label": "Arithmos (Number)",
+      "fields": ["raw", "reduced", "frequency_hz", "color_hex", "glyph_svg"]
+    },
+    {
+      "id": "logos",
+      "label": "Logos (Language)",
+      "fields": ["root_phonemes", "etymology_notes", "translations"]
+    },
+    {
+      "id": "nexus",
+      "label": "Nexus (Causality)",
+      "fields": ["causes", "effects", "link_types", "confidence"]
+    },
+    {
+      "id": "sources",
+      "label": "Sources & Audit",
+      "fields": ["citations", "created_by", "created_at", "review_state"]
+    }
+  ]
+}

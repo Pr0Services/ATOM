@@ -1,0 +1,54 @@
+# =============================================================================
+# AT·OM WEBSOCKET - DOCKERFILE
+# Canon AT·OM - L'Essaim Real-Time Server
+# Optimized for 350+ Simultaneous WebSocket Connections
+# =============================================================================
+
+FROM python:3.11-slim
+
+# Labels
+LABEL maintainer="AT·OM System"
+LABEL description="AT·OM WebSocket Server - L'Essaim Real-Time"
+LABEL version="1.0.0"
+
+# Environment
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
+
+# Optimize for high connection count
+ENV UV_THREADPOOL_SIZE=64
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy requirements first for caching
+COPY requirements.txt .
+RUN pip install --no-cache-dir --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt && \
+    pip install --no-cache-dir websockets redis aioredis
+
+# Copy application code
+COPY . .
+
+# Create non-root user for security
+RUN adduser --disabled-password --gecos '' atomuser && \
+    chown -R atomuser:atomuser /app
+
+USER atomuser
+
+# Expose WebSocket port
+EXPOSE 8001
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8001/health || exit 1
+
+# Run WebSocket server
+# Single worker with async for maximum WebSocket performance
+CMD ["uvicorn", "websocket_server:app", "--host", "0.0.0.0", "--port", "8001", "--ws", "websockets", "--loop", "uvloop"]

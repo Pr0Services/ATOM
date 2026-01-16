@@ -1,0 +1,199 @@
+name: CHE·NU R&D Governance Check
+
+on:
+  pull_request:
+    paths:
+      - 'docs/proposals/**/*.md'
+      - 'backend/**/*.py'
+      - 'frontend/**/*.ts'
+      - 'frontend/**/*.tsx'
+  push:
+    branches:
+      - main
+      - develop
+
+jobs:
+  rnd-lint:
+    name: R&D Proposal Lint
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Full history for repo scan
+      
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      
+      - name: Lint all proposals
+        id: lint
+        run: |
+          # Find all proposal files
+          PROPOSALS=$(find docs/proposals -name "*.md" -type f)
+          
+          if [ -z "$PROPOSALS" ]; then
+            echo "No proposals found, skipping lint"
+            exit 0
+          fi
+          
+          # Lint each proposal
+          ERRORS=0
+          for proposal in $PROPOSALS; do
+            echo "Linting: $proposal"
+            
+            python3 tools/chenu_rnd_lint_allinone.py \
+              --in "$proposal" \
+              --repo . \
+              --json "report-$(basename $proposal).json" \
+              --fail-on-warn
+            
+            if [ $? -ne 0 ]; then
+              ERRORS=$((ERRORS + 1))
+              echo "❌ FAILED: $proposal"
+            else
+              echo "✅ PASSED: $proposal"
+            fi
+          done
+          
+          if [ $ERRORS -gt 0 ]; then
+            echo "::error::$ERRORS proposal(s) failed R&D lint"
+            exit 1
+          fi
+      
+      - name: Upload lint reports
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: rnd-lint-reports
+          path: report-*.json
+          retention-days: 30
+      
+      - name: Comment on PR (if failed)
+        if: failure() && github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `## ❌ R&D Governance Check Failed
+              
+              One or more R&D proposals failed validation.
+              
+              **Next steps:**
+              1. Review lint reports in artifacts
+              2. Fix violations based on suggestions
+              3. Re-run lint locally: \`python3 tools/chenu_rnd_lint_allinone.py --in proposal.md\`
+              4. Push fixes
+              
+              **Rules enforced:**
+              - ✅ 9 frozen spheres only
+              - ✅ 4 connection types (Projection/Request/Reference/Delegation)
+              - ✅ Required fields present
+              - ✅ Human validation explicit
+              - ✅ No forbidden automation patterns
+              - ✅ No My Team automation
+              
+              See [R&D System Documentation](../docs/CHENU_RD_SYSTEM_CANONICAL_v1.md) for details.`
+            })
+
+  architecture-freeze-check:
+    name: Architecture Freeze Verification
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Check for sphere additions
+        run: |
+          # Check if any code tries to add new spheres
+          VIOLATIONS=$(grep -r "sphere.*=" backend/ frontend/ | \
+            grep -v "Personal\|Business\|Government & Institutions\|Creative Studio\|Community\|Social & Media\|Entertainment\|My Team\|Scholar" || true)
+          
+          if [ ! -z "$VIOLATIONS" ]; then
+            echo "::error::Potential sphere freeze violation detected"
+            echo "$VIOLATIONS"
+            exit 1
+          fi
+          
+          echo "✅ Architecture freeze intact"
+      
+      - name: Check for new connection types
+        run: |
+          # Check if any code tries to add connection types beyond the 4 allowed
+          VIOLATIONS=$(grep -rE "connection.*type.*=" backend/ frontend/ | \
+            grep -v "Projection\|Request\|Reference\|Delegation" || true)
+          
+          if [ ! -z "$VIOLATIONS" ]; then
+            echo "::warning::Potential new connection type detected - verify manually"
+            echo "$VIOLATIONS"
+          fi
+
+  canonical-validation-gate-check:
+    name: Canonical Validation Gate Integrity
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      
+      - name: Verify canonical tables exist
+        run: |
+          # Check migration files for canonical tables
+          REQUIRED_TABLES=(
+            "agent_executions"
+            "isolated_execution_results"
+            "execution_validations"
+            "execution_validation_decisions"
+            "verified_changes_log"
+            "cross_sphere_requests"
+          )
+          
+          for table in "${REQUIRED_TABLES[@]}"; do
+            if ! grep -r "CREATE TABLE.*$table" backend/alembic/versions/; then
+              echo "::error::Canonical table missing: $table"
+              exit 1
+            fi
+          done
+          
+          echo "✅ All canonical tables present"
+      
+      - name: Check for autonomy zone violations
+        run: |
+          # Check for direct writes outside autonomy zone
+          VIOLATIONS=$(grep -rE "db\.(commit|flush|add)" backend/ | \
+            grep -v "isolated_execution_results\|quarantine" || true)
+          
+          if [ ! -z "$VIOLATIONS" ]; then
+            echo "::warning::Potential autonomy zone bypass - verify manually"
+            echo "$VIOLATIONS"
+          fi
+
+  summary:
+    name: R&D Governance Summary
+    runs-on: ubuntu-latest
+    needs: [rnd-lint, architecture-freeze-check, canonical-validation-gate-check]
+    if: always()
+    
+    steps:
+      - name: Generate summary
+        run: |
+          echo "# CHE·NU R&D Governance Check Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Status:** ${{ needs.rnd-lint.result == 'success' && needs.architecture-freeze-check.result == 'success' && needs.canonical-validation-gate-check.result == 'success' && '✅ PASS' || '❌ FAIL' }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Checks" >> $GITHUB_STEP_SUMMARY
+          echo "- R&D Lint: ${{ needs.rnd-lint.result == 'success' && '✅' || '❌' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Architecture Freeze: ${{ needs.architecture-freeze-check.result == 'success' && '✅' || '❌' }}" >> $GITHUB_STEP_SUMMARY
+          echo "- Canonical Validation Gate: ${{ needs.canonical-validation-gate-check.result == 'success' && '✅' || '❌' }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Principles Enforced" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Human sovereignty" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ No silent actions" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Separation cognition/execution" >> $GITHUB_STEP_SUMMARY
+          echo "- ✅ Architecture freeze" >> $GITHUB_STEP_SUMMARY

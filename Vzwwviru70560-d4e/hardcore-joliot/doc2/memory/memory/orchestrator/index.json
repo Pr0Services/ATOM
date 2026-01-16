@@ -1,0 +1,18 @@
+{
+  "role": "orchestrator",
+  "name": "Orchestrator",
+  "description": "CHE·NU orchestrator logic & routing rules",
+  "files": [
+    "role.md",
+    "rules.md",
+    "style.md",
+    "examples.md",
+    "forbidden.md",
+    "notes.md",
+    "integration.md",
+    "todo.md"
+  ],
+  "safe": true,
+  "non_autonomous": true,
+  "version": "1.0"
+}

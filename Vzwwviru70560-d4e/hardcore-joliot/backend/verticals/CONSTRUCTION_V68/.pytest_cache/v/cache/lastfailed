@@ -1,0 +1,4 @@
+{
+  "backend/tests/test_construction.py::test_rfis_chronological_rule5": true,
+  "backend/tests/test_construction.py::test_health_check": true
+}

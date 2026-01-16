@@ -1,0 +1,10 @@
+{
+  "schemas": [
+    "XR_SCENE.schema.json",
+    "UC_MAP.schema.json",
+    "HF_SCENE.schema.json",
+    "MORPHOTYPE.schema.json"
+  ],
+  "safe": true,
+  "version": "1.0"
+}

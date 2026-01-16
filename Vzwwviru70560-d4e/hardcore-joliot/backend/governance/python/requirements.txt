@@ -1,0 +1,18 @@
+# ============================================================================
+# CHE·NU™ V69 — GOVERNANCE DEPENDENCIES
+# ============================================================================
+
+# Core
+pydantic>=2.0.0
+httpx>=0.25.0
+
+# FastAPI (optional, for middleware)
+fastapi>=0.100.0
+starlette>=0.27.0
+
+# Testing
+pytest>=7.0.0
+pytest-asyncio>=0.21.0
+
+# Logging
+structlog>=23.0.0

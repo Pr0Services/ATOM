@@ -1,0 +1,3005 @@
+{
+  "memory_units": [
+    {
+      "unit_id": "MU_001",
+      "type": "core",
+      "sphere": "system",
+      "created_at": "2025-10-21T00:00:00Z",
+      "updated_at": "2025-10-23T00:00:00Z",
+      "version": 8,
+      "status": "active",
+      "content": {
+        "title": "Identit\u00e9 CHE\u00b7NU",
+        "summary": "Description d\u00e9taill\u00e9e de Identit\u00e9 CHE\u00b7NU pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_066",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "core",
+        "system",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.94,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-10-21T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_002",
+      "type": "core",
+      "sphere": "governance",
+      "created_at": "2025-03-07T00:00:00Z",
+      "updated_at": "2025-03-21T00:00:00Z",
+      "version": 5,
+      "status": "active",
+      "content": {
+        "title": "Tree Laws",
+        "summary": "Description d\u00e9taill\u00e9e de Tree Laws pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_062",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "core",
+        "governance",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.93,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-03-07T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_003",
+      "type": "contract",
+      "sphere": "governance",
+      "created_at": "2025-03-18T00:00:00Z",
+      "updated_at": "2025-03-27T00:00:00Z",
+      "version": 7,
+      "status": "active",
+      "content": {
+        "title": "Contrat Proposition",
+        "summary": "Description d\u00e9taill\u00e9e de Contrat Proposition pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_029",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "contract",
+        "governance",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.86,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-03-18T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_004",
+      "type": "system",
+      "sphere": "governance",
+      "created_at": "2025-08-25T00:00:00Z",
+      "updated_at": "2025-10-18T00:00:00Z",
+      "version": 2,
+      "status": "active",
+      "content": {
+        "title": "Syst\u00e8me Audit",
+        "summary": "Description d\u00e9taill\u00e9e de Syst\u00e8me Audit pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_038",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "system",
+        "governance",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.97,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-08-25T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_005",
+      "type": "module",
+      "sphere": "system",
+      "created_at": "2025-03-20T00:00:00Z",
+      "updated_at": "2025-04-10T00:00:00Z",
+      "version": 8,
+      "status": "active",
+      "content": {
+        "title": "Salle R\u00e9flexion",
+        "summary": "Description d\u00e9taill\u00e9e de Salle R\u00e9flexion pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_008",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "module",
+        "system",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.98,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-03-20T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_006",
+      "type": "module",
+      "sphere": "system",
+      "created_at": "2025-08-21T00:00:00Z",
+      "updated_at": "2025-09-10T00:00:00Z",
+      "version": 1,
+      "status": "active",
+      "content": {
+        "title": "Mode Incident",
+        "summary": "Description d\u00e9taill\u00e9e de Mode Incident pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_043",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "module",
+        "system",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.96,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-08-21T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_007",
+      "type": "module",
+      "sphere": "system",
+      "created_at": "2025-07-19T00:00:00Z",
+      "updated_at": "2025-07-19T00:00:00Z",
+      "version": 10,
+      "status": "active",
+      "content": {
+        "title": "Inspecteur M\u00e9moire",
+        "summary": "Description d\u00e9taill\u00e9e de Inspecteur M\u00e9moire pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_049",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "module",
+        "system",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.95,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-07-19T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_008",
+      "type": "module",
+      "sphere": "system",
+      "created_at": "2025-09-13T00:00:00Z",
+      "updated_at": "2025-09-18T00:00:00Z",
+      "version": 10,
+      "status": "active",
+      "content": {
+        "title": "Demo Replay",
+        "summary": "Description d\u00e9taill\u00e9e de Demo Replay pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_021",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "module",
+        "system",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.88,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-09-13T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_009",
+      "type": "module",
+      "sphere": "system",
+      "created_at": "2025-08-17T00:00:00Z",
+      "updated_at": "2025-09-03T00:00:00Z",
+      "version": 4,
+      "status": "active",
+      "content": {
+        "title": "Mode Pr\u00e9sentateur",
+        "summary": "Description d\u00e9taill\u00e9e de Mode Pr\u00e9sentateur pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_031",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "module",
+        "system",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.99,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-08-17T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_010",
+      "type": "system",
+      "sphere": "agents",
+      "created_at": "2025-07-02T00:00:00Z",
+      "updated_at": "2025-07-13T00:00:00Z",
+      "version": 1,
+      "status": "active",
+      "content": {
+        "title": "Hi\u00e9rarchie Agents",
+        "summary": "Description d\u00e9taill\u00e9e de Hi\u00e9rarchie Agents pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_069",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "system",
+        "agents",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.96,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-07-02T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_011",
+      "type": "system",
+      "sphere": "agents",
+      "created_at": "2025-05-11T00:00:00Z",
+      "updated_at": "2025-06-27T00:00:00Z",
+      "version": 5,
+      "status": "active",
+      "content": {
+        "title": "Routage Multi-LLM",
+        "summary": "Description d\u00e9taill\u00e9e de Routage Multi-LLM pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_013",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "system",
+        "agents",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.95,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-05-11T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_012",
+      "type": "config",
+      "sphere": "agents",
+      "created_at": "2025-02-09T00:00:00Z",
+      "updated_at": "2025-03-05T00:00:00Z",
+      "version": 6,
+      "status": "active",
+      "content": {
+        "title": "Config Agents",
+        "summary": "Description d\u00e9taill\u00e9e de Config Agents pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_033",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "config",
+        "agents",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.95,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-02-09T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_013",
+      "type": "agent",
+      "sphere": "agents",
+      "created_at": "2025-10-21T00:00:00Z",
+      "updated_at": "2025-12-12T00:00:00Z",
+      "version": 7,
+      "status": "active",
+      "content": {
+        "title": "Agent Planning L1",
+        "summary": "Description d\u00e9taill\u00e9e de Agent Planning L1 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_074",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "agent",
+        "agents",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.94,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-10-21T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_014",
+      "type": "agent",
+      "sphere": "agents",
+      "created_at": "2025-07-25T00:00:00Z",
+      "updated_at": "2025-08-27T00:00:00Z",
+      "version": 2,
+      "status": "active",
+      "content": {
+        "title": "Agent Estimation L1",
+        "summary": "Description d\u00e9taill\u00e9e de Agent Estimation L1 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_035",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "agent",
+        "agents",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.99,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-07-25T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_015",
+      "type": "agent",
+      "sphere": "agents",
+      "created_at": "2025-06-30T00:00:00Z",
+      "updated_at": "2025-08-17T00:00:00Z",
+      "version": 6,
+      "status": "active",
+      "content": {
+        "title": "Agent Conformit\u00e9 L1",
+        "summary": "Description d\u00e9taill\u00e9e de Agent Conformit\u00e9 L1 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_041",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "agent",
+        "agents",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.9,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-06-30T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_016",
+      "type": "agent",
+      "sphere": "agents",
+      "created_at": "2025-09-01T00:00:00Z",
+      "updated_at": "2025-10-16T00:00:00Z",
+      "version": 1,
+      "status": "active",
+      "content": {
+        "title": "Agent Qualit\u00e9 L1",
+        "summary": "Description d\u00e9taill\u00e9e de Agent Qualit\u00e9 L1 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_026",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "agent",
+        "agents",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.91,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-09-01T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_017",
+      "type": "agent",
+      "sphere": "agents",
+      "created_at": "2025-03-06T00:00:00Z",
+      "updated_at": "2025-03-31T00:00:00Z",
+      "version": 4,
+      "status": "active",
+      "content": {
+        "title": "Agent S\u00e9curit\u00e9 L1",
+        "summary": "Description d\u00e9taill\u00e9e de Agent S\u00e9curit\u00e9 L1 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_045",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "agent",
+        "agents",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.89,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-03-06T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_018",
+      "type": "agent",
+      "sphere": "agents",
+      "created_at": "2025-03-20T00:00:00Z",
+      "updated_at": "2025-03-24T00:00:00Z",
+      "version": 8,
+      "status": "active",
+      "content": {
+        "title": "Agent Documents L1",
+        "summary": "Description d\u00e9taill\u00e9e de Agent Documents L1 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_066",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "agent",
+        "agents",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.97,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-03-20T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_019",
+      "type": "agent",
+      "sphere": "agents",
+      "created_at": "2025-02-11T00:00:00Z",
+      "updated_at": "2025-04-10T00:00:00Z",
+      "version": 1,
+      "status": "active",
+      "content": {
+        "title": "Agent Communication L1",
+        "summary": "Description d\u00e9taill\u00e9e de Agent Communication L1 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_045",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "agent",
+        "agents",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.85,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-02-11T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_020",
+      "type": "agent",
+      "sphere": "agents",
+      "created_at": "2025-06-25T00:00:00Z",
+      "updated_at": "2025-07-19T00:00:00Z",
+      "version": 2,
+      "status": "active",
+      "content": {
+        "title": "Agent Cr\u00e9atif L1",
+        "summary": "Description d\u00e9taill\u00e9e de Agent Cr\u00e9atif L1 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_018",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "agent",
+        "agents",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.86,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-06-25T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_021",
+      "type": "agent",
+      "sphere": "agents",
+      "created_at": "2025-09-06T00:00:00Z",
+      "updated_at": "2025-09-11T00:00:00Z",
+      "version": 2,
+      "status": "active",
+      "content": {
+        "title": "Agent Scheduling L2",
+        "summary": "Description d\u00e9taill\u00e9e de Agent Scheduling L2 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_043",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "agent",
+        "agents",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.96,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-09-06T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_022",
+      "type": "agent",
+      "sphere": "agents",
+      "created_at": "2025-10-24T00:00:00Z",
+      "updated_at": "2025-10-29T00:00:00Z",
+      "version": 1,
+      "status": "active",
+      "content": {
+        "title": "Agent RBQ L2",
+        "summary": "Description d\u00e9taill\u00e9e de Agent RBQ L2 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_027",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "agent",
+        "agents",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.89,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-10-24T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_023",
+      "type": "agent",
+      "sphere": "agents",
+      "created_at": "2025-02-18T00:00:00Z",
+      "updated_at": "2025-03-02T00:00:00Z",
+      "version": 8,
+      "status": "active",
+      "content": {
+        "title": "Calc B\u00e9ton L3",
+        "summary": "Description d\u00e9taill\u00e9e de Calc B\u00e9ton L3 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_044",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "agent",
+        "agents",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.92,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-02-18T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_024",
+      "type": "agent",
+      "sphere": "agents",
+      "created_at": "2025-10-16T00:00:00Z",
+      "updated_at": "2025-11-08T00:00:00Z",
+      "version": 5,
+      "status": "active",
+      "content": {
+        "title": "Calc Acier L3",
+        "summary": "Description d\u00e9taill\u00e9e de Calc Acier L3 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_074",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "agent",
+        "agents",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.96,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-10-16T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_025",
+      "type": "agent",
+      "sphere": "agents",
+      "created_at": "2025-07-27T00:00:00Z",
+      "updated_at": "2025-09-03T00:00:00Z",
+      "version": 6,
+      "status": "active",
+      "content": {
+        "title": "Calc Bois L3",
+        "summary": "Description d\u00e9taill\u00e9e de Calc Bois L3 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_034",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "agent",
+        "agents",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.94,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-07-27T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_026",
+      "type": "agent",
+      "sphere": "agents",
+      "created_at": "2025-08-24T00:00:00Z",
+      "updated_at": "2025-09-26T00:00:00Z",
+      "version": 8,
+      "status": "active",
+      "content": {
+        "title": "Calc \u00c9lectrique L3",
+        "summary": "Description d\u00e9taill\u00e9e de Calc \u00c9lectrique L3 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_063",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "agent",
+        "agents",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.99,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-08-24T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_027",
+      "type": "agent",
+      "sphere": "agents",
+      "created_at": "2025-10-22T00:00:00Z",
+      "updated_at": "2025-12-16T00:00:00Z",
+      "version": 3,
+      "status": "active",
+      "content": {
+        "title": "Calc Plomberie L3",
+        "summary": "Description d\u00e9taill\u00e9e de Calc Plomberie L3 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_067",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "agent",
+        "agents",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.89,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-10-22T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_028",
+      "type": "agent",
+      "sphere": "agents",
+      "created_at": "2025-09-03T00:00:00Z",
+      "updated_at": "2025-10-02T00:00:00Z",
+      "version": 6,
+      "status": "active",
+      "content": {
+        "title": "Calc CVAC L3",
+        "summary": "Description d\u00e9taill\u00e9e de Calc CVAC L3 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_022",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "agent",
+        "agents",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.89,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-09-03T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_029",
+      "type": "agent",
+      "sphere": "agents",
+      "created_at": "2025-05-17T00:00:00Z",
+      "updated_at": "2025-06-25T00:00:00Z",
+      "version": 4,
+      "status": "active",
+      "content": {
+        "title": "Calc Isolation L3",
+        "summary": "Description d\u00e9taill\u00e9e de Calc Isolation L3 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_003",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "agent",
+        "agents",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 1.0,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-05-17T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_030",
+      "type": "project",
+      "sphere": "projects",
+      "created_at": "2025-09-08T00:00:00Z",
+      "updated_at": "2025-09-25T00:00:00Z",
+      "version": 10,
+      "status": "active",
+      "content": {
+        "title": "Projet Alpha",
+        "summary": "Description d\u00e9taill\u00e9e de Projet Alpha pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_073",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "project",
+        "projects",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.95,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-09-08T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_031",
+      "type": "project",
+      "sphere": "projects",
+      "created_at": "2025-03-01T00:00:00Z",
+      "updated_at": "2025-03-20T00:00:00Z",
+      "version": 6,
+      "status": "active",
+      "content": {
+        "title": "Projet Beta",
+        "summary": "Description d\u00e9taill\u00e9e de Projet Beta pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_026",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "project",
+        "projects",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.92,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-03-01T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_032",
+      "type": "project",
+      "sphere": "projects",
+      "created_at": "2025-05-09T00:00:00Z",
+      "updated_at": "2025-06-19T00:00:00Z",
+      "version": 7,
+      "status": "active",
+      "content": {
+        "title": "Projet Gamma",
+        "summary": "Description d\u00e9taill\u00e9e de Projet Gamma pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_027",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "project",
+        "projects",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.99,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-05-09T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_033",
+      "type": "project",
+      "sphere": "projects",
+      "created_at": "2025-01-04T00:00:00Z",
+      "updated_at": "2025-01-13T00:00:00Z",
+      "version": 1,
+      "status": "active",
+      "content": {
+        "title": "Projet Delta",
+        "summary": "Description d\u00e9taill\u00e9e de Projet Delta pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_065",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "project",
+        "projects",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.99,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-01-04T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_034",
+      "type": "project",
+      "sphere": "projects",
+      "created_at": "2025-02-11T00:00:00Z",
+      "updated_at": "2025-02-13T00:00:00Z",
+      "version": 4,
+      "status": "active",
+      "content": {
+        "title": "Projet Epsilon",
+        "summary": "Description d\u00e9taill\u00e9e de Projet Epsilon pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_002",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "project",
+        "projects",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.88,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-02-11T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_035",
+      "type": "project",
+      "sphere": "projects",
+      "created_at": "2025-10-11T00:00:00Z",
+      "updated_at": "2025-10-19T00:00:00Z",
+      "version": 5,
+      "status": "active",
+      "content": {
+        "title": "Projet Zeta",
+        "summary": "Description d\u00e9taill\u00e9e de Projet Zeta pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_018",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "project",
+        "projects",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.98,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-10-11T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_036",
+      "type": "project",
+      "sphere": "projects",
+      "created_at": "2025-03-13T00:00:00Z",
+      "updated_at": "2025-05-08T00:00:00Z",
+      "version": 1,
+      "status": "active",
+      "content": {
+        "title": "Projet Eta",
+        "summary": "Description d\u00e9taill\u00e9e de Projet Eta pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_037",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "project",
+        "projects",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.87,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-03-13T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_037",
+      "type": "project",
+      "sphere": "projects",
+      "created_at": "2025-04-22T00:00:00Z",
+      "updated_at": "2025-04-26T00:00:00Z",
+      "version": 1,
+      "status": "active",
+      "content": {
+        "title": "Projet Theta",
+        "summary": "Description d\u00e9taill\u00e9e de Projet Theta pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_008",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "project",
+        "projects",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.99,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-04-22T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_038",
+      "type": "project",
+      "sphere": "projects",
+      "created_at": "2025-10-09T00:00:00Z",
+      "updated_at": "2025-11-13T00:00:00Z",
+      "version": 2,
+      "status": "active",
+      "content": {
+        "title": "Projet Iota",
+        "summary": "Description d\u00e9taill\u00e9e de Projet Iota pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_040",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "project",
+        "projects",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.97,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-10-09T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_039",
+      "type": "project",
+      "sphere": "projects",
+      "created_at": "2025-01-01T00:00:00Z",
+      "updated_at": "2025-01-22T00:00:00Z",
+      "version": 4,
+      "status": "active",
+      "content": {
+        "title": "Projet Kappa",
+        "summary": "Description d\u00e9taill\u00e9e de Projet Kappa pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_049",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "project",
+        "projects",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.9,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-01-01T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_040",
+      "type": "knowledge",
+      "sphere": "compliance",
+      "created_at": "2025-04-24T00:00:00Z",
+      "updated_at": "2025-06-11T00:00:00Z",
+      "version": 8,
+      "status": "active",
+      "content": {
+        "title": "R\u00e8glement RBQ",
+        "summary": "Description d\u00e9taill\u00e9e de R\u00e8glement RBQ pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_065",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "knowledge",
+        "compliance",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.99,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-04-24T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_041",
+      "type": "knowledge",
+      "sphere": "compliance",
+      "created_at": "2025-05-17T00:00:00Z",
+      "updated_at": "2025-07-02T00:00:00Z",
+      "version": 4,
+      "status": "active",
+      "content": {
+        "title": "R\u00e8glement CNESST",
+        "summary": "Description d\u00e9taill\u00e9e de R\u00e8glement CNESST pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_035",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "knowledge",
+        "compliance",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.92,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-05-17T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_042",
+      "type": "knowledge",
+      "sphere": "compliance",
+      "created_at": "2025-07-23T00:00:00Z",
+      "updated_at": "2025-07-30T00:00:00Z",
+      "version": 4,
+      "status": "active",
+      "content": {
+        "title": "R\u00e8glement CCQ",
+        "summary": "Description d\u00e9taill\u00e9e de R\u00e8glement CCQ pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_075",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "knowledge",
+        "compliance",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.94,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-07-23T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_043",
+      "type": "knowledge",
+      "sphere": "compliance",
+      "created_at": "2025-01-21T00:00:00Z",
+      "updated_at": "2025-03-15T00:00:00Z",
+      "version": 1,
+      "status": "active",
+      "content": {
+        "title": "Code Construction",
+        "summary": "Description d\u00e9taill\u00e9e de Code Construction pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_063",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "knowledge",
+        "compliance",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.87,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-01-21T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_044",
+      "type": "knowledge",
+      "sphere": "compliance",
+      "created_at": "2025-05-22T00:00:00Z",
+      "updated_at": "2025-06-27T00:00:00Z",
+      "version": 7,
+      "status": "active",
+      "content": {
+        "title": "Code \u00c9nergie",
+        "summary": "Description d\u00e9taill\u00e9e de Code \u00c9nergie pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_033",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "knowledge",
+        "compliance",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.94,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-05-22T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_045",
+      "type": "knowledge",
+      "sphere": "compliance",
+      "created_at": "2025-04-27T00:00:00Z",
+      "updated_at": "2025-05-01T00:00:00Z",
+      "version": 7,
+      "status": "active",
+      "content": {
+        "title": "Accessibilit\u00e9",
+        "summary": "Description d\u00e9taill\u00e9e de Accessibilit\u00e9 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_062",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "knowledge",
+        "compliance",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.93,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-04-27T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_046",
+      "type": "knowledge",
+      "sphere": "compliance",
+      "created_at": "2025-08-03T00:00:00Z",
+      "updated_at": "2025-09-21T00:00:00Z",
+      "version": 6,
+      "status": "active",
+      "content": {
+        "title": "Code Incendie",
+        "summary": "Description d\u00e9taill\u00e9e de Code Incendie pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_022",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "knowledge",
+        "compliance",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.86,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-08-03T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_047",
+      "type": "knowledge",
+      "sphere": "compliance",
+      "created_at": "2025-09-02T00:00:00Z",
+      "updated_at": "2025-10-23T00:00:00Z",
+      "version": 1,
+      "status": "active",
+      "content": {
+        "title": "Environnement",
+        "summary": "Description d\u00e9taill\u00e9e de Environnement pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_041",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "knowledge",
+        "compliance",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.93,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-09-02T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_048",
+      "type": "knowledge",
+      "sphere": "compliance",
+      "created_at": "2025-05-12T00:00:00Z",
+      "updated_at": "2025-06-22T00:00:00Z",
+      "version": 9,
+      "status": "active",
+      "content": {
+        "title": "Permis",
+        "summary": "Description d\u00e9taill\u00e9e de Permis pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_011",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "knowledge",
+        "compliance",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.97,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-05-12T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_049",
+      "type": "knowledge",
+      "sphere": "compliance",
+      "created_at": "2025-06-28T00:00:00Z",
+      "updated_at": "2025-08-07T00:00:00Z",
+      "version": 6,
+      "status": "active",
+      "content": {
+        "title": "Garanties",
+        "summary": "Description d\u00e9taill\u00e9e de Garanties pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_018",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "knowledge",
+        "compliance",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.91,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-06-28T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_050",
+      "type": "knowledge",
+      "sphere": "knowledge",
+      "created_at": "2025-08-13T00:00:00Z",
+      "updated_at": "2025-08-24T00:00:00Z",
+      "version": 10,
+      "status": "active",
+      "content": {
+        "title": "Base B\u00e9ton",
+        "summary": "Description d\u00e9taill\u00e9e de Base B\u00e9ton pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_058",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "knowledge",
+        "knowledge",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 1.0,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-08-13T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_051",
+      "type": "knowledge",
+      "sphere": "knowledge",
+      "created_at": "2025-09-10T00:00:00Z",
+      "updated_at": "2025-10-24T00:00:00Z",
+      "version": 8,
+      "status": "active",
+      "content": {
+        "title": "Base Bois",
+        "summary": "Description d\u00e9taill\u00e9e de Base Bois pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_011",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "knowledge",
+        "knowledge",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.95,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-09-10T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_052",
+      "type": "knowledge",
+      "sphere": "knowledge",
+      "created_at": "2025-09-21T00:00:00Z",
+      "updated_at": "2025-11-03T00:00:00Z",
+      "version": 10,
+      "status": "active",
+      "content": {
+        "title": "Base Acier",
+        "summary": "Description d\u00e9taill\u00e9e de Base Acier pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_038",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "knowledge",
+        "knowledge",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.87,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-09-21T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_053",
+      "type": "knowledge",
+      "sphere": "knowledge",
+      "created_at": "2025-03-05T00:00:00Z",
+      "updated_at": "2025-04-14T00:00:00Z",
+      "version": 2,
+      "status": "active",
+      "content": {
+        "title": "Base \u00c9lectrique",
+        "summary": "Description d\u00e9taill\u00e9e de Base \u00c9lectrique pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_034",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "knowledge",
+        "knowledge",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 1.0,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-03-05T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_054",
+      "type": "knowledge",
+      "sphere": "knowledge",
+      "created_at": "2025-04-19T00:00:00Z",
+      "updated_at": "2025-05-23T00:00:00Z",
+      "version": 2,
+      "status": "active",
+      "content": {
+        "title": "Base Plomberie",
+        "summary": "Description d\u00e9taill\u00e9e de Base Plomberie pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_057",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "knowledge",
+        "knowledge",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.94,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-04-19T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_055",
+      "type": "knowledge",
+      "sphere": "knowledge",
+      "created_at": "2025-03-04T00:00:00Z",
+      "updated_at": "2025-04-20T00:00:00Z",
+      "version": 2,
+      "status": "active",
+      "content": {
+        "title": "Base CVAC",
+        "summary": "Description d\u00e9taill\u00e9e de Base CVAC pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_073",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "knowledge",
+        "knowledge",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.88,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-03-04T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_056",
+      "type": "knowledge",
+      "sphere": "knowledge",
+      "created_at": "2025-05-14T00:00:00Z",
+      "updated_at": "2025-06-07T00:00:00Z",
+      "version": 5,
+      "status": "active",
+      "content": {
+        "title": "Base Isolation",
+        "summary": "Description d\u00e9taill\u00e9e de Base Isolation pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_050",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "knowledge",
+        "knowledge",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.86,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-05-14T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_057",
+      "type": "knowledge",
+      "sphere": "knowledge",
+      "created_at": "2025-04-22T00:00:00Z",
+      "updated_at": "2025-05-03T00:00:00Z",
+      "version": 10,
+      "status": "active",
+      "content": {
+        "title": "Base Toiture",
+        "summary": "Description d\u00e9taill\u00e9e de Base Toiture pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_029",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "knowledge",
+        "knowledge",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.85,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-04-22T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_058",
+      "type": "knowledge",
+      "sphere": "knowledge",
+      "created_at": "2025-01-26T00:00:00Z",
+      "updated_at": "2025-03-01T00:00:00Z",
+      "version": 5,
+      "status": "active",
+      "content": {
+        "title": "Base Fenestration",
+        "summary": "Description d\u00e9taill\u00e9e de Base Fenestration pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_025",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "knowledge",
+        "knowledge",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.92,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-01-26T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_059",
+      "type": "knowledge",
+      "sphere": "knowledge",
+      "created_at": "2025-05-31T00:00:00Z",
+      "updated_at": "2025-06-07T00:00:00Z",
+      "version": 3,
+      "status": "active",
+      "content": {
+        "title": "Base Finition",
+        "summary": "Description d\u00e9taill\u00e9e de Base Finition pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_041",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "knowledge",
+        "knowledge",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.91,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-05-31T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_060",
+      "type": "system",
+      "sphere": "system",
+      "created_at": "2025-10-02T00:00:00Z",
+      "updated_at": "2025-10-16T00:00:00Z",
+      "version": 4,
+      "status": "active",
+      "content": {
+        "title": "Life Loop 1",
+        "summary": "Description d\u00e9taill\u00e9e de Life Loop 1 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_025",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "system",
+        "system",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.9,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-10-02T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_061",
+      "type": "system",
+      "sphere": "system",
+      "created_at": "2025-04-26T00:00:00Z",
+      "updated_at": "2025-06-06T00:00:00Z",
+      "version": 1,
+      "status": "active",
+      "content": {
+        "title": "Life Loop 2",
+        "summary": "Description d\u00e9taill\u00e9e de Life Loop 2 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_012",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "system",
+        "system",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.99,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-04-26T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_062",
+      "type": "system",
+      "sphere": "system",
+      "created_at": "2025-10-02T00:00:00Z",
+      "updated_at": "2025-10-31T00:00:00Z",
+      "version": 2,
+      "status": "active",
+      "content": {
+        "title": "Life Loop 3",
+        "summary": "Description d\u00e9taill\u00e9e de Life Loop 3 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_070",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "system",
+        "system",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.88,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-10-02T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_063",
+      "type": "system",
+      "sphere": "system",
+      "created_at": "2025-05-27T00:00:00Z",
+      "updated_at": "2025-07-24T00:00:00Z",
+      "version": 7,
+      "status": "active",
+      "content": {
+        "title": "Life Loop 4",
+        "summary": "Description d\u00e9taill\u00e9e de Life Loop 4 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_046",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "system",
+        "system",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.92,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-05-27T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_064",
+      "type": "vendor",
+      "sphere": "projects",
+      "created_at": "2025-07-27T00:00:00Z",
+      "updated_at": "2025-08-13T00:00:00Z",
+      "version": 10,
+      "status": "active",
+      "content": {
+        "title": "Fournisseur B\u00e9ton",
+        "summary": "Description d\u00e9taill\u00e9e de Fournisseur B\u00e9ton pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_061",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "vendor",
+        "projects",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.86,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-07-27T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_065",
+      "type": "vendor",
+      "sphere": "projects",
+      "created_at": "2025-05-20T00:00:00Z",
+      "updated_at": "2025-06-25T00:00:00Z",
+      "version": 3,
+      "status": "active",
+      "content": {
+        "title": "Fournisseur Bois",
+        "summary": "Description d\u00e9taill\u00e9e de Fournisseur Bois pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_064",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "vendor",
+        "projects",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.94,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-05-20T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_066",
+      "type": "vendor",
+      "sphere": "projects",
+      "created_at": "2025-01-12T00:00:00Z",
+      "updated_at": "2025-01-13T00:00:00Z",
+      "version": 10,
+      "status": "active",
+      "content": {
+        "title": "Sous-traitant \u00c9lec",
+        "summary": "Description d\u00e9taill\u00e9e de Sous-traitant \u00c9lec pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_037",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "vendor",
+        "projects",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.98,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-01-12T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_067",
+      "type": "vendor",
+      "sphere": "projects",
+      "created_at": "2025-01-01T00:00:00Z",
+      "updated_at": "2025-01-22T00:00:00Z",
+      "version": 6,
+      "status": "active",
+      "content": {
+        "title": "Sous-traitant Plomb",
+        "summary": "Description d\u00e9taill\u00e9e de Sous-traitant Plomb pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_026",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "vendor",
+        "projects",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.91,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-01-01T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_068",
+      "type": "vendor",
+      "sphere": "projects",
+      "created_at": "2025-03-19T00:00:00Z",
+      "updated_at": "2025-04-13T00:00:00Z",
+      "version": 6,
+      "status": "active",
+      "content": {
+        "title": "Sous-traitant CVAC",
+        "summary": "Description d\u00e9taill\u00e9e de Sous-traitant CVAC pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_036",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "vendor",
+        "projects",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.99,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-03-19T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_069",
+      "type": "demo",
+      "sphere": "system",
+      "created_at": "2025-04-01T00:00:00Z",
+      "updated_at": "2025-04-03T00:00:00Z",
+      "version": 5,
+      "status": "active",
+      "content": {
+        "title": "Flow Court 90s",
+        "summary": "Description d\u00e9taill\u00e9e de Flow Court 90s pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_039",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "demo",
+        "system",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.94,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-04-01T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_070",
+      "type": "demo",
+      "sphere": "system",
+      "created_at": "2025-03-30T00:00:00Z",
+      "updated_at": "2025-04-25T00:00:00Z",
+      "version": 9,
+      "status": "active",
+      "content": {
+        "title": "Flow Live 15min",
+        "summary": "Description d\u00e9taill\u00e9e de Flow Live 15min pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_004",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "demo",
+        "system",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.94,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-03-30T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_071",
+      "type": "config",
+      "sphere": "system",
+      "created_at": "2025-03-28T00:00:00Z",
+      "updated_at": "2025-04-18T00:00:00Z",
+      "version": 6,
+      "status": "active",
+      "content": {
+        "title": "Config Export",
+        "summary": "Description d\u00e9taill\u00e9e de Config Export pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_020",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "config",
+        "system",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.9,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-03-28T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_072",
+      "type": "config",
+      "sphere": "system",
+      "created_at": "2025-05-11T00:00:00Z",
+      "updated_at": "2025-06-22T00:00:00Z",
+      "version": 10,
+      "status": "active",
+      "content": {
+        "title": "Config Signing",
+        "summary": "Description d\u00e9taill\u00e9e de Config Signing pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_006",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "config",
+        "system",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.96,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-05-11T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_073",
+      "type": "config",
+      "sphere": "system",
+      "created_at": "2025-02-10T00:00:00Z",
+      "updated_at": "2025-02-28T00:00:00Z",
+      "version": 7,
+      "status": "active",
+      "content": {
+        "title": "Config Themes",
+        "summary": "Description d\u00e9taill\u00e9e de Config Themes pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_021",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "config",
+        "system",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.86,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-02-10T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_074",
+      "type": "knowledge",
+      "sphere": "compliance",
+      "created_at": "2025-04-04T00:00:00Z",
+      "updated_at": "2025-04-12T00:00:00Z",
+      "version": 9,
+      "status": "active",
+      "content": {
+        "title": "Novoclimat 2.0",
+        "summary": "Description d\u00e9taill\u00e9e de Novoclimat 2.0 pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_035",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "knowledge",
+        "compliance",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.86,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-04-04T00:00:00Z"
+      }
+    },
+    {
+      "unit_id": "MU_075",
+      "type": "knowledge",
+      "sphere": "compliance",
+      "created_at": "2025-07-20T00:00:00Z",
+      "updated_at": "2025-07-30T00:00:00Z",
+      "version": 7,
+      "status": "active",
+      "content": {
+        "title": "LEED Standards",
+        "summary": "Description d\u00e9taill\u00e9e de LEED Standards pour CHE\u00b7NU V51",
+        "details": {
+          "key": "value",
+          "data": [
+            1,
+            2,
+            3
+          ]
+        },
+        "extended": "Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet."
+      },
+      "relations": [
+        {
+          "target": "MU_058",
+          "type": "relates",
+          "strength": 0.8
+        }
+      ],
+      "tags": [
+        "knowledge",
+        "compliance",
+        "chenu",
+        "v51"
+      ],
+      "confidence": 0.87,
+      "governance": {
+        "approved_by": "system",
+        "approved_at": "2025-07-20T00:00:00Z"
+      }
+    }
+  ],
+  "count": 75
+}

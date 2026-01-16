@@ -1,0 +1,170 @@
+{
+  "rbq": {
+    "regulator": "R\u00e9gie du b\u00e2timent du Qu\u00e9bec",
+    "website": "https://www.rbq.gouv.qc.ca",
+    "license_categories": [
+      {
+        "code": "1.1.1",
+        "name": "Entrepreneur g\u00e9n\u00e9ral - b\u00e2timent r\u00e9sidentiel neuf",
+        "exam_required": true
+      },
+      {
+        "code": "1.1.2",
+        "name": "Entrepreneur g\u00e9n\u00e9ral - b\u00e2timent r\u00e9sidentiel r\u00e9nov\u00e9",
+        "exam_required": true
+      },
+      {
+        "code": "1.2",
+        "name": "Entrepreneur g\u00e9n\u00e9ral - b\u00e2timent commercial et industriel",
+        "exam_required": true
+      },
+      {
+        "code": "2.1",
+        "name": "Entrepreneur sp\u00e9cialis\u00e9 - \u00e9lectricit\u00e9",
+        "exam_required": true
+      },
+      {
+        "code": "2.2",
+        "name": "Entrepreneur sp\u00e9cialis\u00e9 - plomberie",
+        "exam_required": true
+      },
+      {
+        "code": "2.3",
+        "name": "Entrepreneur sp\u00e9cialis\u00e9 - gaz",
+        "exam_required": true
+      },
+      {
+        "code": "2.4",
+        "name": "Entrepreneur sp\u00e9cialis\u00e9 - chauffage",
+        "exam_required": true
+      },
+      {
+        "code": "2.5",
+        "name": "Entrepreneur sp\u00e9cialis\u00e9 - ventilation",
+        "exam_required": true
+      },
+      {
+        "code": "2.6",
+        "name": "Entrepreneur sp\u00e9cialis\u00e9 - climatisation",
+        "exam_required": true
+      },
+      {
+        "code": "2.7",
+        "name": "Entrepreneur sp\u00e9cialis\u00e9 - r\u00e9frig\u00e9ration",
+        "exam_required": true
+      },
+      {
+        "code": "3.1",
+        "name": "Constructeur-propri\u00e9taire",
+        "exam_required": false
+      }
+    ],
+    "regulations": [
+      "Code de construction du Qu\u00e9bec - Chapitre I, B\u00e2timent",
+      "Code de s\u00e9curit\u00e9",
+      "R\u00e8glement sur la qualification professionnelle",
+      "R\u00e8glement sur le plan de garantie des b\u00e2timents r\u00e9sidentiels neufs",
+      "R\u00e8glement sur l'efficacit\u00e9 \u00e9nerg\u00e9tique des b\u00e2timents"
+    ],
+    "guarantee_plans": [
+      {
+        "name": "Garantie Construction R\u00e9sidentielle",
+        "coverage": [
+          "Malfa\u00e7ons",
+          "Vices cach\u00e9s",
+          "Perte b\u00e2timent"
+        ]
+      },
+      {
+        "name": "Garantie R\u00e9novation",
+        "coverage": [
+          "Travaux",
+          "Mat\u00e9riaux"
+        ]
+      }
+    ]
+  },
+  "cnesst": {
+    "regulator": "Commission des normes, de l'\u00e9quit\u00e9, de la sant\u00e9 et de la s\u00e9curit\u00e9 du travail",
+    "website": "https://www.cnesst.gouv.qc.ca",
+    "regulations": [
+      "Loi sur la sant\u00e9 et la s\u00e9curit\u00e9 du travail (LSST)",
+      "Code de s\u00e9curit\u00e9 pour les travaux de construction",
+      "R\u00e8glement sur la sant\u00e9 et la s\u00e9curit\u00e9 du travail"
+    ],
+    "required_training": [
+      {
+        "name": "Sant\u00e9 et s\u00e9curit\u00e9 g\u00e9n\u00e9rale sur les chantiers",
+        "provider": "ASP Construction",
+        "duration_hours": 30
+      },
+      {
+        "name": "Travail en hauteur",
+        "provider": "Various",
+        "duration_hours": 8
+      },
+      {
+        "name": "SIMDUT 2015",
+        "provider": "Various",
+        "duration_hours": 4
+      },
+      {
+        "name": "Premiers soins",
+        "provider": "Various",
+        "duration_hours": 16
+      }
+    ],
+    "reporting": [
+      "D\u00e9claration d'ouverture de chantier",
+      "Avis d'accident",
+      "Programme de pr\u00e9vention"
+    ]
+  },
+  "ccq": {
+    "regulator": "Commission de la construction du Qu\u00e9bec",
+    "website": "https://www.ccq.org",
+    "sectors": [
+      "R\u00e9sidentiel",
+      "Commercial",
+      "Industriel",
+      "G\u00e9nie civil et voirie"
+    ],
+    "trades": [
+      "Briqueteur-ma\u00e7on",
+      "Calorifugeur",
+      "Carreleur",
+      "Charpentier-menuisier",
+      "Chaudronnier",
+      "Cimentier-applicateur",
+      "Couvreur",
+      "\u00c9lectricien",
+      "Ferblantier",
+      "Ferrailleur",
+      "Frigoriste",
+      "Grutier",
+      "M\u00e9canicien d'ascenseur",
+      "M\u00e9canicien de chantier",
+      "M\u00e9canicien de machines lourdes",
+      "M\u00e9canicien en protection-incendie",
+      "Monteur-assembleur",
+      "Monteur-m\u00e9canicien (vitrier)",
+      "Op\u00e9rateur d'\u00e9quipement lourd",
+      "Op\u00e9rateur de pelles",
+      "Peintre",
+      "Pl\u00e2trier",
+      "Poseur de rev\u00eatements souples",
+      "Poseur de syst\u00e8mes int\u00e9rieurs",
+      "Serrurier de b\u00e2timent",
+      "Tuyauteur"
+    ],
+    "competency_cards": {
+      "types": [
+        "Apprenti",
+        "Compagnon",
+        "Occupation"
+      ],
+      "validity": "Annual renewal required",
+      "verification": "Mandatory on all job sites"
+    }
+  }
+}

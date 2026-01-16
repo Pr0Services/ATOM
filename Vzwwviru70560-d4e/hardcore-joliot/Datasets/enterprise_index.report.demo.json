@@ -1,0 +1,34 @@
+{
+  "enterprise_id": "CHE_NU_ENTERPRISE_INDEX_DEMO",
+  "generated_at": "2025-01-18T12:00:05Z",
+  "status": "PASS_WITH_WARNINGS",
+  "warnings": [
+    {
+      "code": "CROSS_RELATION_DANGLING_WARNING_THRESHOLD",
+      "message": "Cross-dataset relations are allowed to be dangling; keep below warning threshold where possible.",
+      "count": 0
+    }
+  ],
+  "dataset_warnings": [
+    {
+      "dataset_id": "CHE_NU_COMPANY_INTERNAL",
+      "warnings": [
+        { "code": "DEPRECATED_RATIO_WARN", "message": "Deprecated ratio approaching warn threshold.", "count": 1 }
+      ]
+    },
+    {
+      "dataset_id": "PUBLIC_TRUST_AND_GOVERNANCE",
+      "warnings": [
+        { "code": "ORPHAN_UNITS_WARN", "message": "Some units have no incoming relations (orphan candidates).", "count": 2 }
+      ]
+    }
+  ],
+  "stats": {
+    "datasets": 5,
+    "units": 360,
+    "decisions": 42,
+    "archives": 28,
+    "cross_dataset_relations": 6,
+    "orphan_candidates": 7
+  }
+}

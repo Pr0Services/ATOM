@@ -1,0 +1,797 @@
+"""
+═══════════════════════════════════════════════════════════════════════════════
+CHE·NU™ — COMPLETE API DOCUMENTATION
+Q1 2026 - Week 11: Documentation Excellence
+═══════════════════════════════════════════════════════════════════════════════
+
+Documentation API complète avec OpenAPI 3.1 specification.
+Target: 100% endpoint coverage, interactive documentation
+
+Créé: 20 Décembre 2025
+Version: v41.6
+"""
+
+# ═══════════════════════════════════════════════════════════════════════════
+# OPENAPI SPECIFICATION
+# ═══════════════════════════════════════════════════════════════════════════
+
+openapi: 3.1.0
+
+info:
+  title: CHE·NU™ API
+  version: 1.0.0
+  description: |
+    # CHE·NU™ Governed Intelligence Operating System API
+    
+    Welcome to the CHE·NU™ API documentation. This API provides complete access
+    to the CHE·NU platform for building governed AI applications.
+    
+    ## Key Features
+    - 🔐 Secure authentication with MFA
+    - 📊 GraphQL and REST endpoints
+    - 🚀 High performance (<100ms p95)
+    - 📝 Complete audit trail
+    - 🔄 Real-time updates via WebSocket
+    
+    ## Getting Started
+    1. Create an account at https://chenu.com/signup
+    2. Generate an API key in Settings → API Keys
+    3. Make your first request (see examples below)
+    
+    ## Rate Limits
+    - **Free tier**: 100 requests/minute
+    - **Pro tier**: 1,000 requests/minute
+    - **Enterprise**: Custom limits
+    
+    ## Support
+    - Documentation: https://docs.chenu.com
+    - Support: support@chenu.com
+    - Status: https://status.chenu.com
+  
+  contact:
+    name: CHE·NU Support
+    email: support@chenu.com
+    url: https://chenu.com/support
+  
+  license:
+    name: Proprietary
+    url: https://chenu.com/license
+
+servers:
+  - url: https://api.chenu.com/v1
+    description: Production server
+  - url: https://api-staging.chenu.com/v1
+    description: Staging server
+  - url: http://localhost:8000/v1
+    description: Local development
+
+# ═══════════════════════════════════════════════════════════════════════════
+# SECURITY SCHEMES
+# ═══════════════════════════════════════════════════════════════════════════
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |
+        JWT token obtained from /auth/login endpoint.
+        
+        Example:
+        ```
+        Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        ```
+    
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+      description: |
+        API key from Settings → API Keys.
+        
+        Example:
+        ```
+        X-API-Key: sk_live_abc123xyz789
+        ```
+
+security:
+  - BearerAuth: []
+  - ApiKeyAuth: []
+
+# ═══════════════════════════════════════════════════════════════════════════
+# SCHEMAS
+# ═══════════════════════════════════════════════════════════════════════════
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: "550e8400-e29b-41d4-a716-446655440000"
+        email:
+          type: string
+          format: email
+          example: "user@example.com"
+        name:
+          type: string
+          example: "John Doe"
+        role:
+          type: string
+          enum: [user, admin, owner]
+          example: "user"
+        created_at:
+          type: string
+          format: date-time
+          example: "2025-12-20T10:00:00Z"
+        mfa_enabled:
+          type: boolean
+          example: true
+      required:
+        - id
+        - email
+        - name
+        - role
+    
+    Thread:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+          maxLength: 200
+          example: "Project Planning Discussion"
+        description:
+          type: string
+          maxLength: 2000
+          example: "Planning for Q1 2026 project deliverables"
+        sphere:
+          type: string
+          enum: [personal, business, government, studio, community, social, entertainment, team, scholar]
+          example: "business"
+        status:
+          type: string
+          enum: [active, archived, deleted]
+          example: "active"
+        owner_id:
+          type: string
+          format: uuid
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        message_count:
+          type: integer
+          example: 42
+        participant_count:
+          type: integer
+          example: 5
+      required:
+        - id
+        - title
+        - sphere
+        - owner_id
+    
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        thread_id:
+          type: string
+          format: uuid
+        user_id:
+          type: string
+          format: uuid
+        content:
+          type: string
+          maxLength: 10000
+          example: "Let's schedule a meeting for next week"
+        created_at:
+          type: string
+          format: date-time
+        edited_at:
+          type: string
+          format: date-time
+          nullable: true
+        attachments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Attachment'
+      required:
+        - id
+        - thread_id
+        - user_id
+        - content
+    
+    Agent:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "nova"
+        name:
+          type: string
+          example: "Nova"
+        type:
+          type: string
+          enum: [system, user_orchestrator, specialist]
+          example: "system"
+        level:
+          type: string
+          enum: [L0, L1, L2, L3]
+          example: "L0"
+        status:
+          type: string
+          enum: [active, inactive, busy]
+          example: "active"
+        description:
+          type: string
+          example: "System intelligence and governance agent"
+        capabilities:
+          type: array
+          items:
+            type: string
+          example: ["governance", "memory", "coordination"]
+    
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+          example: "Invalid request"
+        message:
+          type: string
+          example: "The 'title' field is required"
+        code:
+          type: string
+          example: "VALIDATION_ERROR"
+        details:
+          type: object
+          additionalProperties: true
+      required:
+        - error
+        - message
+
+# ═══════════════════════════════════════════════════════════════════════════
+# AUTHENTICATION ENDPOINTS
+# ═══════════════════════════════════════════════════════════════════════════
+
+paths:
+  /auth/login:
+    post:
+      tags:
+        - Authentication
+      summary: Login
+      description: |
+        Authenticate with email and password.
+        Returns JWT token valid for 24 hours.
+        
+        If MFA is enabled, requires verification code.
+      operationId: login
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                password:
+                  type: string
+                  format: password
+                mfa_code:
+                  type: string
+                  pattern: '^\d{6}$'
+                  description: "Required if MFA is enabled"
+              required:
+                - email
+                - password
+            examples:
+              without_mfa:
+                summary: Login without MFA
+                value:
+                  email: "user@example.com"
+                  password: "SecurePassword123!"
+              with_mfa:
+                summary: Login with MFA
+                value:
+                  email: "user@example.com"
+                  password: "SecurePassword123!"
+                  mfa_code: "123456"
+      responses:
+        '200':
+          description: Login successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                  token_type:
+                    type: string
+                    example: "bearer"
+                  expires_in:
+                    type: integer
+                    example: 86400
+                  user:
+                    $ref: '#/components/schemas/User'
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '429':
+          description: Too many requests
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/logout:
+    post:
+      tags:
+        - Authentication
+      summary: Logout
+      description: Invalidate current session token
+      operationId: logout
+      responses:
+        '200':
+          description: Logout successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Logged out successfully"
+
+  /auth/refresh:
+    post:
+      tags:
+        - Authentication
+      summary: Refresh token
+      description: Get a new access token using refresh token
+      operationId: refreshToken
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                refresh_token:
+                  type: string
+              required:
+                - refresh_token
+      responses:
+        '200':
+          description: Token refreshed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                  expires_in:
+                    type: integer
+
+# ═══════════════════════════════════════════════════════════════════════════
+# USER ENDPOINTS
+# ═══════════════════════════════════════════════════════════════════════════
+
+  /users/me:
+    get:
+      tags:
+        - Users
+      summary: Get current user
+      description: Get information about the authenticated user
+      operationId: getCurrentUser
+      responses:
+        '200':
+          description: User information
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+    
+    patch:
+      tags:
+        - Users
+      summary: Update current user
+      description: Update authenticated user's profile
+      operationId: updateCurrentUser
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                email:
+                  type: string
+                  format: email
+            examples:
+              update_name:
+                summary: Update name
+                value:
+                  name: "Jane Doe"
+      responses:
+        '200':
+          description: User updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+
+# ═══════════════════════════════════════════════════════════════════════════
+# THREAD ENDPOINTS
+# ═══════════════════════════════════════════════════════════════════════════
+
+  /threads:
+    get:
+      tags:
+        - Threads
+      summary: List threads
+      description: |
+        Get a list of threads accessible to the current user.
+        
+        Supports filtering, sorting, and pagination.
+      operationId: listThreads
+      parameters:
+        - name: sphere
+          in: query
+          description: Filter by sphere
+          schema:
+            type: string
+            enum: [personal, business, government, studio, community, social, entertainment, team, scholar]
+        - name: status
+          in: query
+          description: Filter by status
+          schema:
+            type: string
+            enum: [active, archived]
+        - name: limit
+          in: query
+          description: Number of results per page
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: offset
+          in: query
+          description: Offset for pagination
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+        - name: sort
+          in: query
+          description: Sort field and direction
+          schema:
+            type: string
+            enum: [created_at:asc, created_at:desc, updated_at:asc, updated_at:desc]
+            default: "updated_at:desc"
+      responses:
+        '200':
+          description: List of threads
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  threads:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Thread'
+                  total:
+                    type: integer
+                  limit:
+                    type: integer
+                  offset:
+                    type: integer
+    
+    post:
+      tags:
+        - Threads
+      summary: Create thread
+      description: Create a new thread
+      operationId: createThread
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  maxLength: 200
+                description:
+                  type: string
+                  maxLength: 2000
+                sphere:
+                  type: string
+                  enum: [personal, business, government, studio, community, social, entertainment, team, scholar]
+              required:
+                - title
+                - sphere
+            examples:
+              business_thread:
+                summary: Business thread
+                value:
+                  title: "Q1 Planning"
+                  description: "Planning session for Q1 2026"
+                  sphere: "business"
+      responses:
+        '201':
+          description: Thread created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thread'
+        '400':
+          description: Invalid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /threads/{thread_id}:
+    get:
+      tags:
+        - Threads
+      summary: Get thread
+      description: Get a specific thread by ID
+      operationId: getThread
+      parameters:
+        - name: thread_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Thread details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thread'
+        '404':
+          description: Thread not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    
+    patch:
+      tags:
+        - Threads
+      summary: Update thread
+      description: Update thread properties
+      operationId: updateThread
+      parameters:
+        - name: thread_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                status:
+                  type: string
+                  enum: [active, archived]
+      responses:
+        '200':
+          description: Thread updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thread'
+    
+    delete:
+      tags:
+        - Threads
+      summary: Delete thread
+      description: Soft delete a thread (can be restored)
+      operationId: deleteThread
+      parameters:
+        - name: thread_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Thread deleted
+
+# ═══════════════════════════════════════════════════════════════════════════
+# AGENT ENDPOINTS
+# ═══════════════════════════════════════════════════════════════════════════
+
+  /agents:
+    get:
+      tags:
+        - Agents
+      summary: List agents
+      description: Get available agents
+      operationId: listAgents
+      responses:
+        '200':
+          description: List of agents
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  agents:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Agent'
+
+  /agents/{agent_id}/execute:
+    post:
+      tags:
+        - Agents
+      summary: Execute agent task
+      description: |
+        Execute a task with a specific agent.
+        
+        Requires token budget allocation.
+      operationId: executeAgentTask
+      parameters:
+        - name: agent_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                task:
+                  type: string
+                  description: Task description
+                context:
+                  type: object
+                  description: Additional context
+                budget:
+                  type: integer
+                  description: Token budget for this task
+              required:
+                - task
+      responses:
+        '200':
+          description: Task executed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: string
+                  tokens_used:
+                    type: integer
+                  execution_time:
+                    type: number
+
+# ═══════════════════════════════════════════════════════════════════════════
+# CODE EXAMPLES
+# ═══════════════════════════════════════════════════════════════════════════
+
+x-code-samples:
+  - lang: JavaScript
+    label: Login
+    source: |
+      const response = await fetch('https://api.chenu.com/v1/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: 'user@example.com',
+          password: 'SecurePassword123!'
+        })
+      })
+      
+      const { access_token } = await response.json()
+      console.log('Token:', access_token)
+  
+  - lang: Python
+    label: Create Thread
+    source: |
+      import requests
+      
+      response = requests.post(
+          'https://api.chenu.com/v1/threads',
+          headers={
+              'Authorization': f'Bearer {access_token}',
+              'Content-Type': 'application/json'
+          },
+          json={
+              'title': 'Q1 Planning',
+              'sphere': 'business'
+          }
+      )
+      
+      thread = response.json()
+      print(f"Created thread: {thread['id']}")
+  
+  - lang: cURL
+    label: List Threads
+    source: |
+      curl -X GET 'https://api.chenu.com/v1/threads?sphere=business&limit=10' \
+        -H 'Authorization: Bearer YOUR_TOKEN'
+
+# ═══════════════════════════════════════════════════════════════════════════
+# WEBHOOKS
+# ═══════════════════════════════════════════════════════════════════════════
+
+webhooks:
+  thread.created:
+    post:
+      summary: Thread Created
+      description: Triggered when a new thread is created
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event:
+                  type: string
+                  example: "thread.created"
+                data:
+                  $ref: '#/components/schemas/Thread'
+                timestamp:
+                  type: string
+                  format: date-time
+  
+  message.created:
+    post:
+      summary: Message Created
+      description: Triggered when a new message is posted
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event:
+                  type: string
+                  example: "message.created"
+                data:
+                  $ref: '#/components/schemas/Message'
+
+export {}

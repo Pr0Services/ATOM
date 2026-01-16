@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "StagiaireCooldownState",
+  "type": "object",
+  "required": [
+    "cooldown_until"
+  ],
+  "properties": {
+    "cooldown_until": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "format": "date-time"
+    },
+    "last_review_result": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "silence",
+        "note",
+        "question",
+        null
+      ]
+    }
+  },
+  "additionalProperties": false
+}

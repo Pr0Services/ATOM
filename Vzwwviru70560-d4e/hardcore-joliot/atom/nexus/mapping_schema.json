@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AT-OM Nexus Mapping (prototype)",
+  "description": "Graph-based JSON structure for resonance mapping. This is a seed dataset + structure sketch.",
+  "type": "object",
+  "properties": {
+    "nodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "dimension", "epoch", "arithmos"],
+        "properties": {
+          "id": {"type": "string"},
+          "name": {"type": "string"},
+          "dimension": {"type": "string", "enum": ["PHYSICAL", "BIOLOGICAL", "SOCIAL", "SPIRITUAL"]},
+          "epoch": {"type": "string"},
+          "description": {"type": "string"},
+          "arithmos": {
+            "type": "object",
+            "required": ["raw", "reduced"],
+            "properties": {
+              "raw": {"type": "integer"},
+              "reduced": {"type": "integer"},
+              "color_hex": {"type": "string"},
+              "frequency_hz": {"type": "number"}
+            }
+          },
+          "tags": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["from", "to", "link_type", "strength"],
+        "properties": {
+          "from": {"type": "string"},
+          "to": {"type": "string"},
+          "link_type": {"type": "string", "enum": ["TECH", "BIO", "SOCIAL", "SPIRITUAL", "RESOURCE", "LINGUISTIC"]},
+          "strength": {"type": "number", "minimum": 0, "maximum": 1},
+          "rationale": {"type": "string"}
+        }
+      }
+    }
+  },
+  "required": ["nodes", "links"],
+  "examples": [
+    {
+      "nodes": [
+        {
+          "id": "node_fire",
+          "name": "Fire",
+          "dimension": "PHYSICAL",
+          "epoch": "Paleolithic",
+          "description": "Control of fire; cooking; heat; protection.",
+          "arithmos": {"raw": 29, "reduced": 11, "color_hex": "#FFFFFF", "frequency_hz": 888.0},
+          "tags": ["energy", "cooking", "tool"]
+        },
+        {
+          "id": "node_ai",
+          "name": "AI",
+          "dimension": "SOCIAL",
+          "epoch": "Digital Era",
+          "description": "Artificial intelligence; automation; cognition at scale.",
+          "arithmos": {"raw": 10, "reduced": 1, "color_hex": "#FF0000", "frequency_hz": 444.0},
+          "tags": ["computation", "cognition"]
+        },
+        {
+          "id": "node_iron",
+          "name": "Iron",
+          "dimension": "PHYSICAL",
+          "epoch": "Iron Age",
+          "description": "Ferrous metallurgy; tools; weapons; infrastructure.",
+          "arithmos": {"raw": 29, "reduced": 11, "color_hex": "#FFFFFF", "frequency_hz": 888.0},
+          "tags": ["metallurgy", "industry"]
+        },
+        {
+          "id": "node_blood",
+          "name": "Blood",
+          "dimension": "BIOLOGICAL",
+          "epoch": "Timeless",
+          "description": "Physiology; kinship; sacrifice; medicine.",
+          "arithmos": {"raw": 16, "reduced": 7, "color_hex": "#8A2BE2", "frequency_hz": 699.3},
+          "tags": ["health", "lineage"]
+        }
+      ],
+      "links": [
+        {
+          "from": "node_fire",
+          "to": "node_ai",
+          "link_type": "TECH",
+          "strength": 0.65,
+          "rationale": "Fire enables cooking -> brain energy surplus -> cumulative culture -> computing/AI as modern 'fire'."
+        },
+        {
+          "from": "node_iron",
+          "to": "node_blood",
+          "link_type": "BIO",
+          "strength": 0.40,
+          "rationale": "Metal tools reshape labor and warfare; influences injury patterns and medical practices around blood."
+        },
+        {
+          "from": "node_iron",
+          "to": "node_ai",
+          "link_type": "RESOURCE",
+          "strength": 0.55,
+          "rationale": "Industrial metals -> machines -> electrification -> data centers hardware -> AI production chain."
+        }
+      ]
+    }
+  ]
+}

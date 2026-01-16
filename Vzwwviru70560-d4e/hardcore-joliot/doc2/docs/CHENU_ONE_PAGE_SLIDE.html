@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CHE·NU™ — ONE-PAGE SYSTEM DIAGRAM</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: #0a0a0a;
+      color: #e0e0e0;
+      min-height: 100vh;
+      padding: 40px;
+    }
+    
+    .page {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+    
+    .logo {
+      font-size: 48px;
+      margin-bottom: 8px;
+    }
+    
+    h1 {
+      font-size: 32px;
+      font-weight: 800;
+      color: #D8B26A;
+      margin-bottom: 8px;
+    }
+    
+    .subtitle {
+      font-size: 16px;
+      color: #888;
+      font-weight: 400;
+    }
+    
+    .diagram-container {
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 40px;
+    }
+    
+    .mermaid {
+      display: flex;
+      justify-content: center;
+    }
+    
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    
+    .legend-card {
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 20px;
+    }
+    
+    .legend-card h3 {
+      font-size: 14px;
+      font-weight: 700;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .legend-card ul {
+      list-style: none;
+    }
+    
+    .legend-card li {
+      font-size: 13px;
+      padding: 6px 0;
+      border-bottom: 1px solid #222;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .legend-card li:last-child {
+      border-bottom: none;
+    }
+    
+    .badge {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+    
+    .badge-diamond { background: #D8B26A; color: #000; }
+    .badge-context { background: #FFB04D; color: #000; }
+    .badge-action { background: #5BA9FF; color: #000; }
+    .badge-workspace { background: #FF8BAA; color: #000; }
+    .badge-agent { background: #8B5CF6; color: #fff; }
+    .badge-governance { background: #3F7249; color: #fff; }
+    
+    .flow-section {
+      background: #111;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 24px;
+      margin-top: 24px;
+      text-align: center;
+    }
+    
+    .flow-section h3 {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 16px;
+    }
+    
+    .flow {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    
+    .flow-step {
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 13px;
+    }
+    
+    .flow-arrow {
+      color: #555;
+      font-size: 20px;
+    }
+    
+    .rules {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 24px;
+    }
+    
+    .rule {
+      background: #0d0d0d;
+      border: 1px solid #222;
+      border-radius: 8px;
+      padding: 16px;
+      text-align: center;
+    }
+    
+    .rule-icon {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+    
+    .rule-text {
+      font-size: 11px;
+      color: #888;
+      line-height: 1.4;
+    }
+    
+    footer {
+      margin-top: 40px;
+      text-align: center;
+      padding-top: 24px;
+      border-top: 1px solid #222;
+    }
+    
+    .status-badges {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    
+    .status-badge {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #666;
+    }
+    
+    .status-badge .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    
+    .dot-canonical { background: #3EB4A2; }
+    .dot-frozen { background: #5BA9FF; }
+    .dot-universal { background: #D8B26A; }
+    
+    .copyright {
+      font-size: 11px;
+      color: #444;
+    }
+
+    @media print {
+      body {
+        background: white;
+        color: #111;
+        padding: 20px;
+      }
+      
+      .diagram-container,
+      .legend-card,
+      .flow-section,
+      .rule {
+        background: #fafafa;
+        border-color: #ddd;
+      }
+      
+      .legend-card li {
+        border-color: #eee;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header>
+      <div class="logo">◆</div>
+      <h1>CHE·NU™</h1>
+      <div class="subtitle">Governed Intelligence Operating System — One-Page System Diagram</div>
+    </header>
+
+    <div class="diagram-container">
+      <div class="mermaid">
+flowchart TD
+    A[User Entry] --> B[◆ DIAMOND HUB]
+    B -->|Context| C[📍 Context Bureau]
+    B -->|Signals| N[🔔 System Signals]
+    C -->|Identity| C1[🏠💼🏛️]
+    C -->|Sphere| C2[8 Spheres]
+    C -->|Project| C3[📁 Optional]
+    C -->|Validated| D[⚡ Action Bureau]
+    D -->|Actions| D1[Create · Open · Delegate]
+    D -->|Nova| D2[💡 Guidance]
+    D -->|Execute| E[🔧 Workspace]
+    E -->|Draft| E1[📝]
+    E -->|Staging| E2[🔄]
+    E -->|Review| E3[✅]
+    E3 --> E4[💾 Saved]
+    E -->|Agent| F[🤖 Agent Space]
+    F -->|Propose| E2
+    G[🛡️ Governance] --- C
+    G --- D
+    G --- E
+    G --- F
+      </div>
+    </div>
+
+    <div class="legend">
+      <div class="legend-card">
+        <h3><span class="badge badge-diamond">◆</span> Diamond Hub</h3>
+        <ul>
+          <li>🎯 Central convergence point</li>
+          <li>👁️ Always visible</li>
+          <li>🔄 Reflects current state</li>
+          <li>📊 Shows signals & alerts</li>
+        </ul>
+      </div>
+
+      <div class="legend-card">
+        <h3><span class="badge badge-context">📍</span> Context Bureau</h3>
+        <ul>
+          <li>❓ "Where am I?"</li>
+          <li>🆔 Select Identity</li>
+          <li>🌐 Select Sphere (8 options)</li>
+          <li>📁 Optional Project</li>
+          <li>⚠️ NEVER skipped</li>
+        </ul>
+      </div>
+
+      <div class="legend-card">
+        <h3><span class="badge badge-action">⚡</span> Action Bureau</h3>
+        <ul>
+          <li>❓ "What to do now?"</li>
+          <li>➕ Quick actions</li>
+          <li>💡 Nova suggestions</li>
+          <li>🕐 Recent workspaces</li>
+        </ul>
+      </div>
+
+      <div class="legend-card">
+        <h3><span class="badge badge-workspace">🔧</span> Workspace</h3>
+        <ul>
+          <li>⚙️ Execution happens here</li>
+          <li>📝 Draft → Staging → Review</li>
+          <li>🔒 Context is locked</li>
+          <li>💾 Versioned output</li>
+        </ul>
+      </div>
+
+      <div class="legend-card">
+        <h3><span class="badge badge-agent">🤖</span> Agent Workspace</h3>
+        <ul>
+          <li>🔐 Isolated environment</li>
+          <li>📋 All actions logged</li>
+          <li>💬 Proposes, never imposes</li>
+          <li>👁️ Human review required</li>
+        </ul>
+      </div>
+
+      <div class="legend-card">
+        <h3><span class="badge badge-governance">🛡️</span> Governance</h3>
+        <ul>
+          <li>📜 Laws & scope rules</li>
+          <li>💰 Budget & token control</li>
+          <li>📊 Complete audit trail</li>
+          <li>🔐 Security & auth</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="flow-section">
+      <h3>CANONICAL FLOW</h3>
+      <div class="flow">
+        <div class="flow-step" style="background: #1a1a1a; border: 1px solid #76E6C7;">Entry</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step" style="background: #D8B26A; color: #000;">Diamond</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step" style="background: #1a1a1a; border: 1px solid #FFB04D;">Context Bureau</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step" style="background: #1a1a1a; border: 1px solid #5BA9FF;">Action Bureau</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step" style="background: #1a1a1a; border: 1px solid #FF8BAA;">Workspace</div>
+      </div>
+    </div>
+
+    <div class="rules">
+      <div class="rule">
+        <div class="rule-icon">🚫</div>
+        <div class="rule-text">No step is ever skipped.<br/>Context Bureau is mandatory.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-icon">🧠</div>
+        <div class="rule-text">Intelligence pre-fills.<br/>Never bypasses.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-icon">↩️</div>
+        <div class="rule-text">Backward navigation<br/>always allowed.</div>
+      </div>
+      <div class="rule">
+        <div class="rule-icon">🔄</div>
+        <div class="rule-text">Context change<br/>invalidates workspace.</div>
+      </div>
+    </div>
+
+    <footer>
+      <div class="status-badges">
+        <div class="status-badge">
+          <span class="dot dot-canonical"></span>
+          <span>CANONICAL</span>
+        </div>
+        <div class="status-badge">
+          <span class="dot dot-frozen"></span>
+          <span>FROZEN</span>
+        </div>
+        <div class="status-badge">
+          <span class="dot dot-universal"></span>
+          <span>UNIVERSAL</span>
+        </div>
+      </div>
+      <div class="copyright">
+        CHE·NU™ — Governed Intelligence Operating System<br/>
+        Clarity • Governance • Intelligence
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: 'dark',
+      themeVariables: {
+        primaryColor: '#3EB4A2',
+        primaryTextColor: '#fff',
+        primaryBorderColor: '#3EB4A2',
+        lineColor: '#5BA9FF',
+        secondaryColor: '#1a1a1a',
+        tertiaryColor: '#333',
+        background: '#0a0a0a',
+        mainBkg: '#1a1a1a',
+        nodeBorder: '#3EB4A2'
+      },
+      flowchart: {
+        curve: 'basis',
+        padding: 20
+      }
+    });
+  </script>
+</body>
+</html>

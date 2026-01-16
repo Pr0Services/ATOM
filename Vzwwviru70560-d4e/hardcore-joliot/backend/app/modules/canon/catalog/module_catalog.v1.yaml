@@ -1,0 +1,673 @@
+version: v1
+namespace: module
+rules:
+- 'Every module declares: needs_served, dependencies, activation_modes, cost_profile,
+  risk_profile, known_usages.'
+- Modules without needs_served are not eligible for activation.
+- Dependencies are hard constraints; scenario generator must satisfy them.
+- Governance-required modules must emit/consume thread events (append-only).
+activation_modes:
+  disabled:
+    description: Not available to this identity/thread.
+  enabled_passive:
+    description: Enabled but does not proactively act; only responds when called.
+  enabled_guided:
+    description: System guides user step-by-step; more explanations, more checkpoints.
+  enabled_balanced:
+    description: Default; mixes suggestions with autonomy.
+  enabled_autonomous:
+    description: High autonomy; more proactive actions (still audited).
+  enabled_restricted:
+    description: Enabled with strict limits; used in high-risk/low-trust contexts.
+  enabled_overclocked:
+    description: 'Stress-test mode: high volume, high concurrency, aggressive routing.'
+modules:
+- id: auth.core
+  category: core
+  needs_served:
+  - need.trust
+  - need.safety
+  - need_identity
+  dependencies: []
+  risk_level: high
+  cost_profile: low
+  risk_profile:
+  - credential_stuffing
+  - token_leak
+  - session_hijack
+  activation_modes:
+  - enabled_guided
+  - enabled_balanced
+  - enabled_restricted
+  known_usages:
+  - register
+  - login
+  - refresh
+  - logout
+  - me
+- id: identity.boundary
+  category: core
+  needs_served:
+  - need_identity
+  - need.safety
+  - need.trust
+  dependencies:
+  - auth.core
+  risk_level: critical
+  cost_profile: low
+  risk_profile:
+  - cross_tenant_leak
+  - permission_bypass
+  activation_modes:
+  - enabled_balanced
+  - enabled_restricted
+  known_usages:
+  - tenant_isolation
+  - identity_context_injection
+- id: spheres.catalog
+  category: core
+  needs_served:
+  - need.organization
+  - need.discovery
+  - need.trust
+  dependencies:
+  - identity.boundary
+  risk_level: medium
+  cost_profile: low
+  risk_profile:
+  - wrong_scope
+  - misrouting
+  activation_modes:
+  - enabled_passive
+  - enabled_balanced
+  - enabled_guided
+  known_usages:
+  - list_spheres
+  - select_sphere
+  - seed_fixed_spheres
+- id: bureau.sections
+  category: core
+  needs_served:
+  - need.organization
+  - need.clarity
+  - need.communication
+  dependencies:
+  - spheres.catalog
+  risk_level: medium
+  cost_profile: low
+  risk_profile:
+  - ux_confusion
+  activation_modes:
+  - enabled_balanced
+  - enabled_guided
+  known_usages:
+  - tabs_quickcapture
+  - threads
+  - datafiles
+  - active_agents
+  - meetings
+  - resume_workspace
+- id: threads.v2
+  category: core
+  needs_served:
+  - need.memory
+  - need.clarity
+  - need.trust
+  dependencies:
+  - identity.boundary
+  - spheres.catalog
+  risk_level: high
+  cost_profile: low
+  risk_profile:
+  - event_overload
+  - schema_drift
+  - poor_summaries
+  activation_modes:
+  - enabled_balanced
+  - enabled_guided
+  - enabled_restricted
+  known_usages:
+  - create_thread
+  - append_event
+  - append_correction
+  - list_threads
+  - get_events
+  - snapshots
+- id: nova.pipeline
+  category: core
+  needs_served:
+  - need.execution
+  - need.clarity
+  - need.learning
+  - need.communication
+  - need.performance
+  dependencies:
+  - threads.v2
+  - governance.core
+  risk_level: high
+  cost_profile: variable
+  risk_profile:
+  - hallucination
+  - overuse
+  - tool_misfire
+  - latency_spike
+  activation_modes:
+  - enabled_guided
+  - enabled_balanced
+  - enabled_autonomous
+  - enabled_restricted
+  - enabled_overclocked
+  known_usages:
+  - chat
+  - route
+  - execute
+  - verify
+  - log
+  - streaming
+  - checkpoints
+- id: checkpoints.core
+  category: core
+  needs_served:
+  - need.governance
+  - need.trust
+  - need.safety
+  dependencies:
+  - threads.v2
+  - identity.boundary
+  risk_level: high
+  cost_profile: low
+  risk_profile:
+  - approval_bypass
+  - stuck_queue
+  activation_modes:
+  - enabled_balanced
+  - enabled_guided
+  - enabled_restricted
+  known_usages:
+  - create_checkpoint
+  - approve
+  - reject
+  - HTTP_423_lock
+- id: agents.registry
+  category: core
+  needs_served:
+  - need.coordination
+  - need.execution
+  - need.discovery
+  dependencies:
+  - identity.boundary
+  - threads.v2
+  risk_level: medium
+  cost_profile: low
+  risk_profile:
+  - capability_mismatch
+  - over_hiring
+  activation_modes:
+  - enabled_balanced
+  - enabled_guided
+  known_usages:
+  - list_agents
+  - hire
+  - fire
+  - capabilities
+  - hierarchy_L0_L3
+  - seed_defaults
+- id: governance.core
+  category: governance
+  needs_served:
+  - need.governance
+  - need.trust
+  - need.safety
+  - need.performance
+  dependencies:
+  - threads.v2
+  risk_level: critical
+  cost_profile: low
+  risk_profile:
+  - silent_failure
+  - over_intervention
+  - policy_drift
+  activation_modes:
+  - enabled_balanced
+  - enabled_restricted
+  - enabled_overclocked
+  known_usages:
+  - signals
+  - orchestrator_decisions
+  - patch_instructions
+  - audit_events
+- id: governance.cea
+  category: governance
+  needs_served:
+  - need.governance
+  - need.safety
+  - need.trust
+  dependencies:
+  - governance.core
+  risk_level: high
+  cost_profile: low
+  risk_profile:
+  - noise
+  - false_positives
+  - missed_violation
+  activation_modes:
+  - enabled_balanced
+  - enabled_restricted
+  - enabled_overclocked
+  known_usages:
+  - CanonGuard
+  - SchemaGuard
+  - SecurityGuard
+  - CoherenceGuard
+  - BudgetGuard
+  - LegalCompliance
+- id: governance.orchestrator
+  category: governance
+  needs_served:
+  - need.governance
+  - need.performance
+  - need.coordination
+  dependencies:
+  - governance.core
+  - governance.cea
+  risk_level: critical
+  cost_profile: variable
+  risk_profile:
+  - bad_routing
+  - cost_explosion
+  - wrong_escalation
+  activation_modes:
+  - enabled_balanced
+  - enabled_restricted
+  - enabled_overclocked
+  known_usages:
+  - QCT
+  - SES
+  - RDC
+  - selective_escalation
+  - budgeted_decisions
+- id: backlogs.learning
+  category: governance
+  needs_served:
+  - need.learning
+  - need.governance
+  - need.trust
+  dependencies:
+  - governance.core
+  risk_level: medium
+  cost_profile: low
+  risk_profile:
+  - blame_culture
+  - metric_gaming
+  - overfitting
+  activation_modes:
+  - enabled_balanced
+  - enabled_passive
+  known_usages:
+  - error_backlog
+  - signal_backlog
+  - decision_backlog
+  - cost_backlog
+  - governance_debt
+- id: decision_points
+  category: governance
+  needs_served:
+  - need.clarity
+  - need.governance
+  - need.coordination
+  - need.trust
+  dependencies:
+  - governance.core
+  - threads.v2
+  risk_level: medium
+  cost_profile: low
+  risk_profile:
+  - queue_overload
+  - aging_misfire
+  activation_modes:
+  - enabled_balanced
+  - enabled_guided
+  - enabled_overclocked
+  known_usages:
+  - aging_GREEN_YELLOW_RED_BLINK_ARCHIVE
+  - respond
+  - defer
+  - summary
+- id: governance.metrics
+  category: governance
+  needs_served:
+  - need.learning
+  - need.performance
+  - need.trust
+  dependencies:
+  - backlogs.learning
+  risk_level: low
+  cost_profile: low
+  risk_profile:
+  - misleading_metrics
+  activation_modes:
+  - enabled_passive
+  - enabled_balanced
+  known_usages:
+  - escape_rate
+  - noise_rate
+  - rework_ratio
+  - p95_latency
+  - trend_reports
+- id: comms.chat
+  category: comms
+  needs_served:
+  - need.communication
+  - need.coordination
+  dependencies:
+  - auth.core
+  - threads.v2
+  risk_level: medium
+  cost_profile: low
+  risk_profile:
+  - spam
+  - misrouting
+  activation_modes:
+  - enabled_balanced
+  - enabled_guided
+  - enabled_overclocked
+  known_usages:
+  - internal_chat
+  - thread_chat_projection
+- id: comms.calls
+  category: comms
+  needs_served:
+  - need.communication
+  - need.coordination
+  - need.clarity
+  dependencies:
+  - auth.core
+  - threads.v2
+  - governance.core
+  risk_level: high
+  cost_profile: variable
+  risk_profile:
+  - privacy
+  - transcription_errors
+  - latency
+  activation_modes:
+  - enabled_balanced
+  - enabled_restricted
+  - enabled_overclocked
+  known_usages:
+  - voice_call
+  - live_transcription
+  - realtime_summary
+  - action_extraction
+- id: meetings.core
+  category: comms
+  needs_served:
+  - need.coordination
+  - need.clarity
+  - need.memory
+  dependencies:
+  - threads.v2
+  - comms.calls
+  - governance.core
+  risk_level: high
+  cost_profile: variable
+  risk_profile:
+  - action_loss
+  - meeting_sprawl
+  activation_modes:
+  - enabled_balanced
+  - enabled_guided
+  - enabled_overclocked
+  known_usages:
+  - agenda
+  - minutes
+  - action_items
+  - followups
+  - roles
+- id: workspace.editor
+  category: data
+  needs_served:
+  - need.organization
+  - need.clarity
+  - need.execution
+  dependencies:
+  - threads.v2
+  risk_level: medium
+  cost_profile: low
+  risk_profile:
+  - format_loss
+  - export_errors
+  activation_modes:
+  - enabled_balanced
+  - enabled_guided
+  known_usages:
+  - import_export
+  - send_to_agent
+  - structured_notes
+  - templates
+- id: datafiles.vault
+  category: data
+  needs_served:
+  - need.memory
+  - need.organization
+  - need.discovery
+  - need_resilience
+  dependencies:
+  - identity.boundary
+  risk_level: high
+  cost_profile: variable
+  risk_profile:
+  - data_leak
+  - sync_conflict
+  - large_files
+  activation_modes:
+  - enabled_balanced
+  - enabled_restricted
+  known_usages:
+  - upload
+  - link
+  - tag
+  - search
+  - retention_policies
+- id: integrations.gdrive
+  category: integrations
+  needs_served:
+  - need.discovery
+  - need.organization
+  - need.communication
+  dependencies:
+  - auth.core
+  - identity.boundary
+  - governance.core
+  risk_level: high
+  cost_profile: variable
+  risk_profile:
+  - oauth_misconfig
+  - over_permissions
+  - sync_conflict
+  activation_modes:
+  - enabled_guided
+  - enabled_balanced
+  - enabled_restricted
+  known_usages:
+  - import_files
+  - export_docs
+  - folder_sync
+  - search
+- id: integrations.clickup
+  category: integrations
+  needs_served:
+  - need.coordination
+  - need.execution
+  - need.organization
+  dependencies:
+  - auth.core
+  - identity.boundary
+  - governance.core
+  risk_level: high
+  cost_profile: variable
+  risk_profile:
+  - task_spam
+  - wrong_workspace
+  - rate_limits
+  activation_modes:
+  - enabled_guided
+  - enabled_balanced
+  - enabled_restricted
+  known_usages:
+  - create_tasks
+  - update_status
+  - sync_projects
+  - comments
+- id: integrations.email
+  category: integrations
+  needs_served:
+  - need.communication
+  - need.coordination
+  dependencies:
+  - auth.core
+  - identity.boundary
+  - governance.core
+  risk_level: high
+  cost_profile: variable
+  risk_profile:
+  - phishing
+  - mis-send
+  - privacy
+  activation_modes:
+  - enabled_guided
+  - enabled_balanced
+  - enabled_restricted
+  known_usages:
+  - gmail_outlook_import
+  - draft_reply
+  - triage
+  - summaries
+- id: integrations.calendar
+  category: integrations
+  needs_served:
+  - need.coordination
+  - need.memory
+  - need.performance
+  dependencies:
+  - auth.core
+  - identity.boundary
+  - governance.core
+  risk_level: medium
+  cost_profile: variable
+  risk_profile:
+  - wrong_timezone
+  - double_booking
+  activation_modes:
+  - enabled_guided
+  - enabled_balanced
+  - enabled_restricted
+  known_usages:
+  - read_events
+  - suggest_times
+  - meeting_sync
+- id: xr.preflight
+  category: xr
+  needs_served:
+  - need_presence
+  - need.trust
+  - need.performance
+  dependencies:
+  - threads.v2
+  - governance.core
+  risk_level: medium
+  cost_profile: low
+  risk_profile:
+  - confusing_entry
+  - permissions_leak
+  activation_modes:
+  - enabled_balanced
+  - enabled_guided
+  known_usages:
+  - role_redaction
+  - capability_precheck
+  - template_selection
+- id: xr.blueprint
+  category: xr
+  needs_served:
+  - need_presence
+  - need.organization
+  - need.communication
+  dependencies:
+  - xr.preflight
+  risk_level: high
+  cost_profile: variable
+  risk_profile:
+  - over_complexity
+  - ux_overload
+  - privacy
+  activation_modes:
+  - enabled_balanced
+  - enabled_restricted
+  - enabled_overclocked
+  known_usages:
+  - 7_zones
+  - thread_projection
+  - agents_in_room
+  - interactive_items
+- id: xr.renderer
+  category: xr
+  needs_served:
+  - need_presence
+  - need_performance
+  dependencies:
+  - xr.blueprint
+  risk_level: medium
+  cost_profile: variable
+  risk_profile:
+  - fps_drop
+  - device_incompat
+  activation_modes:
+  - enabled_balanced
+  - enabled_overclocked
+  known_usages:
+  - threejs_view
+  - zone_render
+  - live_updates
+- id: realtime.websocket
+  category: infra
+  needs_served:
+  - need.communication
+  - need.performance
+  - need_resilience
+  dependencies:
+  - auth.core
+  - governance.core
+  risk_level: high
+  cost_profile: variable
+  risk_profile:
+  - disconnects
+  - event_storm
+  - auth_expiry
+  activation_modes:
+  - enabled_balanced
+  - enabled_overclocked
+  known_usages:
+  - push_signals
+  - push_decision_points
+  - push_aging
+- id: jobs.scheduler
+  category: infra
+  needs_served:
+  - need_resilience
+  - need_performance
+  - need.governance
+  dependencies:
+  - governance.core
+  - decision_points
+  risk_level: medium
+  cost_profile: low
+  risk_profile:
+  - job_drift
+  - duplicate_runs
+  activation_modes:
+  - enabled_balanced
+  known_usages:
+  - aging_update
+  - auto_archive
+  - metrics_computation

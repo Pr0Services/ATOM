@@ -1,0 +1,153 @@
+version: v1
+namespace: need
+principles:
+- Needs are stable; implementations evolve.
+- A scenario maps to 1–3 primary needs and optional secondary needs.
+- A module must declare which needs it serves; otherwise it is not activable in simulation.
+- 'Governance is a need, not a feature: it must be triggered by circumstance and risk.'
+needs:
+- id: need.clarity
+  label: Clarity
+  description: Clarify intent, goals, scope, decisions.
+  urgency_levels:
+  - low
+  - medium
+  - high
+  risks_if_unmet:
+  - drift
+  - paralysis
+  - scope_creep
+- id: need.execution
+  label: Execution
+  description: Produce deliverables and take actions.
+  urgency_levels:
+  - medium
+  - high
+  risks_if_unmet:
+  - delay
+  - abandonment
+  - missed_deadlines
+- id: need.memory
+  label: Memory
+  description: Keep context, records, and continuity over time.
+  urgency_levels:
+  - low
+  - medium
+  risks_if_unmet:
+  - context_loss
+  - rework
+  - duplicated_effort
+- id: need.governance
+  label: Governance
+  description: Reduce error, enforce invariants, prevent irreversible mistakes.
+  urgency_levels:
+  - medium
+  - high
+  risks_if_unmet:
+  - system_failure
+  - security_incident
+  - irreversible_damage
+- id: need.safety
+  label: Safety
+  description: Protect users, identities, data, and permissions.
+  urgency_levels:
+  - medium
+  - high
+  risks_if_unmet:
+  - breach
+  - harm
+  - trust_loss
+- id: need.trust
+  label: Trust
+  description: Make the system understandable, auditable, predictable.
+  urgency_levels:
+  - medium
+  risks_if_unmet:
+  - abandon
+  - fear
+  - avoidance
+- id: need.learning
+  label: Learning
+  description: Teach users and improve system behavior over time.
+  urgency_levels:
+  - low
+  - medium
+  risks_if_unmet:
+  - stagnation
+  - repeat_mistakes
+- id: need.coordination
+  label: Coordination
+  description: Coordinate people, agents, and tasks across time.
+  urgency_levels:
+  - medium
+  - high
+  risks_if_unmet:
+  - conflict
+  - duplication
+  - misalignment
+- id: need.communication
+  label: Communication
+  description: Exchange information across channels (chat, email, calls, meetings).
+  urgency_levels:
+  - medium
+  - high
+  risks_if_unmet:
+  - silence
+  - confusion
+  - missed_context
+- id: need.discovery
+  label: Discovery
+  description: Find resources, information, tools, and opportunities.
+  urgency_levels:
+  - low
+  - medium
+  risks_if_unmet:
+  - poor_decisions
+  - missed_opportunities
+- id: need.organization
+  label: Organization
+  description: Structure information, files, workflows, and projects.
+  urgency_levels:
+  - low
+  - medium
+  risks_if_unmet:
+  - mess
+  - slowdown
+  - loss_of_control
+- id: need_identity
+  label: Identity Boundary
+  description: Keep strict separation between identities/tenants/data realms.
+  urgency_levels:
+  - high
+  risks_if_unmet:
+  - cross_tenant_leak
+  - legal_risk
+  - trust_loss
+- id: need_presence
+  label: Presence
+  description: Feel situated (XR/rooms), maintain engagement and spatial understanding.
+  urgency_levels:
+  - low
+  - medium
+  risks_if_unmet:
+  - disengagement
+  - cognitive_overload
+- id: need_resilience
+  label: Resilience
+  description: Operate under failure, latency, partial connectivity.
+  urgency_levels:
+  - medium
+  risks_if_unmet:
+  - downtime
+  - data_loss
+  - fragility
+- id: need_performance
+  label: Performance
+  description: Control cost/latency; keep live experience smooth.
+  urgency_levels:
+  - medium
+  - high
+  risks_if_unmet:
+  - lag
+  - cost_spike
+  - user_frustration

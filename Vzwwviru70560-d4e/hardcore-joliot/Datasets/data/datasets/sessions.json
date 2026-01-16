@@ -1,0 +1,185 @@
+{
+  "sessions": [
+    {
+      "session_id": "SES_20250126_001",
+      "started_at": "2025-01-26T00:00:00Z",
+      "ended_at": "2025-01-26T00:17:43Z",
+      "duration_seconds": 1063,
+      "user": {
+        "role": "presenter",
+        "name": "User 1"
+      },
+      "modules_visited": [
+        "memory_inspector",
+        "reflection_room"
+      ],
+      "events_generated": 386
+    },
+    {
+      "session_id": "SES_20250220_002",
+      "started_at": "2025-02-20T00:00:00Z",
+      "ended_at": "2025-02-20T00:23:25Z",
+      "duration_seconds": 1405,
+      "user": {
+        "role": "presenter",
+        "name": "User 2"
+      },
+      "modules_visited": [
+        "incident_mode",
+        "memory_inspector"
+      ],
+      "events_generated": 224
+    },
+    {
+      "session_id": "SES_20250317_003",
+      "started_at": "2025-03-17T00:00:00Z",
+      "ended_at": "2025-03-17T00:19:08Z",
+      "duration_seconds": 1148,
+      "user": {
+        "role": "developer",
+        "name": "User 3"
+      },
+      "modules_visited": [
+        "incident_mode",
+        "reflection_room"
+      ],
+      "events_generated": 181
+    },
+    {
+      "session_id": "SES_20250411_004",
+      "started_at": "2025-04-11T00:00:00Z",
+      "ended_at": "2025-04-11T00:20:52Z",
+      "duration_seconds": 1252,
+      "user": {
+        "role": "developer",
+        "name": "User 4"
+      },
+      "modules_visited": [
+        "incident_mode",
+        "memory_inspector"
+      ],
+      "events_generated": 122
+    },
+    {
+      "session_id": "SES_20250506_005",
+      "started_at": "2025-05-06T00:00:00Z",
+      "ended_at": "2025-05-06T00:55:59Z",
+      "duration_seconds": 3359,
+      "user": {
+        "role": "investor",
+        "name": "User 5"
+      },
+      "modules_visited": [
+        "reflection_room",
+        "incident_mode"
+      ],
+      "events_generated": 141
+    },
+    {
+      "session_id": "SES_20250531_006",
+      "started_at": "2025-05-31T00:00:00Z",
+      "ended_at": "2025-05-31T00:07:08Z",
+      "duration_seconds": 428,
+      "user": {
+        "role": "investor",
+        "name": "User 6"
+      },
+      "modules_visited": [
+        "incident_mode",
+        "memory_inspector"
+      ],
+      "events_generated": 88
+    },
+    {
+      "session_id": "SES_20250625_007",
+      "started_at": "2025-06-25T00:00:00Z",
+      "ended_at": "2025-06-25T00:34:02Z",
+      "duration_seconds": 2042,
+      "user": {
+        "role": "investor",
+        "name": "User 7"
+      },
+      "modules_visited": [
+        "reflection_room",
+        "incident_mode"
+      ],
+      "events_generated": 131
+    },
+    {
+      "session_id": "SES_20250720_008",
+      "started_at": "2025-07-20T00:00:00Z",
+      "ended_at": "2025-07-20T00:34:13Z",
+      "duration_seconds": 2053,
+      "user": {
+        "role": "presenter",
+        "name": "User 8"
+      },
+      "modules_visited": [
+        "reflection_room",
+        "memory_inspector"
+      ],
+      "events_generated": 146
+    },
+    {
+      "session_id": "SES_20250814_009",
+      "started_at": "2025-08-14T00:00:00Z",
+      "ended_at": "2025-08-14T00:44:57Z",
+      "duration_seconds": 2697,
+      "user": {
+        "role": "presenter",
+        "name": "User 9"
+      },
+      "modules_visited": [
+        "memory_inspector",
+        "incident_mode"
+      ],
+      "events_generated": 459
+    },
+    {
+      "session_id": "SES_20250908_010",
+      "started_at": "2025-09-08T00:00:00Z",
+      "ended_at": "2025-09-08T00:10:48Z",
+      "duration_seconds": 648,
+      "user": {
+        "role": "investor",
+        "name": "User 10"
+      },
+      "modules_visited": [
+        "reflection_room",
+        "incident_mode"
+      ],
+      "events_generated": 63
+    },
+    {
+      "session_id": "SES_20251003_011",
+      "started_at": "2025-10-03T00:00:00Z",
+      "ended_at": "2025-10-03T00:06:42Z",
+      "duration_seconds": 402,
+      "user": {
+        "role": "investor",
+        "name": "User 11"
+      },
+      "modules_visited": [
+        "reflection_room",
+        "memory_inspector"
+      ],
+      "events_generated": 300
+    },
+    {
+      "session_id": "SES_20251028_012",
+      "started_at": "2025-10-28T00:00:00Z",
+      "ended_at": "2025-10-28T00:26:57Z",
+      "duration_seconds": 1617,
+      "user": {
+        "role": "presenter",
+        "name": "User 12"
+      },
+      "modules_visited": [
+        "incident_mode",
+        "reflection_room"
+      ],
+      "events_generated": 313
+    }
+  ],
+  "count": 12
+}

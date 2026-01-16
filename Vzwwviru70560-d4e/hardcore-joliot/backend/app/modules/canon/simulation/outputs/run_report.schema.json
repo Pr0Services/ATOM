@@ -1,0 +1,28 @@
+{
+  "run_report": {
+    "run_id": "string",
+    "seed": "int",
+    "template_id": "string",
+    "factors": "object",
+    "module_set": "object",
+    "timeline_summary": "object",
+    "metrics": {
+      "p50_latency_ms": "number",
+      "p95_latency_ms": "number",
+      "cost_units": "number",
+      "noise_rate": "number",
+      "escape_rate": "number",
+      "abandonment_rate": "number",
+      "checkpoint_rate": "number"
+    },
+    "top_backlogs": [
+      {
+        "type": "ERROR|SIGNAL|DECISION|COST",
+        "count": "int",
+        "examples": [
+          "string"
+        ]
+      }
+    ]
+  }
+}

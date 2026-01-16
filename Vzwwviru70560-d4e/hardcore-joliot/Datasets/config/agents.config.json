@@ -1,0 +1,50 @@
+{
+  "orchestrator": {
+    "enabled": true,
+    "default_llm": "claude-sonnet-4",
+    "fallback_llm": "gpt-4-turbo"
+  },
+  "routing": {
+    "strategy": "weighted_round_robin",
+    "health_checks": true,
+    "circuit_breaker": true,
+    "timeout_ms": 30000
+  },
+  "providers": {
+    "anthropic": {
+      "enabled": true,
+      "models": ["claude-sonnet-4-20250514", "claude-haiku"],
+      "priority": 1,
+      "rate_limit": 100
+    },
+    "openai": {
+      "enabled": true,
+      "models": ["gpt-4-turbo", "gpt-4o"],
+      "priority": 2,
+      "rate_limit": 100
+    },
+    "google": {
+      "enabled": true,
+      "models": ["gemini-pro", "gemini-ultra"],
+      "priority": 3,
+      "rate_limit": 60
+    },
+    "ollama": {
+      "enabled": true,
+      "models": ["llama3", "mistral", "codellama"],
+      "priority": 4,
+      "local": true
+    }
+  },
+  "departments": {
+    "planning": {"agent_count": 18, "head": "AG_L1_PLANNING_HEAD"},
+    "estimation": {"agent_count": 15, "head": "AG_L1_ESTIMATION_HEAD"},
+    "compliance": {"agent_count": 20, "head": "AG_L1_COMPLIANCE_HEAD"},
+    "quality": {"agent_count": 12, "head": "AG_L1_QUALITY_HEAD"},
+    "safety": {"agent_count": 16, "head": "AG_L1_SAFETY_HEAD"},
+    "documents": {"agent_count": 14, "head": "AG_L1_DOCUMENTS_HEAD"},
+    "communication": {"agent_count": 10, "head": "AG_L1_COMMUNICATION_HEAD"},
+    "creative": {"agent_count": 38, "head": "AG_L1_CREATIVE_HEAD"}
+  },
+  "total_agents": 168
+}

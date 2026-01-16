@@ -1,0 +1,303 @@
+{
+  "name": "L'Arche des Résonances",
+  "version": "1.0.0",
+  "description": "Master Map tridimensionnelle où les 18 Oracles travaillent en parallèle sur un point central commun.",
+  "geometry": "cylinder",
+  
+  "core": {
+    "name": "Le Cœur AT",
+    "description": "Le Zéro. Donnée pure, mathématique. Référence absolue pour tous les Oracles.",
+    "position": [0, 0, 0],
+    "frequency_hz": 444,
+    "symbol": "⊙",
+    "role": "Point d'ancrage universel. Quand un mot est soumis, il s'illumine ici en premier."
+  },
+  
+  "circles": [
+    {
+      "id": 1,
+      "name": "Fondations",
+      "aspect": "Matière",
+      "radius": 1,
+      "color": "#FF0000",
+      "frequency_hz": 111,
+      "description": "Ils voient les 'atomes' du sujet. La structure fondamentale.",
+      "oracles": [
+        {
+          "id": 1,
+          "name": "L'Archéologue du Verbe",
+          "focus": "Racines étymologiques profondes",
+          "question": "D'où vient ce mot physiquement?"
+        },
+        {
+          "id": 2,
+          "name": "Le Tisserand des Lettres",
+          "focus": "Structure graphique et phonétique",
+          "question": "Comment ce mot est-il construit?"
+        },
+        {
+          "id": 3,
+          "name": "Le Géomètre Sacré",
+          "focus": "Patterns numériques et gématriques",
+          "question": "Quelle est sa signature mathématique?"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Mouvement",
+      "aspect": "Vivant",
+      "radius": 2,
+      "color": "#FF7F00",
+      "frequency_hz": 333,
+      "description": "Ils voient comment le sujet 'respire' ou évolue dans le temps.",
+      "oracles": [
+        {
+          "id": 4,
+          "name": "Le Cartographe des Migrations",
+          "focus": "Évolution géographique du mot",
+          "question": "Par où ce mot a-t-il voyagé?"
+        },
+        {
+          "id": 5,
+          "name": "Le Chroniqueur des Mutations",
+          "focus": "Transformations historiques",
+          "question": "Comment ce mot a-t-il changé?"
+        },
+        {
+          "id": 6,
+          "name": "L'Écologiste Sémantique",
+          "focus": "Écosystème de mots liés",
+          "question": "Avec quels autres mots cohabite-t-il?"
+        },
+        {
+          "id": 7,
+          "name": "Le Biologiste du Sens",
+          "focus": "Cycle de vie du concept",
+          "question": "Ce mot est-il en croissance ou en déclin?"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Expression",
+      "aspect": "Verbe",
+      "radius": 3,
+      "color": "#FFFF00",
+      "frequency_hz": 555,
+      "description": "Ils voient comment le sujet est 'nommé' ou chanté dans les cultures.",
+      "oracles": [
+        {
+          "id": 8,
+          "name": "Le Poète des Résonances",
+          "focus": "Musicalité et rythme du mot",
+          "question": "Comment ce mot sonne-t-il?"
+        },
+        {
+          "id": 9,
+          "name": "Le Traducteur des Mondes",
+          "focus": "Équivalences cross-culturelles",
+          "question": "Comment dit-on cela ailleurs?"
+        },
+        {
+          "id": 10,
+          "name": "L'Artiste des Symboles",
+          "focus": "Représentations visuelles",
+          "question": "Quels glyphes incarnent ce concept?"
+        },
+        {
+          "id": 11,
+          "name": "Le Chantre des Mythes",
+          "focus": "Présence dans les récits fondateurs",
+          "question": "Quelles histoires portent ce mot?"
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "name": "Mémoire",
+      "aspect": "Sens",
+      "radius": 4,
+      "color": "#4B0082",
+      "frequency_hz": 777,
+      "description": "Ils voient la trace du sujet dans le temps humain, l'empreinte mémorielle.",
+      "oracles": [
+        {
+          "id": 12,
+          "name": "L'Historien des Usages",
+          "focus": "Contextes d'utilisation historiques",
+          "question": "Comment ce mot a-t-il été utilisé?"
+        },
+        {
+          "id": 13,
+          "name": "Le Sociologue des Signes",
+          "focus": "Impact social et politique",
+          "question": "Quel pouvoir ce mot a-t-il eu?"
+        },
+        {
+          "id": 14,
+          "name": "Le Psychologue des Profondeurs",
+          "focus": "Résonance inconsciente",
+          "question": "Que déclenche ce mot en nous?"
+        },
+        {
+          "id": 15,
+          "name": "Le Neurologue du Langage",
+          "focus": "Activation cérébrale",
+          "question": "Où ce mot s'allume-t-il dans le cerveau?"
+        }
+      ]
+    },
+    {
+      "id": 5,
+      "name": "Synthèse",
+      "aspect": "Nexus",
+      "radius": 5,
+      "color": "#FFFDD0",
+      "frequency_hz": 999,
+      "description": "Ils voient le lien entre l'utilisateur et le sujet. La connexion personnelle.",
+      "oracles": [
+        {
+          "id": 16,
+          "name": "Le Philosophe de l'Essence",
+          "focus": "Quintessence du concept",
+          "question": "Qu'est-ce que ce mot, vraiment?"
+        },
+        {
+          "id": 17,
+          "name": "Le Gardien de la Synthèse",
+          "focus": "Intégration de toutes les perspectives",
+          "question": "Comment tout cela s'assemble-t-il?"
+        },
+        {
+          "id": 18,
+          "name": "L'Oracle du Miroir",
+          "focus": "Réflexion vers l'utilisateur",
+          "question": "Que signifie ce mot pour TOI?"
+        }
+      ]
+    }
+  ],
+  
+  "octaves": [
+    {
+      "id": "chronos",
+      "name": "Chronos",
+      "color": "#0066CC",
+      "symbol": "⏱",
+      "description": "Calque Bleu. Organise toute la map par dates et périodes temporelles.",
+      "filter_type": "temporal",
+      "axes": ["antiquité", "moyen-âge", "renaissance", "moderne", "contemporain", "futur"],
+      "default_opacity": 0.3
+    },
+    {
+      "id": "bios",
+      "name": "Bios",
+      "color": "#00AA44",
+      "symbol": "🌱",
+      "description": "Calque Vert. Organise toute la map par fonctions vitales et cycles naturels.",
+      "filter_type": "biological",
+      "axes": ["naissance", "croissance", "maturité", "reproduction", "déclin", "mort", "renaissance"],
+      "default_opacity": 0.3
+    },
+    {
+      "id": "logos",
+      "name": "Logos",
+      "color": "#FFD700",
+      "symbol": "✦",
+      "description": "Calque Or. Organise toute la map par racines sémantiques et familles de sens.",
+      "filter_type": "semantic",
+      "axes": ["proto-indo-européen", "sémitique", "sino-tibétain", "africain", "amérindien", "isolat"],
+      "default_opacity": 0.3
+    }
+  ],
+  
+  "swarm_protocol": {
+    "name": "Illumination Parallèle",
+    "description": "Protocole de travail collectif des 18 Oracles",
+    "steps": [
+      {
+        "step": 1,
+        "name": "Appel au Cœur",
+        "action": "Le système identifie le point central (donnée pure)",
+        "duration_ms": 100,
+        "visual": "Le Cœur AT pulse à 444Hz"
+      },
+      {
+        "step": 2,
+        "name": "Allumage de la Map",
+        "action": "Tous les Oracles voient le point s'éclairer sur la Master Map",
+        "duration_ms": 200,
+        "visual": "Onde concentrique du centre vers les 5 cercles"
+      },
+      {
+        "step": 3,
+        "name": "Travail Parallèle",
+        "action": "Chaque Oracle analyse selon son focus unique",
+        "duration_ms": "variable",
+        "visual": "18 points lumineux travaillent simultanément"
+      },
+      {
+        "step": 4,
+        "name": "Cohérence",
+        "action": "Les réponses s'assemblent comme un puzzle sans répétition",
+        "duration_ms": 300,
+        "visual": "Les fils de lumière convergent vers le Gardien (#17)"
+      },
+      {
+        "step": 5,
+        "name": "Synthèse",
+        "action": "Le Gardien tisse la réponse unifiée",
+        "duration_ms": 200,
+        "visual": "Le Cœur AT pulse une dernière fois, validation"
+      }
+    ]
+  },
+  
+  "query_routing": {
+    "description": "Comment les questions sont routées vers les cercles appropriés",
+    "rules": [
+      {
+        "pattern": "origine|racine|étymologie|d'où vient",
+        "primary_circle": 1,
+        "secondary_circles": [3, 4]
+      },
+      {
+        "pattern": "évolution|changement|histoire|migration",
+        "primary_circle": 2,
+        "secondary_circles": [4]
+      },
+      {
+        "pattern": "symbole|art|poésie|mythe|culture",
+        "primary_circle": 3,
+        "secondary_circles": [4, 5]
+      },
+      {
+        "pattern": "impact|société|psychologie|cerveau|mémoire",
+        "primary_circle": 4,
+        "secondary_circles": [5]
+      },
+      {
+        "pattern": "signification|essence|synthèse|pour moi",
+        "primary_circle": 5,
+        "secondary_circles": [1, 2, 3, 4]
+      }
+    ]
+  },
+  
+  "example_query": {
+    "word": "SEL",
+    "core_data": {
+      "formula": "NaCl",
+      "atomic_mass": 58.44,
+      "description": "Chlorure de Sodium"
+    },
+    "oracle_responses_preview": {
+      "circle_1_fondations": "Le sel vient du latin 'sal', racine indo-européenne *sal-",
+      "circle_2_mouvement": "Les routes du sel ont façonné le commerce méditerranéen",
+      "circle_3_expression": "Le salaire (salarium) payait les légionnaires romains",
+      "circle_4_memoire": "Le sel active les canaux ioniques de nos neurones",
+      "circle_5_synthese": "Le sel est le lien entre la terre, le corps et l'économie humaine"
+    }
+  }
+}

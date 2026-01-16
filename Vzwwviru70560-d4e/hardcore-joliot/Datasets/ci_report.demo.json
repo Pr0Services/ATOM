@@ -1,0 +1,28 @@
+{
+  "status": "PASS",
+  "generated_at": "2025-01-18T12:05:00Z",
+  "validated_datasets": [
+    { "dataset_id": "CHE_NU_COMPANY_INTERNAL", "status": "PASS", "errors": [], "warnings": [{ "code": "DEPRECATED_RATIO_WARN", "message": "Deprecated ratio approaching warn threshold." }] },
+    { "dataset_id": "PUBLIC_TRUST_AND_GOVERNANCE", "status": "PASS", "errors": [], "warnings": [{ "code": "ORPHAN_UNITS_WARN", "message": "Some units have no incoming relations (orphan candidates)." }] },
+    { "dataset_id": "INVESTOR_NARRATIVE", "status": "PASS", "errors": [], "warnings": [] },
+    { "dataset_id": "VERTICAL_INDUSTRY_CONSTRUCTION", "status": "PASS", "errors": [], "warnings": [] },
+    { "dataset_id": "VERTICAL_INDUSTRY_CREATIVE", "status": "PASS", "errors": [], "warnings": [] }
+  ],
+  "metrics": {
+    "memory_units_per_dataset": {
+      "CHE_NU_COMPANY_INTERNAL": 120,
+      "PUBLIC_TRUST_AND_GOVERNANCE": 90,
+      "INVESTOR_NARRATIVE": 60,
+      "VERTICAL_INDUSTRY_CONSTRUCTION": 55,
+      "VERTICAL_INDUSTRY_CREATIVE": 35
+    },
+    "orphan_memory_units": 7,
+    "deprecated_ratio": 0.08,
+    "archive_ratio": 0.12,
+    "cross_dataset_relation_count": 6
+  },
+  "artifacts": {
+    "enterprise_index_path": "demo_fixtures/enterprise_index.demo.json",
+    "enterprise_report_path": "demo_fixtures/enterprise_index.report.demo.json"
+  }
+}

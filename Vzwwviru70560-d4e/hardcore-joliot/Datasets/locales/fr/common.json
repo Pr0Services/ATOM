@@ -1,0 +1,196 @@
+{
+  "app": {
+    "name": "CHE·NU",
+    "tagline": "Governed Intelligence Operating System",
+    "version": "V51"
+  },
+  "navigation": {
+    "home": "Accueil",
+    "reflection_room": "Salle de Réflexion",
+    "memory_inspector": "Inspecteur Mémoire",
+    "incident_mode": "Mode Incident",
+    "demo_replay": "Relecture Démo",
+    "presenter_mode": "Mode Présentateur",
+    "exports": "Exports",
+    "settings": "Paramètres"
+  },
+  "tree_laws": {
+    "title": "Les Tree Laws",
+    "subtitle": "Constitution de CHE·NU",
+    "law1": {
+      "name": "Pas d'écriture mémoire automatique",
+      "description": "Aucune modification de la mémoire persistante sans approbation humaine explicite"
+    },
+    "law2": {
+      "name": "Pas de décision autonome",
+      "description": "Le système ne prend jamais de décision ayant un impact réel sans validation humaine"
+    },
+    "law3": {
+      "name": "Transparence totale",
+      "description": "Chaque événement est tracé et auditable. Rien n'est caché."
+    },
+    "status": {
+      "respected": "Respectée",
+      "violated": "Violation détectée"
+    }
+  },
+  "reflection_room": {
+    "title": "Salle de Réflexion",
+    "context_free": "Sans contexte",
+    "context_loaded": "Contexte chargé",
+    "add_text": "Texte",
+    "add_thought": "Pensée",
+    "add_question": "Question",
+    "placeholder": "Entrez une pensée, question ou idée...",
+    "clear": "Effacer",
+    "proposals": {
+      "title": "Propositions",
+      "none": "Aucune proposition générée",
+      "hint": "Continuez à réfléchir pour en générer"
+    }
+  },
+  "proposals": {
+    "status": {
+      "draft": "Brouillon",
+      "pending": "En attente",
+      "under_review": "En révision",
+      "approved": "Approuvée",
+      "rejected": "Rejetée",
+      "expired": "Expirée",
+      "discarded": "Abandonnée"
+    },
+    "actions": {
+      "submit": "Soumettre pour révision",
+      "approve": "Approuver",
+      "reject": "Rejeter",
+      "edit": "Modifier",
+      "discard": "Abandonner"
+    },
+    "confidence": "Confiance",
+    "source_blocks": "Blocs sources"
+  },
+  "memory_inspector": {
+    "title": "Inspecteur Mémoire",
+    "read_only": "Lecture seule",
+    "spheres": "Sphères",
+    "units": "Unités",
+    "relations": "Relations",
+    "search": "Rechercher...",
+    "filters": {
+      "all": "Tous",
+      "sphere": "Par sphère",
+      "type": "Par type",
+      "status": "Par statut"
+    }
+  },
+  "incident_mode": {
+    "title": "Mode Incident",
+    "subtitle": "Visualisation forensique",
+    "events": "Événements",
+    "timeline": "Timeline",
+    "filters": "Filtres",
+    "export": "Exporter",
+    "flag": "Marquer",
+    "categories": {
+      "all": "Tous",
+      "navigation": "Navigation",
+      "module": "Module",
+      "proposal": "Proposition",
+      "memory": "Mémoire",
+      "demo": "Démo",
+      "export": "Export",
+      "system": "Système",
+      "error": "Erreur"
+    },
+    "severity": {
+      "debug": "Debug",
+      "info": "Info",
+      "warning": "Avertissement",
+      "error": "Erreur",
+      "critical": "Critique"
+    }
+  },
+  "demo_replay": {
+    "title": "Relecture Démo",
+    "forensic_mode": "Mode forensique",
+    "load_session": "Charger session",
+    "load_file": "Charger fichier",
+    "controls": {
+      "play": "Lecture",
+      "pause": "Pause",
+      "step_forward": "Avancer",
+      "step_backward": "Reculer",
+      "speed": "Vitesse"
+    }
+  },
+  "presenter_mode": {
+    "title": "Mode Présentateur",
+    "flow": "Flow",
+    "step": "Étape",
+    "notes": "Notes",
+    "timer": "Minuterie",
+    "next": "Suivant",
+    "previous": "Précédent",
+    "skip": "Passer"
+  },
+  "exports": {
+    "title": "Exports",
+    "types": {
+      "narrative": "Narratif Démo",
+      "investor_qa": "Q&A Investisseurs",
+      "incident_report": "Rapport Incident",
+      "replay_summary": "Résumé Replay"
+    },
+    "formats": {
+      "pdf": "PDF",
+      "json": "JSON",
+      "html": "HTML"
+    },
+    "signing": {
+      "title": "Signature",
+      "algorithm": "Algorithme",
+      "key_id": "ID Clé",
+      "signed": "Signé",
+      "verified": "Vérifié"
+    }
+  },
+  "spheres": {
+    "system": "Système",
+    "governance": "Gouvernance",
+    "agents": "Agents",
+    "projects": "Projets",
+    "compliance": "Conformité",
+    "knowledge": "Connaissances"
+  },
+  "common": {
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "view": "Voir",
+    "close": "Fermer",
+    "back": "Retour",
+    "next": "Suivant",
+    "search": "Rechercher",
+    "filter": "Filtrer",
+    "sort": "Trier",
+    "export": "Exporter",
+    "import": "Importer",
+    "refresh": "Rafraîchir",
+    "yes": "Oui",
+    "no": "Non"
+  },
+  "time": {
+    "now": "Maintenant",
+    "today": "Aujourd'hui",
+    "yesterday": "Hier",
+    "seconds_ago": "il y a {{count}} secondes",
+    "minutes_ago": "il y a {{count}} minutes",
+    "hours_ago": "il y a {{count}} heures",
+    "days_ago": "il y a {{count}} jours"
+  }
+}

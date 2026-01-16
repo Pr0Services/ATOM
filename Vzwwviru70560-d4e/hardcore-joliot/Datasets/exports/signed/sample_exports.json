@@ -1,0 +1,114 @@
+{
+  "exports": [
+    {
+      "export_id": "EXP_20251101_001",
+      "export_type": "investor_qa",
+      "created_at": "2025-11-01T00:00:00Z",
+      "content_hash": "3574867ff7c91e10d0d40035d86c24d52955d54ea790ac874e5bf8cf00a51c87",
+      "signature": {
+        "algorithm": "HMAC-SHA256",
+        "key_id": "demo_key_001",
+        "signature": "ab6df6509c4a626f509434a4a88971063338451b702446cdd9f71357b0b89697"
+      }
+    },
+    {
+      "export_id": "EXP_20251104_002",
+      "export_type": "incident_report",
+      "created_at": "2025-11-04T00:00:00Z",
+      "content_hash": "f2b2caa85feb6a021f0f8a7a7c7ce1881877d8db7ad6293c3a92c29ac6bc1c60",
+      "signature": {
+        "algorithm": "HMAC-SHA256",
+        "key_id": "demo_key_001",
+        "signature": "41635f3153a83de06df9ab630ef5abaa9e40d457106c075c66c867c260309006"
+      }
+    },
+    {
+      "export_id": "EXP_20251107_003",
+      "export_type": "incident_report",
+      "created_at": "2025-11-07T00:00:00Z",
+      "content_hash": "6a06e728159d3dc12a5d21f8759b806698e873f1d0663e0d2d0b893696a31229",
+      "signature": {
+        "algorithm": "HMAC-SHA256",
+        "key_id": "demo_key_001",
+        "signature": "dfce4292c546d90a5bf67ec03b5b744aaa1f4242526b02ac3814a719c637c566"
+      }
+    },
+    {
+      "export_id": "EXP_20251110_004",
+      "export_type": "demo_narrative",
+      "created_at": "2025-11-10T00:00:00Z",
+      "content_hash": "2539febaa521acaea5a91b844eea1b3df440fb5bf5be710c1a51d82108eb788c",
+      "signature": {
+        "algorithm": "HMAC-SHA256",
+        "key_id": "demo_key_001",
+        "signature": "34dbb6a4043aed50f07f586fd267b99b90b6066fe6669138ec2edcb284b9c562"
+      }
+    },
+    {
+      "export_id": "EXP_20251113_005",
+      "export_type": "incident_report",
+      "created_at": "2025-11-13T00:00:00Z",
+      "content_hash": "f54e2ee59acb3a44bc92b296b6e5ec575941326eb2749b3f11e31e69e6b93eb8",
+      "signature": {
+        "algorithm": "HMAC-SHA256",
+        "key_id": "demo_key_001",
+        "signature": "655a71eb11077e9b5e8a13bb555a5cda8fc76c6dfbbaee96010c449a271afe0f"
+      }
+    },
+    {
+      "export_id": "EXP_20251116_006",
+      "export_type": "demo_narrative",
+      "created_at": "2025-11-16T00:00:00Z",
+      "content_hash": "e31d5c34d528379f620892beaf7465fe3904c0044d88d674bae2f197ceb7fa7e",
+      "signature": {
+        "algorithm": "HMAC-SHA256",
+        "key_id": "demo_key_001",
+        "signature": "20678f179a9b7d08d100e4d7d8902fa86516f4fec538eca2272cbdbf44a9d751"
+      }
+    },
+    {
+      "export_id": "EXP_20251119_007",
+      "export_type": "incident_report",
+      "created_at": "2025-11-19T00:00:00Z",
+      "content_hash": "3cae964b146c2fc5f9717386dc3d72d796531227a400d4337d47f5911e86b726",
+      "signature": {
+        "algorithm": "HMAC-SHA256",
+        "key_id": "demo_key_001",
+        "signature": "65dbb671015761f6ae55405a5428d4a18dc5af2e9046b64e6152d4996984bf0f"
+      }
+    },
+    {
+      "export_id": "EXP_20251122_008",
+      "export_type": "incident_report",
+      "created_at": "2025-11-22T00:00:00Z",
+      "content_hash": "1dc40c89094f41b84c7650ac26a1970ff43d66c555e15a06dab45946fe7b0cda",
+      "signature": {
+        "algorithm": "HMAC-SHA256",
+        "key_id": "demo_key_001",
+        "signature": "0e0fe5bed157dca66db8651ed3ea25a368397fd7213bf6a2876129680d8d3b0d"
+      }
+    },
+    {
+      "export_id": "EXP_20251125_009",
+      "export_type": "demo_narrative",
+      "created_at": "2025-11-25T00:00:00Z",
+      "content_hash": "e7958bf6c99928583349230fd6174bfe939ab80aa7ce32948fdb219e92ce0a2f",
+      "signature": {
+        "algorithm": "HMAC-SHA256",
+        "key_id": "demo_key_001",
+        "signature": "6841975e5151d29ae817e9c71fbafb02ce67886add3b57394a48d49b7d233924"
+      }
+    },
+    {
+      "export_id": "EXP_20251128_010",
+      "export_type": "demo_narrative",
+      "created_at": "2025-11-28T00:00:00Z",
+      "content_hash": "f601885864cd6fb8a7096c192c7ce2a6ba08ec71c59d77b5356bafd31ff399ea",
+      "signature": {
+        "algorithm": "HMAC-SHA256",
+        "key_id": "demo_key_001",
+        "signature": "c07162b88996fceaef631e80b832c355c62e479504bc5587c1d1db67ea64c360"
+      }
+    }
+  ]
+}

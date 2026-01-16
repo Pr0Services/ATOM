@@ -1,0 +1,1571 @@
+{
+  "projects": [
+    {
+      "project_id": "PRJ_ALPHA",
+      "name": "Complexe R\u00e9sidentiel Brossard",
+      "type": "residential_multi",
+      "status": "active",
+      "current_phase": "construction",
+      "location": {
+        "address": "4393 Rue Exemple",
+        "city": "Brossard",
+        "province": "QC",
+        "postal_code": "J7U 6E1",
+        "coordinates": {
+          "lat": 45.57808000766704,
+          "lng": -73.32618553839843
+        }
+      },
+      "timeline": {
+        "start_date": "2025-01-06",
+        "estimated_end": "2026-11-17",
+        "phases": [
+          {
+            "name": "Planification",
+            "status": "completed"
+          },
+          {
+            "name": "Permis",
+            "status": "completed"
+          },
+          {
+            "name": "Excavation",
+            "status": "completed"
+          },
+          {
+            "name": "Fondations",
+            "status": "planned"
+          },
+          {
+            "name": "Structure",
+            "status": "planned"
+          },
+          {
+            "name": "Enveloppe",
+            "status": "planned"
+          },
+          {
+            "name": "Finitions",
+            "status": "planned"
+          },
+          {
+            "name": "Livraison",
+            "status": "planned"
+          }
+        ]
+      },
+      "budget": {
+        "total": 18500000,
+        "currency": "CAD",
+        "committed": 12401230,
+        "spent": 8800463,
+        "contingency": 925000,
+        "breakdown": {
+          "labor": 6475000,
+          "materials": 8325000,
+          "equipment": 1480000,
+          "overhead": 1295000,
+          "profit": 925000
+        }
+      },
+      "team": {
+        "project_manager": "PM_007",
+        "superintendent": "SUPT_005",
+        "estimator": "EST_008",
+        "safety_officer": "SST_003"
+      },
+      "compliance": {
+        "rbq_license": "RBQ-6059-8533",
+        "building_permit": "BP-2025-5953",
+        "cnesst_file": "CNESST-2025-99632",
+        "ccq_declaration": "Current"
+      },
+      "kpis": {
+        "schedule_performance_index": 0.99,
+        "cost_performance_index": 0.93,
+        "safety_incidents_ytd": 5,
+        "quality_score": 96
+      },
+      "documents": [
+        "DOC_PRJ_ALPHA_000",
+        "DOC_PRJ_ALPHA_001",
+        "DOC_PRJ_ALPHA_002",
+        "DOC_PRJ_ALPHA_003",
+        "DOC_PRJ_ALPHA_004",
+        "DOC_PRJ_ALPHA_005",
+        "DOC_PRJ_ALPHA_006",
+        "DOC_PRJ_ALPHA_007",
+        "DOC_PRJ_ALPHA_008",
+        "DOC_PRJ_ALPHA_009",
+        "DOC_PRJ_ALPHA_010",
+        "DOC_PRJ_ALPHA_011",
+        "DOC_PRJ_ALPHA_012",
+        "DOC_PRJ_ALPHA_013",
+        "DOC_PRJ_ALPHA_014",
+        "DOC_PRJ_ALPHA_015",
+        "DOC_PRJ_ALPHA_016",
+        "DOC_PRJ_ALPHA_017",
+        "DOC_PRJ_ALPHA_018",
+        "DOC_PRJ_ALPHA_019",
+        "DOC_PRJ_ALPHA_020",
+        "DOC_PRJ_ALPHA_021",
+        "DOC_PRJ_ALPHA_022",
+        "DOC_PRJ_ALPHA_023",
+        "DOC_PRJ_ALPHA_024",
+        "DOC_PRJ_ALPHA_025",
+        "DOC_PRJ_ALPHA_026",
+        "DOC_PRJ_ALPHA_027",
+        "DOC_PRJ_ALPHA_028",
+        "DOC_PRJ_ALPHA_029",
+        "DOC_PRJ_ALPHA_030"
+      ],
+      "change_orders": 7,
+      "rfis": 46
+    },
+    {
+      "project_id": "PRJ_BETA",
+      "name": "R\u00e9novation Commerciale Longueuil",
+      "type": "commercial_renovation",
+      "status": "active",
+      "current_phase": "construction",
+      "location": {
+        "address": "8404 Rue Exemple",
+        "city": "Longueuil",
+        "province": "QC",
+        "postal_code": "J2J 5Y8",
+        "coordinates": {
+          "lat": 45.51559136454591,
+          "lng": -73.29873291336837
+        }
+      },
+      "timeline": {
+        "start_date": "2025-06-01",
+        "estimated_end": "2026-08-02",
+        "phases": [
+          {
+            "name": "Planification",
+            "status": "completed"
+          },
+          {
+            "name": "Permis",
+            "status": "completed"
+          },
+          {
+            "name": "Excavation",
+            "status": "completed"
+          },
+          {
+            "name": "Fondations",
+            "status": "planned"
+          },
+          {
+            "name": "Structure",
+            "status": "planned"
+          },
+          {
+            "name": "Enveloppe",
+            "status": "planned"
+          },
+          {
+            "name": "Finitions",
+            "status": "planned"
+          },
+          {
+            "name": "Livraison",
+            "status": "planned"
+          }
+        ]
+      },
+      "budget": {
+        "total": 4200000,
+        "currency": "CAD",
+        "committed": 2681807,
+        "spent": 1422253,
+        "contingency": 210000,
+        "breakdown": {
+          "labor": 1470000,
+          "materials": 1890000,
+          "equipment": 336000,
+          "overhead": 294000,
+          "profit": 210000
+        }
+      },
+      "team": {
+        "project_manager": "PM_009",
+        "superintendent": "SUPT_001",
+        "estimator": "EST_005",
+        "safety_officer": "SST_007"
+      },
+      "compliance": {
+        "rbq_license": "RBQ-7334-2246",
+        "building_permit": "BP-2025-3358",
+        "cnesst_file": "CNESST-2025-25656",
+        "ccq_declaration": "Current"
+      },
+      "kpis": {
+        "schedule_performance_index": 0.94,
+        "cost_performance_index": 1.01,
+        "safety_incidents_ytd": 5,
+        "quality_score": 95
+      },
+      "documents": [
+        "DOC_PRJ_BETA_000",
+        "DOC_PRJ_BETA_001",
+        "DOC_PRJ_BETA_002",
+        "DOC_PRJ_BETA_003",
+        "DOC_PRJ_BETA_004",
+        "DOC_PRJ_BETA_005",
+        "DOC_PRJ_BETA_006",
+        "DOC_PRJ_BETA_007",
+        "DOC_PRJ_BETA_008",
+        "DOC_PRJ_BETA_009",
+        "DOC_PRJ_BETA_010",
+        "DOC_PRJ_BETA_011",
+        "DOC_PRJ_BETA_012",
+        "DOC_PRJ_BETA_013",
+        "DOC_PRJ_BETA_014",
+        "DOC_PRJ_BETA_015",
+        "DOC_PRJ_BETA_016",
+        "DOC_PRJ_BETA_017",
+        "DOC_PRJ_BETA_018",
+        "DOC_PRJ_BETA_019",
+        "DOC_PRJ_BETA_020",
+        "DOC_PRJ_BETA_021",
+        "DOC_PRJ_BETA_022",
+        "DOC_PRJ_BETA_023",
+        "DOC_PRJ_BETA_024",
+        "DOC_PRJ_BETA_025",
+        "DOC_PRJ_BETA_026",
+        "DOC_PRJ_BETA_027",
+        "DOC_PRJ_BETA_028",
+        "DOC_PRJ_BETA_029",
+        "DOC_PRJ_BETA_030",
+        "DOC_PRJ_BETA_031",
+        "DOC_PRJ_BETA_032",
+        "DOC_PRJ_BETA_033",
+        "DOC_PRJ_BETA_034",
+        "DOC_PRJ_BETA_035",
+        "DOC_PRJ_BETA_036",
+        "DOC_PRJ_BETA_037",
+        "DOC_PRJ_BETA_038",
+        "DOC_PRJ_BETA_039",
+        "DOC_PRJ_BETA_040",
+        "DOC_PRJ_BETA_041",
+        "DOC_PRJ_BETA_042",
+        "DOC_PRJ_BETA_043",
+        "DOC_PRJ_BETA_044",
+        "DOC_PRJ_BETA_045",
+        "DOC_PRJ_BETA_046",
+        "DOC_PRJ_BETA_047",
+        "DOC_PRJ_BETA_048",
+        "DOC_PRJ_BETA_049",
+        "DOC_PRJ_BETA_050",
+        "DOC_PRJ_BETA_051",
+        "DOC_PRJ_BETA_052",
+        "DOC_PRJ_BETA_053",
+        "DOC_PRJ_BETA_054",
+        "DOC_PRJ_BETA_055",
+        "DOC_PRJ_BETA_056",
+        "DOC_PRJ_BETA_057",
+        "DOC_PRJ_BETA_058",
+        "DOC_PRJ_BETA_059",
+        "DOC_PRJ_BETA_060",
+        "DOC_PRJ_BETA_061",
+        "DOC_PRJ_BETA_062",
+        "DOC_PRJ_BETA_063",
+        "DOC_PRJ_BETA_064",
+        "DOC_PRJ_BETA_065",
+        "DOC_PRJ_BETA_066",
+        "DOC_PRJ_BETA_067",
+        "DOC_PRJ_BETA_068",
+        "DOC_PRJ_BETA_069",
+        "DOC_PRJ_BETA_070",
+        "DOC_PRJ_BETA_071",
+        "DOC_PRJ_BETA_072",
+        "DOC_PRJ_BETA_073",
+        "DOC_PRJ_BETA_074",
+        "DOC_PRJ_BETA_075",
+        "DOC_PRJ_BETA_076",
+        "DOC_PRJ_BETA_077",
+        "DOC_PRJ_BETA_078",
+        "DOC_PRJ_BETA_079",
+        "DOC_PRJ_BETA_080",
+        "DOC_PRJ_BETA_081",
+        "DOC_PRJ_BETA_082",
+        "DOC_PRJ_BETA_083",
+        "DOC_PRJ_BETA_084",
+        "DOC_PRJ_BETA_085",
+        "DOC_PRJ_BETA_086",
+        "DOC_PRJ_BETA_087",
+        "DOC_PRJ_BETA_088",
+        "DOC_PRJ_BETA_089",
+        "DOC_PRJ_BETA_090",
+        "DOC_PRJ_BETA_091",
+        "DOC_PRJ_BETA_092"
+      ],
+      "change_orders": 8,
+      "rfis": 41
+    },
+    {
+      "project_id": "PRJ_GAMMA",
+      "name": "Maison Unifamiliale St-Bruno",
+      "type": "residential_single",
+      "status": "active",
+      "current_phase": "structure",
+      "location": {
+        "address": "5439 Rue Exemple",
+        "city": "St-Bruno",
+        "province": "QC",
+        "postal_code": "J1M 3N8",
+        "coordinates": {
+          "lat": 45.423264444137295,
+          "lng": -73.37282771167382
+        }
+      },
+      "timeline": {
+        "start_date": "2025-05-15",
+        "estimated_end": "2027-01-10",
+        "phases": [
+          {
+            "name": "Planification",
+            "status": "completed"
+          },
+          {
+            "name": "Permis",
+            "status": "completed"
+          },
+          {
+            "name": "Excavation",
+            "status": "completed"
+          },
+          {
+            "name": "Fondations",
+            "status": "planned"
+          },
+          {
+            "name": "Structure",
+            "status": "in_progress"
+          },
+          {
+            "name": "Enveloppe",
+            "status": "planned"
+          },
+          {
+            "name": "Finitions",
+            "status": "planned"
+          },
+          {
+            "name": "Livraison",
+            "status": "planned"
+          }
+        ]
+      },
+      "budget": {
+        "total": 1850000,
+        "currency": "CAD",
+        "committed": 884083,
+        "spent": 596515,
+        "contingency": 92500,
+        "breakdown": {
+          "labor": 647500,
+          "materials": 832500,
+          "equipment": 148000,
+          "overhead": 129500,
+          "profit": 92500
+        }
+      },
+      "team": {
+        "project_manager": "PM_003",
+        "superintendent": "SUPT_009",
+        "estimator": "EST_005",
+        "safety_officer": "SST_001"
+      },
+      "compliance": {
+        "rbq_license": "RBQ-2925-5598",
+        "building_permit": "BP-2025-3834",
+        "cnesst_file": "CNESST-2025-71208",
+        "ccq_declaration": "Current"
+      },
+      "kpis": {
+        "schedule_performance_index": 0.94,
+        "cost_performance_index": 0.9,
+        "safety_incidents_ytd": 1,
+        "quality_score": 98
+      },
+      "documents": [
+        "DOC_PRJ_GAMMA_000",
+        "DOC_PRJ_GAMMA_001",
+        "DOC_PRJ_GAMMA_002",
+        "DOC_PRJ_GAMMA_003",
+        "DOC_PRJ_GAMMA_004",
+        "DOC_PRJ_GAMMA_005",
+        "DOC_PRJ_GAMMA_006",
+        "DOC_PRJ_GAMMA_007",
+        "DOC_PRJ_GAMMA_008",
+        "DOC_PRJ_GAMMA_009",
+        "DOC_PRJ_GAMMA_010",
+        "DOC_PRJ_GAMMA_011",
+        "DOC_PRJ_GAMMA_012",
+        "DOC_PRJ_GAMMA_013",
+        "DOC_PRJ_GAMMA_014",
+        "DOC_PRJ_GAMMA_015",
+        "DOC_PRJ_GAMMA_016",
+        "DOC_PRJ_GAMMA_017",
+        "DOC_PRJ_GAMMA_018",
+        "DOC_PRJ_GAMMA_019",
+        "DOC_PRJ_GAMMA_020",
+        "DOC_PRJ_GAMMA_021",
+        "DOC_PRJ_GAMMA_022",
+        "DOC_PRJ_GAMMA_023",
+        "DOC_PRJ_GAMMA_024",
+        "DOC_PRJ_GAMMA_025",
+        "DOC_PRJ_GAMMA_026",
+        "DOC_PRJ_GAMMA_027",
+        "DOC_PRJ_GAMMA_028",
+        "DOC_PRJ_GAMMA_029",
+        "DOC_PRJ_GAMMA_030",
+        "DOC_PRJ_GAMMA_031",
+        "DOC_PRJ_GAMMA_032",
+        "DOC_PRJ_GAMMA_033",
+        "DOC_PRJ_GAMMA_034",
+        "DOC_PRJ_GAMMA_035",
+        "DOC_PRJ_GAMMA_036",
+        "DOC_PRJ_GAMMA_037",
+        "DOC_PRJ_GAMMA_038",
+        "DOC_PRJ_GAMMA_039",
+        "DOC_PRJ_GAMMA_040",
+        "DOC_PRJ_GAMMA_041",
+        "DOC_PRJ_GAMMA_042",
+        "DOC_PRJ_GAMMA_043",
+        "DOC_PRJ_GAMMA_044",
+        "DOC_PRJ_GAMMA_045"
+      ],
+      "change_orders": 8,
+      "rfis": 10
+    },
+    {
+      "project_id": "PRJ_DELTA",
+      "name": "Centre Sportif La Prairie",
+      "type": "institutional",
+      "status": "active",
+      "current_phase": "planning",
+      "location": {
+        "address": "1816 Rue Exemple",
+        "city": "Prairie",
+        "province": "QC",
+        "postal_code": "J1E 8A2",
+        "coordinates": {
+          "lat": 45.51842481957674,
+          "lng": -73.37573516971337
+        }
+      },
+      "timeline": {
+        "start_date": "2025-01-06",
+        "estimated_end": "2026-01-04",
+        "phases": [
+          {
+            "name": "Planification",
+            "status": "completed"
+          },
+          {
+            "name": "Permis",
+            "status": "in_progress"
+          },
+          {
+            "name": "Excavation",
+            "status": "planned"
+          },
+          {
+            "name": "Fondations",
+            "status": "planned"
+          },
+          {
+            "name": "Structure",
+            "status": "planned"
+          },
+          {
+            "name": "Enveloppe",
+            "status": "planned"
+          },
+          {
+            "name": "Finitions",
+            "status": "planned"
+          },
+          {
+            "name": "Livraison",
+            "status": "planned"
+          }
+        ]
+      },
+      "budget": {
+        "total": 12500000,
+        "currency": "CAD",
+        "committed": 6575590,
+        "spent": 4451451,
+        "contingency": 625000,
+        "breakdown": {
+          "labor": 4375000,
+          "materials": 5625000,
+          "equipment": 1000000,
+          "overhead": 875000,
+          "profit": 625000
+        }
+      },
+      "team": {
+        "project_manager": "PM_009",
+        "superintendent": "SUPT_009",
+        "estimator": "EST_003",
+        "safety_officer": "SST_008"
+      },
+      "compliance": {
+        "rbq_license": "RBQ-2819-7454",
+        "building_permit": "BP-2025-8593",
+        "cnesst_file": "CNESST-2025-83410",
+        "ccq_declaration": "Current"
+      },
+      "kpis": {
+        "schedule_performance_index": 0.94,
+        "cost_performance_index": 0.94,
+        "safety_incidents_ytd": 5,
+        "quality_score": 96
+      },
+      "documents": [
+        "DOC_PRJ_DELTA_000",
+        "DOC_PRJ_DELTA_001",
+        "DOC_PRJ_DELTA_002",
+        "DOC_PRJ_DELTA_003",
+        "DOC_PRJ_DELTA_004",
+        "DOC_PRJ_DELTA_005",
+        "DOC_PRJ_DELTA_006",
+        "DOC_PRJ_DELTA_007",
+        "DOC_PRJ_DELTA_008",
+        "DOC_PRJ_DELTA_009",
+        "DOC_PRJ_DELTA_010",
+        "DOC_PRJ_DELTA_011",
+        "DOC_PRJ_DELTA_012",
+        "DOC_PRJ_DELTA_013",
+        "DOC_PRJ_DELTA_014",
+        "DOC_PRJ_DELTA_015",
+        "DOC_PRJ_DELTA_016",
+        "DOC_PRJ_DELTA_017",
+        "DOC_PRJ_DELTA_018",
+        "DOC_PRJ_DELTA_019",
+        "DOC_PRJ_DELTA_020",
+        "DOC_PRJ_DELTA_021",
+        "DOC_PRJ_DELTA_022",
+        "DOC_PRJ_DELTA_023",
+        "DOC_PRJ_DELTA_024",
+        "DOC_PRJ_DELTA_025",
+        "DOC_PRJ_DELTA_026",
+        "DOC_PRJ_DELTA_027",
+        "DOC_PRJ_DELTA_028",
+        "DOC_PRJ_DELTA_029",
+        "DOC_PRJ_DELTA_030",
+        "DOC_PRJ_DELTA_031",
+        "DOC_PRJ_DELTA_032",
+        "DOC_PRJ_DELTA_033",
+        "DOC_PRJ_DELTA_034",
+        "DOC_PRJ_DELTA_035",
+        "DOC_PRJ_DELTA_036",
+        "DOC_PRJ_DELTA_037",
+        "DOC_PRJ_DELTA_038",
+        "DOC_PRJ_DELTA_039",
+        "DOC_PRJ_DELTA_040",
+        "DOC_PRJ_DELTA_041",
+        "DOC_PRJ_DELTA_042",
+        "DOC_PRJ_DELTA_043",
+        "DOC_PRJ_DELTA_044",
+        "DOC_PRJ_DELTA_045",
+        "DOC_PRJ_DELTA_046",
+        "DOC_PRJ_DELTA_047",
+        "DOC_PRJ_DELTA_048",
+        "DOC_PRJ_DELTA_049",
+        "DOC_PRJ_DELTA_050",
+        "DOC_PRJ_DELTA_051",
+        "DOC_PRJ_DELTA_052",
+        "DOC_PRJ_DELTA_053",
+        "DOC_PRJ_DELTA_054",
+        "DOC_PRJ_DELTA_055",
+        "DOC_PRJ_DELTA_056",
+        "DOC_PRJ_DELTA_057",
+        "DOC_PRJ_DELTA_058",
+        "DOC_PRJ_DELTA_059",
+        "DOC_PRJ_DELTA_060",
+        "DOC_PRJ_DELTA_061",
+        "DOC_PRJ_DELTA_062",
+        "DOC_PRJ_DELTA_063",
+        "DOC_PRJ_DELTA_064",
+        "DOC_PRJ_DELTA_065",
+        "DOC_PRJ_DELTA_066",
+        "DOC_PRJ_DELTA_067",
+        "DOC_PRJ_DELTA_068",
+        "DOC_PRJ_DELTA_069",
+        "DOC_PRJ_DELTA_070",
+        "DOC_PRJ_DELTA_071",
+        "DOC_PRJ_DELTA_072",
+        "DOC_PRJ_DELTA_073",
+        "DOC_PRJ_DELTA_074",
+        "DOC_PRJ_DELTA_075",
+        "DOC_PRJ_DELTA_076",
+        "DOC_PRJ_DELTA_077",
+        "DOC_PRJ_DELTA_078",
+        "DOC_PRJ_DELTA_079",
+        "DOC_PRJ_DELTA_080",
+        "DOC_PRJ_DELTA_081",
+        "DOC_PRJ_DELTA_082",
+        "DOC_PRJ_DELTA_083",
+        "DOC_PRJ_DELTA_084",
+        "DOC_PRJ_DELTA_085",
+        "DOC_PRJ_DELTA_086"
+      ],
+      "change_orders": 2,
+      "rfis": 30
+    },
+    {
+      "project_id": "PRJ_EPSILON",
+      "name": "Triplex Verdun",
+      "type": "residential_multi",
+      "status": "completed",
+      "current_phase": "completed",
+      "location": {
+        "address": "8743 Rue Exemple",
+        "city": "Brossard",
+        "province": "QC",
+        "postal_code": "J1P 5N1",
+        "coordinates": {
+          "lat": 45.42497679047243,
+          "lng": -73.24801170976217
+        }
+      },
+      "timeline": {
+        "start_date": "2025-03-09",
+        "estimated_end": "2025-10-22",
+        "phases": [
+          {
+            "name": "Planification",
+            "status": "completed"
+          },
+          {
+            "name": "Permis",
+            "status": "completed"
+          },
+          {
+            "name": "Excavation",
+            "status": "completed"
+          },
+          {
+            "name": "Fondations",
+            "status": "planned"
+          },
+          {
+            "name": "Structure",
+            "status": "planned"
+          },
+          {
+            "name": "Enveloppe",
+            "status": "planned"
+          },
+          {
+            "name": "Finitions",
+            "status": "planned"
+          },
+          {
+            "name": "Livraison",
+            "status": "completed"
+          }
+        ]
+      },
+      "budget": {
+        "total": 2100000,
+        "currency": "CAD",
+        "committed": 630777,
+        "spent": 336811,
+        "contingency": 105000,
+        "breakdown": {
+          "labor": 735000,
+          "materials": 945000,
+          "equipment": 168000,
+          "overhead": 147000,
+          "profit": 105000
+        }
+      },
+      "team": {
+        "project_manager": "PM_003",
+        "superintendent": "SUPT_009",
+        "estimator": "EST_005",
+        "safety_officer": "SST_001"
+      },
+      "compliance": {
+        "rbq_license": "RBQ-6839-1246",
+        "building_permit": "BP-2025-9278",
+        "cnesst_file": "CNESST-2025-50488",
+        "ccq_declaration": "Current"
+      },
+      "kpis": {
+        "schedule_performance_index": 0.89,
+        "cost_performance_index": 0.95,
+        "safety_incidents_ytd": 3,
+        "quality_score": 94
+      },
+      "documents": [
+        "DOC_PRJ_EPSILON_000",
+        "DOC_PRJ_EPSILON_001",
+        "DOC_PRJ_EPSILON_002",
+        "DOC_PRJ_EPSILON_003",
+        "DOC_PRJ_EPSILON_004",
+        "DOC_PRJ_EPSILON_005",
+        "DOC_PRJ_EPSILON_006",
+        "DOC_PRJ_EPSILON_007",
+        "DOC_PRJ_EPSILON_008",
+        "DOC_PRJ_EPSILON_009",
+        "DOC_PRJ_EPSILON_010",
+        "DOC_PRJ_EPSILON_011",
+        "DOC_PRJ_EPSILON_012",
+        "DOC_PRJ_EPSILON_013",
+        "DOC_PRJ_EPSILON_014",
+        "DOC_PRJ_EPSILON_015",
+        "DOC_PRJ_EPSILON_016",
+        "DOC_PRJ_EPSILON_017",
+        "DOC_PRJ_EPSILON_018",
+        "DOC_PRJ_EPSILON_019",
+        "DOC_PRJ_EPSILON_020",
+        "DOC_PRJ_EPSILON_021",
+        "DOC_PRJ_EPSILON_022",
+        "DOC_PRJ_EPSILON_023",
+        "DOC_PRJ_EPSILON_024",
+        "DOC_PRJ_EPSILON_025",
+        "DOC_PRJ_EPSILON_026",
+        "DOC_PRJ_EPSILON_027",
+        "DOC_PRJ_EPSILON_028",
+        "DOC_PRJ_EPSILON_029",
+        "DOC_PRJ_EPSILON_030",
+        "DOC_PRJ_EPSILON_031",
+        "DOC_PRJ_EPSILON_032",
+        "DOC_PRJ_EPSILON_033",
+        "DOC_PRJ_EPSILON_034",
+        "DOC_PRJ_EPSILON_035",
+        "DOC_PRJ_EPSILON_036",
+        "DOC_PRJ_EPSILON_037",
+        "DOC_PRJ_EPSILON_038",
+        "DOC_PRJ_EPSILON_039",
+        "DOC_PRJ_EPSILON_040",
+        "DOC_PRJ_EPSILON_041",
+        "DOC_PRJ_EPSILON_042",
+        "DOC_PRJ_EPSILON_043",
+        "DOC_PRJ_EPSILON_044",
+        "DOC_PRJ_EPSILON_045",
+        "DOC_PRJ_EPSILON_046",
+        "DOC_PRJ_EPSILON_047",
+        "DOC_PRJ_EPSILON_048",
+        "DOC_PRJ_EPSILON_049",
+        "DOC_PRJ_EPSILON_050",
+        "DOC_PRJ_EPSILON_051",
+        "DOC_PRJ_EPSILON_052",
+        "DOC_PRJ_EPSILON_053",
+        "DOC_PRJ_EPSILON_054",
+        "DOC_PRJ_EPSILON_055",
+        "DOC_PRJ_EPSILON_056",
+        "DOC_PRJ_EPSILON_057",
+        "DOC_PRJ_EPSILON_058",
+        "DOC_PRJ_EPSILON_059",
+        "DOC_PRJ_EPSILON_060",
+        "DOC_PRJ_EPSILON_061",
+        "DOC_PRJ_EPSILON_062",
+        "DOC_PRJ_EPSILON_063",
+        "DOC_PRJ_EPSILON_064",
+        "DOC_PRJ_EPSILON_065",
+        "DOC_PRJ_EPSILON_066",
+        "DOC_PRJ_EPSILON_067",
+        "DOC_PRJ_EPSILON_068",
+        "DOC_PRJ_EPSILON_069",
+        "DOC_PRJ_EPSILON_070",
+        "DOC_PRJ_EPSILON_071",
+        "DOC_PRJ_EPSILON_072",
+        "DOC_PRJ_EPSILON_073",
+        "DOC_PRJ_EPSILON_074",
+        "DOC_PRJ_EPSILON_075",
+        "DOC_PRJ_EPSILON_076",
+        "DOC_PRJ_EPSILON_077",
+        "DOC_PRJ_EPSILON_078",
+        "DOC_PRJ_EPSILON_079",
+        "DOC_PRJ_EPSILON_080",
+        "DOC_PRJ_EPSILON_081",
+        "DOC_PRJ_EPSILON_082",
+        "DOC_PRJ_EPSILON_083",
+        "DOC_PRJ_EPSILON_084",
+        "DOC_PRJ_EPSILON_085",
+        "DOC_PRJ_EPSILON_086",
+        "DOC_PRJ_EPSILON_087",
+        "DOC_PRJ_EPSILON_088",
+        "DOC_PRJ_EPSILON_089",
+        "DOC_PRJ_EPSILON_090",
+        "DOC_PRJ_EPSILON_091",
+        "DOC_PRJ_EPSILON_092",
+        "DOC_PRJ_EPSILON_093",
+        "DOC_PRJ_EPSILON_094",
+        "DOC_PRJ_EPSILON_095",
+        "DOC_PRJ_EPSILON_096"
+      ],
+      "change_orders": 7,
+      "rfis": 25
+    },
+    {
+      "project_id": "PRJ_ZETA",
+      "name": "Condo 24 unit\u00e9s Chambly",
+      "type": "residential_multi",
+      "status": "active",
+      "current_phase": "excavation",
+      "location": {
+        "address": "3955 Rue Exemple",
+        "city": "Chambly",
+        "province": "QC",
+        "postal_code": "J9Y 5P1",
+        "coordinates": {
+          "lat": 45.591872289676445,
+          "lng": -73.2702463474271
+        }
+      },
+      "timeline": {
+        "start_date": "2025-04-03",
+        "estimated_end": "2026-12-17",
+        "phases": [
+          {
+            "name": "Planification",
+            "status": "completed"
+          },
+          {
+            "name": "Permis",
+            "status": "completed"
+          },
+          {
+            "name": "Excavation",
+            "status": "planned"
+          },
+          {
+            "name": "Fondations",
+            "status": "in_progress"
+          },
+          {
+            "name": "Structure",
+            "status": "planned"
+          },
+          {
+            "name": "Enveloppe",
+            "status": "planned"
+          },
+          {
+            "name": "Finitions",
+            "status": "planned"
+          },
+          {
+            "name": "Livraison",
+            "status": "planned"
+          }
+        ]
+      },
+      "budget": {
+        "total": 9800000,
+        "currency": "CAD",
+        "committed": 6800740,
+        "spent": 5107714,
+        "contingency": 490000,
+        "breakdown": {
+          "labor": 3430000,
+          "materials": 4410000,
+          "equipment": 784000,
+          "overhead": 686000,
+          "profit": 490000
+        }
+      },
+      "team": {
+        "project_manager": "PM_008",
+        "superintendent": "SUPT_010",
+        "estimator": "EST_007",
+        "safety_officer": "SST_003"
+      },
+      "compliance": {
+        "rbq_license": "RBQ-1690-8651",
+        "building_permit": "BP-2025-3223",
+        "cnesst_file": "CNESST-2025-63593",
+        "ccq_declaration": "Current"
+      },
+      "kpis": {
+        "schedule_performance_index": 0.89,
+        "cost_performance_index": 0.91,
+        "safety_incidents_ytd": 1,
+        "quality_score": 98
+      },
+      "documents": [
+        "DOC_PRJ_ZETA_000",
+        "DOC_PRJ_ZETA_001",
+        "DOC_PRJ_ZETA_002",
+        "DOC_PRJ_ZETA_003",
+        "DOC_PRJ_ZETA_004",
+        "DOC_PRJ_ZETA_005",
+        "DOC_PRJ_ZETA_006",
+        "DOC_PRJ_ZETA_007",
+        "DOC_PRJ_ZETA_008",
+        "DOC_PRJ_ZETA_009",
+        "DOC_PRJ_ZETA_010",
+        "DOC_PRJ_ZETA_011",
+        "DOC_PRJ_ZETA_012",
+        "DOC_PRJ_ZETA_013",
+        "DOC_PRJ_ZETA_014",
+        "DOC_PRJ_ZETA_015",
+        "DOC_PRJ_ZETA_016",
+        "DOC_PRJ_ZETA_017",
+        "DOC_PRJ_ZETA_018",
+        "DOC_PRJ_ZETA_019",
+        "DOC_PRJ_ZETA_020",
+        "DOC_PRJ_ZETA_021",
+        "DOC_PRJ_ZETA_022",
+        "DOC_PRJ_ZETA_023",
+        "DOC_PRJ_ZETA_024",
+        "DOC_PRJ_ZETA_025",
+        "DOC_PRJ_ZETA_026",
+        "DOC_PRJ_ZETA_027",
+        "DOC_PRJ_ZETA_028",
+        "DOC_PRJ_ZETA_029",
+        "DOC_PRJ_ZETA_030",
+        "DOC_PRJ_ZETA_031",
+        "DOC_PRJ_ZETA_032",
+        "DOC_PRJ_ZETA_033",
+        "DOC_PRJ_ZETA_034",
+        "DOC_PRJ_ZETA_035",
+        "DOC_PRJ_ZETA_036",
+        "DOC_PRJ_ZETA_037",
+        "DOC_PRJ_ZETA_038",
+        "DOC_PRJ_ZETA_039",
+        "DOC_PRJ_ZETA_040",
+        "DOC_PRJ_ZETA_041",
+        "DOC_PRJ_ZETA_042",
+        "DOC_PRJ_ZETA_043",
+        "DOC_PRJ_ZETA_044",
+        "DOC_PRJ_ZETA_045",
+        "DOC_PRJ_ZETA_046",
+        "DOC_PRJ_ZETA_047",
+        "DOC_PRJ_ZETA_048",
+        "DOC_PRJ_ZETA_049",
+        "DOC_PRJ_ZETA_050",
+        "DOC_PRJ_ZETA_051",
+        "DOC_PRJ_ZETA_052",
+        "DOC_PRJ_ZETA_053",
+        "DOC_PRJ_ZETA_054",
+        "DOC_PRJ_ZETA_055",
+        "DOC_PRJ_ZETA_056",
+        "DOC_PRJ_ZETA_057",
+        "DOC_PRJ_ZETA_058",
+        "DOC_PRJ_ZETA_059"
+      ],
+      "change_orders": 0,
+      "rfis": 18
+    },
+    {
+      "project_id": "PRJ_ETA",
+      "name": "Bureau Professionnel Candiac",
+      "type": "commercial",
+      "status": "active",
+      "current_phase": "permits",
+      "location": {
+        "address": "1514 Rue Exemple",
+        "city": "Candiac",
+        "province": "QC",
+        "postal_code": "J9Z 2H9",
+        "coordinates": {
+          "lat": 45.44316787320219,
+          "lng": -73.23284401225271
+        }
+      },
+      "timeline": {
+        "start_date": "2025-06-04",
+        "estimated_end": "2027-02-15",
+        "phases": [
+          {
+            "name": "Planification",
+            "status": "completed"
+          },
+          {
+            "name": "Permis",
+            "status": "in_progress"
+          },
+          {
+            "name": "Excavation",
+            "status": "planned"
+          },
+          {
+            "name": "Fondations",
+            "status": "planned"
+          },
+          {
+            "name": "Structure",
+            "status": "planned"
+          },
+          {
+            "name": "Enveloppe",
+            "status": "planned"
+          },
+          {
+            "name": "Finitions",
+            "status": "planned"
+          },
+          {
+            "name": "Livraison",
+            "status": "planned"
+          }
+        ]
+      },
+      "budget": {
+        "total": 3200000,
+        "currency": "CAD",
+        "committed": 1485722,
+        "spent": 789689,
+        "contingency": 160000,
+        "breakdown": {
+          "labor": 1120000,
+          "materials": 1440000,
+          "equipment": 256000,
+          "overhead": 224000,
+          "profit": 160000
+        }
+      },
+      "team": {
+        "project_manager": "PM_002",
+        "superintendent": "SUPT_001",
+        "estimator": "EST_007",
+        "safety_officer": "SST_005"
+      },
+      "compliance": {
+        "rbq_license": "RBQ-5915-3619",
+        "building_permit": "BP-2025-8296",
+        "cnesst_file": "CNESST-2025-61323",
+        "ccq_declaration": "Current"
+      },
+      "kpis": {
+        "schedule_performance_index": 0.9,
+        "cost_performance_index": 0.95,
+        "safety_incidents_ytd": 4,
+        "quality_score": 86
+      },
+      "documents": [
+        "DOC_PRJ_ETA_000",
+        "DOC_PRJ_ETA_001",
+        "DOC_PRJ_ETA_002",
+        "DOC_PRJ_ETA_003",
+        "DOC_PRJ_ETA_004",
+        "DOC_PRJ_ETA_005",
+        "DOC_PRJ_ETA_006",
+        "DOC_PRJ_ETA_007",
+        "DOC_PRJ_ETA_008",
+        "DOC_PRJ_ETA_009",
+        "DOC_PRJ_ETA_010",
+        "DOC_PRJ_ETA_011",
+        "DOC_PRJ_ETA_012",
+        "DOC_PRJ_ETA_013",
+        "DOC_PRJ_ETA_014",
+        "DOC_PRJ_ETA_015",
+        "DOC_PRJ_ETA_016",
+        "DOC_PRJ_ETA_017",
+        "DOC_PRJ_ETA_018",
+        "DOC_PRJ_ETA_019",
+        "DOC_PRJ_ETA_020",
+        "DOC_PRJ_ETA_021",
+        "DOC_PRJ_ETA_022",
+        "DOC_PRJ_ETA_023",
+        "DOC_PRJ_ETA_024",
+        "DOC_PRJ_ETA_025",
+        "DOC_PRJ_ETA_026",
+        "DOC_PRJ_ETA_027",
+        "DOC_PRJ_ETA_028",
+        "DOC_PRJ_ETA_029",
+        "DOC_PRJ_ETA_030",
+        "DOC_PRJ_ETA_031",
+        "DOC_PRJ_ETA_032",
+        "DOC_PRJ_ETA_033"
+      ],
+      "change_orders": 13,
+      "rfis": 25
+    },
+    {
+      "project_id": "PRJ_THETA",
+      "name": "Restaurant St-Lambert",
+      "type": "commercial_renovation",
+      "status": "active",
+      "current_phase": "finitions",
+      "location": {
+        "address": "3829 Rue Exemple",
+        "city": "Brossard",
+        "province": "QC",
+        "postal_code": "J9R 7F6",
+        "coordinates": {
+          "lat": 45.55845591469846,
+          "lng": -73.20072797609001
+        }
+      },
+      "timeline": {
+        "start_date": "2025-06-04",
+        "estimated_end": "2026-10-06",
+        "phases": [
+          {
+            "name": "Planification",
+            "status": "completed"
+          },
+          {
+            "name": "Permis",
+            "status": "completed"
+          },
+          {
+            "name": "Excavation",
+            "status": "completed"
+          },
+          {
+            "name": "Fondations",
+            "status": "planned"
+          },
+          {
+            "name": "Structure",
+            "status": "planned"
+          },
+          {
+            "name": "Enveloppe",
+            "status": "planned"
+          },
+          {
+            "name": "Finitions",
+            "status": "in_progress"
+          },
+          {
+            "name": "Livraison",
+            "status": "planned"
+          }
+        ]
+      },
+      "budget": {
+        "total": 850000,
+        "currency": "CAD",
+        "committed": 655937,
+        "spent": 461070,
+        "contingency": 42500,
+        "breakdown": {
+          "labor": 297500,
+          "materials": 382500,
+          "equipment": 68000,
+          "overhead": 59500,
+          "profit": 42500
+        }
+      },
+      "team": {
+        "project_manager": "PM_008",
+        "superintendent": "SUPT_001",
+        "estimator": "EST_009",
+        "safety_officer": "SST_009"
+      },
+      "compliance": {
+        "rbq_license": "RBQ-8036-9639",
+        "building_permit": "BP-2025-7276",
+        "cnesst_file": "CNESST-2025-31229",
+        "ccq_declaration": "Current"
+      },
+      "kpis": {
+        "schedule_performance_index": 0.91,
+        "cost_performance_index": 0.97,
+        "safety_incidents_ytd": 2,
+        "quality_score": 86
+      },
+      "documents": [
+        "DOC_PRJ_THETA_000",
+        "DOC_PRJ_THETA_001",
+        "DOC_PRJ_THETA_002",
+        "DOC_PRJ_THETA_003",
+        "DOC_PRJ_THETA_004",
+        "DOC_PRJ_THETA_005",
+        "DOC_PRJ_THETA_006",
+        "DOC_PRJ_THETA_007",
+        "DOC_PRJ_THETA_008",
+        "DOC_PRJ_THETA_009",
+        "DOC_PRJ_THETA_010",
+        "DOC_PRJ_THETA_011",
+        "DOC_PRJ_THETA_012",
+        "DOC_PRJ_THETA_013",
+        "DOC_PRJ_THETA_014",
+        "DOC_PRJ_THETA_015",
+        "DOC_PRJ_THETA_016",
+        "DOC_PRJ_THETA_017",
+        "DOC_PRJ_THETA_018",
+        "DOC_PRJ_THETA_019",
+        "DOC_PRJ_THETA_020",
+        "DOC_PRJ_THETA_021",
+        "DOC_PRJ_THETA_022",
+        "DOC_PRJ_THETA_023",
+        "DOC_PRJ_THETA_024",
+        "DOC_PRJ_THETA_025",
+        "DOC_PRJ_THETA_026",
+        "DOC_PRJ_THETA_027",
+        "DOC_PRJ_THETA_028",
+        "DOC_PRJ_THETA_029",
+        "DOC_PRJ_THETA_030",
+        "DOC_PRJ_THETA_031",
+        "DOC_PRJ_THETA_032",
+        "DOC_PRJ_THETA_033",
+        "DOC_PRJ_THETA_034",
+        "DOC_PRJ_THETA_035",
+        "DOC_PRJ_THETA_036",
+        "DOC_PRJ_THETA_037",
+        "DOC_PRJ_THETA_038",
+        "DOC_PRJ_THETA_039",
+        "DOC_PRJ_THETA_040",
+        "DOC_PRJ_THETA_041",
+        "DOC_PRJ_THETA_042",
+        "DOC_PRJ_THETA_043",
+        "DOC_PRJ_THETA_044",
+        "DOC_PRJ_THETA_045",
+        "DOC_PRJ_THETA_046",
+        "DOC_PRJ_THETA_047",
+        "DOC_PRJ_THETA_048",
+        "DOC_PRJ_THETA_049",
+        "DOC_PRJ_THETA_050",
+        "DOC_PRJ_THETA_051",
+        "DOC_PRJ_THETA_052",
+        "DOC_PRJ_THETA_053",
+        "DOC_PRJ_THETA_054",
+        "DOC_PRJ_THETA_055",
+        "DOC_PRJ_THETA_056",
+        "DOC_PRJ_THETA_057",
+        "DOC_PRJ_THETA_058"
+      ],
+      "change_orders": 1,
+      "rfis": 11
+    },
+    {
+      "project_id": "PRJ_IOTA",
+      "name": "Entrep\u00f4t Industriel Longueuil",
+      "type": "industrial",
+      "status": "active",
+      "current_phase": "structure",
+      "location": {
+        "address": "5834 Rue Exemple",
+        "city": "Longueuil",
+        "province": "QC",
+        "postal_code": "J1G 6I6",
+        "coordinates": {
+          "lat": 45.57975951723151,
+          "lng": -73.2384610117636
+        }
+      },
+      "timeline": {
+        "start_date": "2025-05-15",
+        "estimated_end": "2026-04-25",
+        "phases": [
+          {
+            "name": "Planification",
+            "status": "completed"
+          },
+          {
+            "name": "Permis",
+            "status": "completed"
+          },
+          {
+            "name": "Excavation",
+            "status": "completed"
+          },
+          {
+            "name": "Fondations",
+            "status": "planned"
+          },
+          {
+            "name": "Structure",
+            "status": "in_progress"
+          },
+          {
+            "name": "Enveloppe",
+            "status": "planned"
+          },
+          {
+            "name": "Finitions",
+            "status": "planned"
+          },
+          {
+            "name": "Livraison",
+            "status": "planned"
+          }
+        ]
+      },
+      "budget": {
+        "total": 5600000,
+        "currency": "CAD",
+        "committed": 2076152,
+        "spent": 1306103,
+        "contingency": 280000,
+        "breakdown": {
+          "labor": 1959999,
+          "materials": 2520000,
+          "equipment": 448000,
+          "overhead": 392000,
+          "profit": 280000
+        }
+      },
+      "team": {
+        "project_manager": "PM_006",
+        "superintendent": "SUPT_006",
+        "estimator": "EST_006",
+        "safety_officer": "SST_004"
+      },
+      "compliance": {
+        "rbq_license": "RBQ-5536-8331",
+        "building_permit": "BP-2025-9848",
+        "cnesst_file": "CNESST-2025-12368",
+        "ccq_declaration": "Current"
+      },
+      "kpis": {
+        "schedule_performance_index": 0.9,
+        "cost_performance_index": 0.94,
+        "safety_incidents_ytd": 2,
+        "quality_score": 86
+      },
+      "documents": [
+        "DOC_PRJ_IOTA_000",
+        "DOC_PRJ_IOTA_001",
+        "DOC_PRJ_IOTA_002",
+        "DOC_PRJ_IOTA_003",
+        "DOC_PRJ_IOTA_004",
+        "DOC_PRJ_IOTA_005",
+        "DOC_PRJ_IOTA_006",
+        "DOC_PRJ_IOTA_007",
+        "DOC_PRJ_IOTA_008",
+        "DOC_PRJ_IOTA_009",
+        "DOC_PRJ_IOTA_010",
+        "DOC_PRJ_IOTA_011",
+        "DOC_PRJ_IOTA_012",
+        "DOC_PRJ_IOTA_013",
+        "DOC_PRJ_IOTA_014",
+        "DOC_PRJ_IOTA_015",
+        "DOC_PRJ_IOTA_016",
+        "DOC_PRJ_IOTA_017",
+        "DOC_PRJ_IOTA_018",
+        "DOC_PRJ_IOTA_019",
+        "DOC_PRJ_IOTA_020",
+        "DOC_PRJ_IOTA_021",
+        "DOC_PRJ_IOTA_022",
+        "DOC_PRJ_IOTA_023",
+        "DOC_PRJ_IOTA_024",
+        "DOC_PRJ_IOTA_025",
+        "DOC_PRJ_IOTA_026",
+        "DOC_PRJ_IOTA_027",
+        "DOC_PRJ_IOTA_028",
+        "DOC_PRJ_IOTA_029",
+        "DOC_PRJ_IOTA_030",
+        "DOC_PRJ_IOTA_031",
+        "DOC_PRJ_IOTA_032",
+        "DOC_PRJ_IOTA_033",
+        "DOC_PRJ_IOTA_034",
+        "DOC_PRJ_IOTA_035",
+        "DOC_PRJ_IOTA_036",
+        "DOC_PRJ_IOTA_037",
+        "DOC_PRJ_IOTA_038",
+        "DOC_PRJ_IOTA_039",
+        "DOC_PRJ_IOTA_040",
+        "DOC_PRJ_IOTA_041",
+        "DOC_PRJ_IOTA_042",
+        "DOC_PRJ_IOTA_043",
+        "DOC_PRJ_IOTA_044",
+        "DOC_PRJ_IOTA_045",
+        "DOC_PRJ_IOTA_046",
+        "DOC_PRJ_IOTA_047",
+        "DOC_PRJ_IOTA_048",
+        "DOC_PRJ_IOTA_049",
+        "DOC_PRJ_IOTA_050",
+        "DOC_PRJ_IOTA_051",
+        "DOC_PRJ_IOTA_052",
+        "DOC_PRJ_IOTA_053",
+        "DOC_PRJ_IOTA_054",
+        "DOC_PRJ_IOTA_055",
+        "DOC_PRJ_IOTA_056",
+        "DOC_PRJ_IOTA_057",
+        "DOC_PRJ_IOTA_058",
+        "DOC_PRJ_IOTA_059",
+        "DOC_PRJ_IOTA_060",
+        "DOC_PRJ_IOTA_061",
+        "DOC_PRJ_IOTA_062",
+        "DOC_PRJ_IOTA_063",
+        "DOC_PRJ_IOTA_064",
+        "DOC_PRJ_IOTA_065",
+        "DOC_PRJ_IOTA_066",
+        "DOC_PRJ_IOTA_067",
+        "DOC_PRJ_IOTA_068",
+        "DOC_PRJ_IOTA_069",
+        "DOC_PRJ_IOTA_070",
+        "DOC_PRJ_IOTA_071",
+        "DOC_PRJ_IOTA_072",
+        "DOC_PRJ_IOTA_073"
+      ],
+      "change_orders": 15,
+      "rfis": 9
+    },
+    {
+      "project_id": "PRJ_KAPPA",
+      "name": "Clinique M\u00e9dicale Boucherville",
+      "type": "institutional",
+      "status": "active",
+      "current_phase": "enveloppe",
+      "location": {
+        "address": "5882 Rue Exemple",
+        "city": "Boucherville",
+        "province": "QC",
+        "postal_code": "J4N 4A7",
+        "coordinates": {
+          "lat": 45.52894104227012,
+          "lng": -73.34240218511995
+        }
+      },
+      "timeline": {
+        "start_date": "2025-02-17",
+        "estimated_end": "2026-04-08",
+        "phases": [
+          {
+            "name": "Planification",
+            "status": "completed"
+          },
+          {
+            "name": "Permis",
+            "status": "completed"
+          },
+          {
+            "name": "Excavation",
+            "status": "completed"
+          },
+          {
+            "name": "Fondations",
+            "status": "planned"
+          },
+          {
+            "name": "Structure",
+            "status": "planned"
+          },
+          {
+            "name": "Enveloppe",
+            "status": "in_progress"
+          },
+          {
+            "name": "Finitions",
+            "status": "planned"
+          },
+          {
+            "name": "Livraison",
+            "status": "planned"
+          }
+        ]
+      },
+      "budget": {
+        "total": 4800000,
+        "currency": "CAD",
+        "committed": 3576784,
+        "spent": 2828145,
+        "contingency": 240000,
+        "breakdown": {
+          "labor": 1680000,
+          "materials": 2160000,
+          "equipment": 384000,
+          "overhead": 336000,
+          "profit": 240000
+        }
+      },
+      "team": {
+        "project_manager": "PM_005",
+        "superintendent": "SUPT_001",
+        "estimator": "EST_007",
+        "safety_officer": "SST_006"
+      },
+      "compliance": {
+        "rbq_license": "RBQ-5871-5837",
+        "building_permit": "BP-2025-2552",
+        "cnesst_file": "CNESST-2025-99101",
+        "ccq_declaration": "Current"
+      },
+      "kpis": {
+        "schedule_performance_index": 0.96,
+        "cost_performance_index": 0.95,
+        "safety_incidents_ytd": 3,
+        "quality_score": 85
+      },
+      "documents": [
+        "DOC_PRJ_KAPPA_000",
+        "DOC_PRJ_KAPPA_001",
+        "DOC_PRJ_KAPPA_002",
+        "DOC_PRJ_KAPPA_003",
+        "DOC_PRJ_KAPPA_004",
+        "DOC_PRJ_KAPPA_005",
+        "DOC_PRJ_KAPPA_006",
+        "DOC_PRJ_KAPPA_007",
+        "DOC_PRJ_KAPPA_008",
+        "DOC_PRJ_KAPPA_009",
+        "DOC_PRJ_KAPPA_010",
+        "DOC_PRJ_KAPPA_011",
+        "DOC_PRJ_KAPPA_012",
+        "DOC_PRJ_KAPPA_013",
+        "DOC_PRJ_KAPPA_014",
+        "DOC_PRJ_KAPPA_015",
+        "DOC_PRJ_KAPPA_016",
+        "DOC_PRJ_KAPPA_017",
+        "DOC_PRJ_KAPPA_018",
+        "DOC_PRJ_KAPPA_019",
+        "DOC_PRJ_KAPPA_020",
+        "DOC_PRJ_KAPPA_021",
+        "DOC_PRJ_KAPPA_022",
+        "DOC_PRJ_KAPPA_023",
+        "DOC_PRJ_KAPPA_024",
+        "DOC_PRJ_KAPPA_025",
+        "DOC_PRJ_KAPPA_026",
+        "DOC_PRJ_KAPPA_027",
+        "DOC_PRJ_KAPPA_028",
+        "DOC_PRJ_KAPPA_029",
+        "DOC_PRJ_KAPPA_030",
+        "DOC_PRJ_KAPPA_031",
+        "DOC_PRJ_KAPPA_032",
+        "DOC_PRJ_KAPPA_033",
+        "DOC_PRJ_KAPPA_034",
+        "DOC_PRJ_KAPPA_035",
+        "DOC_PRJ_KAPPA_036",
+        "DOC_PRJ_KAPPA_037",
+        "DOC_PRJ_KAPPA_038",
+        "DOC_PRJ_KAPPA_039",
+        "DOC_PRJ_KAPPA_040",
+        "DOC_PRJ_KAPPA_041",
+        "DOC_PRJ_KAPPA_042",
+        "DOC_PRJ_KAPPA_043",
+        "DOC_PRJ_KAPPA_044",
+        "DOC_PRJ_KAPPA_045",
+        "DOC_PRJ_KAPPA_046",
+        "DOC_PRJ_KAPPA_047",
+        "DOC_PRJ_KAPPA_048",
+        "DOC_PRJ_KAPPA_049",
+        "DOC_PRJ_KAPPA_050",
+        "DOC_PRJ_KAPPA_051",
+        "DOC_PRJ_KAPPA_052",
+        "DOC_PRJ_KAPPA_053",
+        "DOC_PRJ_KAPPA_054",
+        "DOC_PRJ_KAPPA_055",
+        "DOC_PRJ_KAPPA_056",
+        "DOC_PRJ_KAPPA_057",
+        "DOC_PRJ_KAPPA_058",
+        "DOC_PRJ_KAPPA_059",
+        "DOC_PRJ_KAPPA_060",
+        "DOC_PRJ_KAPPA_061",
+        "DOC_PRJ_KAPPA_062",
+        "DOC_PRJ_KAPPA_063",
+        "DOC_PRJ_KAPPA_064",
+        "DOC_PRJ_KAPPA_065",
+        "DOC_PRJ_KAPPA_066",
+        "DOC_PRJ_KAPPA_067",
+        "DOC_PRJ_KAPPA_068",
+        "DOC_PRJ_KAPPA_069",
+        "DOC_PRJ_KAPPA_070",
+        "DOC_PRJ_KAPPA_071",
+        "DOC_PRJ_KAPPA_072",
+        "DOC_PRJ_KAPPA_073",
+        "DOC_PRJ_KAPPA_074"
+      ],
+      "change_orders": 8,
+      "rfis": 29
+    }
+  ],
+  "count": 10
+}

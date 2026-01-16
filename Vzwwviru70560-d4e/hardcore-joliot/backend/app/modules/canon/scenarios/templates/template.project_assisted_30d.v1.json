@@ -1,0 +1,121 @@
+{
+  "template_id": "template.project_assisted_30d.v1",
+  "label": "Assisted project execution with mixed comms + integrations (30 days)",
+  "phases": [
+    {
+      "id": "phase.0_project_init",
+      "steps": [
+        {
+          "id": "step.project_intent",
+          "needs": [
+            "need.clarity"
+          ]
+        },
+        {
+          "id": "step.project_structure",
+          "needs": [
+            "need.organization",
+            "need.memory"
+          ]
+        },
+        {
+          "id": "step.hire_agents",
+          "needs": [
+            "need.coordination",
+            "need.execution"
+          ]
+        },
+        {
+          "id": "step.define_budget_quality",
+          "needs": [
+            "need.performance",
+            "need.trust"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase.1_execution_sprints",
+      "steps": [
+        {
+          "id": "step.sprint_plan",
+          "needs": [
+            "need.coordination",
+            "need.clarity"
+          ]
+        },
+        {
+          "id": "step.execute_tasks",
+          "needs": [
+            "need.execution"
+          ]
+        },
+        {
+          "id": "step.verify_govern",
+          "needs": [
+            "need.governance",
+            "need.safety"
+          ]
+        },
+        {
+          "id": "step.log_backlogs",
+          "needs": [
+            "need.learning"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase.2_comms_and_meetings",
+      "steps": [
+        {
+          "id": "step.schedule_meeting",
+          "needs": [
+            "need.coordination",
+            "need.communication"
+          ]
+        },
+        {
+          "id": "step_live_call",
+          "needs": [
+            "need.communication",
+            "need.clarity",
+            "need.memory"
+          ]
+        },
+        {
+          "id": "step.publish_minutes",
+          "needs": [
+            "need.memory",
+            "need.organization"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "phase.3_delivery_and_review",
+      "steps": [
+        {
+          "id": "step.final_delivery",
+          "needs": [
+            "need.execution",
+            "need.trust"
+          ]
+        },
+        {
+          "id": "step.retrospective",
+          "needs": [
+            "need.learning",
+            "need.governance"
+          ]
+        }
+      ]
+    }
+  ],
+  "invariants": [
+    "thread_events_audit_all_actions",
+    "checkpoint_on_irreversible_or_external_actions",
+    "selective_escalation_budgeted",
+    "decision_points_ageing_active"
+  ]
+}

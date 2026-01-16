@@ -1,0 +1,196 @@
+{
+  "app": {
+    "name": "CHE·NU",
+    "tagline": "Governed Intelligence Operating System",
+    "version": "V51"
+  },
+  "navigation": {
+    "home": "Home",
+    "reflection_room": "Reflection Room",
+    "memory_inspector": "Memory Inspector",
+    "incident_mode": "Incident Mode",
+    "demo_replay": "Demo Replay",
+    "presenter_mode": "Presenter Mode",
+    "exports": "Exports",
+    "settings": "Settings"
+  },
+  "tree_laws": {
+    "title": "The Tree Laws",
+    "subtitle": "CHE·NU Constitution",
+    "law1": {
+      "name": "No Automatic Memory Write",
+      "description": "No persistent memory modification without explicit human approval"
+    },
+    "law2": {
+      "name": "No Autonomous Decision",
+      "description": "The system never makes decisions with real impact without human validation"
+    },
+    "law3": {
+      "name": "Total Transparency",
+      "description": "Every event is traced and auditable. Nothing is hidden."
+    },
+    "status": {
+      "respected": "Respected",
+      "violated": "Violation detected"
+    }
+  },
+  "reflection_room": {
+    "title": "Reflection Room",
+    "context_free": "Context-free",
+    "context_loaded": "Context loaded",
+    "add_text": "Text",
+    "add_thought": "Thought",
+    "add_question": "Question",
+    "placeholder": "Enter a thought, question or idea...",
+    "clear": "Clear",
+    "proposals": {
+      "title": "Proposals",
+      "none": "No proposals generated",
+      "hint": "Keep reflecting to generate some"
+    }
+  },
+  "proposals": {
+    "status": {
+      "draft": "Draft",
+      "pending": "Pending",
+      "under_review": "Under Review",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "expired": "Expired",
+      "discarded": "Discarded"
+    },
+    "actions": {
+      "submit": "Submit for review",
+      "approve": "Approve",
+      "reject": "Reject",
+      "edit": "Edit",
+      "discard": "Discard"
+    },
+    "confidence": "Confidence",
+    "source_blocks": "Source blocks"
+  },
+  "memory_inspector": {
+    "title": "Memory Inspector",
+    "read_only": "Read-only",
+    "spheres": "Spheres",
+    "units": "Units",
+    "relations": "Relations",
+    "search": "Search...",
+    "filters": {
+      "all": "All",
+      "sphere": "By sphere",
+      "type": "By type",
+      "status": "By status"
+    }
+  },
+  "incident_mode": {
+    "title": "Incident Mode",
+    "subtitle": "Forensic visualization",
+    "events": "Events",
+    "timeline": "Timeline",
+    "filters": "Filters",
+    "export": "Export",
+    "flag": "Flag",
+    "categories": {
+      "all": "All",
+      "navigation": "Navigation",
+      "module": "Module",
+      "proposal": "Proposal",
+      "memory": "Memory",
+      "demo": "Demo",
+      "export": "Export",
+      "system": "System",
+      "error": "Error"
+    },
+    "severity": {
+      "debug": "Debug",
+      "info": "Info",
+      "warning": "Warning",
+      "error": "Error",
+      "critical": "Critical"
+    }
+  },
+  "demo_replay": {
+    "title": "Demo Replay",
+    "forensic_mode": "Forensic mode",
+    "load_session": "Load session",
+    "load_file": "Load file",
+    "controls": {
+      "play": "Play",
+      "pause": "Pause",
+      "step_forward": "Step forward",
+      "step_backward": "Step backward",
+      "speed": "Speed"
+    }
+  },
+  "presenter_mode": {
+    "title": "Presenter Mode",
+    "flow": "Flow",
+    "step": "Step",
+    "notes": "Notes",
+    "timer": "Timer",
+    "next": "Next",
+    "previous": "Previous",
+    "skip": "Skip"
+  },
+  "exports": {
+    "title": "Exports",
+    "types": {
+      "narrative": "Demo Narrative",
+      "investor_qa": "Investor Q&A",
+      "incident_report": "Incident Report",
+      "replay_summary": "Replay Summary"
+    },
+    "formats": {
+      "pdf": "PDF",
+      "json": "JSON",
+      "html": "HTML"
+    },
+    "signing": {
+      "title": "Signature",
+      "algorithm": "Algorithm",
+      "key_id": "Key ID",
+      "signed": "Signed",
+      "verified": "Verified"
+    }
+  },
+  "spheres": {
+    "system": "System",
+    "governance": "Governance",
+    "agents": "Agents",
+    "projects": "Projects",
+    "compliance": "Compliance",
+    "knowledge": "Knowledge"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "close": "Close",
+    "back": "Back",
+    "next": "Next",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "export": "Export",
+    "import": "Import",
+    "refresh": "Refresh",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "time": {
+    "now": "Now",
+    "today": "Today",
+    "yesterday": "Yesterday",
+    "seconds_ago": "{{count}} seconds ago",
+    "minutes_ago": "{{count}} minutes ago",
+    "hours_ago": "{{count}} hours ago",
+    "days_ago": "{{count}} days ago"
+  }
+}

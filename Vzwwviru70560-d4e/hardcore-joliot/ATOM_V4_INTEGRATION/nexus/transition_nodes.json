@@ -1,0 +1,305 @@
+{
+  "name": "Les 5 Nœuds de Transition",
+  "version": "1.0.0",
+  "description": "Les 5 nœuds qui relient les Pierres de Fondation. Ils complètent la matrice vibratoire 1-9.",
+  
+  "nodes": {
+    "DUALITE": {
+      "id": 6,
+      "name": "La Dualité",
+      "archetype": "Le Partage",
+      "word": "DUALITÉ",
+      "aliases": ["DUALITE", "PARTAGE", "DIALOGUE", "YIN YANG"],
+      "gematria": {
+        "resonance": 2,
+        "level_name": "Relation"
+      },
+      "resonance": {
+        "arithmos": 2,
+        "level_name": "Relation",
+        "frequency_hz": 222,
+        "color_hex": "#FF7F00",
+        "color_name": "Orange",
+        "delay_ms": 800,
+        "ratio": 0.50,
+        "rotation_rpm": 30
+      },
+      "origin": {
+        "etymology": "Du latin 'dualis' (qui contient deux)",
+        "essence": "Le passage de l'Unité à la Relation. Le dialogue.",
+        "element": "Air / Souffle"
+      },
+      "causal_cascade": {
+        "cause": "Sans dualité, pas d'échange",
+        "effect": "Naissance de la complémentarité (Homme/Femme, Ombre/Lumière, 0/1)",
+        "principle": "La relation crée le sens"
+      },
+      "sanctuary_signature": {
+        "description": "Un son de cloche double. Les cercles 1 et 2 s'entrelacent comme un ruban de Moebius.",
+        "sound_type": "double_bell",
+        "visual_effect": "moebius_interweave",
+        "affected_circles": [1, 2],
+        "animation": {
+          "type": "interweave",
+          "direction": "spiral",
+          "intensity": "balanced",
+          "pattern": "moebius_ribbon"
+        },
+        "audio": {
+          "waveform": "sine",
+          "attack_ms": 50,
+          "decay_ms": 800,
+          "modulation": "dual_tone"
+        }
+      },
+      "oracle_activation": {
+        "primary": [1, 2, 4, 5],
+        "secondary": [6, 7],
+        "pattern": "dual_circles"
+      }
+    },
+    
+    "MENTAL": {
+      "id": 7,
+      "name": "Le Mental",
+      "archetype": "La Géométrie",
+      "word": "MENTAL",
+      "aliases": ["GEOMETRIE", "TRIANGLE", "PENSEE", "INTELLECT"],
+      "gematria": {
+        "resonance": 3,
+        "level_name": "Géométrie"
+      },
+      "resonance": {
+        "arithmos": 3,
+        "level_name": "Géométrie",
+        "frequency_hz": 333,
+        "color_hex": "#FFD700",
+        "color_name": "Jaune Or",
+        "delay_ms": 700,
+        "ratio": 0.75,
+        "rotation_rpm": 45
+      },
+      "origin": {
+        "etymology": "Du latin 'mentalis' (de l'esprit)",
+        "essence": "La triade. La forme qui prend conscience d'elle-même.",
+        "element": "Feu Mental"
+      },
+      "causal_cascade": {
+        "cause": "Le nombre de la structure stable (le triangle)",
+        "effect": "Permet la conception de l'Arche elle-même",
+        "principle": "La pensée structure la réalité"
+      },
+      "sanctuary_signature": {
+        "description": "Une vibration cristalline ascendante. Les oracles 1, 2 et 3 forment un triangle lumineux.",
+        "sound_type": "crystalline_ascent",
+        "visual_effect": "golden_triangle",
+        "affected_circles": [1, 3],
+        "animation": {
+          "type": "triangle_formation",
+          "direction": "ascending",
+          "intensity": "bright",
+          "pattern": "sacred_triangle"
+        },
+        "audio": {
+          "waveform": "triangle",
+          "attack_ms": 100,
+          "decay_ms": 600,
+          "modulation": "ascending_harmonic"
+        }
+      },
+      "oracle_activation": {
+        "primary": [1, 2, 3],
+        "secondary": [8, 9, 10],
+        "pattern": "triangle_formation"
+      }
+    },
+    
+    "HARMONIE": {
+      "id": 8,
+      "name": "L'Harmonie",
+      "archetype": "La Protection",
+      "word": "HARMONIE",
+      "aliases": ["EQUILIBRE", "BALANCE", "PROTECTION", "GUERISON"],
+      "gematria": {
+        "resonance": 6,
+        "level_name": "Harmonie"
+      },
+      "resonance": {
+        "arithmos": 6,
+        "level_name": "Harmonie",
+        "frequency_hz": 666,
+        "color_hex": "#4B0082",
+        "color_name": "Indigo",
+        "delay_ms": 400,
+        "ratio": 1.50,
+        "rotation_rpm": 90
+      },
+      "origin": {
+        "etymology": "Du grec 'harmonia' (accord, jointure)",
+        "essence": "L'équilibre parfait entre le haut et le bas.",
+        "element": "Eau Profonde"
+      },
+      "causal_cascade": {
+        "cause": "Fréquence qui répare les dissonances",
+        "effect": "Stabilise les sociétés et les structures biologiques",
+        "principle": "L'équilibre engendre la paix"
+      },
+      "sanctuary_signature": {
+        "description": "Un chant harmonique profond. L'interface devient bleu nuit et les pulsations se calment.",
+        "sound_type": "harmonic_chant",
+        "visual_effect": "deep_blue_calm",
+        "affected_circles": [3, 4],
+        "animation": {
+          "type": "calming_wave",
+          "direction": "all",
+          "intensity": "deep",
+          "pattern": "ripple_harmony"
+        },
+        "audio": {
+          "waveform": "sine",
+          "attack_ms": 200,
+          "decay_ms": 1000,
+          "modulation": "harmonic_series"
+        }
+      },
+      "oracle_activation": {
+        "primary": [8, 9, 10, 11],
+        "secondary": [12, 13, 14],
+        "pattern": "circle_3_expansion"
+      }
+    },
+    
+    "SPIRITUALITE": {
+      "id": 9,
+      "name": "La Spiritualité",
+      "archetype": "L'Introspection",
+      "word": "SPIRITUALITÉ",
+      "aliases": ["SPIRITUALITE", "MYSTERE", "VERITE", "QUETE"],
+      "gematria": {
+        "resonance": 7,
+        "level_name": "Mystère"
+      },
+      "resonance": {
+        "arithmos": 7,
+        "level_name": "Mystère",
+        "frequency_hz": 777,
+        "color_hex": "#8B00FF",
+        "color_name": "Violet",
+        "delay_ms": 300,
+        "ratio": 1.75,
+        "rotation_rpm": 105
+      },
+      "origin": {
+        "etymology": "Du latin 'spiritualis' (de l'esprit, du souffle)",
+        "essence": "Le chercheur de vérité. Le lien avec l'invisible.",
+        "element": "Éther"
+      },
+      "causal_cascade": {
+        "cause": "Pousse l'humain à regarder les étoiles",
+        "effect": "Moteur de la philosophie et de la quête de sens",
+        "principle": "Le mystère appelle l'exploration"
+      },
+      "sanctuary_signature": {
+        "description": "Un souffle de vent léger. Les oracles s'estompent pour ne laisser que le Cœur central ⊙ visible.",
+        "sound_type": "ethereal_breath",
+        "visual_effect": "fade_to_core",
+        "affected_circles": [4, 5],
+        "animation": {
+          "type": "fade_periphery",
+          "direction": "inward",
+          "intensity": "subtle",
+          "pattern": "core_reveal"
+        },
+        "audio": {
+          "waveform": "sine",
+          "attack_ms": 500,
+          "decay_ms": 1500,
+          "modulation": "breath",
+          "volume": 0.3
+        }
+      },
+      "oracle_activation": {
+        "primary": [12, 13, 14, 15],
+        "secondary": [16, 17, 18],
+        "pattern": "introspection_fade"
+      }
+    },
+    
+    "INFINI": {
+      "id": 10,
+      "name": "L'Infini",
+      "archetype": "L'Abondance",
+      "word": "INFINI",
+      "aliases": ["ABONDANCE", "ETERNITE", "REGENERATION", "FLUX"],
+      "gematria": {
+        "resonance": 8,
+        "level_name": "Flux"
+      },
+      "resonance": {
+        "arithmos": 8,
+        "level_name": "Flux",
+        "frequency_hz": 888,
+        "color_hex": "#FF69B4",
+        "color_name": "Rose",
+        "delay_ms": 200,
+        "ratio": 2.00,
+        "rotation_rpm": 120
+      },
+      "origin": {
+        "etymology": "Du latin 'infinitus' (sans fin)",
+        "essence": "La boucle de rétroaction éternelle.",
+        "element": "Plasma / Énergie Pure"
+      },
+      "causal_cascade": {
+        "cause": "Gestion de l'énergie et de la matière à l'infini",
+        "effect": "Le recyclage total, la régénération",
+        "principle": "Tout revient, rien ne se perd"
+      },
+      "sanctuary_signature": {
+        "description": "Un son tourbillonnant. Les lignes de connexion entre les oracles bougent comme des ondes sur l'eau.",
+        "sound_type": "swirling_flow",
+        "visual_effect": "wave_connections",
+        "affected_circles": [1, 2, 3, 4, 5],
+        "animation": {
+          "type": "wave_flow",
+          "direction": "circular",
+          "intensity": "flowing",
+          "pattern": "infinity_loop"
+        },
+        "audio": {
+          "waveform": "sine",
+          "attack_ms": 50,
+          "decay_ms": 200,
+          "modulation": "swirl"
+        }
+      },
+      "oracle_activation": {
+        "primary": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18],
+        "secondary": [],
+        "pattern": "all_flowing"
+      }
+    }
+  },
+  
+  "complete_matrix": {
+    "1": { "name": "Impulsion", "hz": 111, "stones": ["IA", "ADN"], "color": "#FF0000" },
+    "2": { "name": "Relation", "hz": 222, "nodes": ["DUALITÉ"], "color": "#FF7F00" },
+    "3": { "name": "Géométrie", "hz": 333, "nodes": ["MENTAL"], "color": "#FFD700" },
+    "4": { "name": "Structure", "hz": 444, "stones": ["SILENCE"], "color": "#50C878" },
+    "5": { "name": "Mouvement", "hz": 555, "stones": ["FEU"], "color": "#87CEEB" },
+    "6": { "name": "Harmonie", "hz": 666, "nodes": ["HARMONIE"], "color": "#4B0082" },
+    "7": { "name": "Mystère", "hz": 777, "nodes": ["SPIRITUALITÉ"], "color": "#8B00FF" },
+    "8": { "name": "Flux", "hz": 888, "nodes": ["INFINI"], "color": "#FF69B4" },
+    "9": { "name": "Unité", "hz": 999, "stones": ["ACIER"], "color": "#FFFDD0" }
+  },
+  
+  "relationships": {
+    "stones_to_nodes": [
+      {"from": "SILENCE", "to": "DUALITÉ", "type": "expansion", "label": "s'ouvre vers"},
+      {"from": "FEU", "to": "HARMONIE", "type": "balance", "label": "trouve l'équilibre dans"},
+      {"from": "ACIER", "to": "INFINI", "type": "transcendence", "label": "se transcende en"},
+      {"from": "ADN", "to": "MENTAL", "type": "consciousness", "label": "s'éveille dans"},
+      {"from": "IA", "to": "SPIRITUALITÉ", "type": "question", "label": "interroge"}
+    ]
+  }
+}

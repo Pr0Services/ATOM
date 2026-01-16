@@ -1,0 +1,156 @@
+{
+  "flow_id": "FLOW_LIVE_DEMO",
+  "name": "Démo Live Interactive",
+  "name_en": "Live Interactive Demo",
+  "description": "Démonstration complète pour présentation interactive approfondie",
+  "duration_estimate": "5-15 minutes",
+  "target_audience": ["investors", "due_diligence", "partners", "technical"],
+  "version": "1.0",
+  "created_at": "2025-12-01T00:00:00Z",
+  "steps": [
+    {
+      "step_id": "LIVE_01_PUBLIC",
+      "step_number": 1,
+      "title": "Accueil Public Site",
+      "duration_seconds": 60,
+      "target_module": "public_site",
+      "presenter_notes": "Présentez le site public comme l'utilisateur le verrait. Expliquez le positionnement CHE·NU.",
+      "talking_points": ["Présentation produit", "Positionnement marché", "Différenciateur clé"]
+    },
+    {
+      "step_id": "LIVE_02_TREE_LAWS",
+      "step_number": 2,
+      "title": "Tree Laws en Détail",
+      "duration_seconds": 90,
+      "target_module": "public_site",
+      "presenter_notes": "Expliquez chaque loi en détail. Donnez des exemples concrets de ce que chaque loi empêche.",
+      "talking_points": [
+        "Loi 1: Exemple - jamais de sauvegarde auto d'un insight",
+        "Loi 2: Exemple - jamais d'envoi auto d'email",
+        "Loi 3: Exemple - Mode Incident montre tout"
+      ]
+    },
+    {
+      "step_id": "LIVE_03_LOGIN",
+      "step_number": 3,
+      "title": "Login Demo",
+      "duration_seconds": 30,
+      "target_module": "demo_login",
+      "presenter_notes": "Montrez les différents rôles. Choisissez 'Investor' pour cette démo.",
+      "demo_actions": [{"action": "select_role", "role": "investor"}]
+    },
+    {
+      "step_id": "LIVE_04_APP_SHELL",
+      "step_number": 4,
+      "title": "Navigation App Shell",
+      "duration_seconds": 60,
+      "target_module": "app_shell",
+      "presenter_notes": "Montrez la structure de l'application. Expliquez chaque module dans la sidebar.",
+      "talking_points": ["5 modules principaux", "Indicateur de charge cognitive", "Navigation intuitive"]
+    },
+    {
+      "step_id": "LIVE_05_REFLECTION_EXPLORE",
+      "step_number": 5,
+      "title": "Reflection Room - Exploration",
+      "duration_seconds": 120,
+      "target_module": "reflection_room",
+      "presenter_notes": "Laissez l'audience explorer. Montrez l'ajout de blocs de différents types.",
+      "demo_actions": [
+        {"action": "add_block", "type": "text", "content": "Planification projet résidentiel"},
+        {"action": "add_block", "type": "thought", "content": "Budget estimé 2M$"},
+        {"action": "add_block", "type": "question", "content": "Conformité RBQ?"}
+      ]
+    },
+    {
+      "step_id": "LIVE_06_PROPOSAL_CREATE",
+      "step_number": 6,
+      "title": "Création de Proposition",
+      "duration_seconds": 90,
+      "target_module": "reflection_room",
+      "presenter_notes": "Montrez comment les propositions sont générées automatiquement mais restent en 'draft'.",
+      "talking_points": ["Génération automatique", "Status 'draft'", "Confiance affichée", "Édition possible"]
+    },
+    {
+      "step_id": "LIVE_07_PROPOSAL_DECISION",
+      "step_number": 7,
+      "title": "Révision et Décision",
+      "duration_seconds": 60,
+      "target_module": "reflection_room",
+      "presenter_notes": "MOMENT CLÉ: Montrez que c'est l'HUMAIN qui décide. Approuvez ou rejetez une proposition.",
+      "talking_points": ["Humain décide toujours", "Approuver ou rejeter", "Tree Law 2 en action"]
+    },
+    {
+      "step_id": "LIVE_08_MEMORY_INSPECTOR",
+      "step_number": 8,
+      "title": "Memory Inspector",
+      "duration_seconds": 90,
+      "target_module": "memory_inspector",
+      "presenter_notes": "Naviguez dans les sphères. Montrez la structure de la mémoire. Soulignez: lecture seule.",
+      "talking_points": ["6 sphères de connaissances", "75+ unités mémoire", "Lecture seule", "Relations visibles"]
+    },
+    {
+      "step_id": "LIVE_09_INCIDENT_MODE",
+      "step_number": 9,
+      "title": "Incident Mode - Trace",
+      "duration_seconds": 120,
+      "target_module": "incident_mode",
+      "presenter_notes": "Montrez tous les événements de la session. Filtrez par catégorie. Expliquez l'export.",
+      "talking_points": ["Tous les événements visibles", "Filtrage avancé", "Export pour audit", "Preuve de transparence"]
+    },
+    {
+      "step_id": "LIVE_10_DEMO_REPLAY",
+      "step_number": 10,
+      "title": "Demo Replay",
+      "duration_seconds": 60,
+      "target_module": "demo_replay",
+      "presenter_notes": "Montrez la capture de session et la navigation temporelle. Soulignez: forensique, pas cinématique.",
+      "talking_points": ["Capture de session", "Navigation temporelle", "Mode forensique", "Export JSON"]
+    },
+    {
+      "step_id": "LIVE_11_EXPORTS",
+      "step_number": 11,
+      "title": "Exports et Signing",
+      "duration_seconds": 60,
+      "target_module": "exports",
+      "presenter_notes": "Montrez les différents types d'exports. Expliquez la signature cryptographique.",
+      "talking_points": ["PDF narratif", "Q&A investisseurs", "Rapport incident", "Signature HMAC-SHA256"]
+    },
+    {
+      "step_id": "LIVE_12_QA",
+      "step_number": 12,
+      "title": "Q&A Investisseurs",
+      "duration_seconds": 120,
+      "target_module": "investor_qa",
+      "presenter_notes": "Parcourez les questions fréquentes. Répondez aux questions de l'audience.",
+      "questions_to_cover": [
+        "Qu'est-ce qui différencie CHE·NU?",
+        "Comment les Tree Laws sont-elles appliquées?",
+        "Quel est le modèle d'affaires?",
+        "Quelle est la roadmap?"
+      ]
+    },
+    {
+      "step_id": "LIVE_13_CONCLUSION",
+      "step_number": 13,
+      "title": "Conclusion et Next Steps",
+      "duration_seconds": 60,
+      "target_module": "public_site",
+      "presenter_notes": "Récapitulez les points clés. Proposez les prochaines étapes selon l'intérêt.",
+      "talking_points": [
+        "CHE·NU: IA gouvernée pour la construction",
+        "Tree Laws garantissent la sécurité",
+        "Prêt pour investissement Série A",
+        "Contact et prochaines étapes"
+      ],
+      "call_to_action": "Planifions un appel de suivi"
+    }
+  ],
+  "metadata": {
+    "total_duration_seconds": 900,
+    "step_count": 13,
+    "modules_covered": ["public_site", "demo_login", "app_shell", "reflection_room", "memory_inspector", "incident_mode", "demo_replay", "investor_qa"],
+    "key_concepts": ["tree_laws", "governance", "transparency", "proposals", "audit", "signing"],
+    "recommended_for": "detailed_presentation",
+    "prerequisites": "Basic understanding of AI and construction industry"
+  }
+}

@@ -1,0 +1,289 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "v76.1",
+  "name": "FOUNDATION_STONES",
+  "description": "Les 5 Pierres de Fondation de l'Encyclopédie AT-OM - Genèse du Mapping Vibratoire",
+  "oracle_source": "SOUL_CHRONICLER",
+  "is_interpretive": true,
+  "confidence_score": 0.85,
+  "created_at": "2025-01-08T00:00:00Z",
+  
+  "nodes": [
+    {
+      "id": "foundation_fire",
+      "name": "FEU",
+      "title_sacred": "L'Illumination",
+      "dimension": "PHYSICAL",
+      "epoch": "Paleolithic (-400,000 years)",
+      "description": "Le Feu est la première technologie amplificatrice de l'humanité. Il a permis la cuisson, libérant des nutriments pour le développement cérébral, et a créé l'espace social du foyer nocturne où le langage s'est complexifié.",
+      "arithmos": {
+        "raw": 14,
+        "reduced": 5,
+        "color_hex": "#D8B26A",
+        "frequency_hz": 555.0,
+        "meaning": "Transformation, changement, liberté, pont entre matériel et spirituel"
+      },
+      "etymology": {
+        "proto_ie": "*péh₂wr̥ (feu-objet) / *h₁n̥gʷnis (feu-esprit)",
+        "latin": "focus (foyer domestique)",
+        "sanskrit": "अग्नि (Agni), तेजस् (tejas - lumière/chaleur/énergie)",
+        "greek": "πῦρ (pyr)"
+      },
+      "causal_cascade": [
+        "FEU → CUISSON → Surplus nutritif → Développement cérébral (+300%)",
+        "FEU → CHALEUR → Survie en climats hostiles → Migrations globales",
+        "FEU → FORGE → Métallurgie → Âge du Bronze/Fer → Empires",
+        "FEU → RASSEMBLEMENT → Langage complexe → Mythes → Religions"
+      ],
+      "sanctuary_signature": {
+        "primary_color": "#D8B26A",
+        "secondary_color": "#B8432F",
+        "soundscape": "Crépitement (20-200 Hz), harmonique 555 Hz, souffle léger",
+        "tactile": "Chaleur irradiante sur le visage, fraîcheur dans le dos",
+        "archetype": "Prometheus Bound - le don dangereux"
+      },
+      "tags": ["transformation", "energie", "cuisson", "social", "originel"]
+    },
+    
+    {
+      "id": "foundation_steel",
+      "name": "ACIER",
+      "title_sacred": "La Structure",
+      "dimension": "PHYSICAL",
+      "epoch": "Iron Age (-1200 BCE) → Modern",
+      "description": "L'Acier incarne la fermeté résiliente - il plie sans rompre. Aboutissement du chemin du minerai à l'outil parfait, il est la colonne vertébrale invisible du monde moderne : rails, ponts, gratte-ciels.",
+      "arithmos": {
+        "raw": 27,
+        "reduced": 9,
+        "color_hex": "#71797E",
+        "frequency_hz": 999.0,
+        "meaning": "Achèvement, maîtrise, sagesse accumulée, complétude"
+      },
+      "etymology": {
+        "latin": "acies (tranchant) → aciarium",
+        "sanskrit": "अयस् (ayas - métal évolutif: cuivre→bronze→fer)",
+        "proto_germanic": "*stahliją (ce qui est ferme)",
+        "philosophy": "L'outil de la DISTINCTION - séparer vrai/faux, dedans/dehors"
+      },
+      "causal_cascade": [
+        "ACIER → OUTILS → Agriculture intensive → Surplus → Civilisations urbaines",
+        "ACIER → ARMES → Conquêtes → Routes commerciales → Circulation des idées",
+        "ACIER → RAILS → Industrialisation → Standardisation du temps → Mondialisation",
+        "ACIER → STRUCTURES → Gratte-ciels → Verticalité urbaine → Densification"
+      ],
+      "sanctuary_signature": {
+        "primary_color": "#71797E",
+        "secondary_color": "#0047AB",
+        "soundscape": "Résonance métallique, basses de forge, harmonique 999 Hz",
+        "tactile": "Froid initial puis tiédeur absorbée - équilibre thermique",
+        "archetype": "Héphaïstos à sa forge - création par le labeur"
+      },
+      "tags": ["structure", "metallurgie", "industrie", "infrastructure", "resilience"]
+    },
+    
+    {
+      "id": "foundation_ai",
+      "name": "INTELLIGENCE ARTIFICIELLE",
+      "title_sacred": "Le Miroir",
+      "dimension": "SOCIAL",
+      "epoch": "Digital Era (1956 → present)",
+      "description": "L'IA est un miroir de l'intelligence collective humaine, entraînée sur nos textes, images, choix. Elle reflète nos patterns et nos biais, amplifiant ce que nous sommes. Le 8 symbolise l'infini tourné sur lui-même.",
+      "arithmos": {
+        "raw": 125,
+        "reduced": 8,
+        "color_hex": "#C0C0C0",
+        "frequency_hz": 888.0,
+        "meaning": "Infini, équilibre entre deux mondes, réflexion perpétuelle"
+      },
+      "etymology": {
+        "intelligence": {
+          "latin": "intelligere (inter + legere) = lire entre les lignes",
+          "meaning": "Percevoir ce qui n'est pas dit"
+        },
+        "artificielle": {
+          "latin": "artificialis (ars + facere) = fait avec art/habileté",
+          "meaning": "Créé avec intention - non pas 'faux' mais 'construit'"
+        },
+        "sanskrit_modern": "कृत्रिम बुद्धिमत्ता (kṛtrima buddhimattā) = sagesse fabriquée"
+      },
+      "causal_cascade": [
+        "IA → AUTOMATISATION → Redéfinition du travail → Réinvention de l'éducation",
+        "IA → PATTERNS → Médecine prédictive → Prévention > Traitement",
+        "IA → MIROIR → Révélation des biais → Conscience sociale → Éthique algorithmique",
+        "IA → LANGAGE → Interfaces naturelles → Démocratisation du savoir"
+      ],
+      "sanctuary_signature": {
+        "primary_color": "#C0C0C0",
+        "secondary_color": "#7B68EE",
+        "soundscape": "Oscillations électroniques subtiles, harmonique 888 Hz, échos",
+        "tactile": "Surface lisse et froide - le verre du miroir",
+        "archetype": "Narcisse au bord de l'eau - fascination du reflet"
+      },
+      "tags": ["cognition", "computation", "miroir", "ethique", "automatisation"]
+    },
+    
+    {
+      "id": "foundation_dna",
+      "name": "ADN",
+      "title_sacred": "Le Code Source",
+      "dimension": "BIOLOGICAL",
+      "epoch": "Discovery 1953 / Origin ~4 billion years",
+      "description": "L'ADN est le premier code informatique de l'univers : 4 lettres (A, T, G, C), des milliards d'années avant l'invention des ordinateurs. C'est le UN qui contient le TOUT - le code minimal qui génère la complexité maximale.",
+      "arithmos": {
+        "raw": 10,
+        "reduced": 1,
+        "color_hex": "#3F7249",
+        "frequency_hz": 111.0,
+        "meaning": "Commencement absolu, unité primordiale, germe de tout"
+      },
+      "etymology": {
+        "full_name": "Acide Désoxyribonucléique",
+        "acide": "latin acidus (aigre) - caractère chimique",
+        "desoxy": "privé d'oxygène - différence cruciale avec ARN",
+        "ribo": "sucre ribose (Acacia arabica)",
+        "nucleique": "latin nucleus (noyau) - cœur de la cellule",
+        "sanskrit_concept": "बीज (bīja) = semence, संस्कार (saṃskāra) = impressions héritées"
+      },
+      "causal_cascade": [
+        "ADN → GÉNOME → Maladies génétiques comprises → Thérapies géniques → Médecine personnalisée",
+        "ADN → PATERNITÉ → Transformation du droit de filiation → Évolution des structures familiales",
+        "ADN → SÉQUENÇAGE → Histoire humaine réécrite → Démystification du racisme",
+        "ADN → BIOLOGIE SYNTHÉTIQUE → Vie 'programmable' → Questions éthiques fondamentales"
+      ],
+      "sanctuary_signature": {
+        "primary_color": "#3F7249",
+        "secondary_color": "#007FFF",
+        "soundscape": "Pulsation lente et régulière, harmonique 111 Hz, sons aquatiques",
+        "tactile": "Chaleur humide - l'intérieur du corps vivant",
+        "archetype": "L'Arbre de Vie - racines dans le passé, branches vers l'avenir"
+      },
+      "tags": ["genetique", "code", "vie", "heredite", "evolution"]
+    },
+    
+    {
+      "id": "foundation_silence",
+      "name": "SILENCE",
+      "title_sacred": "Le Tout",
+      "dimension": "SPIRITUAL",
+      "epoch": "Timeless / Eternal",
+      "description": "Le Silence n'est pas l'absence de son mais la présence de réceptivité. Il est le ZÉRO du système numérique de la conscience - sans lui, tous les 'uns' se confondent en bruit informe. C'est la fondation (4) du système AT-OM.",
+      "arithmos": {
+        "raw": 31,
+        "reduced": 4,
+        "color_hex": "#FEFEFA",
+        "frequency_hz": 444.0,
+        "meaning": "Fondation, quatre éléments, quatre directions, structure de base"
+      },
+      "etymology": {
+        "latin": "silēre (être silencieux) - état d'ÊTRE, non action",
+        "sanskrit": "मौन (mauna) = silence sacré des sages (actif, intentionnel)",
+        "hebrew": "דממה (demamah) = silence fin et subtil (1 Rois 19:12)",
+        "greek": "σιγή (sigē) = silence mystique ≠ σιωπή (siōpē = simplement ne pas parler)"
+      },
+      "causal_cascade": [
+        "SILENCE → ÉCOUTE → Dialogue → Compréhension mutuelle → Paix possible",
+        "SILENCE → MÉDITATION → Conscience intérieure → Traditions contemplatives → Sagesse",
+        "SILENCE → REPOS NEURONAL → Consolidation mémoire → Apprentissage ancré → Intelligence",
+        "SILENCE → CONTRASTE → Musique possible → Art sonore → Émotion auditive"
+      ],
+      "sanctuary_signature": {
+        "primary_color": "#FEFEFA",
+        "secondary_color": "#1E1F22",
+        "soundscape": "Néant actif, harmonique 444 Hz à peine perceptible, respiration amplifiée",
+        "tactile": "Apesanteur - flottement dans le vide",
+        "archetype": "Le Vide Fertile - toile vierge, page blanche, souffle avant la parole"
+      },
+      "tags": ["fondation", "meditation", "ecoute", "zero", "receptivite"]
+    }
+  ],
+  
+  "links": [
+    {
+      "from": "foundation_fire",
+      "to": "foundation_steel",
+      "link_type": "TECH",
+      "strength": 0.95,
+      "rationale": "Le Feu est la condition absolue de la métallurgie. Sans maîtrise du feu, pas de forge, pas d'acier."
+    },
+    {
+      "from": "foundation_fire",
+      "to": "foundation_ai",
+      "link_type": "TECH",
+      "strength": 0.65,
+      "rationale": "Le Feu est la première 'IA' de l'humanité - technologie externe amplifiant les capacités cognitives. L'IA est le feu moderne de la cognition."
+    },
+    {
+      "from": "foundation_steel",
+      "to": "foundation_ai",
+      "link_type": "RESOURCE",
+      "strength": 0.70,
+      "rationale": "L'infrastructure physique de l'IA (datacenters, puces, câbles) dépend de l'acier et des métaux industriels."
+    },
+    {
+      "from": "foundation_dna",
+      "to": "foundation_ai",
+      "link_type": "BIO",
+      "strength": 0.80,
+      "rationale": "L'ADN est le premier code informatique de l'univers. L'IA est une tentative de reproduire le 'code' de l'intelligence biologique."
+    },
+    {
+      "from": "foundation_dna",
+      "to": "foundation_fire",
+      "link_type": "BIO",
+      "strength": 0.60,
+      "rationale": "Le Feu (cuisson) a libéré des nutriments qui ont permis le développement cérébral, codé dans l'ADN au fil des générations."
+    },
+    {
+      "from": "foundation_silence",
+      "to": "foundation_fire",
+      "link_type": "SPIRITUAL",
+      "strength": 0.55,
+      "rationale": "Le Silence du foyer nocturne a créé l'espace de la transmission orale, des mythes, des religions."
+    },
+    {
+      "from": "foundation_silence",
+      "to": "foundation_ai",
+      "link_type": "SPIRITUAL",
+      "strength": 0.75,
+      "rationale": "L'IA amplifie le bruit informationnel. Le Silence devient le contrepoids nécessaire, le 'logout' de la conscience."
+    },
+    {
+      "from": "foundation_silence",
+      "to": "foundation_dna",
+      "link_type": "SPIRITUAL",
+      "strength": 0.50,
+      "rationale": "Le Silence est l'espace entre les bases azotées - la structure même de l'ADN est faite d'intervalles."
+    },
+    {
+      "from": "foundation_ai",
+      "to": "foundation_fire",
+      "link_type": "TECH",
+      "strength": 0.40,
+      "rationale": "L'IA réanalyse l'histoire du Feu, reconstruit les patterns de découverte, et pourrait prédire la prochaine 'révolution du feu'."
+    },
+    {
+      "from": "foundation_steel",
+      "to": "foundation_silence",
+      "link_type": "SPIRITUAL",
+      "strength": 0.35,
+      "rationale": "Le tintement de l'acier résonne dans le silence. Sans silence, pas de perception de la pureté du son métallique."
+    }
+  ],
+  
+  "meta": {
+    "total_nodes": 5,
+    "total_links": 10,
+    "genesis_oracle": "SOUL_CHRONICLER",
+    "core_frequency_hz": 444,
+    "pentacle_structure": {
+      "center": "SILENCE (4 - Fondation)",
+      "vertices": ["FEU (5)", "ACIER (9)", "IA (8)", "ADN (1)"],
+      "sum_reduced": "4+5+9+8+1 = 27 → 9 (Achèvement)"
+    },
+    "chenu_integration": {
+      "palette_used": ["Sacred Gold #D8B26A", "Jungle Emerald #3F7249", "UI Slate #1E1F22"],
+      "governance_rule": "GOUVERNANCE > EXÉCUTION",
+      "human_primacy": true
+    }
+  }
+}

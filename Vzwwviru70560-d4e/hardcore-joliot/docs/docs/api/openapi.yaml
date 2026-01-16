@@ -1,0 +1,1283 @@
+openapi: 3.1.0
+info:
+  title: CHE·NU™ API
+  description: |
+    # CHE·NU™ — Governed Intelligence Operating System API
+    
+    ## Overview
+    CHE·NU is a **Governed Intelligence Operating System** that manages:
+    - Intelligence & Intent
+    - Data & AI Agents
+    - Cost (Tokens) & Collaboration
+    - Ethics & Governance
+    
+    ## Core Principles
+    1. CHE·NU operates by **CONTEXT** (Spheres), not features
+    2. Each **SPHERE** opens a complete **BUREAU** with 10 sections
+    3. **Governance** is ALWAYS enforced before execution
+    4. **Tokens** are internal utility credits (NOT cryptocurrency)
+    
+    ## Authentication
+    All API endpoints require Bearer token authentication.
+    
+  version: 3.3.0
+  contact:
+    name: CHE·NU Support
+    email: support@chenu.io
+  license:
+    name: Proprietary
+    url: https://chenu.io/license
+
+servers:
+  - url: https://api.chenu.io/v1
+    description: Production server
+  - url: https://staging-api.chenu.io/v1
+    description: Staging server
+  - url: http://localhost:3000/v1
+    description: Development server
+
+tags:
+  - name: Auth
+    description: Authentication and authorization
+  - name: Spheres
+    description: 8 life spheres (FROZEN)
+  - name: Bureau
+    description: Bureau sections (10 per sphere)
+  - name: Threads
+    description: .chenu thread management
+  - name: Tokens
+    description: Token budget and usage
+  - name: Agents
+    description: AI agent management
+  - name: Nova
+    description: Nova system intelligence
+  - name: Governance
+    description: 10 Laws of Governance
+  - name: Encoding
+    description: Encoding system
+  - name: Analytics
+    description: Analytics and reporting
+
+paths:
+  # ============================================================
+  # AUTH ENDPOINTS
+  # ============================================================
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: User login
+      description: Authenticate user and receive access token
+      operationId: login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: Successful login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/register:
+    post:
+      tags: [Auth]
+      summary: User registration
+      description: Register new user with governance consent
+      operationId: register
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterRequest'
+      responses:
+        '201':
+          description: User created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+        '400':
+          description: Invalid request or consent not provided
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  /auth/refresh:
+    post:
+      tags: [Auth]
+      summary: Refresh access token
+      operationId: refreshToken
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Token refreshed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthResponse'
+
+  # ============================================================
+  # SPHERES ENDPOINTS
+  # ============================================================
+  /spheres:
+    get:
+      tags: [Spheres]
+      summary: List all spheres
+      description: |
+        Returns all 8 spheres (FROZEN - no additional spheres allowed).
+        
+        **8 Spheres:**
+        1. Personal 🏠
+        2. Business 💼
+        3. Government & Institutions 🏛️
+        4. Studio de création 🎨
+        5. Community 👥
+        6. Social & Media 📱
+        7. Entertainment 🎬
+        8. My Team 🤝
+      operationId: listSpheres
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of spheres
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  spheres:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Sphere'
+                    maxItems: 8
+                    minItems: 8
+
+  /spheres/{code}:
+    get:
+      tags: [Spheres]
+      summary: Get sphere by code
+      operationId: getSphere
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/SphereCode'
+      responses:
+        '200':
+          description: Sphere details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sphere'
+        '404':
+          description: Sphere not found
+
+  /spheres/{code}/bureau:
+    get:
+      tags: [Bureau]
+      summary: Get bureau for sphere
+      description: |
+        Returns bureau with exactly 10 sections (NON-NEGOTIABLE).
+        
+        **10 Bureau Sections:**
+        1. Dashboard
+        2. Notes
+        3. Tasks
+        4. Projects
+        5. Threads (.chenu)
+        6. Meetings
+        7. Data / Database
+        8. Agents
+        9. Reports / History
+        10. Budget & Governance
+      operationId: getSphereBureau
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema:
+            $ref: '#/components/schemas/SphereCode'
+      responses:
+        '200':
+          description: Bureau with 10 sections
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Bureau'
+
+  # ============================================================
+  # THREADS ENDPOINTS
+  # ============================================================
+  /threads:
+    get:
+      tags: [Threads]
+      summary: List threads
+      description: Threads (.chenu) are FIRST-CLASS OBJECTS
+      operationId: listThreads
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: sphere_code
+          in: query
+          schema:
+            $ref: '#/components/schemas/SphereCode'
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [active, paused, archived]
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 20
+            maximum: 100
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            default: 0
+      responses:
+        '200':
+          description: List of threads
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  threads:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Thread'
+                  total:
+                    type: integer
+
+    post:
+      tags: [Threads]
+      summary: Create thread
+      operationId: createThread
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateThreadRequest'
+      responses:
+        '201':
+          description: Thread created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thread'
+
+  /threads/{id}:
+    get:
+      tags: [Threads]
+      summary: Get thread by ID
+      operationId: getThread
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Thread details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThreadDetail'
+
+  /threads/{id}/messages:
+    get:
+      tags: [Threads]
+      summary: Get thread messages
+      operationId: getThreadMessages
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Thread messages
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  messages:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ThreadMessage'
+
+    post:
+      tags: [Threads]
+      summary: Send message to thread
+      operationId: sendThreadMessage
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendMessageRequest'
+      responses:
+        '201':
+          description: Message sent
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThreadMessage'
+
+  # ============================================================
+  # TOKENS ENDPOINTS
+  # ============================================================
+  /tokens/balance:
+    get:
+      tags: [Tokens]
+      summary: Get token balance
+      description: |
+        Tokens are INTERNAL utility credits (NOT cryptocurrency).
+        
+        Tokens are used to:
+        - Fund threads
+        - Fund agents
+        - Fund meetings
+        - Govern AI execution
+        - Make cost visible and controllable
+      operationId: getTokenBalance
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Token balance
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenBalance'
+
+  /tokens/usage:
+    get:
+      tags: [Tokens]
+      summary: Get token usage history
+      operationId: getTokenUsage
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: sphere_code
+          in: query
+          schema:
+            $ref: '#/components/schemas/SphereCode'
+        - name: start_date
+          in: query
+          schema:
+            type: string
+            format: date
+        - name: end_date
+          in: query
+          schema:
+            type: string
+            format: date
+      responses:
+        '200':
+          description: Token usage
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  usage:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TokenUsage'
+
+  /tokens/allocate:
+    post:
+      tags: [Tokens]
+      summary: Allocate tokens to sphere/thread
+      operationId: allocateTokens
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AllocateTokensRequest'
+      responses:
+        '200':
+          description: Tokens allocated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenBalance'
+
+  # ============================================================
+  # AGENTS ENDPOINTS
+  # ============================================================
+  /agents:
+    get:
+      tags: [Agents]
+      summary: List available agents
+      description: |
+        Agents have:
+        - Costs
+        - Scopes
+        - Encoding compatibility
+        - Act only when authorized
+      operationId: listAgents
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: List of agents
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  agents:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Agent'
+
+  /agents/{code}/execute:
+    post:
+      tags: [Agents]
+      summary: Execute agent task
+      description: Governance is ALWAYS enforced before execution
+      operationId: executeAgent
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: code
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteAgentRequest'
+      responses:
+        '200':
+          description: Agent execution result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgentExecutionResult'
+        '403':
+          description: Governance check failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GovernanceError'
+
+  # ============================================================
+  # NOVA ENDPOINTS
+  # ============================================================
+  /nova/status:
+    get:
+      tags: [Nova]
+      summary: Get Nova status
+      description: |
+        Nova is the SYSTEM intelligence.
+        - Always present
+        - Handles guidance, memory, governance
+        - Supervises databases and threads
+        - NEVER a hired agent
+      operationId: getNovaStatus
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Nova status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NovaStatus'
+
+  /nova/query:
+    post:
+      tags: [Nova]
+      summary: Query Nova
+      operationId: queryNova
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovaQueryRequest'
+      responses:
+        '200':
+          description: Nova response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NovaResponse'
+
+  # ============================================================
+  # GOVERNANCE ENDPOINTS
+  # ============================================================
+  /governance/laws:
+    get:
+      tags: [Governance]
+      summary: Get 10 Laws of Governance
+      description: |
+        **10 Laws of Memory Governance:**
+        1. Consent Primacy
+        2. Temporal Sovereignty
+        3. Contextual Fidelity
+        4. Hierarchical Respect
+        5. Audit Completeness
+        6. Encoding Transparency
+        7. Agent Non-Autonomy
+        8. Budget Accountability
+        9. Cross-Sphere Isolation
+        10. Deletion Completeness
+      operationId: getGovernanceLaws
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Governance laws
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  laws:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GovernanceLaw'
+                    minItems: 10
+                    maxItems: 10
+
+  /governance/check:
+    post:
+      tags: [Governance]
+      summary: Check governance compliance
+      description: Governance is ALWAYS enforced before execution
+      operationId: checkGovernance
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GovernanceCheckRequest'
+      responses:
+        '200':
+          description: Governance check result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GovernanceCheckResult'
+
+  /governance/audit:
+    get:
+      tags: [Governance]
+      summary: Get audit log
+      operationId: getAuditLog
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: entity_type
+          in: query
+          schema:
+            type: string
+            enum: [thread, agent, token, sphere]
+        - name: entity_id
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            default: 50
+      responses:
+        '200':
+          description: Audit log entries
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  entries:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AuditEntry'
+
+  # ============================================================
+  # ENCODING ENDPOINTS
+  # ============================================================
+  /encoding/encode:
+    post:
+      tags: [Encoding]
+      summary: Encode content
+      description: |
+        Encoding ALWAYS happens BEFORE execution.
+        
+        Purpose:
+        - Reduce token usage
+        - Clarify intent
+        - Enforce scope
+        - Improve agent efficiency
+      operationId: encodeContent
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EncodeRequest'
+      responses:
+        '200':
+          description: Encoded content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EncodeResponse'
+
+  /encoding/decode:
+    post:
+      tags: [Encoding]
+      summary: Decode content
+      description: Encoding is reversible for humans
+      operationId: decodeContent
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DecodeRequest'
+      responses:
+        '200':
+          description: Decoded content
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DecodeResponse'
+
+  # ============================================================
+  # ANALYTICS ENDPOINTS
+  # ============================================================
+  /analytics/overview:
+    get:
+      tags: [Analytics]
+      summary: Get analytics overview
+      operationId: getAnalyticsOverview
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [7d, 30d, 90d, 1y]
+            default: 30d
+      responses:
+        '200':
+          description: Analytics overview
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AnalyticsOverview'
+
+  /analytics/spheres:
+    get:
+      tags: [Analytics]
+      summary: Get sphere analytics
+      operationId: getSphereAnalytics
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Sphere analytics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  spheres:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SphereAnalytics'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    # ============================================================
+    # AUTH SCHEMAS
+    # ============================================================
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+
+    RegisterRequest:
+      type: object
+      required: [name, email, password, consents]
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          format: password
+        consents:
+          type: object
+          required: [terms, governance, data_processing]
+          properties:
+            terms:
+              type: boolean
+              description: Terms of Service acceptance
+            governance:
+              type: boolean
+              description: 10 Laws of Governance acceptance
+            data_processing:
+              type: boolean
+              description: Data processing consent
+
+    AuthResponse:
+      type: object
+      properties:
+        access_token:
+          type: string
+        refresh_token:
+          type: string
+        expires_in:
+          type: integer
+        user:
+          $ref: '#/components/schemas/User'
+
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+
+    # ============================================================
+    # SPHERE SCHEMAS
+    # ============================================================
+    SphereCode:
+      type: string
+      enum: [personal, business, government, studio, community, social, entertainment, team]
+      description: |
+        8 Sphere codes (FROZEN):
+        - personal: Personal 🏠
+        - business: Business 💼
+        - government: Government & Institutions 🏛️
+        - studio: Studio de création 🎨
+        - community: Community 👥
+        - social: Social & Media 📱
+        - entertainment: Entertainment 🎬
+        - team: My Team 🤝
+
+    Sphere:
+      type: object
+      properties:
+        code:
+          $ref: '#/components/schemas/SphereCode'
+        name:
+          type: string
+        icon:
+          type: string
+        description:
+          type: string
+        color:
+          type: string
+        token_budget:
+          type: integer
+        tokens_used:
+          type: integer
+
+    # ============================================================
+    # BUREAU SCHEMAS
+    # ============================================================
+    Bureau:
+      type: object
+      properties:
+        sphere_code:
+          $ref: '#/components/schemas/SphereCode'
+        sections:
+          type: array
+          items:
+            $ref: '#/components/schemas/BureauSection'
+          minItems: 10
+          maxItems: 10
+
+    BureauSection:
+      type: object
+      properties:
+        id:
+          type: integer
+          minimum: 1
+          maximum: 10
+        name:
+          type: string
+        icon:
+          type: string
+        component:
+          type: string
+
+    # ============================================================
+    # THREAD SCHEMAS
+    # ============================================================
+    Thread:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        description:
+          type: string
+        sphere_code:
+          $ref: '#/components/schemas/SphereCode'
+        status:
+          type: string
+          enum: [active, paused, archived]
+        token_budget:
+          type: integer
+        tokens_used:
+          type: integer
+        encoding_enabled:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+
+    ThreadDetail:
+      allOf:
+        - $ref: '#/components/schemas/Thread'
+        - type: object
+          properties:
+            participants:
+              type: array
+              items:
+                type: string
+            decision_count:
+              type: integer
+            audit_entries:
+              type: integer
+            encoding_quality:
+              type: integer
+              minimum: 0
+              maximum: 100
+
+    ThreadMessage:
+      type: object
+      properties:
+        id:
+          type: string
+        role:
+          type: string
+          enum: [user, nova, agent, system]
+        content:
+          type: string
+        tokens:
+          type: integer
+        encoded:
+          type: boolean
+        encoding_ratio:
+          type: number
+        agent_code:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+
+    CreateThreadRequest:
+      type: object
+      required: [title, sphere_code]
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        sphere_code:
+          $ref: '#/components/schemas/SphereCode'
+        token_budget:
+          type: integer
+        encoding_enabled:
+          type: boolean
+          default: true
+
+    SendMessageRequest:
+      type: object
+      required: [content]
+      properties:
+        content:
+          type: string
+        encode:
+          type: boolean
+          default: true
+
+    # ============================================================
+    # TOKEN SCHEMAS
+    # ============================================================
+    TokenBalance:
+      type: object
+      properties:
+        total_allocated:
+          type: integer
+        total_used:
+          type: integer
+        total_remaining:
+          type: integer
+        by_sphere:
+          type: array
+          items:
+            type: object
+            properties:
+              sphere_code:
+                $ref: '#/components/schemas/SphereCode'
+              allocated:
+                type: integer
+              used:
+                type: integer
+
+    TokenUsage:
+      type: object
+      properties:
+        id:
+          type: string
+        amount:
+          type: integer
+        type:
+          type: string
+          enum: [thread, agent, meeting, encoding]
+        sphere_code:
+          $ref: '#/components/schemas/SphereCode'
+        entity_id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+
+    AllocateTokensRequest:
+      type: object
+      required: [amount, target_type, target_id]
+      properties:
+        amount:
+          type: integer
+        target_type:
+          type: string
+          enum: [sphere, thread]
+        target_id:
+          type: string
+
+    # ============================================================
+    # AGENT SCHEMAS
+    # ============================================================
+    Agent:
+      type: object
+      properties:
+        code:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        cost_per_execution:
+          type: integer
+        scopes:
+          type: array
+          items:
+            $ref: '#/components/schemas/SphereCode'
+        encoding_compatible:
+          type: boolean
+        category:
+          type: string
+
+    ExecuteAgentRequest:
+      type: object
+      required: [task, sphere_code]
+      properties:
+        task:
+          type: string
+        sphere_code:
+          $ref: '#/components/schemas/SphereCode'
+        thread_id:
+          type: string
+        parameters:
+          type: object
+
+    AgentExecutionResult:
+      type: object
+      properties:
+        success:
+          type: boolean
+        result:
+          type: object
+        tokens_used:
+          type: integer
+        execution_time_ms:
+          type: integer
+
+    # ============================================================
+    # NOVA SCHEMAS
+    # ============================================================
+    NovaStatus:
+      type: object
+      properties:
+        active:
+          type: boolean
+        type:
+          type: string
+          enum: [system_intelligence]
+        handles:
+          type: array
+          items:
+            type: string
+
+    NovaQueryRequest:
+      type: object
+      required: [query]
+      properties:
+        query:
+          type: string
+        sphere_code:
+          $ref: '#/components/schemas/SphereCode'
+        thread_id:
+          type: string
+
+    NovaResponse:
+      type: object
+      properties:
+        response:
+          type: string
+        tokens_used:
+          type: integer
+        suggestions:
+          type: array
+          items:
+            type: string
+
+    # ============================================================
+    # GOVERNANCE SCHEMAS
+    # ============================================================
+    GovernanceLaw:
+      type: object
+      properties:
+        number:
+          type: integer
+          minimum: 1
+          maximum: 10
+        name:
+          type: string
+        description:
+          type: string
+        enforced:
+          type: boolean
+
+    GovernanceCheckRequest:
+      type: object
+      required: [action, entity_type, entity_id]
+      properties:
+        action:
+          type: string
+        entity_type:
+          type: string
+        entity_id:
+          type: string
+        parameters:
+          type: object
+
+    GovernanceCheckResult:
+      type: object
+      properties:
+        approved:
+          type: boolean
+        laws_checked:
+          type: array
+          items:
+            type: integer
+        violations:
+          type: array
+          items:
+            type: string
+
+    GovernanceError:
+      type: object
+      properties:
+        error:
+          type: string
+        law_violated:
+          type: integer
+        message:
+          type: string
+
+    AuditEntry:
+      type: object
+      properties:
+        id:
+          type: string
+        timestamp:
+          type: string
+          format: date-time
+        action:
+          type: string
+        entity_type:
+          type: string
+        entity_id:
+          type: string
+        user_id:
+          type: string
+        details:
+          type: object
+
+    # ============================================================
+    # ENCODING SCHEMAS
+    # ============================================================
+    EncodeRequest:
+      type: object
+      required: [content]
+      properties:
+        content:
+          type: string
+        sphere_code:
+          $ref: '#/components/schemas/SphereCode'
+
+    EncodeResponse:
+      type: object
+      properties:
+        encoded:
+          type: string
+        original_tokens:
+          type: integer
+        encoded_tokens:
+          type: integer
+        savings_ratio:
+          type: number
+        quality_score:
+          type: integer
+
+    DecodeRequest:
+      type: object
+      required: [encoded]
+      properties:
+        encoded:
+          type: string
+
+    DecodeResponse:
+      type: object
+      properties:
+        decoded:
+          type: string
+
+    # ============================================================
+    # ANALYTICS SCHEMAS
+    # ============================================================
+    AnalyticsOverview:
+      type: object
+      properties:
+        total_tokens_used:
+          type: integer
+        total_tokens_budget:
+          type: integer
+        active_threads:
+          type: integer
+        completed_tasks:
+          type: integer
+        agent_executions:
+          type: integer
+        governance_score:
+          type: integer
+        encoding_savings:
+          type: integer
+
+    SphereAnalytics:
+      type: object
+      properties:
+        sphere_code:
+          $ref: '#/components/schemas/SphereCode'
+        tokens_used:
+          type: integer
+        threads_count:
+          type: integer
+        tasks_completed:
+          type: integer
+        activity_score:
+          type: integer
+
+    # ============================================================
+    # ERROR SCHEMAS
+    # ============================================================
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        code:
+          type: string

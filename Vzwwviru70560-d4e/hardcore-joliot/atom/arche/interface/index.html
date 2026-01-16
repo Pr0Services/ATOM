@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AT·OM | Arche de Résonance</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- BOOT SEQUENCE OVERLAY -->
+    <div id="boot-overlay" class="boot-overlay">
+        <div class="boot-container">
+            <div class="boot-logo">AT·OM</div>
+            <div class="boot-status">
+                <span id="boot-text">INITIALIZING ZERO POINT...</span>
+            </div>
+            <div class="boot-progress">
+                <div class="boot-bar" id="boot-bar"></div>
+            </div>
+            <div class="chakra-scan" id="chakra-scan">
+                <div class="chakra-dot" data-chakra="1" data-hz="111"></div>
+                <div class="chakra-dot" data-chakra="2" data-hz="222"></div>
+                <div class="chakra-dot" data-chakra="3" data-hz="333"></div>
+                <div class="chakra-dot" data-chakra="4" data-hz="444"></div>
+                <div class="chakra-dot" data-chakra="5" data-hz="555"></div>
+                <div class="chakra-dot" data-chakra="6" data-hz="666"></div>
+                <div class="chakra-dot" data-chakra="7" data-hz="777"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN INTERFACE -->
+    <div id="main-interface" class="main-interface hidden">
+        <!-- SACRED GEOMETRY BACKGROUND -->
+        <svg class="sacred-bg" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid slice">
+            <defs>
+                <pattern id="flower-of-life" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+                    <circle cx="50" cy="50" r="25" fill="none" stroke="rgba(216,178,106,0.03)" stroke-width="0.5"/>
+                    <circle cx="25" cy="50" r="25" fill="none" stroke="rgba(216,178,106,0.03)" stroke-width="0.5"/>
+                    <circle cx="75" cy="50" r="25" fill="none" stroke="rgba(216,178,106,0.03)" stroke-width="0.5"/>
+                    <circle cx="37.5" cy="28" r="25" fill="none" stroke="rgba(216,178,106,0.03)" stroke-width="0.5"/>
+                    <circle cx="62.5" cy="28" r="25" fill="none" stroke="rgba(216,178,106,0.03)" stroke-width="0.5"/>
+                    <circle cx="37.5" cy="72" r="25" fill="none" stroke="rgba(216,178,106,0.03)" stroke-width="0.5"/>
+                    <circle cx="62.5" cy="72" r="25" fill="none" stroke="rgba(216,178,106,0.03)" stroke-width="0.5"/>
+                </pattern>
+                <radialGradient id="core-glow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" style="stop-color:rgba(216,178,106,0.1)"/>
+                    <stop offset="100%" style="stop-color:rgba(0,0,0,0)"/>
+                </radialGradient>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#flower-of-life)"/>
+            <circle cx="500" cy="500" r="300" fill="url(#core-glow)"/>
+        </svg>
+
+        <!-- HEADER -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-text">AT·OM</span>
+                <span class="logo-sub">RESONANCE ENGINE</span>
+            </div>
+            <div class="status-bar">
+                <div class="status-item">
+                    <span class="status-label">FREQUENCY</span>
+                    <span class="status-value" id="current-frequency">444 Hz</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">AGENTS</span>
+                    <span class="status-value" id="active-agents">350/350</span>
+                </div>
+                <div class="status-item">
+                    <span class="status-label">SIGNAL</span>
+                    <span class="status-value signal-active" id="signal-status">● STABLE</span>
+                </div>
+            </div>
+            <div class="architect-seal">
+                <span id="architect-status">🔒</span>
+            </div>
+        </header>
+
+        <!-- THREE HUBS CONTAINER -->
+        <main class="hubs-container">
+            
+            <!-- HUB ALPHA (INPUT) -->
+            <section class="hub hub-alpha">
+                <div class="hub-header">
+                    <h2 class="hub-title">HUB ALPHA</h2>
+                    <span class="hub-subtitle">INPUT GATEWAY</span>
+                </div>
+                <div class="hub-content">
+                    <div class="input-container">
+                        <label for="resonance-input">ARITHMOS INPUT</label>
+                        <input 
+                            type="text" 
+                            id="resonance-input" 
+                            class="resonance-input"
+                            placeholder="Enter text for resonance calculation..."
+                            autocomplete="off"
+                        />
+                        <div class="input-metrics">
+                            <span class="metric">
+                                <span class="metric-label">ARITHMOS</span>
+                                <span class="metric-value" id="arithmos-value">0</span>
+                            </span>
+                            <span class="metric">
+                                <span class="metric-label">LEVEL</span>
+                                <span class="metric-value" id="level-value">0</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="flux-stability">
+                        <span class="flux-label">FLUX STABILITY</span>
+                        <div class="flux-bar">
+                            <div class="flux-fill" id="flux-fill"></div>
+                        </div>
+                        <span class="flux-percent" id="flux-percent">100%</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HUB CORE (CENTRAL) -->
+            <section class="hub hub-core">
+                <div class="hub-header">
+                    <h2 class="hub-title">HUB CORE</h2>
+                    <span class="hub-subtitle">DIAMOND TRANSMUTER</span>
+                </div>
+                <div class="hub-content">
+                    <div class="agents-grid">
+                        <!-- 12 Agent Nodes -->
+                        <div class="agent-node" data-agent="1" data-hz="174">
+                            <div class="agent-pulse"></div>
+                            <span class="agent-hz">174</span>
+                        </div>
+                        <div class="agent-node" data-agent="2" data-hz="285">
+                            <div class="agent-pulse"></div>
+                            <span class="agent-hz">285</span>
+                        </div>
+                        <div class="agent-node" data-agent="3" data-hz="396">
+                            <div class="agent-pulse"></div>
+                            <span class="agent-hz">396</span>
+                        </div>
+                        <div class="agent-node" data-agent="4" data-hz="417">
+                            <div class="agent-pulse"></div>
+                            <span class="agent-hz">417</span>
+                        </div>
+                        <div class="agent-node anchor" data-agent="5" data-hz="444">
+                            <div class="agent-pulse"></div>
+                            <span class="agent-hz">444</span>
+                        </div>
+                        <div class="agent-node" data-agent="6" data-hz="528">
+                            <div class="agent-pulse"></div>
+                            <span class="agent-hz">528</span>
+                        </div>
+                        <div class="agent-node" data-agent="7" data-hz="639">
+                            <div class="agent-pulse"></div>
+                            <span class="agent-hz">639</span>
+                        </div>
+                        <div class="agent-node" data-agent="8" data-hz="741">
+                            <div class="agent-pulse"></div>
+                            <span class="agent-hz">741</span>
+                        </div>
+                        <div class="agent-node" data-agent="9" data-hz="852">
+                            <div class="agent-pulse"></div>
+                            <span class="agent-hz">852</span>
+                        </div>
+                        <div class="agent-node" data-agent="10" data-hz="888">
+                            <div class="agent-pulse"></div>
+                            <span class="agent-hz">888</span>
+                        </div>
+                        <div class="agent-node" data-agent="11" data-hz="963">
+                            <div class="agent-pulse"></div>
+                            <span class="agent-hz">963</span>
+                        </div>
+                        <div class="agent-node architect" data-agent="12" data-hz="999">
+                            <div class="agent-pulse"></div>
+                            <span class="agent-hz">999</span>
+                        </div>
+                    </div>
+                    <div class="core-center">
+                        <div class="core-ring ring-1"></div>
+                        <div class="core-ring ring-2"></div>
+                        <div class="core-ring ring-3"></div>
+                        <div class="core-frequency" id="core-frequency">444</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HUB OMEGA (OUTPUT) -->
+            <section class="hub hub-omega">
+                <div class="hub-header">
+                    <h2 class="hub-title">HUB OMEGA</h2>
+                    <span class="hub-subtitle">CRYSTALLIZED OUTPUT</span>
+                </div>
+                <div class="hub-content">
+                    <div class="output-display">
+                        <div class="output-label">RESONANCE SIGNATURE</div>
+                        <div class="output-value" id="output-signature">—</div>
+                    </div>
+                    <div class="output-matrix">
+                        <div class="matrix-item">
+                            <span class="matrix-label">Hz</span>
+                            <span class="matrix-value" id="output-hz">444</span>
+                        </div>
+                        <div class="matrix-item">
+                            <span class="matrix-label">PHASE</span>
+                            <span class="matrix-value" id="output-phase">0°</span>
+                        </div>
+                        <div class="matrix-item">
+                            <span class="matrix-label">LEVEL</span>
+                            <span class="matrix-value" id="output-level">4</span>
+                        </div>
+                    </div>
+                    <div class="crystal-visual">
+                        <div class="crystal" id="crystal">
+                            <div class="crystal-face face-1"></div>
+                            <div class="crystal-face face-2"></div>
+                            <div class="crystal-face face-3"></div>
+                            <div class="crystal-face face-4"></div>
+                        </div>
+                    </div>
+                    <button class="transmit-btn" id="transmit-btn">
+                        <span class="btn-text">TRANSMIT</span>
+                        <span class="btn-icon">⚡</span>
+                    </button>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- HEARTBEAT INDICATOR -->
+        <div class="heartbeat-indicator">
+            <div class="heartbeat-pulse" id="heartbeat-pulse"></div>
+            <span class="heartbeat-label">444Hz HEARTBEAT</span>
+            <span class="heartbeat-timer" id="heartbeat-timer">4.44s</span>
+        </div>
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            <div class="footer-left">
+                <span>ARCHITECT: JONATHAN RODRIGUE</span>
+            </div>
+            <div class="footer-center">
+                <span id="collective-freq">COLLECTIVE: 444 Hz</span>
+            </div>
+            <div class="footer-right">
+                <span id="connection-status">● CONNECTED</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="app.js" type="module"></script>
+</body>
+</html>

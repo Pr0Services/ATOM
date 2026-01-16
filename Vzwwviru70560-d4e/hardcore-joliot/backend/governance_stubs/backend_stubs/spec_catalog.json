@@ -1,0 +1,27 @@
+{
+  "CANON_GUARD": {
+    "cost_level": 1,
+    "latency_level": 1,
+    "category": "safety"
+  },
+  "SCHEMA_GUARD": {
+    "cost_level": 1,
+    "latency_level": 1,
+    "category": "correctness"
+  },
+  "COHERENCE_GUARD": {
+    "cost_level": 2,
+    "latency_level": 2,
+    "category": "coherence"
+  },
+  "BUDGET_GUARD": {
+    "cost_level": 1,
+    "latency_level": 1,
+    "category": "cost"
+  },
+  "DEEP_CRITIC": {
+    "cost_level": 4,
+    "latency_level": 4,
+    "category": "correctness"
+  }
+}

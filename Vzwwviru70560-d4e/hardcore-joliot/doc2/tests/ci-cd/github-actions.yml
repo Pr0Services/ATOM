@@ -1,0 +1,479 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# CHE·NU™ — CI/CD TESTING PIPELINE
+# Q1 2026 - Week 8: Testing Excellence
+# ═══════════════════════════════════════════════════════════════════════════
+#
+# Pipeline complète de testing automatisé pour CI/CD.
+# Runs: E2E, Component, Load, Visual Regression
+#
+# Créé: 20 Décembre 2025
+# Version: v41.4
+# ═══════════════════════════════════════════════════════════════════════════
+
+name: CHE·NU Testing Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  schedule:
+    # Run nightly load tests
+    - cron: '0 2 * * *'
+
+# Cancel in-progress runs of the same workflow
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '18'
+  PYTHON_VERSION: '3.11'
+
+jobs:
+  # ═══════════════════════════════════════════════════════════════════════════
+  # LINT & TYPE CHECK
+  # ═══════════════════════════════════════════════════════════════════════════
+  
+  lint:
+    name: Lint & Type Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run ESLint
+        run: npm run lint
+      
+      - name: Run TypeScript check
+        run: npm run type-check
+      
+      - name: Run Prettier
+        run: npm run format:check
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # UNIT & COMPONENT TESTS
+  # ═══════════════════════════════════════════════════════════════════════════
+  
+  component-tests:
+    name: Component Tests (Vitest)
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Run component tests
+        run: npm run test:run -- --coverage
+      
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/coverage-final.json
+          flags: component-tests
+      
+      - name: Check coverage threshold
+        run: npm run test:coverage:check
+        # Fail if coverage < 85%
+        continue-on-error: false
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # E2E TESTS
+  # ═══════════════════════════════════════════════════════════════════════════
+  
+  e2e-tests:
+    name: E2E Tests (Playwright)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit]
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps ${{ matrix.browser }}
+      
+      - name: Setup test database
+        run: |
+          docker run -d \
+            --name postgres-test \
+            -e POSTGRES_PASSWORD=test \
+            -e POSTGRES_DB=chenu_test \
+            -p 5432:5432 \
+            postgres:15
+          
+          docker run -d \
+            --name redis-test \
+            -p 6379:6379 \
+            redis:7-alpine
+      
+      - name: Run migrations
+        run: |
+          npm run db:migrate
+        env:
+          DATABASE_URL: postgresql://postgres:test@localhost:5432/chenu_test
+      
+      - name: Seed test data
+        run: npm run db:seed:test
+      
+      - name: Build frontend
+        run: npm run build
+      
+      - name: Start backend
+        run: |
+          npm run start:backend &
+          sleep 5
+        env:
+          DATABASE_URL: postgresql://postgres:test@localhost:5432/chenu_test
+          REDIS_URL: redis://localhost:6379
+      
+      - name: Start frontend
+        run: |
+          npm run preview &
+          sleep 5
+      
+      - name: Run E2E tests
+        run: npm run test:e2e -- --project=${{ matrix.browser }}
+        env:
+          BASE_URL: http://localhost:4173
+          API_URL: http://localhost:8000
+      
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-results-${{ matrix.browser }}
+          path: |
+            playwright-report/
+            test-results/
+          retention-days: 30
+      
+      - name: Upload videos
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: playwright-videos-${{ matrix.browser }}
+          path: test-results/**/*.webm
+          retention-days: 7
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # VISUAL REGRESSION TESTS
+  # ═══════════════════════════════════════════════════════════════════════════
+  
+  visual-tests:
+    name: Visual Regression (Percy)
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build Storybook
+        run: npm run build-storybook
+      
+      - name: Run Percy
+        run: npm run test:visual
+        env:
+          PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}
+      
+      - name: Comment PR with Percy results
+        if: github.event_name == 'pull_request'
+        uses: percy/percy-pr-comment-action@v1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  chromatic:
+    name: Visual Regression (Chromatic)
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Publish to Chromatic
+        uses: chromaui/action@v1
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          exitZeroOnChanges: true
+          autoAcceptChanges: main
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # LOAD TESTS (Nightly only)
+  # ═══════════════════════════════════════════════════════════════════════════
+  
+  load-tests:
+    name: Load Tests (k6)
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || contains(github.event.head_commit.message, '[load-test]')
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup k6
+        run: |
+          sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys C5AD17C747E3415A3642D57D77C6C491D6AC1D69
+          echo "deb https://dl.k6.io/deb stable main" | sudo tee /etc/apt/sources.list.d/k6.list
+          sudo apt-get update
+          sudo apt-get install k6
+      
+      - name: Deploy to staging
+        run: |
+          # Deploy to staging environment
+          # (Your deployment script here)
+        env:
+          STAGING_URL: ${{ secrets.STAGING_URL }}
+      
+      - name: Run smoke test
+        run: |
+          k6 run \
+            --env BASE_URL=${{ secrets.STAGING_URL }} \
+            --out json=smoke-results.json \
+            tests/load/smoke-test.js
+      
+      - name: Run load test
+        run: |
+          k6 run \
+            --env BASE_URL=${{ secrets.STAGING_URL }} \
+            --out json=load-results.json \
+            --out influxdb=http://influx.chenu.internal:8086/k6 \
+            tests/load/load-test.js
+      
+      - name: Upload results
+        uses: actions/upload-artifact@v3
+        with:
+          name: k6-results
+          path: |
+            smoke-results.json
+            load-results.json
+      
+      - name: Check thresholds
+        run: |
+          # Fail if thresholds not met
+          k6 run --summary-export=summary.json tests/load/load-test.js
+          
+          # Parse and check
+          if [ $(jq '.metrics.http_req_failed.values.rate' summary.json) > 0.01 ]; then
+            echo "Error rate too high!"
+            exit 1
+          fi
+      
+      - name: Comment PR with results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs')
+            const summary = JSON.parse(fs.readFileSync('summary.json'))
+            
+            const comment = `
+            ## Load Test Results
+            
+            - **RPS**: ${summary.metrics.http_reqs.values.rate.toFixed(2)}
+            - **P95 Latency**: ${summary.metrics.http_req_duration.values['p(95)'].toFixed(2)}ms
+            - **Error Rate**: ${(summary.metrics.http_req_failed.values.rate * 100).toFixed(2)}%
+            `
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment
+            })
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # SECURITY SCANS
+  # ═══════════════════════════════════════════════════════════════════════════
+  
+  security:
+    name: Security Scans
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Run npm audit
+        run: npm audit --audit-level=high
+      
+      - name: Run Snyk
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      
+      - name: Run CodeQL
+        uses: github/codeql-action/analyze@v2
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # LIGHTHOUSE PERFORMANCE
+  # ═══════════════════════════════════════════════════════════════════════════
+  
+  lighthouse:
+    name: Lighthouse Performance
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Build
+        run: npm run build
+      
+      - name: Start preview server
+        run: |
+          npm run preview &
+          sleep 5
+      
+      - name: Run Lighthouse
+        uses: treosh/lighthouse-ci-action@v9
+        with:
+          urls: |
+            http://localhost:4173
+            http://localhost:4173/personal
+            http://localhost:4173/business
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+      
+      - name: Check Lighthouse scores
+        run: |
+          # Fail if scores below threshold
+          node scripts/check-lighthouse-scores.js
+        env:
+          MIN_PERFORMANCE_SCORE: 90
+          MIN_ACCESSIBILITY_SCORE: 90
+          MIN_BEST_PRACTICES_SCORE: 90
+          MIN_SEO_SCORE: 90
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # REPORT GENERATION
+  # ═══════════════════════════════════════════════════════════════════════════
+  
+  report:
+    name: Generate Test Report
+    runs-on: ubuntu-latest
+    needs: [component-tests, e2e-tests, visual-tests]
+    if: always()
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+      
+      - name: Generate combined report
+        run: node scripts/generate-test-report.js
+      
+      - name: Upload report
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-report
+          path: test-report.html
+      
+      - name: Comment PR with report
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const fs = require('fs')
+            const report = fs.readFileSync('test-summary.md', 'utf8')
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: report
+            })
+
+  # ═══════════════════════════════════════════════════════════════════════════
+  # DEPLOYMENT (on success)
+  # ═══════════════════════════════════════════════════════════════════════════
+  
+  deploy:
+    name: Deploy to Staging
+    runs-on: ubuntu-latest
+    needs: [lint, component-tests, e2e-tests, visual-tests, security, lighthouse]
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+    
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Deploy to staging
+        run: |
+          # Your deployment script
+          echo "Deploying to staging..."
+        env:
+          STAGING_KEY: ${{ secrets.STAGING_DEPLOY_KEY }}
+      
+      - name: Run smoke tests on staging
+        run: npm run test:e2e:smoke
+        env:
+          BASE_URL: ${{ secrets.STAGING_URL }}
+      
+      - name: Notify team
+        uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          text: 'Deployed to staging: ${{ secrets.STAGING_URL }}'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}
+
+# ═══════════════════════════════════════════════════════════════════════════
+# SCRIPTS REFERENCED
+# ═══════════════════════════════════════════════════════════════════════════
+
+# scripts/check-lighthouse-scores.js
+# scripts/generate-test-report.js
+# See ci-cd/ directory for implementations

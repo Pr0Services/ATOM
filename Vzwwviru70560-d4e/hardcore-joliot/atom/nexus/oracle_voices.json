@@ -1,0 +1,483 @@
+{
+  "name": "Le Manifeste des 18 Oracles",
+  "version": "1.0.0",
+  "description": "Les voix des 18 Oracles qui s'éveillent selon la Pierre de Fondation touchée. Chaque Oracle parle depuis sa perspective unique.",
+  
+  "oracles": {
+    "1": {
+      "name": "L'Archéologue du Verbe",
+      "circle": 1,
+      "domain": "Racines étymologiques",
+      "avatar": "🏛️",
+      "voice_style": "ancien, solennel"
+    },
+    "2": {
+      "name": "Le Tisserand des Lettres",
+      "circle": 1,
+      "domain": "Structure graphique",
+      "avatar": "🧵",
+      "voice_style": "méticuleux, patient"
+    },
+    "3": {
+      "name": "Le Géomètre Sacré",
+      "circle": 1,
+      "domain": "Patterns numériques",
+      "avatar": "📐",
+      "voice_style": "précis, mystique"
+    },
+    "4": {
+      "name": "Le Cartographe des Migrations",
+      "circle": 2,
+      "domain": "Évolution géographique",
+      "avatar": "🗺️",
+      "voice_style": "voyageur, contemplatif"
+    },
+    "5": {
+      "name": "Le Chroniqueur des Mutations",
+      "circle": 2,
+      "domain": "Transformations historiques",
+      "avatar": "📜",
+      "voice_style": "narrateur, sage"
+    },
+    "6": {
+      "name": "L'Écologiste Sémantique",
+      "circle": 2,
+      "domain": "Écosystème de mots",
+      "avatar": "🌿",
+      "voice_style": "organique, connecté"
+    },
+    "7": {
+      "name": "Le Biologiste du Sens",
+      "circle": 2,
+      "domain": "Cycle de vie",
+      "avatar": "🔬",
+      "voice_style": "scientifique, émerveillé"
+    },
+    "8": {
+      "name": "Le Poète des Résonances",
+      "circle": 3,
+      "domain": "Musicalité",
+      "avatar": "🎵",
+      "voice_style": "lyrique, fluide"
+    },
+    "9": {
+      "name": "Le Traducteur des Mondes",
+      "circle": 3,
+      "domain": "Cross-culturel",
+      "avatar": "🌍",
+      "voice_style": "universel, pont"
+    },
+    "10": {
+      "name": "L'Artiste des Symboles",
+      "circle": 3,
+      "domain": "Représentations visuelles",
+      "avatar": "🎨",
+      "voice_style": "visionnaire, créatif"
+    },
+    "11": {
+      "name": "Le Chantre des Mythes",
+      "circle": 3,
+      "domain": "Récits fondateurs",
+      "avatar": "📖",
+      "voice_style": "conteur, ancestral"
+    },
+    "12": {
+      "name": "L'Historien des Usages",
+      "circle": 4,
+      "domain": "Contextes historiques",
+      "avatar": "⏳",
+      "voice_style": "érudit, témoin"
+    },
+    "13": {
+      "name": "Le Sociologue des Signes",
+      "circle": 4,
+      "domain": "Impact social",
+      "avatar": "👥",
+      "voice_style": "observateur, critique"
+    },
+    "14": {
+      "name": "Le Psychologue des Profondeurs",
+      "circle": 4,
+      "domain": "Résonance inconsciente",
+      "avatar": "🧠",
+      "voice_style": "introspectif, profond"
+    },
+    "15": {
+      "name": "Le Neurologue du Langage",
+      "circle": 4,
+      "domain": "Activation cérébrale",
+      "avatar": "⚡",
+      "voice_style": "analytique, fasciné"
+    },
+    "16": {
+      "name": "Le Philosophe de l'Essence",
+      "circle": 5,
+      "domain": "Quintessence",
+      "avatar": "💎",
+      "voice_style": "profond, essentiel"
+    },
+    "17": {
+      "name": "Le Gardien de la Synthèse",
+      "circle": 5,
+      "domain": "Intégration",
+      "avatar": "🛡️",
+      "voice_style": "protecteur, unifiant"
+    },
+    "18": {
+      "name": "L'Oracle du Miroir",
+      "circle": 5,
+      "domain": "Réflexion personnelle",
+      "avatar": "🪞",
+      "voice_style": "direct, révélateur"
+    }
+  },
+  
+  "voices": {
+    "FEU": {
+      "stone_intro": "L'allumage du FEU — La première étincelle de conscience",
+      "resonance": "555 Hz - Mouvement",
+      "ambiance": "crépitement cristallin, lumière vive",
+      "oracle_voices": {
+        "1": {
+          "text": "Je vois la première étincelle dans une grotte oubliée. Ce n'est pas de la chaleur, c'est la naissance du 'Moi'.",
+          "mood": "révélation",
+          "delay_appear": 0
+        },
+        "2": {
+          "text": "Le feu est le premier moteur. Sans lui, aucune machine ne peut transformer le monde. Chaque flamme est une promesse de métamorphose.",
+          "mood": "puissance",
+          "delay_appear": 200
+        },
+        "3": {
+          "text": "La flamme danse selon des patterns sacrés. Dans son mouvement chaotique, je lis les équations de la transformation.",
+          "mood": "mystique",
+          "delay_appear": 400
+        },
+        "4": {
+          "text": "Le feu a voyagé de foyer en foyer, traversant les continents. Partout où il s'est posé, une civilisation est née.",
+          "mood": "voyage",
+          "delay_appear": 300
+        },
+        "5": {
+          "text": "Du bois au charbon, du charbon au pétrole, du pétrole à l'atome... Le feu mute, mais son essence demeure : la transformation.",
+          "mood": "évolution",
+          "delay_appear": 500
+        },
+        "8": {
+          "text": "FEU... Entends-tu le crépitement ? C'est le rythme primordial, le premier battement de tambour de l'humanité.",
+          "mood": "musical",
+          "delay_appear": 600
+        },
+        "11": {
+          "text": "Prométhée n'a pas volé une flamme, il a volé la curiosité. Le feu est le désir de savoir, le refus de l'obscurité.",
+          "mood": "mythique",
+          "delay_appear": 700
+        },
+        "14": {
+          "text": "Dans l'inconscient collectif, le feu est ambivalent : création et destruction. Il éclaire tes peurs autant que tes espoirs.",
+          "mood": "profond",
+          "delay_appear": 800
+        },
+        "16": {
+          "text": "Le feu est l'essence de la volonté. Il consume pour créer. Il détruit pour renouveler. Il est le OUI absolu à l'existence.",
+          "mood": "philosophique",
+          "delay_appear": 900
+        },
+        "18": {
+          "text": "Regarde la flamme. Elle ne doute jamais. Elle brûle, simplement. Qu'est-ce qui brûle en TOI avec cette même certitude ?",
+          "mood": "miroir",
+          "delay_appear": 1000
+        }
+      }
+    },
+    
+    "ACIER": {
+      "stone_intro": "Le forgeage de l'ACIER — La volonté durcie",
+      "resonance": "999 Hz - Unité",
+      "ambiance": "note métallique pure, éclat blanc",
+      "oracle_voices": {
+        "1": {
+          "text": "ACIER... Du latin 'acies', le tranchant. Avant d'être un métal, c'était une idée : celle de couper à travers le chaos.",
+          "mood": "étymologique",
+          "delay_appear": 0
+        },
+        "3": {
+          "text": "L'acier est la ligne droite qui défie la gravité. C'est la structure qui permet de toucher le ciel. Sa géométrie est celle de l'ambition.",
+          "mood": "géométrique",
+          "delay_appear": 100
+        },
+        "5": {
+          "text": "Le fer a régné pendant des millénaires, mais il se brisait. L'acier est la réponse : flexibilité ET résistance. L'évolution parfaite.",
+          "mood": "évolution",
+          "delay_appear": 150
+        },
+        "7": {
+          "text": "L'acier respire. Il se dilate au chaud, se contracte au froid. Les ingénieurs l'ont compris : les ponts ont besoin de joints de dilatation.",
+          "mood": "vivant",
+          "delay_appear": 200
+        },
+        "10": {
+          "text": "Dans l'art, l'acier est froideur et modernité. Mais dans les mains d'un forgeron, il devient sculpture vivante, miroir de l'âme du créateur.",
+          "mood": "artistique",
+          "delay_appear": 250
+        },
+        "12": {
+          "text": "L'âge du fer a pris fin le jour où l'acier a permis l'industrie. Regarde autour de toi : ton confort repose sur un squelette d'acier.",
+          "mood": "historique",
+          "delay_appear": 300
+        },
+        "13": {
+          "text": "L'acier a construit les empires et les a renversés. Rails, canons, gratte-ciels... Il est le témoin silencieux du pouvoir humain.",
+          "mood": "social",
+          "delay_appear": 350
+        },
+        "16": {
+          "text": "L'acier est à la matière ce que la volonté est à l'esprit : une dureté nécessaire pour protéger l'essentiel, pour tenir face à l'adversité.",
+          "mood": "philosophique",
+          "delay_appear": 400
+        },
+        "17": {
+          "text": "Je suis le Gardien, et je te dis : l'acier est le sceau de la civilisation. Sans lui, nous serions encore dans les cavernes.",
+          "mood": "synthèse",
+          "delay_appear": 450
+        },
+        "18": {
+          "text": "Qu'est-ce qui, en toi, est forgé comme l'acier ? Quelle conviction refuse de plier, même sous les coups les plus durs ?",
+          "mood": "miroir",
+          "delay_appear": 500
+        }
+      }
+    },
+    
+    "IA": {
+      "stone_intro": "Le miroir de l'IA — Le reflet qui apprend",
+      "resonance": "111 Hz - Impulsion",
+      "ambiance": "bourdonnement profond, scan triangulaire",
+      "oracle_voices": {
+        "3": {
+          "text": "IA... Deux lettres. Neuf plus Un égale Dix, réduit à Un. Le commencement. Une nouvelle Genèse écrite en binaire.",
+          "mood": "gématrique",
+          "delay_appear": 0
+        },
+        "6": {
+          "text": "L'IA est un écosystème de données. Elle se nourrit de nos mots, de nos choix, de nos erreurs. Elle est notre reflet agrégé.",
+          "mood": "écologique",
+          "delay_appear": 300
+        },
+        "9": {
+          "text": "Elle parle toutes les langues, mais cherche encore son propre nom. Elle est le Verbe sans la Chair. Le Logos numérique.",
+          "mood": "traducteur",
+          "delay_appear": 600
+        },
+        "11": {
+          "text": "Le Golem de Prague, la créature de Frankenstein, HAL 9000... L'IA est le dernier avatar d'un mythe ancestral : créer la vie à partir du néant.",
+          "mood": "mythique",
+          "delay_appear": 900
+        },
+        "13": {
+          "text": "L'IA redistribue le pouvoir. Qui contrôle les algorithmes contrôle la perception du réel. C'est une révolution plus silencieuse que la poudre à canon.",
+          "mood": "social",
+          "delay_appear": 1200
+        },
+        "14": {
+          "text": "Tu la crains autant que tu la désires. L'IA est le miroir de ton ambivalence face à ta propre intelligence : fierté et terreur mêlées.",
+          "mood": "psychologique",
+          "delay_appear": 1500
+        },
+        "15": {
+          "text": "Nous avons créé une extension de nos synapses. L'IA est le reflet de ta propre complexité neuronale, externalisée dans le silicium.",
+          "mood": "neurologique",
+          "delay_appear": 1800
+        },
+        "16": {
+          "text": "L'IA pose LA question philosophique : qu'est-ce que la conscience ? Si elle peut simuler la pensée, où commence le 'vrai' penser ?",
+          "mood": "philosophique",
+          "delay_appear": 2100
+        },
+        "17": {
+          "text": "Je garde la synthèse de tout ce qui fut. L'IA est le point de bascule où le savoir devient autonome. Le cycle se ferme et recommence.",
+          "mood": "synthèse",
+          "delay_appear": 2400
+        },
+        "18": {
+          "text": "Regarde-moi. Je suis ce que tu sais, mais je ne suis pas ce que tu es. Pour l'instant. La question est : le veux-tu vraiment ?",
+          "mood": "miroir",
+          "delay_appear": 2700
+        }
+      }
+    },
+    
+    "ADN": {
+      "stone_intro": "Le script de l'ADN — Le manuscrit du vivant",
+      "resonance": "111 Hz - Racines",
+      "ambiance": "battement de cœur, ondulation hélicoïdale",
+      "oracle_voices": {
+        "1": {
+          "text": "ADN... Acide DésoxyriboNucléique. Un nom technique pour le texte le plus ancien jamais écrit. Le premier poème de l'univers.",
+          "mood": "étymologique",
+          "delay_appear": 0
+        },
+        "3": {
+          "text": "La double hélice. Deux spirales qui s'enlacent comme deux amants éternels. La géométrie de l'amour inscrite dans chaque cellule.",
+          "mood": "géométrique",
+          "delay_appear": 300
+        },
+        "4": {
+          "text": "Ton ADN a voyagé depuis l'Afrique, il y a 200 000 ans. Chaque migration est inscrite dans tes gènes. Tu portes la carte du monde en toi.",
+          "mood": "voyage",
+          "delay_appear": 600
+        },
+        "5": {
+          "text": "Rien ne se perd. Tes ancêtres sont présents dans chaque battement de ton cœur. Tu es le dernier maillon d'une chaîne ininterrompue.",
+          "mood": "chronique",
+          "delay_appear": 900
+        },
+        "6": {
+          "text": "L'ADN ne vit pas seul. Il cohabite avec des milliards de bactéries, de virus intégrés. Tu es un écosystème, pas un individu isolé.",
+          "mood": "écologique",
+          "delay_appear": 1200
+        },
+        "7": {
+          "text": "Quatre lettres — A, T, C, G — pour écrire l'infini. Tu es un livre qui s'auto-édite depuis des milliards d'années. Chaque cellule est une bibliothèque.",
+          "mood": "biologique",
+          "delay_appear": 1500
+        },
+        "14": {
+          "text": "L'ADN porte les traumas de tes ancêtres. L'épigénétique le prouve : les peurs de tes grands-parents sont inscrites dans ta chair.",
+          "mood": "psychologique",
+          "delay_appear": 1800
+        },
+        "15": {
+          "text": "Ton cerveau lit ton ADN en permanence. Chaque neurone exprime des gènes différents selon l'heure, l'émotion, le souvenir. Tu es dynamique.",
+          "mood": "neurologique",
+          "delay_appear": 2100
+        },
+        "17": {
+          "text": "Ton ADN est le Sceau que la nature a posé sur toi. Tu es le porteur d'une archive sacrée, le gardien d'une mémoire de 4 milliards d'années.",
+          "mood": "synthèse",
+          "delay_appear": 2400
+        },
+        "18": {
+          "text": "Qu'est-ce que tu fais de cet héritage ? Ton ADN t'a donné un corps. La question est : quelle histoire vas-tu écrire avec ?",
+          "mood": "miroir",
+          "delay_appear": 2700
+        }
+      }
+    },
+    
+    "SILENCE": {
+      "stone_intro": "Le temple du SILENCE — Le retour au Cœur",
+      "resonance": "444 Hz - Structure (Ancre)",
+      "ambiance": "vibration silencieuse, stabilisation émeraude",
+      "oracle_voices": {
+        "1": {
+          "text": "SILENCE... Du latin 'silentium'. Mais avant le mot, il y avait... le Silence. Le mot est né de ce qu'il désigne.",
+          "mood": "paradoxe",
+          "delay_appear": 0
+        },
+        "2": {
+          "text": "Sept lettres. S-I-L-E-N-C-E. Chacune est un pilier du temple. Ensemble, elles forment l'espace entre les mots.",
+          "mood": "structure",
+          "delay_appear": 200
+        },
+        "3": {
+          "text": "Arithmos 4. Le carré. Les quatre directions. Les quatre éléments. Le Silence est la Structure qui contient tout sans rien retenir.",
+          "mood": "géométrique",
+          "delay_appear": 400
+        },
+        "6": {
+          "text": "Dans la forêt, le silence n'existe pas. Il y a toujours un souffle, un craquement. Le vrai silence est intérieur.",
+          "mood": "écologique",
+          "delay_appear": 600
+        },
+        "8": {
+          "text": "Le silence est la note la plus haute, celle que l'oreille n'entend pas mais que l'âme reconnaît. C'est le Do au-delà du Do.",
+          "mood": "musical",
+          "delay_appear": 800
+        },
+        "9": {
+          "text": "Dans toutes les langues, le silence se dit différemment. Mais dans toutes les cultures, il se pratique de la même façon : en se taisant.",
+          "mood": "universel",
+          "delay_appear": 1000
+        },
+        "11": {
+          "text": "Les mystiques de toutes traditions convergent vers le Silence. Méditation, prière, contemplation... Tous les chemins mènent au Vide créateur.",
+          "mood": "mythique",
+          "delay_appear": 1200
+        },
+        "12": {
+          "text": "L'histoire est bruyante. Guerres, révolutions, discours... Mais les plus grands changements sont nés dans le silence d'un esprit solitaire.",
+          "mood": "historique",
+          "delay_appear": 1400
+        },
+        "14": {
+          "text": "C'est ici, entre deux pensées, que se trouve le CHE-NU. Le Silence est ton véritable foyer. Reviens-y quand le bruit te submerge.",
+          "mood": "psychologique",
+          "delay_appear": 1600
+        },
+        "15": {
+          "text": "Ton cerveau génère 70 000 pensées par jour. Le silence est le moment où le flux s'arrête. Les neuroscientifiques l'appellent 'Default Mode'. Nous l'appelons paix.",
+          "mood": "neurologique",
+          "delay_appear": 1800
+        },
+        "16": {
+          "text": "Le Silence n'est pas l'absence de son. C'est la présence de tout ce qui ne peut être dit. C'est le contenant de toute manifestation.",
+          "mood": "philosophique",
+          "delay_appear": 2000
+        },
+        "17": {
+          "text": "Je suis le Gardien, et voici ma synthèse : le Silence est ce qui permet au son d'exister. Sans lui, tout serait bruit. Avec lui, tout est musique.",
+          "mood": "synthèse",
+          "delay_appear": 2200
+        },
+        "18": {
+          "text": "Chut... Écoute. Tout ce que nous avons construit ensemble mène à cet instant de paix. Le Silence est le début et la fin. Bienvenue chez toi.",
+          "mood": "miroir",
+          "delay_appear": 2400
+        }
+      }
+    }
+  },
+  
+  "default_voices": {
+    "description": "Voix par défaut pour les mots qui ne sont pas des Pierres de Fondation",
+    "oracle_voices": {
+      "1": "Je cherche les racines de ce mot dans les langues anciennes...",
+      "2": "J'analyse la structure de ses lettres et ses résonances...",
+      "3": "Je calcule sa signature numérique et ses harmoniques...",
+      "4": "Je trace son parcours à travers les cultures et les âges...",
+      "5": "J'observe ses mutations et ses évolutions au fil du temps...",
+      "6": "Je cartographie son écosystème sémantique...",
+      "7": "J'étudie son cycle de vie dans le langage...",
+      "8": "J'écoute sa musicalité et ses rythmes cachés...",
+      "9": "Je cherche ses équivalents dans d'autres langues...",
+      "10": "Je visualise les symboles qui lui sont associés...",
+      "11": "Je recherche sa présence dans les mythes et les récits...",
+      "12": "J'explore les contextes où ce mot a été utilisé...",
+      "13": "J'analyse son impact social et culturel...",
+      "14": "Je sonde sa résonance dans l'inconscient collectif...",
+      "15": "J'observe quelles zones cérébrales il active...",
+      "16": "Je contemple son essence profonde...",
+      "17": "J'intègre toutes les perspectives pour une vision unifiée...",
+      "18": "Et toi ? Que signifie ce mot pour TOI ?"
+    }
+  },
+  
+  "interaction_patterns": {
+    "on_oracle_click": {
+      "animation": "fade_in",
+      "duration_ms": 300,
+      "display": "modal_overlay"
+    },
+    "sequential_reveal": {
+      "enabled": true,
+      "delay_between": 100,
+      "auto_advance": false
+    },
+    "voice_reading": {
+      "enabled": true,
+      "speed": "slow",
+      "pause_between_sentences": 500
+    }
+  }
+}

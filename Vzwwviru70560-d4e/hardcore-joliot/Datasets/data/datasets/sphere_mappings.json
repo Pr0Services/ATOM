@@ -1,0 +1,255 @@
+{
+  "SPH_SYSTEM": {
+    "id": "SPH_SYSTEM",
+    "name": "Syst\u00e8me CHE\u00b7NU",
+    "name_en": "CHE\u00b7NU System",
+    "description": "Configuration et \u00e9tat du syst\u00e8me d'intelligence gouvern\u00e9e",
+    "color": "#4a9eff",
+    "icon": "\ud83c\udfe0",
+    "position": {
+      "x": 0,
+      "y": 0,
+      "z": 0
+    },
+    "radius": 100,
+    "units": [
+      "MU_001",
+      "MU_002",
+      "MU_003",
+      "MU_004",
+      "MU_005",
+      "MU_006",
+      "MU_007",
+      "MU_008",
+      "MU_009",
+      "MU_010",
+      "MU_011",
+      "MU_012",
+      "MU_013",
+      "MU_014",
+      "MU_015"
+    ],
+    "connections": [
+      "SPH_GOVERNANCE",
+      "SPH_AGENTS"
+    ],
+    "metadata": {
+      "created_at": "2025-01-01T00:00:00Z",
+      "unit_count": 15,
+      "access_level": "public",
+      "visualization": {
+        "glow": true,
+        "pulse_rate": 1.5,
+        "particles": 50
+      }
+    }
+  },
+  "SPH_GOVERNANCE": {
+    "id": "SPH_GOVERNANCE",
+    "name": "Gouvernance",
+    "name_en": "Governance",
+    "description": "Tree Laws, contrats constitutionnels, r\u00e8gles d'approbation",
+    "color": "#81c784",
+    "icon": "\ud83c\udf33",
+    "position": {
+      "x": 150,
+      "y": 100,
+      "z": 0
+    },
+    "radius": 80,
+    "units": [
+      "MU_002",
+      "MU_003",
+      "MU_004",
+      "MU_005",
+      "MU_006",
+      "MU_007",
+      "MU_008",
+      "MU_009",
+      "MU_010",
+      "MU_011",
+      "MU_012",
+      "MU_013"
+    ],
+    "connections": [
+      "SPH_SYSTEM",
+      "SPH_COMPLIANCE"
+    ],
+    "metadata": {
+      "created_at": "2025-01-01T00:00:00Z",
+      "unit_count": 12,
+      "access_level": "protected",
+      "immutable_units": [
+        "MU_002"
+      ]
+    }
+  },
+  "SPH_AGENTS": {
+    "id": "SPH_AGENTS",
+    "name": "Agents",
+    "name_en": "Agents",
+    "description": "Configuration des 168+ agents sp\u00e9cialis\u00e9s",
+    "color": "#9e4aff",
+    "icon": "\ud83e\udd16",
+    "position": {
+      "x": -150,
+      "y": 100,
+      "z": 0
+    },
+    "radius": 120,
+    "units": [
+      "MU_010",
+      "MU_011",
+      "MU_012",
+      "MU_013",
+      "MU_014",
+      "MU_015",
+      "MU_016",
+      "MU_017",
+      "MU_018",
+      "MU_019",
+      "MU_020",
+      "MU_021",
+      "MU_022",
+      "MU_023",
+      "MU_024",
+      "MU_025",
+      "MU_026",
+      "MU_027",
+      "MU_028",
+      "MU_029"
+    ],
+    "connections": [
+      "SPH_SYSTEM",
+      "SPH_PROJECTS"
+    ],
+    "metadata": {
+      "created_at": "2025-02-01T00:00:00Z",
+      "unit_count": 20,
+      "agent_hierarchy": {
+        "L0": 1,
+        "L1": 8,
+        "L2": 24,
+        "L3": 135
+      }
+    }
+  },
+  "SPH_PROJECTS": {
+    "id": "SPH_PROJECTS",
+    "name": "Projets",
+    "name_en": "Projects",
+    "description": "Projets de construction suivis par le syst\u00e8me",
+    "color": "#ff9e4a",
+    "icon": "\ud83c\udfd7\ufe0f",
+    "position": {
+      "x": 0,
+      "y": 200,
+      "z": 0
+    },
+    "radius": 100,
+    "units": [
+      "MU_030",
+      "MU_031",
+      "MU_032",
+      "MU_033",
+      "MU_034",
+      "MU_035",
+      "MU_036",
+      "MU_037",
+      "MU_038",
+      "MU_039"
+    ],
+    "connections": [
+      "SPH_AGENTS",
+      "SPH_COMPLIANCE"
+    ],
+    "metadata": {
+      "created_at": "2025-04-01T00:00:00Z",
+      "unit_count": 10,
+      "active_projects": 8,
+      "completed_projects": 2
+    }
+  },
+  "SPH_COMPLIANCE": {
+    "id": "SPH_COMPLIANCE",
+    "name": "Conformit\u00e9",
+    "name_en": "Compliance",
+    "description": "RBQ, CNESST, CCQ - R\u00e8glements qu\u00e9b\u00e9cois",
+    "color": "#e57373",
+    "icon": "\ud83d\udccb",
+    "position": {
+      "x": 150,
+      "y": -100,
+      "z": 0
+    },
+    "radius": 90,
+    "units": [
+      "MU_040",
+      "MU_041",
+      "MU_042",
+      "MU_043",
+      "MU_044",
+      "MU_045",
+      "MU_046",
+      "MU_047",
+      "MU_048",
+      "MU_049"
+    ],
+    "connections": [
+      "SPH_GOVERNANCE",
+      "SPH_PROJECTS",
+      "SPH_KNOWLEDGE"
+    ],
+    "metadata": {
+      "created_at": "2025-01-01T00:00:00Z",
+      "unit_count": 10,
+      "regulators": [
+        "RBQ",
+        "CNESST",
+        "CCQ"
+      ]
+    }
+  },
+  "SPH_KNOWLEDGE": {
+    "id": "SPH_KNOWLEDGE",
+    "name": "Connaissances",
+    "name_en": "Knowledge",
+    "description": "Base de connaissances m\u00e9tier construction",
+    "color": "#4dd0e1",
+    "icon": "\ud83d\udcda",
+    "position": {
+      "x": -150,
+      "y": -100,
+      "z": 0
+    },
+    "radius": 85,
+    "units": [
+      "MU_050",
+      "MU_051",
+      "MU_052",
+      "MU_053",
+      "MU_054",
+      "MU_055",
+      "MU_056",
+      "MU_057",
+      "MU_058",
+      "MU_059"
+    ],
+    "connections": [
+      "SPH_COMPLIANCE",
+      "SPH_AGENTS"
+    ],
+    "metadata": {
+      "created_at": "2025-02-01T00:00:00Z",
+      "unit_count": 10,
+      "domains": [
+        "concrete",
+        "wood",
+        "steel",
+        "electrical",
+        "plumbing",
+        "hvac"
+      ]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "manifest_id": "MANIFEST_DEMO_DASHBOARD_0001",
+  "generated_at": "2025-01-18T12:10:00Z",
+  "app_version": "V51-DEMO",
+  "dataset_id": "chenu_demo_dataset_v51",
+  "label": "DEMO",
+  "artifacts": [
+    { "filename": "CHE-NU_Dashboard_Summary_V51_2025-01-18.pdf", "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "bytes": 123456, "mime_type": "application/pdf" },
+    { "filename": "enterprise_index.demo.json", "sha256": "a1b2c3d4e5f6789012345678901234567890abcdef1234567890abcdef123456", "bytes": 9876, "mime_type": "application/json" },
+    { "filename": "ci_report.demo.json", "sha256": "f0e1d2c3b4a5968778695a4b3c2d1e0f9876543210fedcba9876543210fedcba", "bytes": 4321, "mime_type": "application/json" }
+  ],
+  "signer": {
+    "algorithm": "ed25519",
+    "key_id": "DEMO_KEY_01",
+    "public_key": "DEMO_PUBLIC_KEY_BASE64_PLACEHOLDER"
+  },
+  "signature": "DEMO_SIGNATURE_BASE64_PLACEHOLDER"
+}
