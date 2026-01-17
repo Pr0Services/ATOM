@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<!--
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                         AT·OM - INFRASTRUCTURE INVISIBLE                      ║
+║                                                                              ║
+║            PROPRIÉTÉ EXCLUSIVE DE JONATHAN EMMANUEL RODRIGUE                 ║
+║                    TOUS DROITS RÉSERVÉS - BREVET EN COURS                    ║
+║                                    2025                                       ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+-->
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+
+    <!-- PWA - iPad Fullscreen Configuration -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="AT·OM">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#000000">
+    <meta name="format-detection" content="telephone=no">
+
+    <!-- SEO & Security -->
+    <meta name="description" content="AT·OM - Infrastructure Invisible - Souveraineté Numérique">
+    <meta name="author" content="Jonathan Emmanuel Rodrigue">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Manifest PWA -->
+    <link rel="manifest" href="manifest.json">
+
+    <!-- Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="icon-180.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icon-32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icon-16.png">
+
+    <!-- Splash Screens iPad -->
+    <link rel="apple-touch-startup-image" href="splash.png">
+
+    <title>AT·OM</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         LE SCEAU - ENGAGEMENT SOUVERAIN (2 SECONDES)
+         ═══════════════════════════════════════════════════════════════════════ -->
+    <main id="sceau-view" class="view active">
+        <div class="frequency-indicator">
+            <span id="freq-value">432</span>
+            <span class="freq-unit">Hz</span>
+        </div>
+
+        <div id="sceau" role="button" aria-label="Sceau d'activation - Maintenir 2 secondes">
+            <svg class="sceau-ring" viewBox="0 0 200 200">
+                <circle class="ring-bg" cx="100" cy="100" r="90" />
+                <circle class="ring-progress" cx="100" cy="100" r="90" />
+            </svg>
+            <div class="sceau-core">
+                <span class="sceau-symbol">◉</span>
+            </div>
+            <div class="sceau-label">AT·OM</div>
+        </div>
+
+        <p class="instruction">Maintenez 2 secondes pour activer</p>
+
+        <div class="progress-track">
+            <div id="progress-bar"></div>
+        </div>
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         L'ESSAIM - 350 AGENTS
+         ═══════════════════════════════════════════════════════════════════════ -->
+    <main id="essaim-view" class="view">
+        <header class="essaim-header">
+            <div class="header-left">
+                <span class="agent-count">350</span>
+                <span class="agent-label">Agents</span>
+            </div>
+            <div class="header-center">
+                <span class="logo-text">AT·OM</span>
+            </div>
+            <div class="header-right">
+                <span id="live-freq">999</span>
+                <span class="freq-label">Hz</span>
+            </div>
+        </header>
+
+        <div id="swarm-container">
+            <canvas id="swarm-canvas"></canvas>
+        </div>
+
+        <nav class="module-navigation">
+            <button class="nav-module" data-module="genie">
+                <span class="nav-icon">◈</span>
+                <span class="nav-text">Génie</span>
+            </button>
+            <button class="nav-module" data-module="alchimie">
+                <span class="nav-icon">◎</span>
+                <span class="nav-text">Alchimie</span>
+            </button>
+            <button class="nav-module" data-module="flux">
+                <span class="nav-icon">◇</span>
+                <span class="nav-text">Flux</span>
+            </button>
+            <button class="nav-module" data-module="sante">
+                <span class="nav-icon">♡</span>
+                <span class="nav-text">Santé</span>
+            </button>
+        </nav>
+
+        <!-- Agent Detail Panel -->
+        <aside id="agent-panel" class="panel hidden">
+            <button class="panel-close" aria-label="Fermer">×</button>
+            <div class="panel-header">
+                <span id="panel-sphere" class="sphere-badge"></span>
+            </div>
+            <h3 id="panel-name"></h3>
+            <p id="panel-function"></p>
+            <div class="panel-frequency">
+                <span id="panel-freq"></span> Hz
+            </div>
+        </aside>
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         MODULES (GÉNIE, ALCHIMIE, FLUX, SANTÉ)
+         ═══════════════════════════════════════════════════════════════════════ -->
+    <main id="module-view" class="view">
+        <header class="module-header">
+            <button id="btn-back" class="btn-back" aria-label="Retour">
+                <span>←</span>
+                <span>L'Essaim</span>
+            </button>
+            <h1 id="module-title"></h1>
+        </header>
+        <section id="module-body"></section>
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         PROTOCOL-999 - BRISE-CIRCUIT (SOVEREIGN COMMAND INTERFACE)
+         ═══════════════════════════════════════════════════════════════════════ -->
+    <main id="protocol-view" class="view">
+        <div class="protocol-container">
+            <div class="protocol-warning">
+                <span class="warning-icon">⚠</span>
+                <h1>BRISE-CIRCUIT</h1>
+                <p>Dispersion de L'Essaim</p>
+            </div>
+
+            <div class="dispersion-options">
+                <button class="dispersion-level" data-level="partial">
+                    <span class="level-percent">20%</span>
+                    <span class="level-name">Partiel</span>
+                </button>
+                <button class="dispersion-level" data-level="sectoral">
+                    <span class="level-percent">50%</span>
+                    <span class="level-name">Sectoriel</span>
+                </button>
+                <button class="dispersion-level critical" data-level="total">
+                    <span class="level-percent">100%</span>
+                    <span class="level-name">Total</span>
+                </button>
+            </div>
+
+            <div id="confirm-section" class="confirm-section hidden">
+                <input type="text" id="confirm-input" placeholder="Code de confirmation" autocomplete="off">
+                <button id="btn-execute" class="btn-execute">Confirmer Dispersion</button>
+            </div>
+
+            <button id="btn-cancel-protocol" class="btn-cancel">Annuler</button>
+        </div>
+    </main>
+
+    <!-- Explosion Particles Container -->
+    <div id="particles-container" aria-hidden="true"></div>
+
+    <script src="app.js"></script>
+</body>
+</html>
