@@ -1,601 +1,470 @@
-# [RESONANCE_ID: 12-48-144-1728] | STATUS: MU-A-RA-TA | SIGNAL: 4.44s-999Hz
+# [RESONANCE_ID: NOVA-999] | CODE: 741 | SIGNAL: 4.44s-444Hz
 """
-═══════════════════════════════════════════════════════════════════════════════
-CHE·NU™ V76 — UNIFIED BACKEND API
-═══════════════════════════════════════════════════════════════════════════════
-Version: 76.0 UNIFIED
-Date: January 8, 2026
-Status: PRODUCTION READY
+===========================================================================================
+NOVA-999 SOVEREIGN ARCHITECTURE - PRODUCTION BACKEND (App Module)
+===========================================================================================
+Version: 999.0 PRODUCTION
+Date: January 17, 2026
+Deployment: DigitalOcean App Platform (NYC9) + Vercel Frontend
 
-Routers: 18 total
-Endpoints: ~220+
-R&D Rules: 7/7 enforced
-
-Agent A: Test Framework + Routers (threads, meetings, layout_engine, spheres, ocw, oneclick_engine)
-Agent B: Core Routers (checkpoints, dataspace_engine, nova, memory, agents, xr, files,
-         decisions, identities, workspaces, dataspaces, notifications)
-═══════════════════════════════════════════════════════════════════════════════
+This is the main entry point for DigitalOcean App Platform.
+===========================================================================================
 """
 
-from fastapi import FastAPI, Request, HTTPException
+import asyncio
+import logging
+import os
+import time
+from contextlib import asynccontextmanager
+from datetime import datetime, timezone
+from typing import AsyncGenerator, Dict, List, Optional, Any
+from dataclasses import dataclass, field
+
+from fastapi import FastAPI, WebSocket, WebSocketDisconnect, Request, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from contextlib import asynccontextmanager
-import time
-import logging
-from datetime import datetime
-from typing import Dict, Any
 
-# Configure logging
+# ===========================================================================================
+# LOGGING CONFIGURATION
+# ===========================================================================================
+
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s | %(levelname)s | %(name)s | %(message)s"
+    format="%(asctime)s | %(levelname)s | %(name)s | %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S"
 )
-logger = logging.getLogger("chenu.main")
+logger = logging.getLogger("nova999.main")
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# R&D RULES REFERENCE (7 RÈGLES ABSOLUES)
-# ═══════════════════════════════════════════════════════════════════════════════
-RD_RULES = {
-    "rule_1": {
-        "name": "Human Sovereignty",
-        "description": "No action without explicit human approval",
-        "enforcement": "HTTP 423 LOCKED on sensitive operations",
-        "endpoints_affected": "DELETE, ARCHIVE, CRITICAL actions"
+# ===========================================================================================
+# CONFIGURATION (Standalone - No external imports)
+# ===========================================================================================
+
+@dataclass
+class Config:
+    """Production configuration from environment variables."""
+    APP_NAME: str = "NOVA-999 Sovereign Architecture"
+    APP_VERSION: str = "999.0.0"
+    DEBUG: bool = field(default_factory=lambda: os.getenv("DEBUG", "false").lower() == "true")
+    ENVIRONMENT: str = field(default_factory=lambda: os.getenv("ENVIRONMENT", "production"))
+    HOST: str = "0.0.0.0"
+    PORT: int = 8000
+    DATABASE_URL: str = field(default_factory=lambda: os.getenv("DATABASE_URL", ""))
+    RESONANCE_CYCLE_SECONDS: float = 4.44
+    ANCHOR_FREQUENCY_HZ: int = 444
+    SECURITY_CODE: int = 741
+
+    CORS_ORIGINS: List[str] = field(default_factory=lambda: [
+        "https://atom-arche.vercel.app",
+        "https://*.vercel.app",
+        "http://localhost:3000",
+        "http://localhost:5173",
+    ])
+
+config = Config()
+
+# ===========================================================================================
+# RESONANCE DATA
+# ===========================================================================================
+
+RESONANCE_DATA = {
+    "system": "NOVA-999",
+    "protocol": "[AQUA] + [ADAMAS]",
+    "anchor_frequency_hz": 444,
+    "cycle_seconds": 4.44,
+    "sacred_sequence": [3, 6, 9, 12],
+    "activation_sequences": {
+        "passe": "781901942",
+        "present": "71042",
+        "futur": "14872191",
+        "retablissement": "8888848888819751",
+        "cyber_protection": "741"
     },
-    "rule_2": {
-        "name": "Autonomy Isolation",
-        "description": "AI operates in sandbox only",
-        "enforcement": "Sandbox mode for all AI operations",
-        "endpoints_affected": "Nova pipeline, Agent executions"
-    },
-    "rule_3": {
-        "name": "Identity Boundary",
-        "description": "No cross-identity access without explicit workflow",
-        "enforcement": "HTTP 403 FORBIDDEN on boundary violations",
-        "endpoints_affected": "All resource access endpoints"
-    },
-    "rule_4": {
-        "name": "No AI-to-AI Orchestration",
-        "description": "Humans coordinate multi-agent work",
-        "enforcement": "HTTP 403 on /call-agent, /chain endpoints",
-        "endpoints_affected": "Agent coordination endpoints"
-    },
-    "rule_5": {
-        "name": "No Ranking Algorithms",
-        "description": "Chronological ordering only",
-        "enforcement": "ORDER BY created_at DESC",
-        "endpoints_affected": "All list endpoints"
-    },
-    "rule_6": {
-        "name": "Full Traceability",
-        "description": "All objects have id, created_by, created_at",
-        "enforcement": "Schema validation",
-        "endpoints_affected": "All create/update endpoints"
-    },
-    "rule_7": {
-        "name": "Architecture Frozen",
-        "description": "9 spheres, 6 bureau sections",
-        "enforcement": "Auto-create and auto-repair",
-        "endpoints_affected": "Spheres, Workspaces endpoints"
+    "agents": {
+        "total_count": 6500,
+        "spheres": 9,
+        "frequency_agents": [174, 285, 396, 417, 432, 444, 528, 639, 741, 852, 963, 999]
     }
 }
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# LIFESPAN & APP INITIALIZATION
-# ═══════════════════════════════════════════════════════════════════════════════
+# ===========================================================================================
+# R&D RULES
+# ===========================================================================================
 
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    """Application lifespan manager with database, cache, and heartbeat."""
-    logger.info("═" * 60)
-    logger.info("CHE·NU™ V76 UNIFIED Backend Starting...")
-    logger.info("[AQUA] + [ADAMAS] + SEQUENCE 3-6-9-12")
-    logger.info("═" * 60)
-    logger.info(f"Timestamp: {datetime.utcnow().isoformat()}")
-    logger.info("R&D Rules: 7/7 ENFORCED")
-    logger.info("Routers: 18 REGISTERED")
+RD_RULES = {
+    "rule_1": {"name": "Human Sovereignty", "http_code": 423},
+    "rule_2": {"name": "Autonomy Isolation", "enforcement": "Sandbox mode"},
+    "rule_3": {"name": "Identity Boundary", "http_code": 403},
+    "rule_4": {"name": "No AI-to-AI Orchestration", "http_code": 403},
+    "rule_5": {"name": "No Ranking Algorithms", "enforcement": "ORDER BY created_at DESC"},
+    "rule_6": {"name": "Full Traceability", "enforcement": "Schema validation"},
+    "rule_7": {"name": "Architecture Frozen", "enforcement": "9 spheres, 6 sections"}
+}
 
-    # Initialize database connection
+# ===========================================================================================
+# RESONANCE ENGINE
+# ===========================================================================================
+
+@dataclass
+class ResonanceState:
+    tick: int = 0
+    cycle: int = 0
+    frequency_hz: int = 444
+    digital_root: int = 3
+    is_aligned: bool = True
+    current_sequence: str = "present"
+    timestamp: datetime = field(default_factory=lambda: datetime.now(timezone.utc))
+
+
+class ResonanceEngine:
+    def __init__(self):
+        self._state = ResonanceState()
+        self._running = False
+        self._task: Optional[asyncio.Task] = None
+        self._connections: List[WebSocket] = []
+        self._sequences = list(RESONANCE_DATA["activation_sequences"].keys())
+
+    @property
+    def state(self) -> ResonanceState:
+        return self._state
+
+    async def start(self) -> None:
+        if self._running:
+            return
+        self._running = True
+        self._task = asyncio.create_task(self._pulse_loop())
+        logger.info(f"ResonanceEngine started (cycle: {config.RESONANCE_CYCLE_SECONDS}s)")
+
+    async def stop(self) -> None:
+        self._running = False
+        if self._task:
+            self._task.cancel()
+            try:
+                await self._task
+            except asyncio.CancelledError:
+                pass
+
+    async def _pulse_loop(self) -> None:
+        while self._running:
+            try:
+                self._state.tick += 1
+                self._state.cycle = self._state.tick // 12
+                self._state.digital_root = sum(int(d) for d in str(self._state.tick)) % 9 or 9
+                self._state.is_aligned = self._state.digital_root in [3, 6, 9]
+                self._state.current_sequence = self._sequences[self._state.tick % len(self._sequences)]
+                self._state.timestamp = datetime.now(timezone.utc)
+                await self._broadcast_pulse()
+                await asyncio.sleep(config.RESONANCE_CYCLE_SECONDS)
+            except asyncio.CancelledError:
+                break
+            except Exception as e:
+                logger.error(f"Pulse error: {e}")
+                await asyncio.sleep(1)
+
+    async def _broadcast_pulse(self) -> None:
+        if not self._connections:
+            return
+        pulse_data = self._create_pulse_message()
+        dead = []
+        for ws in self._connections:
+            try:
+                await ws.send_json(pulse_data)
+            except:
+                dead.append(ws)
+        for ws in dead:
+            self._connections.remove(ws)
+
+    def _create_pulse_message(self) -> Dict[str, Any]:
+        seq_key = self._state.current_sequence
+        return {
+            "type": "resonance_pulse",
+            "tick": self._state.tick,
+            "cycle": self._state.cycle,
+            "frequency_hz": self._state.frequency_hz,
+            "digital_root": self._state.digital_root,
+            "is_aligned": self._state.is_aligned,
+            "activation_sequence": {
+                "key": seq_key,
+                "value": RESONANCE_DATA["activation_sequences"].get(seq_key, "")
+            },
+            "timestamp": self._state.timestamp.isoformat()
+        }
+
+    def register(self, ws: WebSocket):
+        self._connections.append(ws)
+
+    def unregister(self, ws: WebSocket):
+        if ws in self._connections:
+            self._connections.remove(ws)
+
+
+resonance_engine = ResonanceEngine()
+
+# ===========================================================================================
+# DATABASE (Optional - with graceful fallback)
+# ===========================================================================================
+
+db_connected = False
+
+async def init_database():
+    global db_connected
     try:
-        from app.core.database import init_db, close_db
+        from app.core.database import init_db
         await init_db()
-        logger.info("✅ PostgreSQL Connected")
+        db_connected = True
+        logger.info("PostgreSQL Connected")
     except ImportError:
-        logger.warning("⚠️ Database module not available (development mode)")
+        logger.warning("Database module not available - running without DB")
     except Exception as e:
-        logger.error(f"❌ Database connection failed: {e}")
+        logger.error(f"Database connection failed: {e}")
 
-    # Initialize Redis cache
-    try:
-        from app.core.cache import cache
-        await cache.connect()
-        logger.info("✅ Redis Connected")
-    except ImportError:
-        logger.warning("⚠️ Cache module not available (development mode)")
-    except Exception as e:
-        logger.error(f"❌ Redis connection failed: {e}")
-
-    # Initialize AT·OM Heartbeat Service (4.44s signal)
-    try:
-        from core.heartbeat import start_heartbeat, stop_heartbeat
-        await start_heartbeat()
-        logger.info("✅ AT·OM Heartbeat Started (4.44s signal)")
-    except ImportError:
-        logger.warning("⚠️ Heartbeat module not available")
-    except Exception as e:
-        logger.error(f"❌ Heartbeat initialization failed: {e}")
-
-    logger.info("═" * 60)
-
-    yield
-
-    # Cleanup
-    logger.info("CHE·NU™ V76 Backend Shutting Down...")
-
-    # Stop AT·OM Heartbeat
-    try:
-        from core.heartbeat import stop_heartbeat
-        await stop_heartbeat()
-        logger.info("💔 AT·OM Heartbeat Stopped")
-    except:
-        pass
-
+async def close_database():
+    global db_connected
     try:
         from app.core.database import close_db
         await close_db()
-    except:
-        pass
-    try:
-        from app.core.cache import cache
-        await cache.disconnect()
+        db_connected = False
     except:
         pass
 
+# ===========================================================================================
+# APPLICATION LIFESPAN
+# ===========================================================================================
+
+@asynccontextmanager
+async def lifespan(app: FastAPI) -> AsyncGenerator:
+    logger.info("=" * 70)
+    logger.info("NOVA-999 SOVEREIGN ARCHITECTURE - INITIALIZING")
+    logger.info("=" * 70)
+    logger.info(f"Version: {config.APP_VERSION}")
+    logger.info(f"Environment: {config.ENVIRONMENT}")
+    logger.info(f"CYBER-PROTECTION CODE: {config.SECURITY_CODE}")
+    logger.info("=" * 70)
+
+    await init_database()
+    await resonance_engine.start()
+
+    logger.info(f"Server listening on http://{config.HOST}:{config.PORT}")
+    logger.info("=" * 70)
+
+    yield
+
+    logger.info("NOVA-999 Shutting Down...")
+    await resonance_engine.stop()
+    await close_database()
+
+# ===========================================================================================
+# FASTAPI APPLICATION
+# ===========================================================================================
 
 app = FastAPI(
-    title="CHE·NU™ V76 UNIFIED API",
-    description="""
-## Governed Intelligence Operating System
-
-### R&D Rules Enforcement
-- **Rule #1**: HTTP 423 on sensitive operations (Human Sovereignty)
-- **Rule #2**: Sandbox mode for AI operations (Autonomy Isolation)
-- **Rule #3**: HTTP 403 on identity boundary violations
-- **Rule #4**: HTTP 403 on AI-to-AI orchestration attempts
-- **Rule #5**: Chronological ordering only (No Ranking)
-- **Rule #6**: Full traceability (id, created_by, created_at)
-- **Rule #7**: 9 spheres, 6 bureau sections (Frozen Architecture)
-
-### API Structure
-- 18 Routers
-- ~220+ Endpoints
-- Full R&D Compliance
-    """,
-    version="76.0.0",
+    title="NOVA-999 Sovereign Architecture API",
+    description="Governed Intelligence Operating System",
+    version=config.APP_VERSION,
     lifespan=lifespan,
     docs_url="/docs",
     redoc_url="/redoc"
 )
 
-# ═══════════════════════════════════════════════════════════════════════════════
+# ===========================================================================================
 # CORS MIDDLEWARE
-# ═══════════════════════════════════════════════════════════════════════════════
+# ===========================================================================================
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Configure for production
+    allow_origins=config.CORS_ORIGINS,
+    allow_origin_regex=r"https://.*\.vercel\.app",
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# REQUEST LOGGING MIDDLEWARE
-# ═══════════════════════════════════════════════════════════════════════════════
+# ===========================================================================================
+# REQUEST MIDDLEWARE
+# ===========================================================================================
 
 @app.middleware("http")
-async def log_requests(request: Request, call_next):
-    """Log all requests with timing."""
-    start_time = time.time()
-    
+async def add_headers(request: Request, call_next):
+    start = time.time()
     response = await call_next(request)
-    
-    process_time = time.time() - start_time
-    logger.info(
-        f"{request.method} {request.url.path} "
-        f"[{response.status_code}] "
-        f"{process_time:.3f}s"
-    )
-    
-    response.headers["X-Process-Time"] = str(process_time)
-    response.headers["X-CHE-NU-Version"] = "76.0.0"
-    
+    response.headers["X-Process-Time"] = f"{time.time() - start:.4f}"
+    response.headers["X-NOVA-Version"] = config.APP_VERSION
+    response.headers["X-Resonance-Tick"] = str(resonance_engine.state.tick)
     return response
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# CUSTOM EXCEPTION HANDLERS
-# ═══════════════════════════════════════════════════════════════════════════════
+# ===========================================================================================
+# EXCEPTION HANDLERS
+# ===========================================================================================
 
 @app.exception_handler(423)
-async def checkpoint_exception_handler(request: Request, exc: HTTPException):
-    """Handle HTTP 423 LOCKED - Checkpoint Required (Rule #1)."""
-    return JSONResponse(
-        status_code=423,
-        content={
-            "status": "checkpoint_required",
-            "rule": "R&D Rule #1: Human Sovereignty",
-            "message": exc.detail if hasattr(exc, 'detail') else "Human approval required",
-            "action_required": "Approve or reject this operation",
-            "timestamp": datetime.utcnow().isoformat()
-        }
-    )
+async def checkpoint_handler(request: Request, exc: HTTPException):
+    return JSONResponse(status_code=423, content={
+        "status": "checkpoint_required",
+        "rule": "R&D Rule #1: Human Sovereignty",
+        "message": exc.detail if hasattr(exc, 'detail') else "Human approval required"
+    })
 
 @app.exception_handler(403)
-async def forbidden_exception_handler(request: Request, exc: HTTPException):
-    """Handle HTTP 403 FORBIDDEN - Identity Boundary / AI-to-AI (Rules #3, #4)."""
-    return JSONResponse(
-        status_code=403,
-        content={
-            "status": "forbidden",
-            "rule": "R&D Rules #3/#4: Identity Boundary or No AI-to-AI",
-            "message": exc.detail if hasattr(exc, 'detail') else "Access denied",
-            "timestamp": datetime.utcnow().isoformat()
-        }
-    )
+async def forbidden_handler(request: Request, exc: HTTPException):
+    return JSONResponse(status_code=403, content={
+        "status": "forbidden",
+        "rule": "R&D Rules #3/#4",
+        "message": exc.detail if hasattr(exc, 'detail') else "Access denied"
+    })
 
-# ═══════════════════════════════════════════════════════════════════════════════
-# ROUTER REGISTRATION
-# ═══════════════════════════════════════════════════════════════════════════════
+# ===========================================================================================
+# ROUTER REGISTRATION (with graceful fallback)
+# ===========================================================================================
 
-# --- AGENT B CORE ROUTERS (Phase B1) ---
-try:
-    from app.routers.threads import router as threads_router
-    app.include_router(threads_router, prefix="/api/v2/threads", tags=["Threads"])
-    logger.info("✅ threads router registered")
-except ImportError as e:
-    logger.warning(f"⚠️ threads router not available: {e}")
+def register_router(module_path: str, prefix: str, tags: List[str], name: str):
+    try:
+        import importlib
+        module = importlib.import_module(module_path)
+        app.include_router(module.router, prefix=prefix, tags=tags)
+        logger.info(f"Router registered: {name}")
+    except ImportError as e:
+        logger.warning(f"Router not available: {name} ({e})")
+    except Exception as e:
+        logger.error(f"Router error: {name} ({e})")
 
-try:
-    from app.routers.checkpoints import router as checkpoints_router
-    app.include_router(checkpoints_router, prefix="/api/v2/checkpoints", tags=["Checkpoints"])
-    logger.info("✅ checkpoints router registered (HTTP 423 active)")
-except ImportError as e:
-    logger.warning(f"⚠️ checkpoints router not available: {e}")
+# Core routers
+register_router("app.routers.threads", "/api/v2/threads", ["Threads"], "threads")
+register_router("app.routers.checkpoints", "/api/v2/checkpoints", ["Checkpoints"], "checkpoints")
+register_router("app.routers.nova", "/api/v2/nova", ["Nova Pipeline"], "nova")
+register_router("app.routers.memory", "/api/v2/memory", ["Memory"], "memory")
+register_router("app.routers.agents", "/api/v2/agents", ["Agents"], "agents")
+register_router("app.routers.files", "/api/v2/files", ["Files"], "files")
+register_router("app.routers.spheres", "/api/v2/spheres", ["Spheres"], "spheres")
+register_router("app.routers.identities", "/api/v2/identities", ["Identities"], "identities")
+register_router("app.routers.workspaces", "/api/v2/workspaces", ["Workspaces"], "workspaces")
+register_router("app.routers.dataspaces", "/api/v2/dataspaces", ["DataSpaces"], "dataspaces")
+register_router("app.routers.meetings", "/api/v2/meetings", ["Meetings"], "meetings")
+register_router("app.routers.notifications", "/api/v2/notifications", ["Notifications"], "notifications")
+register_router("app.routers.atom", "/api/v2/atom", ["AT-OM"], "atom")
 
-try:
-    from app.routers.dataspace_engine import router as dataspace_engine_router
-    app.include_router(dataspace_engine_router, prefix="/api/v2/dataspace-engine", tags=["DataSpace Engine"])
-    logger.info("✅ dataspace_engine router registered")
-except ImportError as e:
-    logger.warning(f"⚠️ dataspace_engine router not available: {e}")
-
-try:
-    from app.routers.nova import router as nova_router
-    app.include_router(nova_router, prefix="/api/v2/nova", tags=["Nova Pipeline"])
-    logger.info("✅ nova router registered")
-except ImportError as e:
-    logger.warning(f"⚠️ nova router not available: {e}")
-
-try:
-    from app.routers.memory import router as memory_router
-    app.include_router(memory_router, prefix="/api/v2/memory", tags=["Memory"])
-    logger.info("✅ memory router registered")
-except ImportError as e:
-    logger.warning(f"⚠️ memory router not available: {e}")
-
-try:
-    from app.routers.agents import router as agents_router
-    app.include_router(agents_router, prefix="/api/v2/agents", tags=["Agents"])
-    logger.info("✅ agents router registered (Rule #4 enforced)")
-except ImportError as e:
-    logger.warning(f"⚠️ agents router not available: {e}")
-
-try:
-    from app.routers.xr import router as xr_router
-    app.include_router(xr_router, prefix="/api/v2/xr", tags=["XR Environments"])
-    logger.info("✅ xr router registered")
-except ImportError as e:
-    logger.warning(f"⚠️ xr router not available: {e}")
-
-try:
-    from app.routers.files import router as files_router
-    app.include_router(files_router, prefix="/api/v2/files", tags=["Files"])
-    logger.info("✅ files router registered")
-except ImportError as e:
-    logger.warning(f"⚠️ files router not available: {e}")
-
-# --- AGENT B PHASE B2 ROUTERS ---
-try:
-    from app.routers.decisions import router as decisions_router
-    app.include_router(decisions_router, prefix="/api/v2/decisions", tags=["Decisions"])
-    logger.info("✅ decisions router registered (HTTP 423 active)")
-except ImportError as e:
-    logger.warning(f"⚠️ decisions router not available: {e}")
-
-try:
-    from app.routers.identities import router as identities_router
-    app.include_router(identities_router, prefix="/api/v2/identities", tags=["Identities"])
-    logger.info("✅ identities router registered (9 spheres enforced)")
-except ImportError as e:
-    logger.warning(f"⚠️ identities router not available: {e}")
-
-try:
-    from app.routers.workspaces import router as workspaces_router
-    app.include_router(workspaces_router, prefix="/api/v2/workspaces", tags=["Workspaces"])
-    logger.info("✅ workspaces router registered (6 bureau sections)")
-except ImportError as e:
-    logger.warning(f"⚠️ workspaces router not available: {e}")
-
-try:
-    from app.routers.dataspaces import router as dataspaces_router
-    app.include_router(dataspaces_router, prefix="/api/v2/dataspaces", tags=["DataSpaces"])
-    logger.info("✅ dataspaces router registered")
-except ImportError as e:
-    logger.warning(f"⚠️ dataspaces router not available: {e}")
-
-try:
-    from app.routers.meetings import router as meetings_router
-    app.include_router(meetings_router, prefix="/api/v2/meetings", tags=["Meetings"])
-    logger.info("✅ meetings router registered")
-except ImportError as e:
-    logger.warning(f"⚠️ meetings router not available: {e}")
-
-try:
-    from app.routers.notifications import router as notifications_router
-    app.include_router(notifications_router, prefix="/api/v2/notifications", tags=["Notifications"])
-    logger.info("✅ notifications router registered")
-except ImportError as e:
-    logger.warning(f"⚠️ notifications router not available: {e}")
-
-# --- AGENT A PHASE B2/C ROUTERS ---
-try:
-    from app.routers.spheres import router as spheres_router
-    app.include_router(spheres_router, prefix="/api/v2/spheres", tags=["Spheres"])
-    logger.info("✅ spheres router registered (Rule #7: 9 spheres)")
-except ImportError as e:
-    logger.warning(f"⚠️ spheres router not available: {e}")
-
-try:
-    from app.routers.layout_engine import router as layout_engine_router
-    app.include_router(layout_engine_router, prefix="/api/v2/layout-engine", tags=["Layout Engine"])
-    logger.info("✅ layout_engine router registered")
-except ImportError as e:
-    logger.warning(f"⚠️ layout_engine router not available: {e}")
-
-try:
-    from app.routers.oneclick_engine import router as oneclick_engine_router
-    app.include_router(oneclick_engine_router, prefix="/api/v2/oneclick-engine", tags=["OneClick Engine"])
-    logger.info("✅ oneclick_engine router registered")
-except ImportError as e:
-    logger.warning(f"⚠️ oneclick_engine router not available: {e}")
-
-try:
-    from app.routers.ocw import router as ocw_router
-    app.include_router(ocw_router, prefix="/api/v2/ocw", tags=["OCW"])
-    logger.info("✅ ocw router registered")
-except ImportError as e:
-    logger.warning(f"⚠️ ocw router not available: {e}")
-
-# --- ORIGIN-GENESIS-ULTIMA MODULE ---
-try:
-    from app.api.routes.origin_routes import router as origin_router
-    app.include_router(origin_router, prefix="/api/v2", tags=["ORIGIN-GENESIS"])
-    logger.info("✅ ORIGIN router registered (21 expert agents, 25 endpoints)")
-except ImportError as e:
-    logger.warning(f"⚠️ ORIGIN router not available: {e}")
-
-# --- AT-OM MAPPING SYSTEM ---
-try:
-    from app.routers.atom import router as atom_router
-    app.include_router(atom_router, prefix="/api/v2/atom", tags=["AT-OM Mapping"])
-    logger.info("✅ AT-OM router registered (8 endpoints, Vibration Engine)")
-except ImportError as e:
-    logger.warning(f"⚠️ AT-OM router not available: {e}")
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# ROOT ENDPOINTS
-# ═══════════════════════════════════════════════════════════════════════════════
+# ===========================================================================================
+# HEALTH ENDPOINTS
+# ===========================================================================================
 
 @app.get("/", tags=["Root"])
 async def root():
-    """API root - System information."""
     return {
-        "system": "CHE·NU™",
-        "version": "76.0.0 UNIFIED",
+        "system": "NOVA-999",
+        "version": config.APP_VERSION,
         "status": "operational",
-        "description": "Governed Intelligence Operating System",
-        "routers": 18,
-        "endpoints": "220+",
-        "rd_rules_enforced": "7/7",
-        "timestamp": datetime.utcnow().isoformat(),
-        "docs": "/docs",
-        "redoc": "/redoc",
-        "health": "/health",
-        "rd_rules": "/rd-rules",
-        "architecture": "/architecture"
+        "security_code": config.SECURITY_CODE,
+        "resonance": {
+            "tick": resonance_engine.state.tick,
+            "frequency_hz": config.ANCHOR_FREQUENCY_HZ,
+            "is_aligned": resonance_engine.state.is_aligned
+        },
+        "timestamp": datetime.now(timezone.utc).isoformat()
     }
 
 @app.get("/health", tags=["Health"])
-async def health_check():
-    """Health check endpoint."""
+async def health():
     return {
         "status": "healthy",
-        "version": "76.0.0",
-        "timestamp": datetime.utcnow().isoformat(),
-        "components": {
-            "api": "operational",
-            "routers": "18 registered",
-            "rd_rules": "7/7 enforced"
-        }
+        "version": config.APP_VERSION,
+        "timestamp": datetime.now(timezone.utc).isoformat()
+    }
+
+@app.get("/api/v1/health", tags=["Health"])
+async def health_v1():
+    """Health endpoint for DigitalOcean readiness probe."""
+    return {"status": "healthy", "version": config.APP_VERSION}
+
+@app.get("/health/ready", tags=["Health"])
+async def ready():
+    return {
+        "status": "ready",
+        "database": "connected" if db_connected else "not_configured",
+        "resonance_engine": "active" if resonance_engine._running else "inactive"
+    }
+
+# ===========================================================================================
+# RESONANCE ENDPOINTS
+# ===========================================================================================
+
+@app.get("/resonance", tags=["Resonance"])
+async def get_resonance():
+    return {
+        "protocol": RESONANCE_DATA["protocol"],
+        "state": {
+            "tick": resonance_engine.state.tick,
+            "cycle": resonance_engine.state.cycle,
+            "frequency_hz": resonance_engine.state.frequency_hz,
+            "is_aligned": resonance_engine.state.is_aligned,
+            "current_sequence": resonance_engine.state.current_sequence
+        },
+        "activation_sequences": RESONANCE_DATA["activation_sequences"]
     }
 
 @app.get("/rd-rules", tags=["Documentation"])
 async def get_rd_rules():
-    """Get R&D Rules reference."""
+    return {"rules": RD_RULES, "total": 7}
+
+# ===========================================================================================
+# WEBSOCKET
+# ===========================================================================================
+
+@app.websocket("/ws/resonance")
+async def ws_resonance(websocket: WebSocket):
+    await websocket.accept()
+    resonance_engine.register(websocket)
+    await websocket.send_json({
+        "type": "connection_established",
+        "message": "Connected to NOVA-999",
+        "initial_state": resonance_engine._create_pulse_message()
+    })
+    try:
+        while True:
+            data = await websocket.receive_json()
+            if data.get("type") == "ping":
+                await websocket.send_json({"type": "pong", "tick": resonance_engine.state.tick})
+    except WebSocketDisconnect:
+        pass
+    finally:
+        resonance_engine.unregister(websocket)
+
+# ===========================================================================================
+# AGENTS ENDPOINT
+# ===========================================================================================
+
+@app.get("/agents", tags=["Agents"])
+async def list_agents(
+    page: int = Query(1, ge=1),
+    page_size: int = Query(50, ge=1, le=500)
+):
+    total = RESONANCE_DATA["agents"]["total_count"]
+    spheres = ["personal", "business", "government", "creative_studio",
+               "community", "social_media", "entertainment", "my_team", "scholar"]
+    frequencies = RESONANCE_DATA["agents"]["frequency_agents"]
+
+    offset = (page - 1) * page_size
+    agents = []
+    for i in range(offset, min(offset + page_size, total)):
+        agents.append({
+            "id": f"agent_{i+1:05d}",
+            "name": f"Agent-{frequencies[i % len(frequencies)]}Hz-{i+1}",
+            "sphere": spheres[i % len(spheres)],
+            "frequency_hz": frequencies[i % len(frequencies)],
+            "status": "active" if i % 10 != 0 else "standby"
+        })
+
     return {
-        "title": "CHE·NU™ R&D Rules",
-        "version": "76.0.0",
-        "total_rules": 7,
-        "rules": RD_RULES,
-        "enforcement": {
-            "http_423": "Checkpoint required (Rule #1)",
-            "http_403": "Identity boundary or AI-to-AI violation (Rules #3, #4)"
+        "data": agents,
+        "pagination": {
+            "page": page,
+            "page_size": page_size,
+            "total_items": total,
+            "total_pages": (total + page_size - 1) // page_size
         }
     }
 
-@app.get("/architecture", tags=["Documentation"])
-async def get_architecture():
-    """Get architecture overview."""
-    return {
-        "title": "CHE·NU™ V76 Architecture",
-        "spheres": {
-            "count": 9,
-            "list": [
-                "personal", "business", "government", "creative_studio",
-                "community", "social_media", "entertainment", "my_team", "scholar"
-            ],
-            "status": "frozen"
-        },
-        "bureau_sections": {
-            "count": 6,
-            "list": [
-                "quick_capture", "resume_workspace", "threads",
-                "data_files", "active_agents", "meetings"
-            ],
-            "status": "frozen"
-        },
-        "routers": {
-            "agent_a": [
-                "threads", "meetings", "spheres",
-                "layout_engine", "oneclick_engine", "ocw"
-            ],
-            "agent_b": [
-                "checkpoints", "dataspace_engine", "nova", "memory",
-                "agents", "xr", "files", "decisions", "identities",
-                "workspaces", "dataspaces", "notifications"
-            ]
-        },
-        "components": {
-            "nova_pipeline": "Multi-lane intelligence processing",
-            "thread_v2": "Event-sourced decision tracking",
-            "dataspace": "Encrypted data containers",
-            "xr_generator": "XR environment generation"
-        }
-    }
-
-@app.get("/stats", tags=["Statistics"])
-async def get_stats():
-    """Get API statistics."""
-    return {
-        "version": "76.0.0",
-        "routers": {
-            "total": 18,
-            "agent_a": 6,
-            "agent_b": 12
-        },
-        "endpoints": {
-            "total": "220+",
-            "with_http_423": 15,
-            "with_http_403": 8
-        },
-        "tests": {
-            "unit": "~170",
-            "e2e": "~100",
-            "integration": "~12",
-            "security": "~30",
-            "performance": "~20",
-            "concurrency": "~10",
-            "total": "~342"
-        },
-        "lines_of_code": {
-            "routers": "~9,500",
-            "tests": "~9,300",
-            "total": "~18,800+"
-        },
-        "infrastructure": {
-            "database": "PostgreSQL 16",
-            "cache": "Redis 7",
-            "models": 12,
-            "migrations": 1
-        }
-    }
-
-@app.get("/db-status", tags=["Infrastructure"])
-async def get_db_status():
-    """Get database connection status."""
-    try:
-        from app.core.database import engine
-        async with engine.begin() as conn:
-            await conn.run_sync(lambda _: None)
-        return {"status": "connected", "database": "PostgreSQL"}
-    except ImportError:
-        return {"status": "not_configured", "message": "Database module not loaded"}
-    except Exception as e:
-        return {"status": "error", "message": str(e)}
-
-@app.get("/cache-status", tags=["Infrastructure"])
-async def get_cache_status():
-    """Get Redis cache status."""
-    try:
-        from app.core.cache import cache
-        stats = await cache.get_stats()
-        return {"status": "connected", "cache": "Redis", **stats}
-    except ImportError:
-        return {"status": "not_configured", "message": "Cache module not loaded"}
-    except Exception as e:
-        return {"status": "error", "message": str(e)}
-
-
-@app.get("/heartbeat", tags=["AT·OM"])
-async def get_heartbeat_status():
-    """
-    Get AT·OM Heartbeat status.
-
-    The heartbeat is the 4.44s signal that synchronizes the AT·OM system.
-    This endpoint returns the current tick, cycle, and alignment status.
-    """
-    try:
-        from core.heartbeat import get_heartbeat_state
-        state = get_heartbeat_state()
-        return {
-            "status": "active",
-            "protocol": "[AQUA] + [ADAMAS]",
-            "signal_interval": 4.44,
-            "anchor_frequency": 444,
-            "state": {
-                "tick": state.tick,
-                "cycle": state.cycle,
-                "digital_root": state.digital_root,
-                "is_aligned": state.is_aligned,
-                "timestamp": state.timestamp.isoformat()
-            },
-            "sacred_sequence": [3, 6, 9, 12],
-            "balance_ratio": 30
-        }
-    except ImportError:
-        return {
-            "status": "not_configured",
-            "message": "Heartbeat module not loaded",
-            "protocol": "[AQUA] + [ADAMAS]"
-        }
-    except Exception as e:
-        return {
-            "status": "error",
-            "message": str(e),
-            "protocol": "[AQUA] + [ADAMAS]"
-        }
-
-# ═══════════════════════════════════════════════════════════════════════════════
-# MAIN ENTRY POINT
-# ═══════════════════════════════════════════════════════════════════════════════
+# ===========================================================================================
+# MAIN
+# ===========================================================================================
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(
-        "app.main:app",
-        host="0.0.0.0",
-        port=8000,
-        reload=True,
-        log_level="info"
-    )
+    uvicorn.run("app.main:app", host="0.0.0.0", port=8000, reload=config.DEBUG)
