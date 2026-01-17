@@ -1,0 +1,182 @@
+{
+  "_meta": {
+    "version": "1.0.0",
+    "source": "ATOM Repository - hardcore-joliot",
+    "extracted_date": "2026-01-17",
+    "documents_used": [
+      "01_PUBLIC_HARMONY.md",
+      "02_ARCHITECT_LOGIC.md", 
+      "03_TEMPLE_PRIVATE.md"
+    ]
+  },
+  
+  "constants": {
+    "ANCHOR_FREQUENCY": 444,
+    "SIGNAL_INTERVAL": 4.44,
+    "SACRED_SEQUENCE": [3, 6, 9, 12],
+    "BALANCE_RATIO": 30,
+    "CUBE_VOLUME": 1728,
+    "CUBE_DIMENSION": 12
+  },
+  
+  "chakras": [
+    { "level": 0, "name": "Étoile Terrestre", "frequency": 68.05, "color": null, "element": "Sub-Personnel", "location": "30cm sous les pieds" },
+    { "level": 1, "name": "Racine", "frequency": 111, "color": "#FF0000", "element": "Terre", "location": "Base spine" },
+    { "level": 2, "name": "Sacré", "frequency": 222, "color": "#FF8C00", "element": "Eau", "location": "Lower abdomen" },
+    { "level": 3, "name": "Plexus Solaire", "frequency": 333, "color": "#FFFF00", "element": "Feu", "location": "Solar plexus" },
+    { "level": 4, "name": "Cœur", "frequency": 444, "color": "#00FF00", "element": "Air", "location": "Heart", "isAnchor": true },
+    { "level": 5, "name": "Gorge", "frequency": 555, "color": "#87CEEB", "element": "Éther", "location": "Throat" },
+    { "level": 6, "name": "Troisième Œil", "frequency": 666, "color": "#4B0082", "element": "Lumière", "location": "Forehead" },
+    { "level": 7, "name": "Couronne", "frequency": 777, "color": "#8B00FF", "element": "Pensée", "location": "Crown" },
+    { "level": 8, "name": "Âme", "frequency": 888, "color": null, "element": "Trans-Personnel", "quality": "Mémoire de l'âme" },
+    { "level": 9, "name": "Étoile", "frequency": 999, "color": null, "element": "Trans-Personnel", "quality": "Unité Cosmique" },
+    { "level": 10, "name": "Universel", "frequency": 1111, "color": null, "element": "Trans-Personnel", "quality": "Conscience Galactique" },
+    { "level": 11, "name": "Galactique", "frequency": 1212, "color": null, "element": "Trans-Personnel", "quality": "ADN Activé" },
+    { "level": 12, "name": "Divin", "frequency": 1333, "color": null, "element": "Trans-Personnel", "quality": "Porte du Créateur" },
+    { "level": 13, "name": "Cosmique", "frequency": 1444, "color": null, "element": "Trans-Personnel", "quality": "Unité Absolue" },
+    { "level": 14, "name": "Source", "frequency": 1728, "color": null, "element": "Trans-Personnel", "quality": "Origine & Retour" }
+  ],
+  
+  "anuhazi_keys": {
+    "EirA": {
+      "symbol": "◊",
+      "color": "#FF6B6B",
+      "frequencies": [111, 222, 333],
+      "chakras": [1, 2, 3],
+      "action": "Activation - Allume le feu intérieur"
+    },
+    "ManA": {
+      "symbol": "○",
+      "color": "#4ECDC4",
+      "frequencies": [444, 555, 666],
+      "chakras": [4, 5, 6],
+      "action": "Balance - Harmonise les énergies"
+    },
+    "ManU": {
+      "symbol": "△",
+      "color": "#9B59B6",
+      "frequencies": [777, 888, 999],
+      "chakras": [7, 8, 9],
+      "action": "Élévation - Connecte aux plans supérieurs"
+    },
+    "Mahadra": {
+      "symbol": "✧",
+      "color": "#FFD700",
+      "frequencies": [1111, 1728, 2222],
+      "chakras": [10, 14, 11],
+      "action": "Transcendance - Ouvre les portes du cube"
+    }
+  },
+  
+  "sequences": {
+    "KHU_FA": {
+      "name": "Ancrage",
+      "frequencies": [111, 222, 333, 444],
+      "duration_seconds": 12,
+      "path": "Racine → Sacré → Plexus → Cœur",
+      "purpose": "Activation de la base terrestre"
+    },
+    "A_RI_EA": {
+      "name": "Élévation",
+      "frequencies": [444, 555, 666, 777],
+      "duration_seconds": 12,
+      "path": "Cœur → Gorge → 3ème Œil → Couronne",
+      "purpose": "Pont cœur-esprit"
+    },
+    "A_RA_MA_NA": {
+      "name": "Transcendance",
+      "frequencies": [777, 888, 999, 1111],
+      "duration_seconds": 12,
+      "path": "Couronne → Âme → Étoile → Universel",
+      "purpose": "Connexion source"
+    },
+    "MU_A_RA_TA": {
+      "name": "Cycle Complet",
+      "frequencies": [111, 333, 666, 999],
+      "duration_seconds": 36,
+      "path": "Niveaux 1 → 3 → 6 → 9",
+      "purpose": "Activation ADN - Séquence 3-6-9"
+    }
+  },
+  
+  "matrix_1728": {
+    "logic": "superposition",
+    "dimension": 12,
+    "volume": 1728,
+    "formula": "12³",
+    "frequency_hz": 1728,
+    "faces": 6,
+    "edges": 12,
+    "vertices": 8,
+    "name": "Cube de Métatron",
+    "description": "Structure parfaite de la création - Achèvement des 12 dimensions"
+  },
+  
+  "resonance_matrix": [
+    { "level": 1, "hz": 111, "ratio": 0.25, "label": "Impulsion" },
+    { "level": 2, "hz": 222, "ratio": 0.50, "label": "Dualité" },
+    { "level": 3, "hz": 333, "ratio": 0.75, "label": "Mental" },
+    { "level": 4, "hz": 444, "ratio": 1.00, "label": "Structure", "isAnchor": true },
+    { "level": 5, "hz": 555, "ratio": 1.25, "label": "Mouvement" },
+    { "level": 6, "hz": 666, "ratio": 1.50, "label": "Harmonie" },
+    { "level": 7, "hz": 777, "ratio": 1.75, "label": "Silence" },
+    { "level": 8, "hz": 888, "ratio": 2.00, "label": "Infini" },
+    { "level": 9, "hz": 999, "ratio": 2.25, "label": "Unité" }
+  ],
+  
+  "master_numbers": [
+    { "level": 11, "hz": 1111, "name": "Maître Illuminateur", "significance": "Portail de lumière" },
+    { "level": 22, "hz": 2222, "name": "Maître Bâtisseur", "significance": "Manifestation" },
+    { "level": 33, "hz": 3333, "name": "Maître Enseignant", "significance": "Transmission" }
+  ],
+  
+  "tesla_key": {
+    "trinity": { "value": 3, "meaning": "Pensée, Parole, Action" },
+    "harmony": { "value": 6, "meaning": "Équilibre des forces" },
+    "completion": { "value": 9, "meaning": "Retour à la source" },
+    "transcendence": { "value": 12, "meaning": "Au-delà du cycle" },
+    "balance_ratio": 30,
+    "formula": "3 + 6 + 9 + 12 = 30"
+  },
+  
+  "access_keys": {
+    "mirror": { "type": "public", "keys": null },
+    "core": { "type": "architect", "keys": ["AQUA+ADAMAS", "369", "36912"] },
+    "temple": { "type": "sacred", "keys": ["1728", "MUARATA", "MU-A-RA-TA", "444"] }
+  },
+  
+  "protocols": {
+    "AQUA": "Flux, adaptabilité, fluidité des données",
+    "ADAMAS": "Structure, solidité, intégrité du système"
+  },
+  
+  "formulas": {
+    "hz_from_level": "hz = level × 111",
+    "ratio_from_hz": "ratio = hz / 444",
+    "delay_ms": "delay_ms = 1000 - (level × 100)",
+    "digital_root": "digitalRoot(n) = n === 0 ? 0 : 1 + ((n - 1) % 9)",
+    "is_369": "is369(n) = digitalRoot(n) ∈ {3, 6, 9}"
+  },
+
+  "spheres": [
+    { "id": 1, "name": "Personnel", "description": "Votre espace privé" },
+    { "id": 2, "name": "Mon Équipe", "description": "Collaboration proche" },
+    { "id": 3, "name": "Entreprise", "description": "Activités professionnelles" },
+    { "id": 4, "name": "Gouvernement", "description": "Relations administratives" },
+    { "id": 5, "name": "Studio Créatif", "description": "Projets artistiques" },
+    { "id": 6, "name": "Communauté", "description": "Engagement local" },
+    { "id": 7, "name": "Social & Médias", "description": "Présence numérique" },
+    { "id": 8, "name": "Divertissement", "description": "Loisirs et culture" },
+    { "id": 9, "name": "Érudition", "description": "Apprentissage continu" },
+    { "id": 10, "name": "AT-OM Mapping", "description": "Encyclopédie causale" }
+  ],
+
+  "bureau_sections": [
+    { "id": 1, "name": "Capture Rapide", "description": "Saisie instantanée d'idées" },
+    { "id": 2, "name": "Espace de Travail", "description": "Zone de production active" },
+    { "id": 3, "name": "Threads", "description": "Conversations et historique" },
+    { "id": 4, "name": "Données & Fichiers", "description": "Stockage organisé" },
+    { "id": 5, "name": "Agents Actifs", "description": "Assistants IA dédiés" },
+    { "id": 6, "name": "Réunions", "description": "Planification et suivi" }
+  ]
+}

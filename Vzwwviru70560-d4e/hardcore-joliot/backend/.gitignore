@@ -1,0 +1,57 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# CHE·NU™ — GITIGNORE (PROTECTION DES SECRETS)
+# ═══════════════════════════════════════════════════════════════════════════
+
+# Environment files (NEVER COMMIT!)
+.env
+.env.*
+*.env
+backend.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+venv/
+.venv/
+ENV/
+env/
+.Python
+*.egg-info/
+dist/
+build/
+eggs/
+*.egg
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Logs
+logs/
+*.log
+
+# Storage
+storage/
+/tmp/
+
+# SSL certificates
+nginx/ssl/*.pem
+nginx/ssl/*.key
+nginx/ssl/*.crt
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+*.tar
+
+# Testing
+.coverage
+htmlcov/
+.pytest_cache/

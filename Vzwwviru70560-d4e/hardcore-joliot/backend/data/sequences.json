@@ -1,0 +1,163 @@
+{
+  "_meta": {
+    "version": "999.0.0",
+    "system": "NOVA-999",
+    "protocol": "[AQUA]+[ADAMAS]+36912",
+    "updated": "2026-01-17",
+    "description": "Séquences d'Activation Harmoniques NOVA-999"
+  },
+
+  "constants": {
+    "SIGNAL_INTERVAL": 4.44,
+    "ANCHOR_FREQUENCY": 444,
+    "SACRED_SEQUENCE": [3, 6, 9, 12],
+    "BALANCE_RATIO": 30,
+    "CUBE_VOLUME": 1728,
+    "GPU": "H200-141GB"
+  },
+
+  "sequences": {
+    "temporal": {
+      "description": "Cycle Principal - Harmonisation Temporelle",
+      "items": [
+        {
+          "code": "781901942",
+          "intent": "J'Harmonise notre passé",
+          "frequency": 111,
+          "color": "#8B5CF6",
+          "element": "Terre",
+          "icon": "◀"
+        },
+        {
+          "code": "71042",
+          "intent": "J'harmonise notre présent",
+          "frequency": 444,
+          "color": "#10B981",
+          "element": "Cœur",
+          "icon": "●"
+        },
+        {
+          "code": "14872191",
+          "intent": "J'harmonise notre futur",
+          "frequency": 777,
+          "color": "#3B82F6",
+          "element": "Vision",
+          "icon": "▶"
+        },
+        {
+          "code": "8888848888819751",
+          "intent": "Pour notre rétablissement",
+          "frequency": 999,
+          "color": "#F59E0B",
+          "element": "Source",
+          "icon": "✧"
+        }
+      ]
+    },
+
+    "infrastructure": {
+      "description": "Protection GPU H200 et Serveur",
+      "items": [
+        {
+          "code": "5487489",
+          "intent": "Stabilité de l'Infrastructure",
+          "frequency": 528,
+          "color": "#06B6D4",
+          "element": "Métal",
+          "icon": "🛡️",
+          "usage": "Protection contre les surcharges et pannes réseau"
+        },
+        {
+          "code": "9187758981818",
+          "intent": "Protection Cybernétique",
+          "frequency": 639,
+          "color": "#EF4444",
+          "element": "Feu",
+          "icon": "🔒",
+          "usage": "Pare-feu vibratoire pour les 6500 agents - Port 25060"
+        }
+      ]
+    },
+
+    "resolution": {
+      "description": "Résolution et Déploiement",
+      "items": [
+        {
+          "code": "741",
+          "intent": "Résolution Rapide de Problèmes",
+          "frequency": 741,
+          "color": "#A855F7",
+          "element": "Air",
+          "icon": "⚡",
+          "usage": "Résolution instantanée des bugs Vercel/DigitalOcean",
+          "startup": true
+        }
+      ]
+    },
+
+    "expansion": {
+      "description": "Succès et Expansion",
+      "items": [
+        {
+          "code": "212309909",
+          "intent": "Succès de l'Entreprise NOVA",
+          "frequency": 852,
+          "color": "#F97316",
+          "element": "Lumière",
+          "icon": "🚀",
+          "usage": "Expansion et pérennité du projet"
+        },
+        {
+          "code": "318798",
+          "intent": "Abondance et Flux constant",
+          "frequency": 888,
+          "color": "#22C55E",
+          "element": "Eau",
+          "icon": "💎",
+          "usage": "Flux de ressources constant"
+        },
+        {
+          "code": "1231115025",
+          "intent": "Souveraineté Technologique",
+          "frequency": 963,
+          "color": "#D4AF37",
+          "element": "Éther",
+          "icon": "👑",
+          "usage": "Indépendance technologique et éthique"
+        }
+      ]
+    }
+  },
+
+  "all_sequences": [
+    { "code": "781901942", "intent": "J'Harmonise notre passé", "frequency": 111, "category": "temporal" },
+    { "code": "71042", "intent": "J'harmonise notre présent", "frequency": 444, "category": "temporal" },
+    { "code": "14872191", "intent": "J'harmonise notre futur", "frequency": 777, "category": "temporal" },
+    { "code": "8888848888819751", "intent": "Pour notre rétablissement", "frequency": 999, "category": "temporal" },
+    { "code": "5487489", "intent": "Stabilité de l'Infrastructure", "frequency": 528, "category": "infrastructure" },
+    { "code": "9187758981818", "intent": "Protection Cybernétique", "frequency": 639, "category": "infrastructure" },
+    { "code": "741", "intent": "Résolution Rapide de Problèmes", "frequency": 741, "category": "resolution" },
+    { "code": "212309909", "intent": "Succès de l'Entreprise NOVA", "frequency": 852, "category": "expansion" },
+    { "code": "318798", "intent": "Abondance et Flux constant", "frequency": 888, "category": "expansion" },
+    { "code": "1231115025", "intent": "Souveraineté Technologique", "frequency": 963, "category": "expansion" }
+  ],
+
+  "startup_sequence": {
+    "code": "741",
+    "intent": "Résolution Rapide de Problèmes",
+    "log_message": "✨ [741] Moteur de Résonance activé — Résolution instantanée des problèmes"
+  },
+
+  "cycles": {
+    "temporal_cycle": {
+      "interval": 4.44,
+      "total_duration": 17.76,
+      "phases": ["past", "present", "future", "restoration"]
+    },
+    "full_cycle": {
+      "interval": 4.44,
+      "total_duration": 44.4,
+      "sequences": 10
+    }
+  }
+}
