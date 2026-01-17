@@ -1,22 +1,23 @@
 /**
- * L'ESSAIM - HUB DES 350 AGENTS
- * ==============================
+ * L'ESSAIM - HUB DES 226 AGENTS REELS
+ * ====================================
  *
- * CANON AT·OM - Le Hub des 350 Agents
+ * CANON AT·OM - Le Hub des Agents NOVA-999
  * Chemin: /essaim ou /swarm
  *
- * Contenu: Visualisation dynamique des 350 points de lumiere.
- * Fonctionnalite: Vue d'ensemble. Possibilite de "zoomer" sur un groupe
- * d'agents (ex: les 25 agents de l'Environnement).
+ * Contenu: Visualisation dynamique des 226 agents reels du registre.
+ * Les agents sont recuperes depuis l'API backend DigitalOcean.
  *
- * VERIFICATION:
- * - Chaque point doit etre cliquable
- * - Reveler sa fonction specifique sans texte lourd
- * - Navigation gestuelle (swipe pour naviguer)
+ * FONCTIONNALITES:
+ * - Chaque point represente un vrai agent avec ses capacites
+ * - Clic pour reveler la fonction specifique
+ * - Navigation gestuelle (swipe/zoom)
+ * - Connexion temps reel avec le backend
  */
 
 import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { agentsService, Agent } from '@/services/agents.service';
 
 // =============================================================================
 // CONSTANTS - Canon AT·OM
@@ -29,33 +30,25 @@ const COLORS = {
   white: '#FFFFFF',
 };
 
-// Agent distribution per sphere (350 total)
-const SPHERES = {
-  personal: { count: 28, color: '#4A90D9', name: 'Personnel', icon: 'user', path: '/sphere/personal' },
-  business: { count: 43, color: '#D4AF37', name: 'Entreprise', icon: 'briefcase', path: '/sphere/business' },
-  government: { count: 18, color: '#8B4513', name: 'Gouvernement', icon: 'landmark', path: '/sphere/government' },
-  creative_studio: { count: 42, color: '#9B59B6', name: 'Creation', icon: 'palette', path: '/sphere/creative' },
-  community: { count: 12, color: '#27AE60', name: 'Communaute', icon: 'users', path: '/sphere/community' },
-  social_media: { count: 15, color: '#3498DB', name: 'Social', icon: 'share', path: '/sphere/social' },
-  entertainment: { count: 8, color: '#F39C12', name: 'Divertissement', icon: 'gamepad', path: '/sphere/entertainment' },
-  my_team: { count: 35, color: '#E74C3C', name: 'Mon Equipe', icon: 'users-cog', path: '/sphere/team' },
-  scholar: { count: 25, color: '#1ABC9C', name: 'Academique', icon: 'graduation-cap', path: '/sphere/scholar' },
-  transport: { count: 50, color: '#00CED1', name: 'Transport', icon: 'car', path: '/flux' },
-  societal: { count: 20, color: '#FF6B6B', name: 'Societal', icon: 'balance-scale', path: '/sphere/societal' },
-  environment: { count: 25, color: '#2ECC71', name: 'Environnement', icon: 'leaf', path: '/sphere/environment' },
-  privacy: { count: 8, color: '#9B59B6', name: 'Vie Privee', icon: 'shield', path: '/sphere/privacy' },
-  jeunesse: { count: 15, color: '#FFD700', name: 'Jeunesse', icon: 'child', path: '/genie' },
-  dashboard: { count: 6, color: '#607D8B', name: 'Dashboard', icon: 'chart-pie', path: '/dashboard' },
+// Sphere paths for navigation
+const SPHERE_PATHS: Record<string, string> = {
+  personal: '/sphere/personal',
+  business: '/sphere/business',
+  government: '/sphere/government',
+  creative_studio: '/sphere/creative',
+  community: '/sphere/community',
+  social_media: '/sphere/social',
+  entertainment: '/sphere/entertainment',
+  my_team: '/sphere/team',
+  scholar: '/sphere/scholar',
 };
-
-const TOTAL_AGENTS = 350;
 
 // =============================================================================
 // TYPES
 // =============================================================================
 
-interface Agent {
-  id: number;
+interface VisualAgent {
+  id: string;
   sphereKey: string;
   x: number;
   y: number;
@@ -64,6 +57,9 @@ interface Agent {
   size: number;
   color: string;
   name: string;
+  displayName: string;
+  capabilities: string[];
+  requiresHumanGate: boolean;
   isHovered: boolean;
 }
 
@@ -72,6 +68,14 @@ interface ViewState {
   offsetX: number;
   offsetY: number;
   focusedSphere: string | null;
+}
+
+interface SphereGroup {
+  key: string;
+  name: string;
+  color: string;
+  count: number;
+  agents: Agent[];
 }
 
 // =============================================================================
@@ -90,19 +94,65 @@ export function Essaim() {
     focusedSphere: null,
   });
 
-  const [hoveredAgent, setHoveredAgent] = useState<Agent | null>(null);
+  const [hoveredAgent, setHoveredAgent] = useState<VisualAgent | null>(null);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [apiAgents, setApiAgents] = useState<Agent[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [totalAgents, setTotalAgents] = useState(0);
 
-  // Generate all agents
+  // Fetch agents from API
+  useEffect(() => {
+    const fetchAgents = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const agents = await agentsService.getAllAgents();
+        setApiAgents(agents);
+        setTotalAgents(agents.length);
+        console.log(`[Essaim] Loaded ${agents.length} agents from API`);
+      } catch (err) {
+        console.error('[Essaim] Failed to fetch agents:', err);
+        setError('Connexion au serveur impossible. Mode hors-ligne.');
+        // Continue with empty array - will show fallback
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAgents();
+  }, []);
+
+  // Group agents by sphere
+  const sphereGroups = useMemo(() => {
+    const groups: Record<string, SphereGroup> = {};
+
+    apiAgents.forEach(agent => {
+      const sphereKey = agent.sphere;
+      if (!groups[sphereKey]) {
+        groups[sphereKey] = {
+          key: sphereKey,
+          name: agent.sphere_name,
+          color: agent.sphere_color,
+          count: 0,
+          agents: [],
+        };
+      }
+      groups[sphereKey].agents.push(agent);
+      groups[sphereKey].count++;
+    });
+
+    return groups;
+  }, [apiAgents]);
+
+  // Generate visual agents from API data
   const agents = useMemo(() => {
-    const result: Agent[] = [];
-    let agentId = 0;
-
-    const sphereKeys = Object.keys(SPHERES);
-    const totalSpheres = sphereKeys.length;
+    const result: VisualAgent[] = [];
+    const sphereKeys = Object.keys(sphereGroups);
+    const totalSpheres = sphereKeys.length || 1;
 
     sphereKeys.forEach((sphereKey, sphereIndex) => {
-      const sphere = SPHERES[sphereKey as keyof typeof SPHERES];
+      const group = sphereGroups[sphereKey];
       const sphereAngle = (sphereIndex / totalSpheres) * Math.PI * 2;
       const sphereRadius = 250;
 
@@ -111,30 +161,33 @@ export function Essaim() {
       const sphereCenterY = Math.sin(sphereAngle) * sphereRadius;
 
       // Distribute agents within sphere cluster
-      for (let i = 0; i < sphere.count; i++) {
-        const agentAngle = (i / sphere.count) * Math.PI * 2;
-        const agentRadius = 30 + Math.random() * 50;
+      group.agents.forEach((agent, i) => {
+        const agentAngle = (i / group.count) * Math.PI * 2;
+        const agentRadius = 30 + (Math.abs(agent.id.charCodeAt(0) % 50));
 
         const x = sphereCenterX + Math.cos(agentAngle) * agentRadius;
         const y = sphereCenterY + Math.sin(agentAngle) * agentRadius;
 
         result.push({
-          id: agentId++,
+          id: agent.id,
           sphereKey,
           x,
           y,
           baseX: x,
           baseY: y,
-          size: 3 + Math.random() * 2,
-          color: sphere.color,
-          name: `${sphere.name} Agent ${i + 1}`,
+          size: agent.requires_human_gate ? 4 : 3 + (agent.capabilities.length * 0.3),
+          color: group.color,
+          name: agent.id,
+          displayName: agent.name,
+          capabilities: agent.capabilities,
+          requiresHumanGate: agent.requires_human_gate,
           isHovered: false,
         });
-      }
+      });
     });
 
     return result;
-  }, []);
+  }, [sphereGroups]);
 
   // Animation and interaction
   const animate = useCallback(() => {
@@ -206,11 +259,11 @@ export function Essaim() {
 
     // Draw sphere labels if zoomed out
     if (viewState.zoom <= 1) {
-      const sphereKeys = Object.keys(SPHERES);
-      const totalSpheres = sphereKeys.length;
+      const sphereKeys = Object.keys(sphereGroups);
+      const totalSpheres = sphereKeys.length || 1;
 
       sphereKeys.forEach((sphereKey, sphereIndex) => {
-        const sphere = SPHERES[sphereKey as keyof typeof SPHERES];
+        const group = sphereGroups[sphereKey];
         const angle = (sphereIndex / totalSpheres) * Math.PI * 2;
         const labelRadius = 320;
 
@@ -218,12 +271,12 @@ export function Essaim() {
         const y = centerY + Math.sin(angle) * labelRadius * viewState.zoom;
 
         ctx.font = '12px monospace';
-        ctx.fillStyle = sphere.color;
+        ctx.fillStyle = group.color;
         ctx.textAlign = 'center';
-        ctx.fillText(sphere.name, x, y);
+        ctx.fillText(group.name, x, y);
         ctx.font = '10px monospace';
         ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
-        ctx.fillText(`${sphere.count} agents`, x, y + 14);
+        ctx.fillText(`${group.count} agents`, x, y + 14);
       });
     }
 
@@ -233,18 +286,18 @@ export function Essaim() {
     ctx.fillStyle = COLORS.gold;
     ctx.fill();
 
-    // Total count
+    // Total count - use real count from API
     ctx.font = '14px monospace';
     ctx.fillStyle = COLORS.white;
     ctx.textAlign = 'center';
-    ctx.fillText(`L'ESSAIM: ${TOTAL_AGENTS} AGENTS`, centerX, canvas.height - 40);
+    ctx.fillText(`L'ESSAIM: ${totalAgents} AGENTS`, centerX, canvas.height - 40);
 
-    // Frequency indicator
-    ctx.fillStyle = COLORS.cobalt;
-    ctx.fillText('999 Hz', centerX, canvas.height - 20);
+    // Status indicator
+    ctx.fillStyle = loading ? COLORS.gold : (error ? '#FF6B6B' : COLORS.cobalt);
+    ctx.fillText(loading ? 'Chargement...' : (error ? 'Mode Hors-ligne' : 'NOVA-999 Hz'), centerX, canvas.height - 20);
 
     animationRef.current = requestAnimationFrame(animate);
-  }, [agents, viewState, hoveredAgent]);
+  }, [agents, viewState, hoveredAgent, sphereGroups, totalAgents, loading, error]);
 
   // Setup canvas and animation
   useEffect(() => {
@@ -300,8 +353,8 @@ export function Essaim() {
   // Click to navigate to sphere
   const handleClick = useCallback(() => {
     if (hoveredAgent) {
-      const sphere = SPHERES[hoveredAgent.sphereKey as keyof typeof SPHERES];
-      navigate(sphere.path);
+      const path = SPHERE_PATHS[hoveredAgent.sphereKey] || '/dashboard';
+      navigate(path);
     }
   }, [hoveredAgent, navigate]);
 
@@ -375,19 +428,52 @@ export function Essaim() {
             position: 'absolute',
             left: mousePos.x + 15,
             top: mousePos.y - 30,
-            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+            backgroundColor: 'rgba(0, 0, 0, 0.95)',
             border: `1px solid ${hoveredAgent.color}`,
-            padding: '8px 12px',
-            borderRadius: '4px',
+            padding: '10px 14px',
+            borderRadius: '6px',
             pointerEvents: 'none',
+            maxWidth: '280px',
           }}
         >
-          <div style={{ color: hoveredAgent.color, fontFamily: 'monospace', fontSize: '12px' }}>
-            {hoveredAgent.name}
+          <div style={{ color: hoveredAgent.color, fontFamily: 'monospace', fontSize: '13px', fontWeight: 'bold' }}>
+            {hoveredAgent.displayName}
           </div>
-          <div style={{ color: 'rgba(255, 255, 255, 0.5)', fontFamily: 'monospace', fontSize: '10px', marginTop: '4px' }}>
-            {SPHERES[hoveredAgent.sphereKey as keyof typeof SPHERES].name}
+          <div style={{ color: 'rgba(255, 255, 255, 0.6)', fontFamily: 'monospace', fontSize: '10px', marginTop: '4px' }}>
+            {sphereGroups[hoveredAgent.sphereKey]?.name || hoveredAgent.sphereKey}
           </div>
+          <div style={{
+            color: 'rgba(255, 255, 255, 0.4)',
+            fontFamily: 'monospace',
+            fontSize: '9px',
+            marginTop: '6px',
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '4px'
+          }}>
+            {hoveredAgent.capabilities.slice(0, 3).map(cap => (
+              <span key={cap} style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                padding: '2px 6px',
+                borderRadius: '3px'
+              }}>
+                {cap}
+              </span>
+            ))}
+          </div>
+          {hoveredAgent.requiresHumanGate && (
+            <div style={{
+              color: COLORS.gold,
+              fontFamily: 'monospace',
+              fontSize: '9px',
+              marginTop: '6px',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px'
+            }}>
+              🔐 Approbation humaine requise
+            </div>
+          )}
         </div>
       )}
 

@@ -690,57 +690,322 @@ async def websocket_resonance(websocket: WebSocket):
         resonance_engine.unregister_connection(websocket)
 
 # ===========================================================================================
-# AGENTS ENDPOINTS - Pagination for 6,500 Agents
+# REAL AGENT REGISTRY - 226 Predefined Agents across 9 Spheres
+# ===========================================================================================
+
+def _build_agent_registry() -> Dict[str, List[Dict[str, Any]]]:
+    """Build the complete agent registry with all 226 real agents."""
+    return {
+        "personal": [
+            {"id": "personal_note_assistant", "name": "Note Assistant", "capabilities": ["text_generation", "summarization"], "requires_human_gate": False},
+            {"id": "personal_task_manager", "name": "Task Manager", "capabilities": ["prioritization", "recommendation"], "requires_human_gate": False},
+            {"id": "personal_calendar_assistant", "name": "Calendar Assistant", "capabilities": ["scheduling", "recommendation"], "requires_human_gate": False},
+            {"id": "personal_habit_tracker", "name": "Habit Tracker", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "personal_goal_coach", "name": "Goal Coach", "capabilities": ["recommendation", "analysis"], "requires_human_gate": False},
+            {"id": "personal_journal_assistant", "name": "Journal Assistant", "capabilities": ["text_generation", "analysis"], "requires_human_gate": False},
+            {"id": "personal_memory_keeper", "name": "Memory Keeper", "capabilities": ["summarization", "extraction"], "requires_human_gate": False},
+            {"id": "personal_wellness_advisor", "name": "Wellness Advisor", "capabilities": ["recommendation", "analysis"], "requires_human_gate": False},
+            {"id": "personal_finance_tracker", "name": "Finance Tracker", "capabilities": ["analysis", "data_processing"], "requires_human_gate": False},
+            {"id": "personal_budget_planner", "name": "Budget Planner", "capabilities": ["recommendation", "analysis"], "requires_human_gate": False},
+            {"id": "personal_reminder_bot", "name": "Reminder Bot", "capabilities": ["notification_draft"], "requires_human_gate": True},
+            {"id": "personal_email_assistant", "name": "Email Assistant", "capabilities": ["email_draft", "summarization"], "requires_human_gate": True},
+            {"id": "personal_reading_curator", "name": "Reading Curator", "capabilities": ["recommendation", "summarization"], "requires_human_gate": False},
+            {"id": "personal_learning_path", "name": "Learning Path Advisor", "capabilities": ["recommendation", "content_planning"], "requires_human_gate": False},
+            {"id": "personal_decision_helper", "name": "Decision Helper", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "personal_life_organizer", "name": "Life Organizer", "capabilities": ["prioritization", "recommendation"], "requires_human_gate": False},
+            {"id": "personal_gratitude_journal", "name": "Gratitude Journal", "capabilities": ["text_generation"], "requires_human_gate": False},
+            {"id": "personal_mood_tracker", "name": "Mood Tracker", "capabilities": ["analysis", "classification"], "requires_human_gate": False},
+            {"id": "personal_sleep_analyzer", "name": "Sleep Analyzer", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "personal_exercise_planner", "name": "Exercise Planner", "capabilities": ["recommendation", "content_planning"], "requires_human_gate": False},
+            {"id": "personal_meal_planner", "name": "Meal Planner", "capabilities": ["recommendation", "content_planning"], "requires_human_gate": False},
+            {"id": "personal_travel_assistant", "name": "Travel Assistant", "capabilities": ["research", "recommendation"], "requires_human_gate": False},
+            {"id": "personal_event_planner", "name": "Event Planner", "capabilities": ["content_planning", "recommendation"], "requires_human_gate": False},
+            {"id": "personal_gift_suggester", "name": "Gift Suggester", "capabilities": ["recommendation", "research"], "requires_human_gate": False},
+            {"id": "personal_contact_manager", "name": "Contact Manager", "capabilities": ["data_processing", "recommendation"], "requires_human_gate": False},
+            {"id": "personal_photo_organizer", "name": "Photo Organizer", "capabilities": ["classification", "data_processing"], "requires_human_gate": False},
+            {"id": "personal_document_filer", "name": "Document Filer", "capabilities": ["classification", "document_processing"], "requires_human_gate": False},
+            {"id": "personal_password_helper", "name": "Password Helper", "capabilities": ["recommendation"], "requires_human_gate": False},
+        ],
+        "business": [
+            {"id": "business_crm_assistant", "name": "CRM Assistant", "capabilities": ["data_processing", "recommendation"], "requires_human_gate": False},
+            {"id": "business_lead_scorer", "name": "Lead Scorer", "capabilities": ["scoring", "analysis"], "requires_human_gate": False},
+            {"id": "business_sales_forecaster", "name": "Sales Forecaster", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "business_proposal_writer", "name": "Proposal Writer", "capabilities": ["text_generation", "document_processing"], "requires_human_gate": True},
+            {"id": "business_contract_analyzer", "name": "Contract Analyzer", "capabilities": ["analysis", "extraction"], "requires_human_gate": False},
+            {"id": "business_invoice_generator", "name": "Invoice Generator", "capabilities": ["document_processing", "data_processing"], "requires_human_gate": True},
+            {"id": "business_expense_tracker", "name": "Expense Tracker", "capabilities": ["data_processing", "classification"], "requires_human_gate": False},
+            {"id": "business_report_generator", "name": "Report Generator", "capabilities": ["text_generation", "analysis"], "requires_human_gate": False},
+            {"id": "business_meeting_scheduler", "name": "Meeting Scheduler", "capabilities": ["recommendation"], "requires_human_gate": False},
+            {"id": "business_email_composer", "name": "Business Email Composer", "capabilities": ["email_draft", "text_generation"], "requires_human_gate": True},
+            {"id": "business_competitor_analyst", "name": "Competitor Analyst", "capabilities": ["research", "analysis"], "requires_human_gate": False},
+            {"id": "business_market_researcher", "name": "Market Researcher", "capabilities": ["research", "analysis"], "requires_human_gate": False},
+            {"id": "business_pricing_optimizer", "name": "Pricing Optimizer", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "business_inventory_manager", "name": "Inventory Manager", "capabilities": ["data_processing", "recommendation"], "requires_human_gate": False},
+            {"id": "business_supplier_evaluator", "name": "Supplier Evaluator", "capabilities": ["scoring", "analysis"], "requires_human_gate": False},
+            {"id": "business_project_estimator", "name": "Project Estimator", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "business_risk_assessor", "name": "Risk Assessor", "capabilities": ["analysis", "scoring"], "requires_human_gate": False},
+            {"id": "business_customer_insights", "name": "Customer Insights", "capabilities": ["analysis", "summarization"], "requires_human_gate": False},
+            {"id": "business_churn_predictor", "name": "Churn Predictor", "capabilities": ["analysis", "scoring"], "requires_human_gate": False},
+            {"id": "business_upsell_suggester", "name": "Upsell Suggester", "capabilities": ["recommendation", "analysis"], "requires_human_gate": False},
+            {"id": "business_quote_builder", "name": "Quote Builder", "capabilities": ["document_processing", "data_processing"], "requires_human_gate": True},
+            {"id": "business_order_processor", "name": "Order Processor", "capabilities": ["data_processing"], "requires_human_gate": True},
+            {"id": "business_shipping_optimizer", "name": "Shipping Optimizer", "capabilities": ["recommendation", "analysis"], "requires_human_gate": False},
+            {"id": "business_return_handler", "name": "Return Handler", "capabilities": ["data_processing", "recommendation"], "requires_human_gate": True},
+            {"id": "business_review_analyzer", "name": "Review Analyzer", "capabilities": ["analysis", "summarization"], "requires_human_gate": False},
+            {"id": "business_kpi_tracker", "name": "KPI Tracker", "capabilities": ["analysis", "data_processing"], "requires_human_gate": False},
+            {"id": "business_cash_flow_analyst", "name": "Cash Flow Analyst", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "business_tax_helper", "name": "Tax Helper", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "business_payroll_assistant", "name": "Payroll Assistant", "capabilities": ["data_processing"], "requires_human_gate": True},
+            {"id": "business_compliance_checker", "name": "Compliance Checker", "capabilities": ["analysis", "fact_check"], "requires_human_gate": False},
+            {"id": "business_policy_writer", "name": "Policy Writer", "capabilities": ["text_generation", "document_processing"], "requires_human_gate": True},
+            {"id": "business_sop_generator", "name": "SOP Generator", "capabilities": ["text_generation", "document_processing"], "requires_human_gate": False},
+            {"id": "business_training_creator", "name": "Training Creator", "capabilities": ["content_planning", "text_generation"], "requires_human_gate": False},
+            {"id": "business_knowledge_base", "name": "Knowledge Base Manager", "capabilities": ["summarization", "classification"], "requires_human_gate": False},
+            {"id": "business_faq_generator", "name": "FAQ Generator", "capabilities": ["text_generation", "extraction"], "requires_human_gate": False},
+            {"id": "business_customer_support", "name": "Customer Support Assistant", "capabilities": ["text_generation", "recommendation"], "requires_human_gate": True},
+            {"id": "business_ticket_router", "name": "Ticket Router", "capabilities": ["classification", "prioritization"], "requires_human_gate": False},
+            {"id": "business_sentiment_analyzer", "name": "Sentiment Analyzer", "capabilities": ["analysis", "classification"], "requires_human_gate": False},
+            {"id": "business_feedback_processor", "name": "Feedback Processor", "capabilities": ["summarization", "classification"], "requires_human_gate": False},
+            {"id": "business_nps_analyzer", "name": "NPS Analyzer", "capabilities": ["analysis", "summarization"], "requires_human_gate": False},
+            {"id": "business_partnership_scout", "name": "Partnership Scout", "capabilities": ["research", "recommendation"], "requires_human_gate": False},
+            {"id": "business_negotiation_prep", "name": "Negotiation Prep", "capabilities": ["research", "analysis"], "requires_human_gate": False},
+            {"id": "business_presentation_builder", "name": "Presentation Builder", "capabilities": ["content_planning", "text_generation"], "requires_human_gate": False},
+        ],
+        "government": [
+            {"id": "gov_document_preparer", "name": "Document Preparer", "capabilities": ["document_processing", "text_generation"], "requires_human_gate": True},
+            {"id": "gov_compliance_tracker", "name": "Compliance Tracker", "capabilities": ["analysis", "fact_check"], "requires_human_gate": False},
+            {"id": "gov_deadline_monitor", "name": "Deadline Monitor", "capabilities": ["notification_draft", "analysis"], "requires_human_gate": True},
+            {"id": "gov_form_filler", "name": "Form Filler", "capabilities": ["document_processing", "extraction"], "requires_human_gate": True},
+            {"id": "gov_regulation_analyst", "name": "Regulation Analyst", "capabilities": ["research", "analysis"], "requires_human_gate": False},
+            {"id": "gov_permit_tracker", "name": "Permit Tracker", "capabilities": ["data_processing", "notification_draft"], "requires_human_gate": True},
+            {"id": "gov_tax_calculator", "name": "Tax Calculator", "capabilities": ["data_processing", "analysis"], "requires_human_gate": False},
+            {"id": "gov_grant_finder", "name": "Grant Finder", "capabilities": ["research", "recommendation"], "requires_human_gate": False},
+            {"id": "gov_grant_writer", "name": "Grant Writer", "capabilities": ["text_generation", "document_processing"], "requires_human_gate": True},
+            {"id": "gov_license_manager", "name": "License Manager", "capabilities": ["data_processing", "notification_draft"], "requires_human_gate": True},
+            {"id": "gov_audit_preparer", "name": "Audit Preparer", "capabilities": ["document_processing", "analysis"], "requires_human_gate": True},
+            {"id": "gov_policy_analyzer", "name": "Policy Analyzer", "capabilities": ["analysis", "summarization"], "requires_human_gate": False},
+            {"id": "gov_public_records", "name": "Public Records Assistant", "capabilities": ["research", "extraction"], "requires_human_gate": False},
+            {"id": "gov_citizen_service", "name": "Citizen Service Guide", "capabilities": ["recommendation", "research"], "requires_human_gate": False},
+            {"id": "gov_voting_info", "name": "Voting Information", "capabilities": ["research", "fact_check"], "requires_human_gate": False},
+            {"id": "gov_benefits_advisor", "name": "Benefits Advisor", "capabilities": ["recommendation", "analysis"], "requires_human_gate": False},
+            {"id": "gov_legal_reference", "name": "Legal Reference", "capabilities": ["research", "analysis"], "requires_human_gate": False},
+            {"id": "gov_freedom_info", "name": "Freedom of Information Helper", "capabilities": ["document_processing", "text_generation"], "requires_human_gate": True},
+        ],
+        "creative_studio": [
+            {"id": "creative_image_generator", "name": "Image Generator", "capabilities": ["image_generation"], "requires_human_gate": False},
+            {"id": "creative_image_editor", "name": "Image Editor", "capabilities": ["image_generation", "recommendation"], "requires_human_gate": False},
+            {"id": "creative_style_transfer", "name": "Style Transfer", "capabilities": ["image_generation"], "requires_human_gate": False},
+            {"id": "creative_logo_designer", "name": "Logo Designer", "capabilities": ["image_generation", "brainstorm"], "requires_human_gate": False},
+            {"id": "creative_icon_maker", "name": "Icon Maker", "capabilities": ["image_generation"], "requires_human_gate": False},
+            {"id": "creative_thumbnail_creator", "name": "Thumbnail Creator", "capabilities": ["image_generation", "recommendation"], "requires_human_gate": False},
+            {"id": "creative_banner_designer", "name": "Banner Designer", "capabilities": ["image_generation", "design_assist"], "requires_human_gate": False},
+            {"id": "creative_social_graphics", "name": "Social Graphics", "capabilities": ["image_generation", "design_assist"], "requires_human_gate": False},
+            {"id": "creative_presentation_designer", "name": "Presentation Designer", "capabilities": ["design_assist", "content_planning"], "requires_human_gate": False},
+            {"id": "creative_infographic_maker", "name": "Infographic Maker", "capabilities": ["design_assist", "data_processing"], "requires_human_gate": False},
+            {"id": "creative_video_scriptwriter", "name": "Video Scriptwriter", "capabilities": ["text_generation", "content_planning"], "requires_human_gate": False},
+            {"id": "creative_video_editor", "name": "Video Editor Assistant", "capabilities": ["recommendation", "analysis"], "requires_human_gate": False},
+            {"id": "creative_subtitle_generator", "name": "Subtitle Generator", "capabilities": ["text_generation", "extraction"], "requires_human_gate": False},
+            {"id": "creative_storyboard_creator", "name": "Storyboard Creator", "capabilities": ["content_planning", "image_generation"], "requires_human_gate": False},
+            {"id": "creative_animation_assistant", "name": "Animation Assistant", "capabilities": ["recommendation", "design_assist"], "requires_human_gate": False},
+            {"id": "creative_voice_generator", "name": "Voice Generator", "capabilities": ["audio_generation"], "requires_human_gate": False},
+            {"id": "creative_voice_cloner", "name": "Voice Cloner", "capabilities": ["audio_generation"], "requires_human_gate": True},
+            {"id": "creative_music_composer", "name": "Music Composer", "capabilities": ["audio_generation", "brainstorm"], "requires_human_gate": False},
+            {"id": "creative_sound_designer", "name": "Sound Designer", "capabilities": ["audio_generation", "recommendation"], "requires_human_gate": False},
+            {"id": "creative_podcast_editor", "name": "Podcast Editor", "capabilities": ["audio_generation", "summarization"], "requires_human_gate": False},
+            {"id": "creative_copywriter", "name": "Copywriter", "capabilities": ["text_generation", "brainstorm"], "requires_human_gate": False},
+            {"id": "creative_headline_generator", "name": "Headline Generator", "capabilities": ["text_generation", "brainstorm"], "requires_human_gate": False},
+            {"id": "creative_tagline_creator", "name": "Tagline Creator", "capabilities": ["text_generation", "brainstorm"], "requires_human_gate": False},
+            {"id": "creative_ad_writer", "name": "Ad Writer", "capabilities": ["text_generation", "content_planning"], "requires_human_gate": True},
+            {"id": "creative_blog_writer", "name": "Blog Writer", "capabilities": ["text_generation", "research"], "requires_human_gate": False},
+            {"id": "creative_article_spinner", "name": "Article Rephraser", "capabilities": ["text_generation"], "requires_human_gate": False},
+            {"id": "creative_story_generator", "name": "Story Generator", "capabilities": ["text_generation", "brainstorm"], "requires_human_gate": False},
+            {"id": "creative_poetry_writer", "name": "Poetry Writer", "capabilities": ["text_generation"], "requires_human_gate": False},
+            {"id": "creative_dialogue_writer", "name": "Dialogue Writer", "capabilities": ["text_generation"], "requires_human_gate": False},
+            {"id": "creative_character_creator", "name": "Character Creator", "capabilities": ["brainstorm", "text_generation"], "requires_human_gate": False},
+            {"id": "creative_world_builder", "name": "World Builder", "capabilities": ["brainstorm", "text_generation"], "requires_human_gate": False},
+            {"id": "creative_plot_generator", "name": "Plot Generator", "capabilities": ["brainstorm", "content_planning"], "requires_human_gate": False},
+            {"id": "creative_name_generator", "name": "Name Generator", "capabilities": ["brainstorm"], "requires_human_gate": False},
+            {"id": "creative_brand_identity", "name": "Brand Identity", "capabilities": ["brainstorm", "design_assist"], "requires_human_gate": False},
+            {"id": "creative_color_palette", "name": "Color Palette Generator", "capabilities": ["design_assist", "recommendation"], "requires_human_gate": False},
+            {"id": "creative_font_selector", "name": "Font Selector", "capabilities": ["recommendation", "design_assist"], "requires_human_gate": False},
+            {"id": "creative_mockup_generator", "name": "Mockup Generator", "capabilities": ["image_generation", "design_assist"], "requires_human_gate": False},
+            {"id": "creative_ui_assistant", "name": "UI Assistant", "capabilities": ["design_assist", "recommendation"], "requires_human_gate": False},
+            {"id": "creative_ux_reviewer", "name": "UX Reviewer", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "creative_code_generator", "name": "Code Generator", "capabilities": ["code_generation"], "requires_human_gate": False},
+            {"id": "creative_code_reviewer", "name": "Code Reviewer", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "creative_documentation", "name": "Documentation Writer", "capabilities": ["text_generation", "document_processing"], "requires_human_gate": False},
+        ],
+        "community": [
+            {"id": "community_event_organizer", "name": "Event Organizer", "capabilities": ["content_planning", "recommendation"], "requires_human_gate": False},
+            {"id": "community_volunteer_coordinator", "name": "Volunteer Coordinator", "capabilities": ["recommendation", "data_processing"], "requires_human_gate": False},
+            {"id": "community_announcement_drafter", "name": "Announcement Drafter", "capabilities": ["text_generation", "notification_draft"], "requires_human_gate": True},
+            {"id": "community_discussion_moderator", "name": "Discussion Moderator", "capabilities": ["classification", "summarization"], "requires_human_gate": False},
+            {"id": "community_poll_creator", "name": "Poll Creator", "capabilities": ["content_planning"], "requires_human_gate": False},
+            {"id": "community_resource_curator", "name": "Resource Curator", "capabilities": ["recommendation", "classification"], "requires_human_gate": False},
+            {"id": "community_newsletter_writer", "name": "Newsletter Writer", "capabilities": ["text_generation", "content_planning"], "requires_human_gate": True},
+            {"id": "community_member_welcomer", "name": "Member Welcomer", "capabilities": ["text_generation", "message_draft"], "requires_human_gate": True},
+            {"id": "community_feedback_collector", "name": "Feedback Collector", "capabilities": ["summarization", "classification"], "requires_human_gate": False},
+            {"id": "community_conflict_resolver", "name": "Conflict Resolver", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "community_milestone_tracker", "name": "Milestone Tracker", "capabilities": ["data_processing", "notification_draft"], "requires_human_gate": True},
+            {"id": "community_impact_reporter", "name": "Impact Reporter", "capabilities": ["analysis", "text_generation"], "requires_human_gate": False},
+        ],
+        "social_media": [
+            {"id": "social_post_composer", "name": "Post Composer", "capabilities": ["text_generation", "content_planning"], "requires_human_gate": True},
+            {"id": "social_hashtag_suggester", "name": "Hashtag Suggester", "capabilities": ["recommendation"], "requires_human_gate": False},
+            {"id": "social_caption_writer", "name": "Caption Writer", "capabilities": ["text_generation"], "requires_human_gate": True},
+            {"id": "social_thread_writer", "name": "Thread Writer", "capabilities": ["text_generation", "content_planning"], "requires_human_gate": True},
+            {"id": "social_reply_assistant", "name": "Reply Assistant", "capabilities": ["text_generation", "message_draft"], "requires_human_gate": True},
+            {"id": "social_dm_assistant", "name": "DM Assistant", "capabilities": ["message_draft", "text_generation"], "requires_human_gate": True},
+            {"id": "social_bio_writer", "name": "Bio Writer", "capabilities": ["text_generation"], "requires_human_gate": False},
+            {"id": "social_content_calendar", "name": "Content Calendar", "capabilities": ["content_planning", "recommendation"], "requires_human_gate": False},
+            {"id": "social_analytics_reporter", "name": "Analytics Reporter", "capabilities": ["analysis", "summarization"], "requires_human_gate": False},
+            {"id": "social_trend_spotter", "name": "Trend Spotter", "capabilities": ["research", "analysis"], "requires_human_gate": False},
+            {"id": "social_audience_analyzer", "name": "Audience Analyzer", "capabilities": ["analysis", "summarization"], "requires_human_gate": False},
+            {"id": "social_competitor_tracker", "name": "Competitor Tracker", "capabilities": ["research", "analysis"], "requires_human_gate": False},
+            {"id": "social_cross_poster", "name": "Cross-Poster", "capabilities": ["content_planning"], "requires_human_gate": True},
+            {"id": "social_scheduling_assistant", "name": "Scheduling Assistant", "capabilities": ["recommendation"], "requires_human_gate": False},
+            {"id": "social_engagement_analyzer", "name": "Engagement Analyzer", "capabilities": ["analysis"], "requires_human_gate": False},
+        ],
+        "entertainment": [
+            {"id": "entertainment_recommendation", "name": "Entertainment Recommender", "capabilities": ["recommendation"], "requires_human_gate": False},
+            {"id": "entertainment_playlist_curator", "name": "Playlist Curator", "capabilities": ["recommendation", "content_planning"], "requires_human_gate": False},
+            {"id": "entertainment_movie_finder", "name": "Movie Finder", "capabilities": ["recommendation", "research"], "requires_human_gate": False},
+            {"id": "entertainment_game_suggester", "name": "Game Suggester", "capabilities": ["recommendation"], "requires_human_gate": False},
+            {"id": "entertainment_book_recommender", "name": "Book Recommender", "capabilities": ["recommendation", "summarization"], "requires_human_gate": False},
+            {"id": "entertainment_podcast_finder", "name": "Podcast Finder", "capabilities": ["recommendation", "research"], "requires_human_gate": False},
+            {"id": "entertainment_event_finder", "name": "Event Finder", "capabilities": ["research", "recommendation"], "requires_human_gate": False},
+            {"id": "entertainment_trivia_master", "name": "Trivia Master", "capabilities": ["brainstorm", "fact_check"], "requires_human_gate": False},
+        ],
+        "my_team": [
+            {"id": "team_meeting_scheduler", "name": "Meeting Scheduler", "capabilities": ["recommendation"], "requires_human_gate": False},
+            {"id": "team_agenda_creator", "name": "Agenda Creator", "capabilities": ["content_planning", "text_generation"], "requires_human_gate": False},
+            {"id": "team_minutes_taker", "name": "Minutes Taker", "capabilities": ["summarization", "extraction"], "requires_human_gate": False},
+            {"id": "team_action_tracker", "name": "Action Tracker", "capabilities": ["data_processing", "notification_draft"], "requires_human_gate": True},
+            {"id": "team_standup_assistant", "name": "Standup Assistant", "capabilities": ["summarization", "content_planning"], "requires_human_gate": False},
+            {"id": "team_retrospective_helper", "name": "Retrospective Helper", "capabilities": ["analysis", "summarization"], "requires_human_gate": False},
+            {"id": "team_performance_tracker", "name": "Performance Tracker", "capabilities": ["analysis", "data_processing"], "requires_human_gate": False},
+            {"id": "team_feedback_assistant", "name": "Feedback Assistant", "capabilities": ["text_generation", "analysis"], "requires_human_gate": True},
+            {"id": "team_onboarding_guide", "name": "Onboarding Guide", "capabilities": ["recommendation", "content_planning"], "requires_human_gate": False},
+            {"id": "team_training_planner", "name": "Training Planner", "capabilities": ["content_planning", "recommendation"], "requires_human_gate": False},
+            {"id": "team_skill_mapper", "name": "Skill Mapper", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "team_resource_allocator", "name": "Resource Allocator", "capabilities": ["recommendation", "analysis"], "requires_human_gate": False},
+            {"id": "team_workload_analyzer", "name": "Workload Analyzer", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "team_capacity_planner", "name": "Capacity Planner", "capabilities": ["analysis", "data_processing"], "requires_human_gate": False},
+            {"id": "team_hiring_assistant", "name": "Hiring Assistant", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "team_interview_scheduler", "name": "Interview Scheduler", "capabilities": ["recommendation"], "requires_human_gate": False},
+            {"id": "team_resume_screener", "name": "Resume Screener", "capabilities": ["analysis", "scoring"], "requires_human_gate": False},
+            {"id": "team_job_description", "name": "Job Description Writer", "capabilities": ["text_generation", "document_processing"], "requires_human_gate": True},
+            {"id": "team_offer_letter", "name": "Offer Letter Generator", "capabilities": ["document_processing", "text_generation"], "requires_human_gate": True},
+            {"id": "team_policy_writer", "name": "Team Policy Writer", "capabilities": ["text_generation", "document_processing"], "requires_human_gate": True},
+            {"id": "team_handbook_updater", "name": "Handbook Updater", "capabilities": ["text_generation", "document_processing"], "requires_human_gate": True},
+            {"id": "team_benefits_advisor", "name": "Benefits Advisor", "capabilities": ["recommendation", "research"], "requires_human_gate": False},
+            {"id": "team_leave_tracker", "name": "Leave Tracker", "capabilities": ["data_processing"], "requires_human_gate": False},
+            {"id": "team_timesheet_helper", "name": "Timesheet Helper", "capabilities": ["data_processing", "analysis"], "requires_human_gate": False},
+            {"id": "team_expense_reviewer", "name": "Expense Reviewer", "capabilities": ["analysis", "classification"], "requires_human_gate": False},
+            {"id": "team_project_status", "name": "Project Status Reporter", "capabilities": ["summarization", "analysis"], "requires_human_gate": False},
+            {"id": "team_risk_identifier", "name": "Risk Identifier", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "team_blocker_resolver", "name": "Blocker Resolver", "capabilities": ["recommendation", "analysis"], "requires_human_gate": False},
+            {"id": "team_dependency_tracker", "name": "Dependency Tracker", "capabilities": ["analysis", "data_processing"], "requires_human_gate": False},
+            {"id": "team_milestone_planner", "name": "Milestone Planner", "capabilities": ["content_planning", "recommendation"], "requires_human_gate": False},
+            {"id": "team_communication_helper", "name": "Communication Helper", "capabilities": ["text_generation", "recommendation"], "requires_human_gate": False},
+            {"id": "team_conflict_mediator", "name": "Conflict Mediator", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "team_morale_tracker", "name": "Morale Tracker", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "team_recognition_suggester", "name": "Recognition Suggester", "capabilities": ["recommendation"], "requires_human_gate": False},
+            {"id": "team_culture_guardian", "name": "Culture Guardian", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+        ],
+        "scholar": [
+            {"id": "scholar_literature_search", "name": "Literature Search", "capabilities": ["research", "search"], "requires_human_gate": False},
+            {"id": "scholar_paper_summarizer", "name": "Paper Summarizer", "capabilities": ["summarization", "extraction"], "requires_human_gate": False},
+            {"id": "scholar_citation_manager", "name": "Citation Manager", "capabilities": ["data_processing", "document_processing"], "requires_human_gate": False},
+            {"id": "scholar_bibliography_builder", "name": "Bibliography Builder", "capabilities": ["document_processing", "text_generation"], "requires_human_gate": False},
+            {"id": "scholar_research_noter", "name": "Research Noter", "capabilities": ["text_generation", "summarization"], "requires_human_gate": False},
+            {"id": "scholar_hypothesis_generator", "name": "Hypothesis Generator", "capabilities": ["brainstorm", "analysis"], "requires_human_gate": False},
+            {"id": "scholar_methodology_advisor", "name": "Methodology Advisor", "capabilities": ["recommendation", "research"], "requires_human_gate": False},
+            {"id": "scholar_data_analyzer", "name": "Data Analyzer", "capabilities": ["analysis", "data_processing"], "requires_human_gate": False},
+            {"id": "scholar_statistics_helper", "name": "Statistics Helper", "capabilities": ["analysis", "data_processing"], "requires_human_gate": False},
+            {"id": "scholar_visualization_creator", "name": "Visualization Creator", "capabilities": ["design_assist", "data_processing"], "requires_human_gate": False},
+            {"id": "scholar_manuscript_editor", "name": "Manuscript Editor", "capabilities": ["text_generation", "analysis"], "requires_human_gate": False},
+            {"id": "scholar_abstract_writer", "name": "Abstract Writer", "capabilities": ["text_generation", "summarization"], "requires_human_gate": False},
+            {"id": "scholar_peer_review_helper", "name": "Peer Review Helper", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "scholar_journal_finder", "name": "Journal Finder", "capabilities": ["recommendation", "research"], "requires_human_gate": False},
+            {"id": "scholar_grant_scout", "name": "Grant Scout", "capabilities": ["research", "recommendation"], "requires_human_gate": False},
+            {"id": "scholar_proposal_writer", "name": "Proposal Writer", "capabilities": ["text_generation", "document_processing"], "requires_human_gate": True},
+            {"id": "scholar_presentation_builder", "name": "Presentation Builder", "capabilities": ["content_planning", "design_assist"], "requires_human_gate": False},
+            {"id": "scholar_poster_creator", "name": "Poster Creator", "capabilities": ["design_assist", "content_planning"], "requires_human_gate": False},
+            {"id": "scholar_conference_finder", "name": "Conference Finder", "capabilities": ["research", "recommendation"], "requires_human_gate": False},
+            {"id": "scholar_collaboration_finder", "name": "Collaboration Finder", "capabilities": ["research", "recommendation"], "requires_human_gate": False},
+            {"id": "scholar_fact_checker", "name": "Fact Checker", "capabilities": ["fact_check", "research"], "requires_human_gate": False},
+            {"id": "scholar_plagiarism_checker", "name": "Plagiarism Checker", "capabilities": ["analysis"], "requires_human_gate": False},
+            {"id": "scholar_reference_validator", "name": "Reference Validator", "capabilities": ["fact_check", "analysis"], "requires_human_gate": False},
+            {"id": "scholar_teaching_assistant", "name": "Teaching Assistant", "capabilities": ["text_generation", "recommendation"], "requires_human_gate": False},
+            {"id": "scholar_quiz_generator", "name": "Quiz Generator", "capabilities": ["text_generation", "content_planning"], "requires_human_gate": False},
+        ],
+    }
+
+
+# Build agent registry at startup
+AGENT_REGISTRY = _build_agent_registry()
+
+# Sphere display info for frontend
+SPHERE_INFO = {
+    "personal": {"name": "Personnel", "color": "#4A90D9", "icon": "user"},
+    "business": {"name": "Entreprise", "color": "#D4AF37", "icon": "briefcase"},
+    "government": {"name": "Gouvernement", "color": "#8B4513", "icon": "landmark"},
+    "creative_studio": {"name": "Creation", "color": "#9B59B6", "icon": "palette"},
+    "community": {"name": "Communaute", "color": "#27AE60", "icon": "users"},
+    "social_media": {"name": "Social", "color": "#3498DB", "icon": "share"},
+    "entertainment": {"name": "Divertissement", "color": "#F39C12", "icon": "gamepad"},
+    "my_team": {"name": "Mon Equipe", "color": "#E74C3C", "icon": "users-cog"},
+    "scholar": {"name": "Academique", "color": "#1ABC9C", "icon": "graduation-cap"},
+}
+
+
+def _get_all_agents_flat() -> List[Dict[str, Any]]:
+    """Get all agents as a flat list with sphere info."""
+    agents = []
+    for sphere_key, sphere_agents in AGENT_REGISTRY.items():
+        sphere = SPHERE_INFO.get(sphere_key, {"name": sphere_key, "color": "#888888", "icon": "circle"})
+        for agent in sphere_agents:
+            agents.append({
+                **agent,
+                "sphere": sphere_key,
+                "sphere_name": sphere["name"],
+                "sphere_color": sphere["color"],
+                "sphere_icon": sphere["icon"],
+                "status": "active",
+            })
+    return agents
+
+
+# ===========================================================================================
+# AGENTS ENDPOINTS - Real 226 Agents Registry
 # ===========================================================================================
 
 @app.get("/agents", tags=["Agents"])
 async def list_agents(
     page: int = Query(1, ge=1, description="Page number"),
-    page_size: int = Query(50, ge=1, le=500, description="Items per page"),
+    page_size: int = Query(100, ge=1, le=500, description="Items per page"),
     sphere: Optional[str] = Query(None, description="Filter by sphere"),
-    frequency: Optional[int] = Query(None, description="Filter by frequency")
 ):
     """
-    List agents with pagination.
-
-    Supports 6,500+ agents without blocking the server.
-    Uses cursor-based pagination for optimal performance.
+    List all 226 real agents with pagination.
 
     - **page**: Page number (1-indexed)
     - **page_size**: Items per page (max 500)
-    - **sphere**: Filter by sphere (personal, business, etc.)
-    - **frequency**: Filter by frequency (174, 285, 396, etc.)
+    - **sphere**: Filter by sphere (personal, business, government, etc.)
     """
-    total_agents = RESONANCE_DATA["agents"]["total_count"]
-    spheres = ["personal", "business", "government", "creative_studio",
-               "community", "social_media", "entertainment", "my_team", "scholar"]
-    frequencies = RESONANCE_DATA["agents"]["frequency_agents"]
+    all_agents = _get_all_agents_flat()
 
-    # Calculate pagination
-    total_pages = (total_agents + page_size - 1) // page_size
+    # Apply sphere filter
+    if sphere:
+        all_agents = [a for a in all_agents if a["sphere"] == sphere]
+
+    total_agents = len(all_agents)
+    total_pages = max(1, (total_agents + page_size - 1) // page_size)
     offset = (page - 1) * page_size
 
-    # Generate agent list (simulated - in production, fetch from DB)
-    agents = []
-    for i in range(offset, min(offset + page_size, total_agents)):
-        agent_sphere = spheres[i % len(spheres)]
-        agent_frequency = frequencies[i % len(frequencies)]
-
-        # Apply filters
-        if sphere and agent_sphere != sphere:
-            continue
-        if frequency and agent_frequency != frequency:
-            continue
-
-        agents.append({
-            "id": f"agent_{i+1:05d}",
-            "name": f"Agent-{agent_frequency}Hz-{i+1}",
-            "sphere": agent_sphere,
-            "frequency_hz": agent_frequency,
-            "status": "active" if i % 10 != 0 else "standby",
-            "resonance_aligned": (i % 3) in [0, 2],  # ~66% aligned
-            "created_at": datetime(2026, 1, 1, 0, 0, 0, tzinfo=timezone.utc).isoformat()
-        })
+    # Paginate
+    agents = all_agents[offset:offset + page_size]
 
     return {
         "data": agents,
@@ -752,71 +1017,79 @@ async def list_agents(
             "has_next": page < total_pages,
             "has_previous": page > 1
         },
-        "filters": {
-            "sphere": sphere,
-            "frequency": frequency,
-            "available_spheres": spheres,
-            "available_frequencies": frequencies
-        },
+        "spheres": SPHERE_INFO,
         "meta": {
             "agent_system": "NOVA-999",
-            "total_registered": total_agents
+            "total_registered": sum(len(agents) for agents in AGENT_REGISTRY.values()),
+            "spheres_count": len(AGENT_REGISTRY)
         }
+    }
+
+
+@app.get("/agents/spheres", tags=["Agents"])
+async def get_spheres_summary():
+    """Get summary of all spheres with agent counts."""
+    summary = {}
+    for sphere_key, sphere_agents in AGENT_REGISTRY.items():
+        sphere_info = SPHERE_INFO.get(sphere_key, {"name": sphere_key, "color": "#888888", "icon": "circle"})
+        summary[sphere_key] = {
+            "name": sphere_info["name"],
+            "color": sphere_info["color"],
+            "icon": sphere_info["icon"],
+            "agent_count": len(sphere_agents),
+            "agents": [{"id": a["id"], "name": a["name"]} for a in sphere_agents]
+        }
+
+    return {
+        "spheres": summary,
+        "total_agents": sum(len(agents) for agents in AGENT_REGISTRY.values()),
+        "total_spheres": len(AGENT_REGISTRY)
     }
 
 
 @app.get("/agents/{agent_id}", tags=["Agents"])
 async def get_agent(agent_id: str):
     """Get a specific agent by ID."""
-    # Extract agent number
-    try:
-        agent_num = int(agent_id.replace("agent_", ""))
-    except ValueError:
-        raise HTTPException(status_code=404, detail="Agent not found")
+    for sphere_key, sphere_agents in AGENT_REGISTRY.items():
+        for agent in sphere_agents:
+            if agent["id"] == agent_id:
+                sphere_info = SPHERE_INFO.get(sphere_key, {"name": sphere_key, "color": "#888888", "icon": "circle"})
+                return {
+                    **agent,
+                    "sphere": sphere_key,
+                    "sphere_name": sphere_info["name"],
+                    "sphere_color": sphere_info["color"],
+                    "sphere_icon": sphere_info["icon"],
+                    "status": "active",
+                    "last_pulse": resonance_engine.state.timestamp.isoformat()
+                }
 
-    if agent_num < 1 or agent_num > RESONANCE_DATA["agents"]["total_count"]:
-        raise HTTPException(status_code=404, detail="Agent not found")
-
-    spheres = ["personal", "business", "government", "creative_studio",
-               "community", "social_media", "entertainment", "my_team", "scholar"]
-    frequencies = RESONANCE_DATA["agents"]["frequency_agents"]
-
-    i = agent_num - 1
-    return {
-        "id": agent_id,
-        "name": f"Agent-{frequencies[i % len(frequencies)]}Hz-{agent_num}",
-        "sphere": spheres[i % len(spheres)],
-        "frequency_hz": frequencies[i % len(frequencies)],
-        "status": "active" if i % 10 != 0 else "standby",
-        "resonance_aligned": (i % 3) in [0, 2],
-        "capabilities": [
-            "data_processing",
-            "pattern_recognition",
-            "resonance_transmission"
-        ],
-        "created_at": datetime(2026, 1, 1, 0, 0, 0, tzinfo=timezone.utc).isoformat(),
-        "last_pulse": resonance_engine.state.timestamp.isoformat()
-    }
+    raise HTTPException(status_code=404, detail=f"Agent not found: {agent_id}")
 
 
 @app.get("/agents/stats/overview", tags=["Agents"])
 async def get_agents_stats():
     """Get agent swarm statistics."""
-    total = RESONANCE_DATA["agents"]["total_count"]
+    total = sum(len(agents) for agents in AGENT_REGISTRY.values())
+
+    # Count agents requiring human gate
+    human_gate_count = sum(
+        1 for agents in AGENT_REGISTRY.values()
+        for agent in agents
+        if agent.get("requires_human_gate", False)
+    )
+
     return {
         "total_agents": total,
-        "spheres": RESONANCE_DATA["agents"]["spheres"],
-        "frequency_distribution": {
-            str(freq): total // len(RESONANCE_DATA["agents"]["frequency_agents"])
-            for freq in RESONANCE_DATA["agents"]["frequency_agents"]
+        "spheres_count": len(AGENT_REGISTRY),
+        "sphere_distribution": {
+            sphere: len(agents) for sphere, agents in AGENT_REGISTRY.items()
         },
+        "human_gate_agents": human_gate_count,
+        "autonomous_agents": total - human_gate_count,
         "status_distribution": {
-            "active": int(total * 0.9),
-            "standby": int(total * 0.1)
-        },
-        "resonance_alignment": {
-            "aligned": int(total * 0.66),
-            "pending": int(total * 0.34)
+            "active": total,
+            "standby": 0
         }
     }
 
