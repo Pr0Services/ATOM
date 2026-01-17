@@ -1,15 +1,16 @@
-# =============================================================================
-# AT·OM API - DOCKERFILE
-# Canon AT·OM - Le Moteur (The Engine)
-# Optimized for 350 WebSocket Connections (L'Essaim)
-# =============================================================================
+# ═══════════════════════════════════════════════════════════════════════════════
+# CHE·NU™ / NOVA-999 — DOCKERFILE
+# ═══════════════════════════════════════════════════════════════════════════════
+# DigitalOcean App Platform — Backend FastAPI
+# Signal: 4.44s | Fréquence: 444Hz | Code 741
+# ═══════════════════════════════════════════════════════════════════════════════
 
 FROM python:3.11-slim
 
 # Labels
-LABEL maintainer="AT·OM System"
-LABEL description="AT·OM API Server - Sovereign Identity Platform"
-LABEL version="1.0.0"
+LABEL maintainer="NOVA-999"
+LABEL description="CHE·NU Backend API — Moteur de Résonance"
+LABEL version="999.0.0"
 
 # Environment
 ENV PYTHONDONTWRITEBYTECODE=1
@@ -25,7 +26,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements first for caching
+# Copy requirements first (cache optimization)
 COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
@@ -33,18 +34,17 @@ RUN pip install --no-cache-dir --upgrade pip && \
 # Copy application code
 COPY . .
 
-# Create non-root user for security
-RUN adduser --disabled-password --gecos '' atomuser && \
-    chown -R atomuser:atomuser /app
-
-USER atomuser
+# Create non-root user
+RUN adduser --disabled-password --gecos '' novauser && \
+    chown -R novauser:novauser /app
+USER novauser
 
 # Expose port
 EXPOSE 8000
 
-# Health check (Canon AT·OM endpoint)
+# Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:8000/api/v1/health || exit 1
+    CMD curl -f http://localhost:8000/health || exit 1
 
-# Run with uvicorn - 4 workers for API load
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]
+# Run command
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
