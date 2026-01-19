@@ -1,12 +1,11 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "name": "atom-arche",
   "version": 2,
   "framework": "create-react-app",
-  "buildCommand": "cd ../app && npm run build",
-  "outputDirectory": "../app/build",
-  "installCommand": "cd ../app && npm install",
-  "devCommand": "cd ../app && npm start",
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
+  "installCommand": "npm install",
+  "devCommand": "npm start",
   "regions": ["cdg1"],
   "env": {
     "REACT_APP_FREQUENCY": "999",

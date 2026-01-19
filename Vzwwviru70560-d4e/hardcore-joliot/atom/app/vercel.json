@@ -1,6 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "name": "atom-arche",
   "version": 2,
   "framework": "create-react-app",
   "buildCommand": "npm run build",
