@@ -14,13 +14,19 @@
  * ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
  */
 
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useArithmos } from '../hooks/useArithmos';
 
 const LexiquePage = () => {
   const { getAllArithmos } = useArithmos();
   const [selectedArithmos, setSelectedArithmos] = useState(null);
   const [activeTab, setActiveTab] = useState('arithmos');
+
+  // Handler explicite pour le changement d'onglet avec logging
+  const handleTabChange = useCallback((tabId) => {
+    console.log(`[LEXIQUE] Tab change requested: ${activeTab} → ${tabId}`);
+    setActiveTab(tabId);
+  }, [activeTab]);
 
   const arithmosData = getAllArithmos();
 
@@ -81,25 +87,58 @@ const LexiquePage = () => {
         <p className="text-gray-500 text-sm">L'Air (Est) — Oracles et Fréquences</p>
       </div>
 
-      {/* Tabs */}
-      <div className="flex justify-center gap-2 mb-8">
+      {/* Tabs - CHE·NU™ V76 Enhanced with explicit z-index and pointer events */}
+      <div className="flex justify-center gap-2 mb-8 relative z-50">
         {[
-          { id: 'arithmos', label: 'Arithmos', icon: '🔢' },
-          { id: 'oracles', label: 'Oracles', icon: '🔮' },
-          { id: 'frequencies', label: 'Fréquences', icon: '〰️' }
+          { id: 'arithmos', label: 'Arithmos', icon: '🔢', svg: (
+            <svg className="w-5 h-5 mr-2 inline-block" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/>
+            </svg>
+          )},
+          { id: 'oracles', label: 'Oracles', icon: '🔮', svg: (
+            <svg className="w-5 h-5 mr-2 inline-block" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/><circle cx="12" cy="5" r="1.5" fill="currentColor"/><circle cx="17" cy="9" r="1.5" fill="currentColor"/><circle cx="17" cy="15" r="1.5" fill="currentColor"/><circle cx="12" cy="19" r="1.5" fill="currentColor"/><circle cx="7" cy="15" r="1.5" fill="currentColor"/><circle cx="7" cy="9" r="1.5" fill="currentColor"/>
+            </svg>
+          )},
+          { id: 'frequencies', label: 'Fréquences', icon: '〰️', svg: (
+            <svg className="w-5 h-5 mr-2 inline-block" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M2 12s3-4 5-4 3 8 5 8 3-8 5-8 3 4 5 4"/>
+            </svg>
+          )}
         ].map(tab => (
           <button
             key={tab.id}
-            onClick={() => setActiveTab(tab.id)}
-            className={`px-4 py-2 rounded-lg transition-all ${
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              handleTabChange(tab.id);
+            }}
+            onTouchEnd={(e) => {
+              e.preventDefault();
+              handleTabChange(tab.id);
+            }}
+            className={`px-4 py-2 rounded-lg transition-all cursor-pointer select-none touch-manipulation relative z-50 ${
               activeTab === tab.id
-                ? 'bg-yellow-500 text-black'
-                : 'bg-yellow-900/20 text-yellow-400 hover:bg-yellow-900/40'
+                ? 'bg-yellow-500 text-black font-bold shadow-lg shadow-yellow-500/30'
+                : 'bg-yellow-900/20 text-yellow-400 hover:bg-yellow-900/40 hover:scale-105'
             }`}
+            style={{
+              pointerEvents: 'auto',
+              WebkitTapHighlightColor: 'transparent'
+            }}
+            aria-pressed={activeTab === tab.id}
+            role="tab"
           >
-            {tab.icon} {tab.label}
+            {tab.svg}
+            {tab.label}
           </button>
         ))}
+      </div>
+
+      {/* Debug indicator - remove in production */}
+      <div className="text-center text-xs text-gray-600 mb-4">
+        Onglet actif: <span className="text-yellow-400 font-mono">{activeTab}</span>
       </div>
 
       {/* Contenu selon l'onglet */}
