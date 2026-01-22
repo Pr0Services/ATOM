@@ -35,12 +35,23 @@ import TorusBackground from './components/TorusBackground';
 import { useArithmos } from './hooks/useArithmos';
 import { useGratitude } from './hooks/useGratitude';
 
+// Authentification
+import { AuthProvider, useAuth } from './contexts/AuthContext';
+import AuthPortal, { UserProfileButton } from './components/AuthPortal';
+
 // Pages
 import NexusPage from './pages/NexusPage';
 import AnnalesPage from './pages/AnnalesPage';
 import LexiquePage from './pages/LexiquePage';
 import FluxPage from './pages/FluxPage';
 import ForgePage from './pages/ForgePage';
+import BesoinsPage from './pages/BesoinsPage';
+import GratitudePage from './pages/GratitudePage';
+import AccreditationPage from './pages/AccreditationPage';
+import EntreePage from './pages/EntreePage';
+import TableauDeBordPage from './pages/TableauDeBordPage';
+import AdminCockpit from './components/AdminCockpit';
+import AgentConversation from './components/AgentConversation';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // CONSTANTES GLOBALES
@@ -173,6 +184,9 @@ const Navigation = () => {
     { path: '/', name: 'NEXUS', element: '🔱', direction: 'Centre', color: '#D4AF37' },
     { path: '/annales', name: 'ANNALES', element: '🌍', direction: 'Terre (Sud)', color: '#8B4513' },
     { path: '/lexique', name: 'LEXIQUE', element: '💨', direction: 'Air (Est)', color: '#87CEEB' },
+    { path: '/besoins', name: 'BESOINS', element: '📊', direction: 'Civilisation', color: '#22C55E' },
+    { path: '/accreditation', name: 'PORTAIL', element: '🏛️', direction: 'Partenaires', color: '#8B5CF6' },
+    { path: '/gratitude', name: 'MERCI', element: '💌', direction: 'Gratitude', color: '#EC4899' },
     { path: '/flux', name: 'FLUX', element: '🌊', direction: 'Eau (Ouest)', color: '#4169E1' },
     { path: '/forge', name: 'FORGE', element: '🔥', direction: 'Feu (Nord)', color: '#FF4500' }
   ];
@@ -230,9 +244,9 @@ const Navigation = () => {
 // HEADER
 // ═══════════════════════════════════════════════════════════════════════════════
 
-const Header = () => {
+const Header = ({ onAuthClick }) => {
   const { isArchitectMode, isGratitudeMode, frequency } = useATOMContext();
-  
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-yellow-900/50">
       <div className="max-w-4xl mx-auto px-4 py-3">
@@ -250,7 +264,7 @@ const Header = () => {
               <p className="text-xs text-gray-500">L'Arche des Résonances</p>
             </div>
           </Link>
-          
+
           <div className="flex items-center gap-4">
             {/* Indicateur de Mode */}
             {isGratitudeMode && (
@@ -263,12 +277,9 @@ const Header = () => {
                 ★ MODE DIVIN
               </span>
             )}
-            
-            {/* Fréquence */}
-            <div className={`text-right ${isArchitectMode ? 'text-white' : 'text-yellow-400'}`}>
-              <div className="text-lg font-mono">{frequency} Hz</div>
-              <div className="text-xs text-gray-500">φ = {PHI.toFixed(4)}</div>
-            </div>
+
+            {/* Bouton Authentification */}
+            <UserProfileButton onClick={onAuthClick} />
           </div>
         </div>
       </div>
@@ -282,26 +293,32 @@ const Header = () => {
 
 const Layout = ({ children }) => {
   const { isArchitectMode, torusSpeed } = useATOMContext();
-  
+  const [showAuthPortal, setShowAuthPortal] = useState(false);
+
   return (
     <div className={`min-h-screen relative ${
       isArchitectMode ? 'bg-gradient-to-b from-white/10 to-black' : 'bg-black'
     }`}>
       {/* Fond Toroïdal */}
       <TorusBackground speed={torusSpeed} isArchitectMode={isArchitectMode} />
-      
-      {/* Header */}
-      <Header />
-      
+
+      {/* Header avec bouton Auth */}
+      <Header onAuthClick={() => setShowAuthPortal(true)} />
+
       {/* Contenu Principal */}
       <main className="pt-20 pb-24 px-4 relative z-10">
         <div className="max-w-4xl mx-auto">
           {children}
         </div>
       </main>
-      
+
       {/* Navigation */}
       <Navigation />
+
+      {/* Portail d'Authentification */}
+      {showAuthPortal && (
+        <AuthPortal onClose={() => setShowAuthPortal(false)} />
+      )}
     </div>
   );
 };
@@ -312,19 +329,40 @@ const Layout = ({ children }) => {
 
 const App = () => {
   return (
-    <ATOMProvider>
-      <Router>
-        <Layout>
+    <AuthProvider>
+      <ATOMProvider>
+        <Router>
           <Routes>
-            <Route path="/" element={<NexusPage />} />
-            <Route path="/annales" element={<AnnalesPage />} />
-            <Route path="/lexique" element={<LexiquePage />} />
-            <Route path="/flux" element={<FluxPage />} />
-            <Route path="/forge" element={<ForgePage />} />
+            {/* Routes Canoniques Publiques (sans Layout Souverain) */}
+            <Route path="/entree" element={<EntreePage />} />
+            <Route path="/tableau-de-bord" element={<TableauDeBordPage />} />
+
+            {/* Route Admin Cockpit (accès restreint) */}
+            <Route path="/admin" element={<AdminCockpit />} />
+
+            {/* Route Agent Conversation */}
+            <Route path="/agent/:agentId" element={<AgentConversation />} />
+            <Route path="/agent" element={<AgentConversation initialAgentId="nova" />} />
+
+            {/* Routes Souveraines (avec Layout complet) */}
+            <Route path="/*" element={
+              <Layout>
+                <Routes>
+                  <Route path="/" element={<NexusPage />} />
+                  <Route path="/annales" element={<AnnalesPage />} />
+                  <Route path="/lexique" element={<LexiquePage />} />
+                  <Route path="/flux" element={<FluxPage />} />
+                  <Route path="/forge" element={<ForgePage />} />
+                  <Route path="/besoins" element={<BesoinsPage />} />
+                  <Route path="/gratitude" element={<GratitudePage />} />
+                  <Route path="/accreditation" element={<AccreditationPage />} />
+                </Routes>
+              </Layout>
+            } />
           </Routes>
-        </Layout>
-      </Router>
-    </ATOMProvider>
+        </Router>
+      </ATOMProvider>
+    </AuthProvider>
   );
 };
 
