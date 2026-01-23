@@ -552,7 +552,7 @@ SELECT get_economic_dashboard();
 
 ---
 
-## 10. INTÉGRATION HEDERA (HTS)
+## 10. INTÉGRATION HEDERA (HTS) - GUIDE COMPLET
 
 ### 10.1 Créer un Compte Hedera
 
@@ -562,44 +562,545 @@ SELECT get_economic_dashboard();
    - Account ID: `0.0.XXXXXX`
    - Private Key: `302e...` (TRÈS SENSIBLE!)
 
-### 10.2 Configuration du Token UR
+4. **Financer le compte (Testnet)**:
+   - Utiliser le Faucet: https://portal.hedera.com/faucet
+   - Demander au moins 100 HBAR testnet
 
-```javascript
-// Configuration pour le Hedera Token Service
-const tokenConfig = {
-  name: "Unité de Résonance",
-  symbol: "UR",
-  decimals: 8,
-  initialSupply: 0,  // Émission contrôlée
+### 10.2 Configuration Complète de l'Environnement
 
-  // Clés de contrôle (toutes détenues par le Souverain)
-  treasuryAccountId: process.env.HEDERA_ACCOUNT_ID,
-  adminKey: SOVEREIGN_KEY,
-  supplyKey: SOVEREIGN_KEY,      // Pour mint/burn
-  freezeKey: SOVEREIGN_KEY,      // Pour le Bouclier de Liquidité
-  wipeKey: null,                 // Pas de destruction forcée
-  kycKey: null,                  // Pas de KYC blockchain
-  feeScheduleKey: SOVEREIGN_KEY
-};
+Copier le fichier template et le personnaliser:
+
+```bash
+# Copier le template
+cp hardcore-joliot/backend/.env.hedera.example hardcore-joliot/backend/.env
+
+# Éditer avec vos credentials
+nano hardcore-joliot/backend/.env
 ```
 
-### 10.3 Variables d'Environnement Hedera
+**Variables obligatoires:**
 
 ```env
-# .env.secrets (NE JAMAIS COMMIT!)
-HEDERA_NETWORK=testnet  # ou mainnet
-HEDERA_ACCOUNT_ID=0.0.XXXXXX
-HEDERA_PRIVATE_KEY=302e...
+# ═══════════════════════════════════════════════════════════════
+# HEDERA HASHGRAPH - CONFIGURATION AT·OM
+# ═══════════════════════════════════════════════════════════════
 
-# Token ID (après création)
+# Réseau: testnet pour dev, mainnet pour production
+HEDERA_NETWORK=testnet
+
+# Credentials de l'opérateur (votre compte Hedera Portal)
+HEDERA_OPERATOR_ID=0.0.XXXXXX
+HEDERA_OPERATOR_KEY=302e020100300506032b6570...
+
+# URL du Mirror Node pour requêtes
+HEDERA_MIRROR_NODE_URL=https://testnet.mirrornode.hedera.com
+
+# Token UR (sera rempli après création - voir section 10.4)
+HEDERA_UR_TOKEN_ID=
+
+# Topic HCS pour audit (sera rempli après création - voir section 10.5)
+HEDERA_HCS_TOPIC_ID=
+
+# Compte trésorerie (généralement = opérateur au début)
+HEDERA_TREASURY_ACCOUNT=0.0.XXXXXX
+
+# Mode simulation pour tests sans blockchain
+HEDERA_SIMULATION_MODE=true
+```
+
+### 10.3 Vérifier la Connexion Hedera
+
+```bash
+# Via l'API Hedera Mirror Node
+curl "https://testnet.mirrornode.hedera.com/api/v1/accounts/${HEDERA_OPERATOR_ID}"
+
+# Réponse attendue (extrait):
+# {
+#   "account": "0.0.XXXXXX",
+#   "balance": { "balance": 100000000000, ... },
+#   "key": { "key": "302a300506032b6570..." }
+# }
+```
+
+### 10.4 Initialiser le Token UR via l'API
+
+**Démarrer le backend:**
+```bash
+cd hardcore-joliot/backend
+pip install -r requirements.txt
+uvicorn app.main:app --reload --port 8000
+```
+
+**Créer le token UR:**
+```bash
+# Authentification requise (utiliser votre token JWT)
+curl -X POST "http://localhost:8000/api/hedera/admin/initialize-token" \
+  -H "Authorization: Bearer $JWT_TOKEN" \
+  -H "Content-Type: application/json"
+
+# Réponse:
+# {
+#   "success": true,
+#   "transaction_id": "0.0.XXXXXX@1234567890.123456789",
+#   "status": "SUCCESS",
+#   "data": {
+#     "token_id": "0.0.YYYYYY",
+#     "message": "UR token created. Update HEDERA_UR_TOKEN_ID in environment."
+#   }
+# }
+```
+
+**⚠️ IMPORTANT:** Noter le `token_id` et le mettre à jour dans `.env`:
+```env
 HEDERA_UR_TOKEN_ID=0.0.YYYYYY
 ```
 
-### 10.4 Tester la Connexion Hedera
+### 10.5 Créer le Topic HCS pour Audit Immuable
 
 ```bash
-# Via l'API Hedera Mirror
-curl "https://testnet.mirrornode.hedera.com/api/v1/accounts/${HEDERA_ACCOUNT_ID}"
+curl -X POST "http://localhost:8000/api/hedera/admin/create-hcs-topic" \
+  -H "Authorization: Bearer $JWT_TOKEN" \
+  -H "Content-Type: application/json"
+
+# Réponse:
+# {
+#   "success": true,
+#   "data": {
+#     "topic_id": "0.0.ZZZZZZ",
+#     "message": "HCS topic created. Update HEDERA_HCS_TOPIC_ID in environment."
+#   }
+# }
+```
+
+**Mettre à jour `.env`:**
+```env
+HEDERA_HCS_TOPIC_ID=0.0.ZZZZZZ
+```
+
+### 10.6 Première Émission de UR (Mint Initial)
+
+```bash
+# Mint 10,000 UR pour le Souverain
+curl -X POST "http://localhost:8000/api/hedera/token/mint" \
+  -H "Authorization: Bearer $JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "amount": "10000",
+    "reason": "Émission initiale - Lancement de l'\''Arche",
+    "recipient_account": "0.0.ACCOUNT_SOUVERAIN"
+  }'
+
+# Réponse:
+# {
+#   "success": true,
+#   "transaction_id": "0.0.XXXXXX@...",
+#   "data": { "amount_minted": "10000" }
+# }
+```
+
+### 10.7 Vérifier le Token sur HashScan
+
+Ouvrir dans le navigateur:
+- **Testnet:** `https://hashscan.io/testnet/token/0.0.YYYYYY`
+- **Mainnet:** `https://hashscan.io/mainnet/token/0.0.YYYYYY`
+
+### 10.8 API Endpoints Hedera Disponibles
+
+| Endpoint | Méthode | Description | Permission |
+|----------|---------|-------------|------------|
+| `/api/hedera/token/mint` | POST | Émettre des UR | SOVEREIGN |
+| `/api/hedera/token/burn` | POST | Détruire des UR | GUARDIAN+ |
+| `/api/hedera/token/transfer` | POST | Transférer des UR | Tout membre |
+| `/api/hedera/token/balance/{account}` | GET | Consulter solde | Propriétaire |
+| `/api/hedera/token/info` | GET | Info token UR | Tout membre |
+| `/api/hedera/account/create` | POST | Créer compte Hedera | Tout membre |
+| `/api/hedera/account/associate` | POST | Associer token | Propriétaire |
+| `/api/hedera/conversion/request` | POST | UR ↔ Fiat | Tout membre |
+| `/api/hedera/conversion/rate` | GET | Taux actuel | Public |
+| `/api/hedera/dashboard/economic` | GET | Dashboard global | INITIATE+ |
+| `/api/hedera/dashboard/personal` | GET | Dashboard perso | Propriétaire |
+| `/api/hedera/admin/initialize-token` | POST | Créer token UR | SOVEREIGN |
+| `/api/hedera/admin/create-hcs-topic` | POST | Créer topic audit | SOVEREIGN |
+| `/api/hedera/admin/simulation-state` | GET | État simulation | SOVEREIGN |
+
+### 10.9 Architecture d'Intégration
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                        SOVEREIGN BRIDGE SERVICE                                  │
+│                 (sovereign_bridge_service.py)                                    │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐  ┌─────────────┐           │
+│  │ EXFILTRATION│  │   FORGE     │  │ SOVEREIGNTY │  │  SENTINEL   │           │
+│  │   ENGINE    │  │   SYSTEM    │  │    RBAC     │  │  PROTOCOL   │           │
+│  │             │  │             │  │             │  │             │           │
+│  │ Stratégie   │  │ Rôles       │  │ 7 niveaux   │  │ Menaces     │           │
+│  │ Vampire     │  │ Projets     │  │ Fondateur/  │  │ Consensus   │           │
+│  │ Actifs      │  │ Agents      │  │ Collabor.   │  │ Gardiens    │           │
+│  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘  └──────┬──────┘           │
+│         │                │                │                │                   │
+│         └────────────────┴────────────────┴────────────────┘                   │
+│                                   │                                             │
+│                                   ▼                                             │
+│  ┌─────────────────────────────────────────────────────────────────────────┐   │
+│  │                        HEDERA SERVICE                                    │   │
+│  │                    (hedera_service.py)                                   │   │
+│  ├─────────────────────────────────────────────────────────────────────────┤   │
+│  │                                                                         │   │
+│  │   HTS (Token Service)      │    HCS (Consensus Service)                │   │
+│  │   ├── mint_ur()            │    ├── log_to_hcs()                       │   │
+│  │   ├── burn_ur()            │    ├── log_economic_event()               │   │
+│  │   ├── transfer_ur()        │    └── log_governance_action()            │   │
+│  │   └── get_ur_balance()     │                                           │   │
+│  │                            │                                           │   │
+│  │   Accounts                 │    Audit Categories:                      │   │
+│  │   ├── create_account()     │    ├── ECONOMIC (transactions)            │   │
+│  │   └── associate_token()    │    ├── GOVERNANCE (votes, proposals)      │   │
+│  │                            │    ├── SECURITY (Sentinel alerts)         │   │
+│  │                            │    ├── ACCESS (module unlocks)            │   │
+│  │                            │    └── OPERATIONAL (Forge activities)     │   │
+│  │                                                                         │   │
+│  └─────────────────────────────────────────────────────────────────────────┘   │
+│                                   │                                             │
+│                                   ▼                                             │
+│  ┌─────────────────────────────────────────────────────────────────────────┐   │
+│  │                    HEDERA HASHGRAPH NETWORK                              │   │
+│  │                                                                         │   │
+│  │   • 10,000+ TPS (transactions par seconde)                             │   │
+│  │   • Finalité: 3-5 secondes                                              │   │
+│  │   • Frais: < $0.001 par transaction                                     │   │
+│  │   • Gouvernance: Conseil mondial (Google, IBM, LG, etc.)               │   │
+│  │   • Empreinte carbone: Négative                                        │   │
+│  │                                                                         │   │
+│  │   Testnet: https://testnet.mirrornode.hedera.com                       │   │
+│  │   Mainnet: https://mainnet.mirrornode.hedera.com                       │   │
+│  │   Explorer: https://hashscan.io                                        │   │
+│  │                                                                         │   │
+│  └─────────────────────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 10.10 Migration vers Mainnet (Production)
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│  CHECKLIST MAINNET - À COMPLÉTER AVANT MIGRATION                                │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│  PRÉPARATION:                                                                   │
+│  ☐ Tous les tests passent sur testnet                                          │
+│  ☐ Audit de sécurité du code complété                                          │
+│  ☐ Procédures d'urgence documentées et testées                                 │
+│  ☐ Clés privées sauvegardées en lieu sûr (multi-sig recommandé)               │
+│                                                                                 │
+│  COMPTES MAINNET:                                                               │
+│  ☐ Créer compte opérateur sur mainnet                                          │
+│  ☐ Acheter HBAR (min. 1000 HBAR recommandé)                                    │
+│  ☐ Transférer HBAR vers compte opérateur                                       │
+│                                                                                 │
+│  CONFIGURATION:                                                                 │
+│  ☐ Mettre à jour HEDERA_NETWORK=mainnet                                        │
+│  ☐ Mettre à jour HEDERA_OPERATOR_ID avec compte mainnet                        │
+│  ☐ Mettre à jour HEDERA_OPERATOR_KEY avec clé mainnet                          │
+│  ☐ Mettre à jour HEDERA_MIRROR_NODE_URL                                        │
+│  ☐ HEDERA_SIMULATION_MODE=false                                                │
+│                                                                                 │
+│  DÉPLOIEMENT:                                                                   │
+│  ☐ Créer token UR sur mainnet                                                  │
+│  ☐ Créer topic HCS sur mainnet                                                 │
+│  ☐ Mettre à jour les variables Vercel                                          │
+│  ☐ Redéployer le backend                                                       │
+│  ☐ Vérifier sur HashScan mainnet                                               │
+│                                                                                 │
+│  POST-DÉPLOIEMENT:                                                              │
+│  ☐ Mint initial sur mainnet                                                    │
+│  ☐ Test de transfert réel                                                      │
+│  ☐ Vérifier l'audit HCS                                                        │
+│  ☐ Activer le monitoring                                                       │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 10.11 Commandes Utiles Hedera
+
+```bash
+# ═══════════════════════════════════════════════════════════════
+# COMMANDES HEDERA MIRROR NODE API
+# ═══════════════════════════════════════════════════════════════
+
+# Vérifier le solde d'un compte
+curl "https://testnet.mirrornode.hedera.com/api/v1/accounts/0.0.XXXXXX"
+
+# Voir les informations du token UR
+curl "https://testnet.mirrornode.hedera.com/api/v1/tokens/0.0.YYYYYY"
+
+# Voir les détenteurs du token
+curl "https://testnet.mirrornode.hedera.com/api/v1/tokens/0.0.YYYYYY/balances"
+
+# Voir les transactions d'un compte
+curl "https://testnet.mirrornode.hedera.com/api/v1/transactions?account.id=0.0.XXXXXX"
+
+# Voir les messages d'un topic HCS
+curl "https://testnet.mirrornode.hedera.com/api/v1/topics/0.0.ZZZZZZ/messages"
+
+# ═══════════════════════════════════════════════════════════════
+# COMMANDES API AT·OM
+# ═══════════════════════════════════════════════════════════════
+
+# Obtenir le taux de conversion
+curl "http://localhost:8000/api/hedera/conversion/rate?currency=CAD"
+
+# Voir le dashboard économique
+curl -H "Authorization: Bearer $JWT" \
+  "http://localhost:8000/api/hedera/dashboard/economic"
+
+# Vérifier l'état de simulation
+curl -H "Authorization: Bearer $JWT" \
+  "http://localhost:8000/api/hedera/admin/simulation-state"
+```
+
+---
+
+## 10B. ACTIVATION DES SYSTÈMES SOUVERAINS
+
+### 10B.1 Exécution des Migrations SQL Additionnelles
+
+Après les migrations de base, exécuter dans l'ordre:
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│  MIGRATIONS SYSTÈMES SOUVERAINS                                                 │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│  5. 20260123_exfiltration_engine.sql   - Fond d'exfiltration Arche-Alpha       │
+│  6. 20260123_forge_system.sql          - La Forge (projets, rôles, agents)     │
+│  7. 20260123_sovereignty_rbac.sql      - RBAC 7 niveaux de souveraineté        │
+│  8. 20260123_progressive_unlock.sql    - Déblocage progressif par consentement │
+│  9. 20260123_nova_agent.sql            - Agent Nova (dialogue adaptatif)       │
+│  10. 20260123_sentinel_protocol.sql    - Protocole Sentinel (paix planétaire)  │
+│                                                                                 │
+│  ⚠️  EXÉCUTER VIA SUPABASE SQL EDITOR DANS CET ORDRE                          │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 10B.2 Système d'Exfiltration (Arche-Alpha)
+
+La "Stratégie Vampire" - extraction progressive du système fiat vers le souverain.
+
+**Initialiser le fond d'exfiltration:**
+```sql
+-- Vérifier que la table existe
+SELECT * FROM exfiltration_fund;
+
+-- Configurer le taux d'extraction initial (10%)
+UPDATE exfiltration_fund
+SET extraction_rate = 10,
+    target_allocation = '{"ur_tokens": 70, "tangible_assets": 30}'::jsonb
+WHERE id = (SELECT id FROM exfiltration_fund LIMIT 1);
+
+-- Voir les indicateurs de risque systémique
+SELECT * FROM systemic_risk_indicators ORDER BY recorded_at DESC LIMIT 10;
+```
+
+**Actifs tangibles (pour diversification):**
+```sql
+-- Enregistrer un actif tangible acquis
+INSERT INTO tangible_assets (
+  asset_type, name, description, acquisition_cost_cad,
+  current_value_cad, location, status
+) VALUES (
+  'land', 'Terrain Zone 7', 'Parcelle agricole 10 hectares',
+  150000, 160000, 'Région Charlevoix, QC', 'owned'
+);
+```
+
+### 10B.3 La Forge (Civilisation Engine)
+
+Centre opérationnel pour les projets de construction.
+
+**Créer les rôles de base:**
+```sql
+-- Vérifier les rôles disponibles
+SELECT name, category, skill_requirements FROM forge_roles;
+
+-- Créer un nouveau projet
+INSERT INTO forge_projects (
+  name, description, status, budget_ur, budget_fiat_cad
+) VALUES (
+  'Infrastructure Solaire Zone 1',
+  'Installation de panneaux solaires pour autonomie énergétique',
+  'planning', 50000, 35000
+);
+```
+
+**Activer les agents de recherche:**
+```sql
+-- Voir les agents configurés
+SELECT * FROM forge_market_agents;
+
+-- Les agents disponibles:
+-- • oracle_financier: Veille économique systémique
+-- • detecteur_foncier: Recherche de terrains
+-- • veille_technologique: Monitoring des innovations
+```
+
+### 10B.4 Système RBAC Souverain (7 Niveaux)
+
+**Hiérarchie de souveraineté:**
+
+| Niveau | Nom | Accès | Interface |
+|--------|-----|-------|-----------|
+| 1 | GUEST | Lecture seule | Standard |
+| 2 | MEMBER | Fonctions de base | Standard |
+| 3 | INITIATE | Économie + Gouvernance | Standard |
+| 4 | ADEPT | Modération | Standard |
+| 5 | FOUNDER | Connaissances sacrées | Vibrationnelle |
+| 6 | GUARDIAN | Vote Sentinel + Gouvernance | Vibrationnelle |
+| 7 | SOVEREIGN | Accès total | Vibrationnelle |
+
+**Promouvoir un membre:**
+```sql
+-- Voir le niveau actuel
+SELECT u.email, s.sovereignty_level, s.level_name
+FROM auth.users u
+JOIN sovereignty_assignments s ON u.id = s.user_id
+WHERE u.email = 'membre@example.com';
+
+-- Promouvoir au niveau Fondateur (5)
+SELECT promote_to_founder(
+  'UUID_DU_MEMBRE',
+  'Contribution exceptionnelle à la Grid'
+);
+```
+
+**Créer une invitation Fondateur vs Collaborateur:**
+```sql
+-- Tunnel Fondateur (accès vibrationnel)
+SELECT create_founder_invitation(
+  'Nom du Fondateur',
+  'fondateur@example.com',
+  5  -- niveau FOUNDER
+);
+
+-- Tunnel Collaborateur (entreprise standard)
+SELECT invite_collaborator(
+  'UUID_ENTERPRISE',
+  'collaborateur@example.com',
+  'developer',  -- rôle entreprise
+  3  -- niveau INITIATE
+);
+```
+
+### 10B.5 Déblocage Progressif par Consentement
+
+Les modules restent dormants jusqu'à acceptation explicite.
+
+**Voir les modules disponibles:**
+```sql
+SELECT
+  id, name, category,
+  explanation_pragmatic,
+  explanation_frequential,
+  ur_cost, requires_sovereignty_level
+FROM unlockable_modules
+ORDER BY category, requires_sovereignty_level;
+```
+
+**Créer une suggestion de module (L4 Agent):**
+```sql
+SELECT create_module_suggestion(
+  'UUID_UTILISATEUR',
+  'MODULE_ID',
+  'Basé sur votre activité récente dans la Forge...',
+  0.85  -- score de confiance
+);
+```
+
+### 10B.6 Agent Nova (Liaison Adaptative)
+
+Nova parle deux langages: pragmatique ET fréquentiel.
+
+**Initialiser le profil Nova d'un utilisateur:**
+```sql
+-- Le profil est créé automatiquement, mais on peut l'ajuster
+UPDATE nova_user_profiles
+SET
+  explanation_mode = 'dual',  -- 'pragmatic', 'frequential', ou 'dual'
+  preferred_language = 'fr',
+  layout_preset = 'balanced'  -- minimalist, balanced, rich, vibrational_temple
+WHERE user_id = 'UUID_UTILISATEUR';
+```
+
+**Layouts disponibles:**
+- `minimalist`: Interface épurée
+- `balanced`: Équilibre fonction/esthétique
+- `rich`: Toutes les fonctionnalités visibles
+- `creator_focused`: Optimisé création
+- `analyst_focused`: Dashboards détaillés
+- `vibrational_temple`: Interface sacrée (Fondateurs)
+
+### 10B.7 Protocole Sentinel (Paix Planétaire)
+
+Système immunitaire de consensus pour la neutralisation des impulsions.
+
+**Niveaux de menace:**
+
+| Niveau | Couleur | Seuil Consensus | Temporisation |
+|--------|---------|-----------------|---------------|
+| GREEN | Vert | N/A | N/A |
+| BLUE | Bleu | 50% | 24h |
+| YELLOW | Jaune | 60% | 48h |
+| ORANGE | Orange | 67% | 72h |
+| RED | Rouge | 75% | 96h |
+| BLACK | Noir | 90% (unanimité) | 168h |
+
+**Activer un Gardien de la Paix:**
+```sql
+-- Un Gardien doit être niveau 6 minimum
+INSERT INTO peace_guardians (
+  user_id, region, specialization, activation_date
+) VALUES (
+  'UUID_GUARDIAN',
+  'Amérique du Nord',
+  'conflict_resolution',
+  NOW()
+);
+```
+
+**Soumettre une menace (simulation):**
+```sql
+SELECT sentinel_detect_threat(
+  'ECONOMIC',           -- catégorie
+  'YELLOW',             -- niveau
+  'Volatilité inhabituelle détectée sur marchés régionaux',
+  45.5, -73.5,          -- coordonnées
+  '{"source": "oracle_financier", "confidence": 0.72}'::jsonb
+);
+```
+
+**Demander consensus des Gardiens:**
+```sql
+SELECT sentinel_request_consensus(
+  'UUID_THREAT',
+  'Proposer dialogue multipartite',
+  '{"recommended_response": "diplomatic_outreach"}'::jsonb
+);
+```
+
+### 10B.8 Vérification Post-Activation
+
+```sql
+-- Dashboard unifié de tous les systèmes
+SELECT
+  (SELECT COUNT(*) FROM exfiltration_fund) as exfiltration_active,
+  (SELECT COUNT(*) FROM forge_projects) as forge_projects,
+  (SELECT COUNT(*) FROM sovereignty_assignments) as sovereignty_assignments,
+  (SELECT COUNT(*) FROM unlockable_modules) as modules_available,
+  (SELECT COUNT(*) FROM nova_user_profiles) as nova_profiles,
+  (SELECT COUNT(*) FROM peace_guardians WHERE is_active = true) as active_guardians,
+  (SELECT threat_level FROM sentinel_global_status LIMIT 1) as global_threat_level;
 ```
 
 ---
@@ -992,6 +1493,40 @@ SELECT is_emergency_mode, emergency_reason FROM liquidity_pool;
 ☐ Dashboard économique fonctionnel
 ```
 
+### Phase 4B : Intégration Hedera Complète (Jour 5-6)
+
+```
+☐ Compte Hedera Portal créé
+☐ Compte financé (100+ HBAR testnet)
+☐ Variables d'environnement configurées (.env)
+☐ Backend démarré et connecté
+☐ Token UR créé via API (/api/hedera/admin/initialize-token)
+☐ Topic HCS créé via API (/api/hedera/admin/create-hcs-topic)
+☐ HEDERA_UR_TOKEN_ID et HEDERA_HCS_TOPIC_ID mis à jour
+☐ Mint initial effectué (10,000 UR)
+☐ Token visible sur HashScan
+☐ Test de transfert réussi
+```
+
+### Phase 4C : Systèmes Souverains (Jour 6-7)
+
+```
+☐ Migration exfiltration_engine.sql exécutée
+☐ Migration forge_system.sql exécutée
+☐ Migration sovereignty_rbac.sql exécutée
+☐ Migration progressive_unlock.sql exécutée
+☐ Migration nova_agent.sql exécutée
+☐ Migration sentinel_protocol.sql exécutée
+
+☐ Fond d'exfiltration configuré (taux extraction 10%)
+☐ Rôles Forge vérifiés
+☐ Niveaux de souveraineté testés
+☐ Module de test créé et suggéré
+☐ Profil Nova créé pour Souverain
+☐ Au moins 1 Gardien de Paix activé
+☐ Dashboard unifié fonctionnel
+```
+
 ### Phase 5 : Lancement (Jour 5-7)
 
 ```
@@ -1054,12 +1589,16 @@ STRIPE_CONNECT_CLIENT_ID=ca_...
 STRIPE_FOUNDER_PRICE_ID=price_...
 
 # ─────────────────────────────────────────────────────────────────────────────────
-# HEDERA
+# HEDERA HASHGRAPH (Économie Souveraine)
 # ─────────────────────────────────────────────────────────────────────────────────
-HEDERA_NETWORK=mainnet
-HEDERA_ACCOUNT_ID=0.0.XXXXXX
-HEDERA_PRIVATE_KEY=302e...
-HEDERA_UR_TOKEN_ID=0.0.YYYYYY
+HEDERA_NETWORK=mainnet                           # testnet pour dev
+HEDERA_OPERATOR_ID=0.0.XXXXXX                    # Compte opérateur
+HEDERA_OPERATOR_KEY=302e020100300506032b6570...  # Clé privée (TRÈS SENSIBLE!)
+HEDERA_UR_TOKEN_ID=0.0.YYYYYY                    # ID du token UR (après création)
+HEDERA_HCS_TOPIC_ID=0.0.ZZZZZZ                   # ID topic audit (après création)
+HEDERA_TREASURY_ACCOUNT=0.0.XXXXXX               # Trésorerie (= opérateur au début)
+HEDERA_MIRROR_NODE_URL=https://mainnet.mirrornode.hedera.com
+HEDERA_SIMULATION_MODE=false                     # true pour tests sans blockchain
 
 # ─────────────────────────────────────────────────────────────────────────────────
 # INFRASTRUCTURE (Optionnel)
@@ -1309,6 +1848,27 @@ npx source-map-explorer 'build/static/js/*.js'
 
 **Document créé:** 23-01-2026
 **Dernière mise à jour:** 23-01-2026
-**Version:** 1.0
+**Version:** 2.0
 **Auteur:** Jonathan Emmanuel Rodrigue (Souverain)
+
+---
+
+## CHANGELOG
+
+### v2.0 (23-01-2026)
+- Section 10 (Hedera) entièrement réécrite avec guide pas-à-pas
+- Ajout section 10B: Activation des systèmes souverains
+  - Exfiltration Engine (Arche-Alpha)
+  - Forge System (Civilisation Engine)
+  - Sovereignty RBAC (7 niveaux)
+  - Progressive Unlock (consentement)
+  - Nova Agent (dialogue adaptatif)
+  - Sentinel Protocol (paix planétaire)
+- Phase 4B et 4C ajoutées à la checklist
+- Variables d'environnement Hedera complètes
+- Architecture d'intégration documentée
+- Commandes API Hedera ajoutées
+
+### v1.0 (23-01-2026)
+- Version initiale du guide
 
