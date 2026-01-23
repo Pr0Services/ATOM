@@ -1,26 +1,8 @@
 {
   "short_name": "AT·OM",
   "name": "AT·OM - L'Arche des Résonances Universelles",
-  "description": "Calcul Arithmos et Fréquences Sacrées - Navigation par les 4 Éléments",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    },
-    {
-      "src": "logo192.png",
-      "type": "image/png",
-      "sizes": "192x192",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "logo512.png",
-      "type": "image/png",
-      "sizes": "512x512",
-      "purpose": "any maskable"
-    }
-  ],
+  "description": "Calcul Arithmos et Fréquences Sacrées - Navigation par les 4 Éléments - 444Hz Heartbeat / 999Hz Source",
+  "icons": [],
   "start_url": ".",
   "display": "standalone",
   "orientation": "portrait",
@@ -36,22 +18,31 @@
       "name": "Nexus",
       "short_name": "Nexus",
       "description": "Calcul Arithmos",
-      "url": "/",
-      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
+      "url": "/"
     },
     {
       "name": "Annales",
       "short_name": "Annales",
       "description": "Historique",
-      "url": "/annales",
-      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
+      "url": "/annales"
     },
     {
       "name": "Lexique",
       "short_name": "Lexique",
       "description": "Oracles & Fréquences",
-      "url": "/lexique",
-      "icons": [{ "src": "logo192.png", "sizes": "192x192" }]
+      "url": "/lexique"
+    },
+    {
+      "name": "Flux",
+      "short_name": "Flux",
+      "description": "Connexions",
+      "url": "/flux"
+    },
+    {
+      "name": "Forge",
+      "short_name": "Forge",
+      "description": "Configuration",
+      "url": "/forge"
     }
   ]
 }
