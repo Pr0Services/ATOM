@@ -978,6 +978,675 @@ const SecurityCenter = () => {
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// MODULE: SETUP WIZARD - CONFIGURATION DES CONNEXIONS
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const SetupWizard = () => {
+  const [activeStep, setActiveStep] = useState(0);
+  const [connectionStatus, setConnectionStatus] = useState({
+    supabase: { status: 'unconfigured', message: '' },
+    llm: { status: 'unconfigured', message: '' },
+    websocket: { status: 'unconfigured', message: '' },
+    storage: { status: 'unconfigured', message: '' },
+    analytics: { status: 'unconfigured', message: '' }
+  });
+
+  const [config, setConfig] = useState({
+    // Supabase
+    supabaseUrl: process.env.REACT_APP_SUPABASE_URL || '',
+    supabaseAnonKey: process.env.REACT_APP_SUPABASE_ANON_KEY || '',
+
+    // LLM API
+    llmProvider: 'openai',
+    llmApiKey: process.env.REACT_APP_LLM_API_KEY || '',
+    llmModel: 'gpt-4',
+    llmEndpoint: '',
+
+    // WebSocket
+    websocketUrl: process.env.REACT_APP_WS_URL || 'wss://api.che-nu.io/ws',
+
+    // Storage
+    storageProvider: 'supabase',
+    storageBucket: 'atom-files',
+
+    // Analytics
+    analyticsEndpoint: process.env.REACT_APP_ANALYTICS_URL || ''
+  });
+
+  const [testing, setTesting] = useState(null);
+  const [showKeys, setShowKeys] = useState({});
+
+  const steps = [
+    { id: 'supabase', name: 'Supabase', icon: '🗄️', description: 'Base de données et authentification' },
+    { id: 'llm', name: 'LLM API', icon: '🤖', description: 'Intelligence artificielle (OpenAI, Anthropic, etc.)' },
+    { id: 'websocket', name: 'WebSocket', icon: '🔌', description: 'Communication temps réel' },
+    { id: 'storage', name: 'Storage', icon: '💾', description: 'Stockage de fichiers' },
+    { id: 'analytics', name: 'Analytics', icon: '📈', description: 'Suivi et métriques' }
+  ];
+
+  const updateConfig = (key, value) => {
+    setConfig(prev => ({ ...prev, [key]: value }));
+  };
+
+  const testConnection = async (service) => {
+    setTesting(service);
+    setConnectionStatus(prev => ({
+      ...prev,
+      [service]: { status: 'testing', message: 'Test en cours...' }
+    }));
+
+    try {
+      let result = { success: false, message: '' };
+
+      switch (service) {
+        case 'supabase':
+          if (!config.supabaseUrl || !config.supabaseAnonKey) {
+            result = { success: false, message: 'URL et Anon Key requis' };
+          } else {
+            // Test real Supabase connection
+            const response = await fetch(`${config.supabaseUrl}/rest/v1/`, {
+              headers: {
+                'apikey': config.supabaseAnonKey,
+                'Authorization': `Bearer ${config.supabaseAnonKey}`
+              }
+            });
+            result = response.ok
+              ? { success: true, message: 'Connexion Supabase réussie!' }
+              : { success: false, message: `Erreur: ${response.status}` };
+          }
+          break;
+
+        case 'llm':
+          if (!config.llmApiKey) {
+            result = { success: false, message: 'Clé API requise' };
+          } else {
+            // Test LLM API
+            const endpoint = config.llmProvider === 'openai'
+              ? 'https://api.openai.com/v1/models'
+              : config.llmProvider === 'anthropic'
+              ? 'https://api.anthropic.com/v1/messages'
+              : config.llmEndpoint;
+
+            const headers = config.llmProvider === 'openai'
+              ? { 'Authorization': `Bearer ${config.llmApiKey}` }
+              : config.llmProvider === 'anthropic'
+              ? { 'x-api-key': config.llmApiKey, 'anthropic-version': '2023-06-01' }
+              : { 'Authorization': `Bearer ${config.llmApiKey}` };
+
+            try {
+              const response = await fetch(endpoint, { method: 'GET', headers });
+              result = response.ok || response.status === 405
+                ? { success: true, message: `Connexion ${config.llmProvider} réussie!` }
+                : { success: false, message: `Erreur API: ${response.status}` };
+            } catch (e) {
+              result = { success: false, message: 'Erreur de connexion API' };
+            }
+          }
+          break;
+
+        case 'websocket':
+          if (!config.websocketUrl) {
+            result = { success: false, message: 'URL WebSocket requise' };
+          } else {
+            try {
+              const ws = new WebSocket(config.websocketUrl);
+              await new Promise((resolve, reject) => {
+                ws.onopen = () => { ws.close(); resolve(); };
+                ws.onerror = reject;
+                setTimeout(() => reject(new Error('Timeout')), 5000);
+              });
+              result = { success: true, message: 'Connexion WebSocket réussie!' };
+            } catch (e) {
+              result = { success: false, message: 'Impossible de se connecter au WebSocket' };
+            }
+          }
+          break;
+
+        case 'storage':
+          if (config.storageProvider === 'supabase' && config.supabaseUrl) {
+            result = { success: true, message: 'Storage Supabase configuré' };
+          } else {
+            result = { success: false, message: 'Configuration storage requise' };
+          }
+          break;
+
+        case 'analytics':
+          if (!config.analyticsEndpoint) {
+            result = { success: true, message: 'Analytics désactivé (optionnel)' };
+          } else {
+            try {
+              const response = await fetch(config.analyticsEndpoint, { method: 'HEAD' });
+              result = response.ok
+                ? { success: true, message: 'Endpoint analytics accessible' }
+                : { success: false, message: 'Endpoint non accessible' };
+            } catch (e) {
+              result = { success: false, message: 'Erreur connexion analytics' };
+            }
+          }
+          break;
+
+        default:
+          result = { success: false, message: 'Service inconnu' };
+      }
+
+      setConnectionStatus(prev => ({
+        ...prev,
+        [service]: {
+          status: result.success ? 'connected' : 'error',
+          message: result.message
+        }
+      }));
+    } catch (error) {
+      setConnectionStatus(prev => ({
+        ...prev,
+        [service]: { status: 'error', message: error.message }
+      }));
+    }
+
+    setTesting(null);
+  };
+
+  const testAllConnections = async () => {
+    for (const step of steps) {
+      await testConnection(step.id);
+      await new Promise(resolve => setTimeout(resolve, 500));
+    }
+  };
+
+  const saveConfiguration = () => {
+    // Save to localStorage for persistence
+    localStorage.setItem('atom_api_config', JSON.stringify(config));
+
+    // Create .env content for user to copy
+    const envContent = `# AT·OM API Configuration
+# Generated: ${new Date().toISOString()}
+
+# Supabase
+REACT_APP_SUPABASE_URL=${config.supabaseUrl}
+REACT_APP_SUPABASE_ANON_KEY=${config.supabaseAnonKey}
+
+# LLM API
+REACT_APP_LLM_PROVIDER=${config.llmProvider}
+REACT_APP_LLM_API_KEY=${config.llmApiKey}
+REACT_APP_LLM_MODEL=${config.llmModel}
+${config.llmEndpoint ? `REACT_APP_LLM_ENDPOINT=${config.llmEndpoint}` : ''}
+
+# WebSocket
+REACT_APP_WS_URL=${config.websocketUrl}
+
+# Storage
+REACT_APP_STORAGE_PROVIDER=${config.storageProvider}
+REACT_APP_STORAGE_BUCKET=${config.storageBucket}
+
+# Analytics
+${config.analyticsEndpoint ? `REACT_APP_ANALYTICS_URL=${config.analyticsEndpoint}` : '# REACT_APP_ANALYTICS_URL='}
+`;
+
+    // Copy to clipboard
+    navigator.clipboard?.writeText(envContent);
+    alert('Configuration sauvegardée! Contenu .env copié dans le presse-papier.');
+  };
+
+  const exportConfig = () => {
+    const blob = new Blob([JSON.stringify(config, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'atom-config.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const importConfig = (event) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        try {
+          const imported = JSON.parse(e.target?.result);
+          setConfig(prev => ({ ...prev, ...imported }));
+        } catch (err) {
+          alert('Erreur lors de l\'import du fichier');
+        }
+      };
+      reader.readAsText(file);
+    }
+  };
+
+  const getStatusIcon = (status) => {
+    switch (status) {
+      case 'connected': return '✅';
+      case 'error': return '❌';
+      case 'testing': return '⏳';
+      default: return '⚪';
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'connected': return '#22C55E';
+      case 'error': return '#EF4444';
+      case 'testing': return '#EAB308';
+      default: return '#6B7280';
+    }
+  };
+
+  // Load saved config on mount
+  useEffect(() => {
+    const saved = localStorage.getItem('atom_api_config');
+    if (saved) {
+      try {
+        setConfig(prev => ({ ...prev, ...JSON.parse(saved) }));
+      } catch (e) {
+        console.warn('Failed to load saved config');
+      }
+    }
+  }, []);
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-bold text-white flex items-center gap-2">
+          <span>🔧</span> Setup Wizard - Configuration des Connexions
+        </h2>
+        <div className="flex gap-2">
+          <button
+            onClick={testAllConnections}
+            disabled={testing !== null}
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-500 disabled:opacity-50"
+          >
+            🔄 Tester Tout
+          </button>
+          <button
+            onClick={saveConfiguration}
+            className="px-4 py-2 bg-green-600 text-white rounded-lg text-sm hover:bg-green-500"
+          >
+            💾 Sauvegarder
+          </button>
+        </div>
+      </div>
+
+      {/* Status Overview */}
+      <div className="grid grid-cols-5 gap-4">
+        {steps.map((step, index) => (
+          <button
+            key={step.id}
+            onClick={() => setActiveStep(index)}
+            className={`p-4 rounded-xl border transition-all ${
+              activeStep === index
+                ? 'bg-yellow-500/20 border-yellow-500'
+                : 'bg-black/50 border-gray-800 hover:border-gray-700'
+            }`}
+          >
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-2xl">{step.icon}</span>
+              <span>{getStatusIcon(connectionStatus[step.id].status)}</span>
+            </div>
+            <div className="text-sm font-medium text-white text-left">{step.name}</div>
+            <div
+              className="text-xs mt-1 text-left truncate"
+              style={{ color: getStatusColor(connectionStatus[step.id].status) }}
+            >
+              {connectionStatus[step.id].message || 'Non configuré'}
+            </div>
+          </button>
+        ))}
+      </div>
+
+      {/* Step Content */}
+      <div className="bg-black/50 rounded-xl p-6 border border-gray-800">
+        {/* Supabase Configuration */}
+        {activeStep === 0 && (
+          <div className="space-y-4">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-3xl">🗄️</span>
+              <div>
+                <h3 className="text-lg font-bold text-white">Configuration Supabase</h3>
+                <p className="text-sm text-gray-500">Base de données PostgreSQL et authentification</p>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs text-gray-500 mb-2">Supabase URL</label>
+              <input
+                type="text"
+                value={config.supabaseUrl}
+                onChange={(e) => updateConfig('supabaseUrl', e.target.value)}
+                placeholder="https://xxxx.supabase.co"
+                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white
+                  placeholder-gray-600 focus:outline-none focus:border-yellow-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-xs text-gray-500 mb-2">Anon Key (Public)</label>
+              <div className="relative">
+                <input
+                  type={showKeys.supabaseAnonKey ? 'text' : 'password'}
+                  value={config.supabaseAnonKey}
+                  onChange={(e) => updateConfig('supabaseAnonKey', e.target.value)}
+                  placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+                  className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white
+                    placeholder-gray-600 focus:outline-none focus:border-yellow-500 pr-12"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowKeys(prev => ({ ...prev, supabaseAnonKey: !prev.supabaseAnonKey }))}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white"
+                >
+                  {showKeys.supabaseAnonKey ? '🙈' : '👁️'}
+                </button>
+              </div>
+            </div>
+
+            <div className="p-4 bg-gray-900/50 rounded-lg border border-gray-800">
+              <h4 className="text-sm font-medium text-white mb-2">📘 Instructions</h4>
+              <ol className="text-xs text-gray-400 space-y-1 list-decimal list-inside">
+                <li>Créez un projet sur <span className="text-blue-400">supabase.com</span></li>
+                <li>Allez dans Settings → API</li>
+                <li>Copiez l'URL du projet et l'Anon Key</li>
+                <li>Exécutez le script SQL pour créer les tables (voir supabase-schema.sql)</li>
+              </ol>
+            </div>
+
+            <button
+              onClick={() => testConnection('supabase')}
+              disabled={testing === 'supabase'}
+              className="w-full px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-500 disabled:opacity-50"
+            >
+              {testing === 'supabase' ? '⏳ Test en cours...' : '🔌 Tester la Connexion'}
+            </button>
+          </div>
+        )}
+
+        {/* LLM API Configuration */}
+        {activeStep === 1 && (
+          <div className="space-y-4">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-3xl">🤖</span>
+              <div>
+                <h3 className="text-lg font-bold text-white">Configuration LLM API</h3>
+                <p className="text-sm text-gray-500">Intelligence artificielle pour les agents</p>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs text-gray-500 mb-2">Fournisseur LLM</label>
+              <select
+                value={config.llmProvider}
+                onChange={(e) => updateConfig('llmProvider', e.target.value)}
+                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white
+                  focus:outline-none focus:border-yellow-500"
+              >
+                <option value="openai">OpenAI (GPT-4, GPT-3.5)</option>
+                <option value="anthropic">Anthropic (Claude)</option>
+                <option value="local">Local / Self-Hosted</option>
+                <option value="custom">Custom Endpoint</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs text-gray-500 mb-2">Clé API</label>
+              <div className="relative">
+                <input
+                  type={showKeys.llmApiKey ? 'text' : 'password'}
+                  value={config.llmApiKey}
+                  onChange={(e) => updateConfig('llmApiKey', e.target.value)}
+                  placeholder={config.llmProvider === 'openai' ? 'sk-...' : 'sk-ant-...'}
+                  className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white
+                    placeholder-gray-600 focus:outline-none focus:border-yellow-500 pr-12"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowKeys(prev => ({ ...prev, llmApiKey: !prev.llmApiKey }))}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-white"
+                >
+                  {showKeys.llmApiKey ? '🙈' : '👁️'}
+                </button>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs text-gray-500 mb-2">Modèle</label>
+              <select
+                value={config.llmModel}
+                onChange={(e) => updateConfig('llmModel', e.target.value)}
+                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white
+                  focus:outline-none focus:border-yellow-500"
+              >
+                {config.llmProvider === 'openai' && (
+                  <>
+                    <option value="gpt-4">GPT-4 (Recommandé)</option>
+                    <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                    <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                  </>
+                )}
+                {config.llmProvider === 'anthropic' && (
+                  <>
+                    <option value="claude-3-opus">Claude 3 Opus</option>
+                    <option value="claude-3-sonnet">Claude 3 Sonnet</option>
+                    <option value="claude-3-haiku">Claude 3 Haiku</option>
+                  </>
+                )}
+                {(config.llmProvider === 'local' || config.llmProvider === 'custom') && (
+                  <option value="custom">Custom Model</option>
+                )}
+              </select>
+            </div>
+
+            {(config.llmProvider === 'local' || config.llmProvider === 'custom') && (
+              <div>
+                <label className="block text-xs text-gray-500 mb-2">Endpoint URL</label>
+                <input
+                  type="text"
+                  value={config.llmEndpoint}
+                  onChange={(e) => updateConfig('llmEndpoint', e.target.value)}
+                  placeholder="http://localhost:8000/v1/chat/completions"
+                  className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white
+                    placeholder-gray-600 focus:outline-none focus:border-yellow-500"
+                />
+              </div>
+            )}
+
+            <button
+              onClick={() => testConnection('llm')}
+              disabled={testing === 'llm'}
+              className="w-full px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-500 disabled:opacity-50"
+            >
+              {testing === 'llm' ? '⏳ Test en cours...' : '🔌 Tester la Connexion'}
+            </button>
+          </div>
+        )}
+
+        {/* WebSocket Configuration */}
+        {activeStep === 2 && (
+          <div className="space-y-4">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-3xl">🔌</span>
+              <div>
+                <h3 className="text-lg font-bold text-white">Configuration WebSocket</h3>
+                <p className="text-sm text-gray-500">Communication temps réel bidirectionnelle</p>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs text-gray-500 mb-2">WebSocket URL</label>
+              <input
+                type="text"
+                value={config.websocketUrl}
+                onChange={(e) => updateConfig('websocketUrl', e.target.value)}
+                placeholder="wss://api.example.com/ws"
+                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white
+                  placeholder-gray-600 focus:outline-none focus:border-yellow-500"
+              />
+            </div>
+
+            <div className="p-4 bg-gray-900/50 rounded-lg border border-gray-800">
+              <h4 className="text-sm font-medium text-white mb-2">💡 Note</h4>
+              <p className="text-xs text-gray-400">
+                Le WebSocket est optionnel. Sans WebSocket, l'application fonctionnera en mode polling
+                pour les mises à jour temps réel (moins performant mais fonctionnel).
+              </p>
+            </div>
+
+            <button
+              onClick={() => testConnection('websocket')}
+              disabled={testing === 'websocket'}
+              className="w-full px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-500 disabled:opacity-50"
+            >
+              {testing === 'websocket' ? '⏳ Test en cours...' : '🔌 Tester la Connexion'}
+            </button>
+          </div>
+        )}
+
+        {/* Storage Configuration */}
+        {activeStep === 3 && (
+          <div className="space-y-4">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-3xl">💾</span>
+              <div>
+                <h3 className="text-lg font-bold text-white">Configuration Storage</h3>
+                <p className="text-sm text-gray-500">Stockage de fichiers et médias</p>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs text-gray-500 mb-2">Fournisseur Storage</label>
+              <select
+                value={config.storageProvider}
+                onChange={(e) => updateConfig('storageProvider', e.target.value)}
+                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white
+                  focus:outline-none focus:border-yellow-500"
+              >
+                <option value="supabase">Supabase Storage (Recommandé)</option>
+                <option value="s3">Amazon S3</option>
+                <option value="cloudflare">Cloudflare R2</option>
+                <option value="local">Local Storage</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-xs text-gray-500 mb-2">Bucket Name</label>
+              <input
+                type="text"
+                value={config.storageBucket}
+                onChange={(e) => updateConfig('storageBucket', e.target.value)}
+                placeholder="atom-files"
+                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white
+                  placeholder-gray-600 focus:outline-none focus:border-yellow-500"
+              />
+            </div>
+
+            <div className="p-4 bg-green-900/20 rounded-lg border border-green-800">
+              <h4 className="text-sm font-medium text-green-400 mb-2">✨ Recommandation</h4>
+              <p className="text-xs text-gray-400">
+                Si vous utilisez Supabase pour la base de données, utilisez également Supabase Storage
+                pour simplifier la gestion et bénéficier de la même authentification.
+              </p>
+            </div>
+
+            <button
+              onClick={() => testConnection('storage')}
+              disabled={testing === 'storage'}
+              className="w-full px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-500 disabled:opacity-50"
+            >
+              {testing === 'storage' ? '⏳ Test en cours...' : '🔌 Tester la Configuration'}
+            </button>
+          </div>
+        )}
+
+        {/* Analytics Configuration */}
+        {activeStep === 4 && (
+          <div className="space-y-4">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="text-3xl">📈</span>
+              <div>
+                <h3 className="text-lg font-bold text-white">Configuration Analytics</h3>
+                <p className="text-sm text-gray-500">Suivi et métriques d'utilisation</p>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs text-gray-500 mb-2">Analytics Endpoint (Optionnel)</label>
+              <input
+                type="text"
+                value={config.analyticsEndpoint}
+                onChange={(e) => updateConfig('analyticsEndpoint', e.target.value)}
+                placeholder="https://analytics.example.com/collect"
+                className="w-full bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white
+                  placeholder-gray-600 focus:outline-none focus:border-yellow-500"
+              />
+            </div>
+
+            <div className="p-4 bg-gray-900/50 rounded-lg border border-gray-800">
+              <h4 className="text-sm font-medium text-white mb-2">💡 Note</h4>
+              <p className="text-xs text-gray-400">
+                L'analytics est optionnel. Laissez vide pour désactiver le suivi.
+                Vous pouvez utiliser un service comme Plausible, Umami, ou votre propre endpoint.
+              </p>
+            </div>
+
+            <button
+              onClick={() => testConnection('analytics')}
+              disabled={testing === 'analytics'}
+              className="w-full px-4 py-3 bg-green-600 text-white rounded-lg hover:bg-green-500 disabled:opacity-50"
+            >
+              {testing === 'analytics' ? '⏳ Test en cours...' : '🔌 Tester la Configuration'}
+            </button>
+          </div>
+        )}
+      </div>
+
+      {/* Navigation and Actions */}
+      <div className="flex items-center justify-between">
+        <div className="flex gap-2">
+          <button
+            onClick={() => setActiveStep(Math.max(0, activeStep - 1))}
+            disabled={activeStep === 0}
+            className="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg text-sm hover:bg-gray-700 disabled:opacity-50"
+          >
+            ← Précédent
+          </button>
+          <button
+            onClick={() => setActiveStep(Math.min(steps.length - 1, activeStep + 1))}
+            disabled={activeStep === steps.length - 1}
+            className="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg text-sm hover:bg-gray-700 disabled:opacity-50"
+          >
+            Suivant →
+          </button>
+        </div>
+
+        <div className="flex gap-2">
+          <label className="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg text-sm hover:bg-gray-700 cursor-pointer">
+            📥 Importer
+            <input type="file" accept=".json" onChange={importConfig} className="hidden" />
+          </label>
+          <button
+            onClick={exportConfig}
+            className="px-4 py-2 bg-gray-800 text-gray-300 rounded-lg text-sm hover:bg-gray-700"
+          >
+            📤 Exporter
+          </button>
+        </div>
+      </div>
+
+      {/* Summary */}
+      <div className="bg-black/50 rounded-xl p-4 border border-gray-800">
+        <h3 className="text-sm font-medium text-white mb-3">📋 Résumé de Configuration</h3>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-sm">
+          {steps.map(step => (
+            <div key={step.id} className="flex items-center gap-2">
+              <span>{getStatusIcon(connectionStatus[step.id].status)}</span>
+              <span className="text-gray-400">{step.name}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // MODULE: SYSTEM CONFIGURATION
 // ═══════════════════════════════════════════════════════════════════════════════
 
@@ -1148,8 +1817,9 @@ const SystemConfiguration = () => {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const COCKPIT_MODULES = [
+  { id: 'setup', name: 'Setup Wizard', icon: '🔧', component: SetupWizard },
   { id: 'analytics', name: 'Analytics', icon: '📊', component: AnalyticsDashboard },
-  { id: 'users', name: 'Utilisateurs', icon: '��', component: UserManagement },
+  { id: 'users', name: 'Utilisateurs', icon: '👥', component: UserManagement },
   { id: 'agents', name: 'Agents', icon: '🤖', component: AgentOrchestrator },
   { id: 'xr', name: 'XR Env', icon: '🌐', component: XREnvironmentControl },
   { id: 'voice', name: 'Voice/Avatar', icon: '🎤', component: VoiceAvatarManager },
@@ -1159,7 +1829,7 @@ const COCKPIT_MODULES = [
 ];
 
 const AdminCockpit = () => {
-  const [activeModule, setActiveModule] = useState('analytics');
+  const [activeModule, setActiveModule] = useState('setup');
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const ActiveComponent = COCKPIT_MODULES.find(m => m.id === activeModule)?.component || AnalyticsDashboard;
