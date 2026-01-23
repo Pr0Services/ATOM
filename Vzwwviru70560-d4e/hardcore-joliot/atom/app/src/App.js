@@ -57,6 +57,7 @@ import AdminCockpit from './components/AdminCockpit';
 import AgentConversation from './components/AgentConversation';
 import InvitationPortal from './components/InvitationPortal';
 import CerclePage from './pages/CerclePage';
+import SetupWizardPage from './pages/SetupWizardPage';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // CONSTANTES GLOBALES
@@ -346,6 +347,7 @@ const App = () => {
 
                 {/* Route Admin Cockpit (accès restreint) */}
                 <Route path="/admin" element={<AdminCockpit />} />
+                <Route path="/admin/setup" element={<SetupWizardPage />} />
 
                 {/* Route Agent Conversation */}
                 <Route path="/agent/:agentId" element={<AgentConversation />} />
