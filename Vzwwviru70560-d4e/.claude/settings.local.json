@@ -20,7 +20,9 @@
       "Bash(python:*)",
       "Bash(npm install:*)",
       "Bash(find:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nfeat: Complete Admin Cockpit, XR Engine, and Agent Orchestration System\n\nMajor additions:\n- AdminCockpit with 8 modules \\(Analytics, Users, Agents, XR, Voice, Prompts, Security, Config\\)\n- XREnvironmentEngine with spatial audio and WebXR support\n- AgentOrchestrationSystem with 287 agents \\(L0-L3 hierarchy\\)\n- AgentConversation chat interface with voice controls\n- BrowserTab navigation components\n- CanonicalLayout with 3 Hubs architecture\n- OnboardingWizard \\(7 steps\\)\n- AccreditationPage for partners\n- Supabase schema for accreditations\n\nNew routes: /admin, /agent, /agent/:agentId\n\nCo-Authored-By: Claude Opus 4.5 <noreply@anthropic.com>\nEOF\n\\)\")",
+      "Bash(git push:*)"
     ]
   }
 }

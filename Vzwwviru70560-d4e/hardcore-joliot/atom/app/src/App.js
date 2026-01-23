@@ -39,6 +39,9 @@ import { useGratitude } from './hooks/useGratitude';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import AuthPortal, { UserProfileButton } from './components/AuthPortal';
 
+// Error Handling
+import { ErrorBoundary, ErrorProvider } from './components/ErrorBoundary';
+
 // Pages
 import NexusPage from './pages/NexusPage';
 import AnnalesPage from './pages/AnnalesPage';
@@ -329,40 +332,44 @@ const Layout = ({ children }) => {
 
 const App = () => {
   return (
-    <AuthProvider>
-      <ATOMProvider>
-        <Router>
-          <Routes>
-            {/* Routes Canoniques Publiques (sans Layout Souverain) */}
-            <Route path="/entree" element={<EntreePage />} />
-            <Route path="/tableau-de-bord" element={<TableauDeBordPage />} />
+    <ErrorBoundary>
+      <ErrorProvider>
+        <AuthProvider>
+          <ATOMProvider>
+            <Router>
+              <Routes>
+                {/* Routes Canoniques Publiques (sans Layout Souverain) */}
+                <Route path="/entree" element={<EntreePage />} />
+                <Route path="/tableau-de-bord" element={<TableauDeBordPage />} />
 
-            {/* Route Admin Cockpit (accès restreint) */}
-            <Route path="/admin" element={<AdminCockpit />} />
+                {/* Route Admin Cockpit (accès restreint) */}
+                <Route path="/admin" element={<AdminCockpit />} />
 
-            {/* Route Agent Conversation */}
-            <Route path="/agent/:agentId" element={<AgentConversation />} />
-            <Route path="/agent" element={<AgentConversation initialAgentId="nova" />} />
+                {/* Route Agent Conversation */}
+                <Route path="/agent/:agentId" element={<AgentConversation />} />
+                <Route path="/agent" element={<AgentConversation initialAgentId="nova" />} />
 
-            {/* Routes Souveraines (avec Layout complet) */}
-            <Route path="/*" element={
-              <Layout>
-                <Routes>
-                  <Route path="/" element={<NexusPage />} />
-                  <Route path="/annales" element={<AnnalesPage />} />
-                  <Route path="/lexique" element={<LexiquePage />} />
-                  <Route path="/flux" element={<FluxPage />} />
-                  <Route path="/forge" element={<ForgePage />} />
-                  <Route path="/besoins" element={<BesoinsPage />} />
-                  <Route path="/gratitude" element={<GratitudePage />} />
-                  <Route path="/accreditation" element={<AccreditationPage />} />
-                </Routes>
-              </Layout>
-            } />
-          </Routes>
-        </Router>
-      </ATOMProvider>
-    </AuthProvider>
+                {/* Routes Souveraines (avec Layout complet) */}
+                <Route path="/*" element={
+                  <Layout>
+                    <Routes>
+                      <Route path="/" element={<NexusPage />} />
+                      <Route path="/annales" element={<AnnalesPage />} />
+                      <Route path="/lexique" element={<LexiquePage />} />
+                      <Route path="/flux" element={<FluxPage />} />
+                      <Route path="/forge" element={<ForgePage />} />
+                      <Route path="/besoins" element={<BesoinsPage />} />
+                      <Route path="/gratitude" element={<GratitudePage />} />
+                      <Route path="/accreditation" element={<AccreditationPage />} />
+                    </Routes>
+                  </Layout>
+                } />
+              </Routes>
+            </Router>
+          </ATOMProvider>
+        </AuthProvider>
+      </ErrorProvider>
+    </ErrorBoundary>
   );
 };
 
