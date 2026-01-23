@@ -61,6 +61,30 @@ const ELEMENTS = [
   { id: 'ether', name: 'Ether', icon: '✨', color: '#9B59B6' }
 ];
 
+// Signatures energetiques disponibles
+const ENERGY_SIGNATURES = [
+  { value: 111, name: 'Eveil', description: 'Debut du chemin spirituel' },
+  { value: 222, name: 'Equilibre', description: 'Harmonie et partenariat' },
+  { value: 333, name: 'Guidance', description: 'Protection des maitres' },
+  { value: 444, name: 'Heartbeat', description: 'Frequence cardiaque de l\'Arche' },
+  { value: 528, name: 'Amour', description: 'Frequence de transformation' },
+  { value: 639, name: 'Connexion', description: 'Harmonisation relationnelle' },
+  { value: 741, name: 'Expression', description: 'Eveil de l\'intuition' },
+  { value: 852, name: 'Vision', description: 'Retour a l\'ordre spirituel' },
+  { value: 963, name: 'Unite', description: 'Connexion a la Source' },
+  { value: 999, name: 'Source', description: 'Frequence souveraine' }
+];
+
+// Types de contribution
+const CONTRIBUTION_TYPES = [
+  { id: 'energetic', name: 'Energetique', icon: '✨', description: 'Contribution energetique pure' },
+  { id: 'material', name: 'Materiel', icon: '💎', description: 'Ressources materielles' },
+  { id: 'scientific', name: 'Scientifique', icon: '🔬', description: 'Expertise technique' },
+  { id: 'creative', name: 'Creatif', icon: '🎨', description: 'Arts et creation' },
+  { id: 'healing', name: 'Guerison', icon: '💚', description: 'Bien-etre et sante' },
+  { id: 'bridge', name: 'Pont', icon: '🌉', description: 'Connexion entre mondes' }
+];
+
 // ═══════════════════════════════════════════════════════════════════════════════
 // COMPOSANT: PORTAIL D'INVITATION
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -85,8 +109,18 @@ const InvitationPortal = ({ onComplete }) => {
     location_country: '',
     location_city: '',
     element: '',
-    spirit_animal: ''
+    spirit_animal: '',
+    // Grid energetique
+    grid_latitude: null,
+    grid_longitude: null,
+    grid_location_name: '',
+    energy_signature: 444,
+    contribution_type: 'energetic'
   });
+
+  // Etat pour la geolocalisation
+  const [geoLoading, setGeoLoading] = useState(false);
+  const [geoError, setGeoError] = useState('');
 
   const [giftInput, setGiftInput] = useState('');
   const [seekingInput, setSeekingInput] = useState('');
@@ -181,6 +215,12 @@ const InvitationPortal = ({ onComplete }) => {
           location_city: profile.location_city,
           element: profile.element || null,
           spirit_animal: profile.spirit_animal,
+          // Grid energetique
+          grid_latitude: profile.grid_latitude,
+          grid_longitude: profile.grid_longitude,
+          grid_location_name: profile.grid_location_name,
+          energy_signature: profile.energy_signature,
+          contribution_type: profile.contribution_type,
           updated_at: new Date().toISOString()
         })
         .eq('user_id', user.id);
@@ -238,6 +278,62 @@ const InvitationPortal = ({ onComplete }) => {
       seeking: prev.seeking.filter(s => s !== item)
     }));
   };
+
+  // ═══════════════════════════════════════════════════════════════════════════════
+  // GEOLOCALISATION POUR LA GRID
+  // ═══════════════════════════════════════════════════════════════════════════════
+
+  const requestGeolocation = useCallback(() => {
+    if (!navigator.geolocation) {
+      setGeoError('Geolocalisation non supportee par votre navigateur');
+      return;
+    }
+
+    setGeoLoading(true);
+    setGeoError('');
+
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+
+        setProfile(prev => ({
+          ...prev,
+          grid_latitude: latitude,
+          grid_longitude: longitude
+        }));
+
+        // Essayer de geocoder l'adresse (reverse geocoding)
+        try {
+          const response = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?lat=${latitude}&lon=${longitude}&format=json`
+          );
+          const data = await response.json();
+
+          if (data.address) {
+            const city = data.address.city || data.address.town || data.address.village || '';
+            const country = data.address.country || '';
+
+            setProfile(prev => ({
+              ...prev,
+              grid_location_name: city ? `${city}, ${country}` : country,
+              location_city: city,
+              location_country: country
+            }));
+          }
+        } catch (err) {
+          console.warn('Reverse geocoding failed:', err);
+        }
+
+        setGeoLoading(false);
+      },
+      (error) => {
+        console.error('Geolocation error:', error);
+        setGeoError('Impossible d\'obtenir votre position. Vous pouvez entrer manuellement.');
+        setGeoLoading(false);
+      },
+      { enableHighAccuracy: true, timeout: 10000 }
+    );
+  }, []);
 
   // ═══════════════════════════════════════════════════════════════════════════════
   // RENDU: ETAPE CODE
@@ -536,14 +632,73 @@ const InvitationPortal = ({ onComplete }) => {
               </div>
             </div>
 
-            {/* Localisation */}
-            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
-              <label className="block text-white font-medium mb-2">
-                📍 Ta Localisation
-              </label>
-              <p className="text-gray-500 text-sm mb-3">
-                Ou te trouves-tu dans le monde? (optionnel)
+            {/* ═══════════════════════════════════════════════════════════════════ */}
+            {/* SECTION GRID ENERGETIQUE */}
+            {/* ═══════════════════════════════════════════════════════════════════ */}
+
+            <div className="border-t border-yellow-600/30 pt-6 mt-6">
+              <h2 className="text-xl font-bold text-yellow-500 mb-4 flex items-center gap-2">
+                🌐 Position dans la Grid Energetique
+              </h2>
+              <p className="text-gray-400 text-sm mb-6">
+                Ta position geographique te connectera a la Grid planetaire des Points de Lumiere.
               </p>
+            </div>
+
+            {/* Geolocalisation */}
+            <div className="bg-gradient-to-r from-yellow-900/20 to-yellow-600/10 border border-yellow-600/30 rounded-xl p-6">
+              <label className="block text-white font-medium mb-2">
+                📍 Point d'Ancrage sur la Grid
+              </label>
+              <p className="text-gray-500 text-sm mb-4">
+                Ta position geographique servira de point d'ancrage pour la Grid energetique mondiale.
+              </p>
+
+              {/* Bouton de geolocalisation */}
+              <button
+                type="button"
+                onClick={requestGeolocation}
+                disabled={geoLoading}
+                className="w-full py-3 mb-4 bg-yellow-600/20 border border-yellow-600/50 text-yellow-400
+                  rounded-lg hover:bg-yellow-600/30 transition-colors disabled:opacity-50
+                  flex items-center justify-center gap-2"
+              >
+                {geoLoading ? (
+                  <>
+                    <span className="animate-spin">🌀</span>
+                    Detection en cours...
+                  </>
+                ) : (
+                  <>
+                    <span>🛰️</span>
+                    Detecter Ma Position Automatiquement
+                  </>
+                )}
+              </button>
+
+              {geoError && (
+                <p className="text-red-400 text-sm mb-4">{geoError}</p>
+              )}
+
+              {/* Coordonnees detectees ou manuelles */}
+              {profile.grid_latitude && profile.grid_longitude && (
+                <div className="bg-black/30 rounded-lg p-4 mb-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-gray-400 text-sm">Coordonnees:</span>
+                    <span className="text-green-400 text-sm">Detecte</span>
+                  </div>
+                  <div className="font-mono text-yellow-400">
+                    {profile.grid_latitude.toFixed(4)}, {profile.grid_longitude.toFixed(4)}
+                  </div>
+                  {profile.grid_location_name && (
+                    <div className="text-gray-300 mt-2">
+                      {profile.grid_location_name}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Saisie manuelle de la localisation */}
               <div className="grid grid-cols-2 gap-4">
                 <input
                   type="text"
@@ -561,6 +716,68 @@ const InvitationPortal = ({ onComplete }) => {
                   className="px-4 py-2 bg-black/50 border border-gray-700 rounded-lg
                     text-white placeholder-gray-600 focus:outline-none focus:border-yellow-500"
                 />
+              </div>
+            </div>
+
+            {/* Signature Energetique */}
+            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
+              <label className="block text-white font-medium mb-2">
+                🔊 Ta Signature Energetique
+              </label>
+              <p className="text-gray-500 text-sm mb-4">
+                Quelle frequence resonne le plus avec ton etre? Elle sera calibree par le Souverain.
+              </p>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-2">
+                {ENERGY_SIGNATURES.map(sig => (
+                  <button
+                    key={sig.value}
+                    type="button"
+                    onClick={() => setProfile(p => ({ ...p, energy_signature: sig.value }))}
+                    className={`p-3 rounded-xl border transition-all text-center ${
+                      profile.energy_signature === sig.value
+                        ? 'bg-yellow-600/20 border-yellow-500 text-yellow-400'
+                        : 'bg-black/30 border-gray-700 hover:border-gray-600 text-gray-400'
+                    }`}
+                  >
+                    <div className="text-lg font-bold">{sig.value}</div>
+                    <div className="text-xs opacity-75">{sig.name}</div>
+                  </button>
+                ))}
+              </div>
+              <p className="text-gray-600 text-xs mt-3 text-center">
+                Note: Ta signature sera validee et potentiellement ajustee lors de ton activation dans la Grid.
+              </p>
+            </div>
+
+            {/* Type de Contribution */}
+            <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-6">
+              <label className="block text-white font-medium mb-2">
+                🤝 Type de Contribution
+              </label>
+              <p className="text-gray-500 text-sm mb-4">
+                Comment contribues-tu principalement a la communaute?
+              </p>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                {CONTRIBUTION_TYPES.map(ct => (
+                  <button
+                    key={ct.id}
+                    type="button"
+                    onClick={() => setProfile(p => ({ ...p, contribution_type: ct.id }))}
+                    className={`p-4 rounded-xl border transition-all text-left ${
+                      profile.contribution_type === ct.id
+                        ? 'bg-purple-600/20 border-purple-500'
+                        : 'bg-black/30 border-gray-700 hover:border-gray-600'
+                    }`}
+                  >
+                    <div className="text-2xl mb-1">{ct.icon}</div>
+                    <div className={`font-medium ${
+                      profile.contribution_type === ct.id ? 'text-purple-400' : 'text-gray-300'
+                    }`}>
+                      {ct.name}
+                    </div>
+                    <div className="text-xs text-gray-500 mt-1">{ct.description}</div>
+                  </button>
+                ))}
               </div>
             </div>
 

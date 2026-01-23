@@ -2177,12 +2177,414 @@ const InvitationManager = () => {
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// MODULE: GRID MANAGER (Gestion de la Grid Energetique)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const ENERGY_SIGNATURES = [
+  { value: 111, name: 'Eveil' },
+  { value: 222, name: 'Equilibre' },
+  { value: 333, name: 'Guidance' },
+  { value: 444, name: 'Heartbeat' },
+  { value: 528, name: 'Amour' },
+  { value: 639, name: 'Connexion' },
+  { value: 741, name: 'Expression' },
+  { value: 852, name: 'Vision' },
+  { value: 963, name: 'Unite' },
+  { value: 999, name: 'Source' }
+];
+
+const ENERGY_STATUS = {
+  calibrating: { name: 'Calibration', color: '#F59E0B' },
+  aligned: { name: 'Aligne', color: '#3B82F6' },
+  activated: { name: 'Active', color: '#10B981' },
+  dormant: { name: 'En pause', color: '#6B7280' }
+};
+
+const GridManager = () => {
+  const [founders, setFounders] = useState([]);
+  const [gridPoints, setGridPoints] = useState([]);
+  const [selectedFounder, setSelectedFounder] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [activating, setActivating] = useState(false);
+  const [showCreatePoint, setShowCreatePoint] = useState(false);
+
+  // Formulaire nouveau point
+  const [newPoint, setNewPoint] = useState({
+    name: '',
+    latitude: '',
+    longitude: '',
+    pointType: 'anchor',
+    frequency: 444
+  });
+
+  useEffect(() => {
+    loadGridData();
+  }, []);
+
+  const loadGridData = async () => {
+    setLoading(true);
+    try {
+      // Mode demo - donnees mockees
+      setFounders([
+        {
+          id: '1',
+          founder_number: 1,
+          founder_type: 'lumiere',
+          profiles: { display_name: 'Demo Founder' },
+          energy_status: 'calibrating',
+          energy_signature: 444,
+          grid_location_name: 'Quebec, Canada',
+          grid_latitude: 46.8139,
+          grid_longitude: -71.2080,
+          contribution_type: 'energetic'
+        }
+      ]);
+      setGridPoints([
+        {
+          id: '1',
+          name: 'Quebec - Point Zero',
+          latitude: 46.8139,
+          longitude: -71.2080,
+          point_type: 'anchor',
+          frequency: 999,
+          is_active: true
+        }
+      ]);
+    } catch (err) {
+      console.error('Erreur chargement Grid:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const activateFounder = async (founder, signature = 444) => {
+    setActivating(true);
+    try {
+      // Simuler l'activation
+      setFounders(prev => prev.map(f =>
+        f.id === founder.id
+          ? { ...f, energy_status: 'activated', energy_signature: signature, grid_activated_at: new Date().toISOString() }
+          : f
+      ));
+      setSelectedFounder(null);
+      alert(`Fondateur #${founder.founder_number} active avec signature ${signature} Hz`);
+    } catch (err) {
+      console.error('Erreur activation:', err);
+    } finally {
+      setActivating(false);
+    }
+  };
+
+  const createGridPoint = async () => {
+    if (!newPoint.name || !newPoint.latitude || !newPoint.longitude) return;
+
+    try {
+      const point = {
+        id: Date.now().toString(),
+        name: newPoint.name,
+        latitude: parseFloat(newPoint.latitude),
+        longitude: parseFloat(newPoint.longitude),
+        point_type: newPoint.pointType,
+        frequency: newPoint.frequency,
+        is_active: true
+      };
+
+      setGridPoints(prev => [...prev, point]);
+      setShowCreatePoint(false);
+      setNewPoint({ name: '', latitude: '', longitude: '', pointType: 'anchor', frequency: 444 });
+      alert(`Point de Grid cree: ${point.name}`);
+    } catch (err) {
+      console.error('Erreur creation point:', err);
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h2 className="text-lg font-bold text-white flex items-center gap-2">
+          <span>🌐</span> Grid Energetique Mondiale
+        </h2>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setShowCreatePoint(true)}
+            className="px-3 py-1.5 bg-yellow-600 text-black text-sm font-medium rounded-lg hover:bg-yellow-500"
+          >
+            + Point d'Ancrage
+          </button>
+        </div>
+      </div>
+
+      {loading ? (
+        <div className="text-center py-12">
+          <div className="text-4xl animate-pulse mb-4">🌐</div>
+          <p className="text-gray-400">Chargement de la Grid...</p>
+        </div>
+      ) : (
+        <>
+          {/* Statistiques */}
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="bg-black/50 rounded-xl p-4 border border-yellow-600/30">
+              <div className="text-2xl font-bold text-yellow-500">{founders.length}</div>
+              <div className="text-gray-400 text-sm">Fondateurs Total</div>
+            </div>
+            <div className="bg-black/50 rounded-xl p-4 border border-green-600/30">
+              <div className="text-2xl font-bold text-green-500">
+                {founders.filter(f => f.energy_status === 'activated').length}
+              </div>
+              <div className="text-gray-400 text-sm">Actives</div>
+            </div>
+            <div className="bg-black/50 rounded-xl p-4 border border-blue-600/30">
+              <div className="text-2xl font-bold text-blue-500">
+                {founders.filter(f => f.energy_status === 'calibrating').length}
+              </div>
+              <div className="text-gray-400 text-sm">En Calibration</div>
+            </div>
+            <div className="bg-black/50 rounded-xl p-4 border border-purple-600/30">
+              <div className="text-2xl font-bold text-purple-500">{gridPoints.length}</div>
+              <div className="text-gray-400 text-sm">Points Grid</div>
+            </div>
+          </div>
+
+          {/* Liste des fondateurs a activer */}
+          <div className="bg-black/50 rounded-xl border border-gray-800">
+            <div className="p-4 border-b border-gray-800">
+              <h3 className="text-white font-medium">Fondateurs en attente d'activation</h3>
+            </div>
+            <div className="divide-y divide-gray-800">
+              {founders.filter(f => f.energy_status !== 'activated').map(founder => (
+                <div
+                  key={founder.id}
+                  className="p-4 flex items-center gap-4 hover:bg-gray-900/50 cursor-pointer"
+                  onClick={() => setSelectedFounder(founder)}
+                >
+                  <div
+                    className="w-10 h-10 rounded-full flex items-center justify-center text-lg"
+                    style={{ backgroundColor: `${FOUNDER_TYPES[founder.founder_type]?.color}20` }}
+                  >
+                    {FOUNDER_TYPES[founder.founder_type]?.icon || '🌟'}
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-white font-medium">
+                      #{founder.founder_number} - {founder.profiles?.display_name || 'Fondateur'}
+                    </div>
+                    <div className="text-gray-500 text-sm">
+                      {founder.grid_location_name || 'Position non definie'}
+                    </div>
+                  </div>
+                  <div
+                    className="px-3 py-1 rounded-full text-xs"
+                    style={{
+                      backgroundColor: `${ENERGY_STATUS[founder.energy_status]?.color}20`,
+                      color: ENERGY_STATUS[founder.energy_status]?.color
+                    }}
+                  >
+                    {ENERGY_STATUS[founder.energy_status]?.name}
+                  </div>
+                  <button
+                    className="px-3 py-1.5 bg-green-600 text-white text-sm rounded-lg hover:bg-green-500"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedFounder(founder);
+                    }}
+                  >
+                    Activer
+                  </button>
+                </div>
+              ))}
+              {founders.filter(f => f.energy_status !== 'activated').length === 0 && (
+                <div className="p-8 text-center text-gray-500">
+                  Tous les fondateurs sont actives dans la Grid
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Points de Grid */}
+          <div className="bg-black/50 rounded-xl border border-gray-800">
+            <div className="p-4 border-b border-gray-800">
+              <h3 className="text-white font-medium">Points d'Ancrage</h3>
+            </div>
+            <div className="divide-y divide-gray-800">
+              {gridPoints.map(point => (
+                <div key={point.id} className="p-4 flex items-center gap-4">
+                  <div className="w-10 h-10 rounded-full bg-yellow-500/20 flex items-center justify-center">
+                    <span className="text-yellow-500">📍</span>
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-white font-medium">{point.name}</div>
+                    <div className="text-gray-500 text-sm font-mono">
+                      {point.latitude.toFixed(4)}, {point.longitude.toFixed(4)}
+                    </div>
+                  </div>
+                  <div className="text-yellow-400 font-mono">{point.frequency} Hz</div>
+                  <span className={`px-2 py-1 rounded text-xs ${point.is_active ? 'bg-green-500/20 text-green-400' : 'bg-gray-500/20 text-gray-400'}`}>
+                    {point.is_active ? 'Actif' : 'Inactif'}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+
+      {/* Modal Activation */}
+      {selectedFounder && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80">
+          <div className="bg-gray-900 border border-yellow-600/30 rounded-xl p-6 max-w-md w-full">
+            <h3 className="text-lg font-bold text-white mb-4">
+              Activer Fondateur #{selectedFounder.founder_number}
+            </h3>
+
+            <div className="mb-4 p-4 bg-black/30 rounded-lg">
+              <div className="text-white font-medium">
+                {selectedFounder.profiles?.display_name || 'Fondateur'}
+              </div>
+              <div className="text-gray-500 text-sm">
+                {selectedFounder.grid_location_name || 'Position non definie'}
+              </div>
+            </div>
+
+            <div className="mb-4">
+              <label className="block text-gray-400 text-sm mb-2">Signature Energetique</label>
+              <div className="grid grid-cols-5 gap-2">
+                {ENERGY_SIGNATURES.map(sig => (
+                  <button
+                    key={sig.value}
+                    onClick={() => setSelectedFounder(prev => ({ ...prev, _signature: sig.value }))}
+                    className={`p-2 rounded-lg text-center transition-colors ${
+                      (selectedFounder._signature || 444) === sig.value
+                        ? 'bg-yellow-600/20 border border-yellow-500 text-yellow-400'
+                        : 'bg-gray-800 border border-gray-700 text-gray-400 hover:border-gray-600'
+                    }`}
+                  >
+                    <div className="font-bold">{sig.value}</div>
+                    <div className="text-xs">{sig.name}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="flex gap-3">
+              <button
+                onClick={() => setSelectedFounder(null)}
+                className="flex-1 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700"
+              >
+                Annuler
+              </button>
+              <button
+                onClick={() => activateFounder(selectedFounder, selectedFounder._signature || 444)}
+                disabled={activating}
+                className="flex-1 py-2 bg-green-600 text-white rounded-lg hover:bg-green-500 disabled:opacity-50"
+              >
+                {activating ? 'Activation...' : 'Activer dans la Grid'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Creation Point */}
+      {showCreatePoint && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80">
+          <div className="bg-gray-900 border border-yellow-600/30 rounded-xl p-6 max-w-md w-full">
+            <h3 className="text-lg font-bold text-white mb-4">
+              Creer un Point d'Ancrage
+            </h3>
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-gray-400 text-sm mb-1">Nom du Point</label>
+                <input
+                  type="text"
+                  value={newPoint.name}
+                  onChange={(e) => setNewPoint(p => ({ ...p, name: e.target.value }))}
+                  placeholder="Ex: Paris - Tour Eiffel"
+                  className="w-full px-3 py-2 bg-black/50 border border-gray-700 rounded-lg text-white"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-gray-400 text-sm mb-1">Latitude</label>
+                  <input
+                    type="number"
+                    step="0.0001"
+                    value={newPoint.latitude}
+                    onChange={(e) => setNewPoint(p => ({ ...p, latitude: e.target.value }))}
+                    placeholder="48.8584"
+                    className="w-full px-3 py-2 bg-black/50 border border-gray-700 rounded-lg text-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-gray-400 text-sm mb-1">Longitude</label>
+                  <input
+                    type="number"
+                    step="0.0001"
+                    value={newPoint.longitude}
+                    onChange={(e) => setNewPoint(p => ({ ...p, longitude: e.target.value }))}
+                    placeholder="2.2945"
+                    className="w-full px-3 py-2 bg-black/50 border border-gray-700 rounded-lg text-white"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-gray-400 text-sm mb-1">Type de Point</label>
+                <select
+                  value={newPoint.pointType}
+                  onChange={(e) => setNewPoint(p => ({ ...p, pointType: e.target.value }))}
+                  className="w-full px-3 py-2 bg-black/50 border border-gray-700 rounded-lg text-white"
+                >
+                  <option value="anchor">Ancrage</option>
+                  <option value="node">Noeud</option>
+                  <option value="portal">Portail</option>
+                  <option value="sanctuary">Sanctuaire</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-gray-400 text-sm mb-1">Frequence</label>
+                <select
+                  value={newPoint.frequency}
+                  onChange={(e) => setNewPoint(p => ({ ...p, frequency: parseInt(e.target.value) }))}
+                  className="w-full px-3 py-2 bg-black/50 border border-gray-700 rounded-lg text-white"
+                >
+                  {ENERGY_SIGNATURES.map(sig => (
+                    <option key={sig.value} value={sig.value}>{sig.value} Hz - {sig.name}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() => setShowCreatePoint(false)}
+                className="flex-1 py-2 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700"
+              >
+                Annuler
+              </button>
+              <button
+                onClick={createGridPoint}
+                className="flex-1 py-2 bg-yellow-600 text-black rounded-lg hover:bg-yellow-500"
+              >
+                Creer le Point
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // COMPOSANT PRINCIPAL: ADMIN COCKPIT
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const COCKPIT_MODULES = [
   { id: 'setup', name: 'Setup Wizard', icon: '🔧', component: SetupWizard },
   { id: 'invitations', name: 'Invitations', icon: '🌟', component: InvitationManager },
+  { id: 'grid', name: 'Grid Mondiale', icon: '🌐', component: GridManager },
   { id: 'analytics', name: 'Analytics', icon: '📊', component: AnalyticsDashboard },
   { id: 'users', name: 'Utilisateurs', icon: '👥', component: UserManagement },
   { id: 'agents', name: 'Agents', icon: '🤖', component: AgentOrchestrator },

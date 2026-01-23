@@ -41,6 +41,22 @@ const ELEMENTS = {
   feu: '🔥', eau: '💧', terre: '🌍', air: '💨', ether: '✨'
 };
 
+const ENERGY_STATUS = {
+  calibrating: { name: 'Calibration', icon: '🌀', color: '#F59E0B' },
+  aligned: { name: 'Aligne', icon: '✓', color: '#3B82F6' },
+  activated: { name: 'Active', icon: '⚡', color: '#10B981' },
+  dormant: { name: 'En pause', icon: '💤', color: '#6B7280' }
+};
+
+const CONTRIBUTION_TYPES = {
+  energetic: { name: 'Energetique', icon: '✨' },
+  material: { name: 'Materiel', icon: '💎' },
+  scientific: { name: 'Scientifique', icon: '🔬' },
+  creative: { name: 'Creatif', icon: '🎨' },
+  healing: { name: 'Guerison', icon: '💚' },
+  bridge: { name: 'Pont', icon: '🌉' }
+};
+
 // ═══════════════════════════════════════════════════════════════════════════════
 // COMPOSANT PRINCIPAL: CERCLE DES FONDATEURS
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -49,9 +65,11 @@ const CerclePage = () => {
   const { user } = useAuth();
 
   // Etats
-  const [view, setView] = useState('members'); // members | messages | profile
+  const [view, setView] = useState('members'); // members | messages | profile | grid
   const [founders, setFounders] = useState([]);
   const [messages, setMessages] = useState([]);
+  const [gridPoints, setGridPoints] = useState([]);
+  const [gridStats, setGridStats] = useState(null);
   const [myProfile, setMyProfile] = useState(null);
   const [selectedFounder, setSelectedFounder] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -120,6 +138,20 @@ const CerclePage = () => {
 
         if (messagesError) throw messagesError;
         setMessages(messagesData || []);
+
+        // Charger les points de la Grid (si fondateur active)
+        if (founderData.energy_status === 'activated') {
+          const { data: gridData } = await supabase
+            .from('energy_grid')
+            .select('*')
+            .eq('is_active', true);
+
+          if (gridData) setGridPoints(gridData);
+
+          // Charger les statistiques de la Grid
+          const { data: statsData } = await supabase.rpc('get_grid_stats');
+          if (statsData?.success) setGridStats(statsData);
+        }
       }
     } catch (err) {
       console.error('Erreur chargement donnees:', err);
@@ -269,6 +301,16 @@ const CerclePage = () => {
               💬 Cercle de Parole
             </button>
             <button
+              onClick={() => setView('grid')}
+              className={`px-4 py-2 rounded-lg transition-colors ${
+                view === 'grid'
+                  ? 'bg-yellow-600 text-black'
+                  : 'bg-gray-800 text-gray-300 hover:bg-gray-700'
+              }`}
+            >
+              🌐 Grid Mondiale
+            </button>
+            <button
               onClick={() => setView('profile')}
               className={`px-4 py-2 rounded-lg transition-colors ${
                 view === 'profile'
@@ -321,10 +363,30 @@ const CerclePage = () => {
                       )}
                     </div>
 
+                    {/* Statut energetique */}
+                    {founder.energy_status && (
+                      <div className="flex items-center gap-2 mb-3">
+                        <span
+                          className="text-xs px-2 py-0.5 rounded-full"
+                          style={{
+                            backgroundColor: `${ENERGY_STATUS[founder.energy_status]?.color}20`,
+                            color: ENERGY_STATUS[founder.energy_status]?.color
+                          }}
+                        >
+                          {ENERGY_STATUS[founder.energy_status]?.icon} {ENERGY_STATUS[founder.energy_status]?.name}
+                        </span>
+                        {founder.energy_signature && (
+                          <span className="text-xs text-gray-500">
+                            {founder.energy_signature} Hz
+                          </span>
+                        )}
+                      </div>
+                    )}
+
                     {/* Localisation */}
-                    {(founder.location_country || founder.location_city) && (
+                    {(founder.grid_location_name || founder.location_country || founder.location_city) && (
                       <div className="text-gray-500 text-sm mb-3">
-                        📍 {[founder.location_city, founder.location_country].filter(Boolean).join(', ')}
+                        📍 {founder.grid_location_name || [founder.location_city, founder.location_country].filter(Boolean).join(', ')}
                       </div>
                     )}
 
@@ -399,11 +461,44 @@ const CerclePage = () => {
 
                         {/* Infos */}
                         <div className="space-y-4">
-                          {(f.location_country || f.location_city) && (
+                          {/* Statut Grid */}
+                          {f.energy_status && (
+                            <div className="flex items-center gap-4 p-3 bg-black/30 rounded-lg">
+                              <div>
+                                <div className="text-gray-500 text-sm mb-1">Statut Grid</div>
+                                <div
+                                  className="flex items-center gap-2"
+                                  style={{ color: ENERGY_STATUS[f.energy_status]?.color }}
+                                >
+                                  <span>{ENERGY_STATUS[f.energy_status]?.icon}</span>
+                                  <span>{ENERGY_STATUS[f.energy_status]?.name}</span>
+                                </div>
+                              </div>
+                              {f.energy_signature && (
+                                <div className="ml-auto text-right">
+                                  <div className="text-gray-500 text-sm mb-1">Frequence</div>
+                                  <div className="text-yellow-400 font-mono">{f.energy_signature} Hz</div>
+                                </div>
+                              )}
+                            </div>
+                          )}
+
+                          {/* Contribution */}
+                          {f.contribution_type && (
+                            <div>
+                              <div className="text-gray-500 text-sm mb-1">Type de Contribution</div>
+                              <div className="text-white flex items-center gap-2">
+                                <span>{CONTRIBUTION_TYPES[f.contribution_type]?.icon}</span>
+                                <span>{CONTRIBUTION_TYPES[f.contribution_type]?.name}</span>
+                              </div>
+                            </div>
+                          )}
+
+                          {(f.grid_location_name || f.location_country || f.location_city) && (
                             <div>
                               <div className="text-gray-500 text-sm mb-1">Localisation</div>
                               <div className="text-white">
-                                📍 {[f.location_city, f.location_country].filter(Boolean).join(', ')}
+                                📍 {f.grid_location_name || [f.location_city, f.location_country].filter(Boolean).join(', ')}
                               </div>
                             </div>
                           )}
@@ -578,6 +673,207 @@ const CerclePage = () => {
                 </div>
               )}
             </div>
+          </div>
+        )}
+
+        {/* VUE: GRID MONDIALE */}
+        {view === 'grid' && (
+          <div>
+            {/* Verification acces Grid */}
+            {myProfile?.energy_status !== 'activated' ? (
+              <div className="max-w-lg mx-auto text-center py-12">
+                <div className="text-6xl mb-6">🌀</div>
+                <h2 className="text-xl font-bold text-white mb-4">
+                  Grid Energetique en Calibration
+                </h2>
+                <p className="text-gray-400 mb-6">
+                  L'acces a la Grid mondiale est reserve aux fondateurs dont l'energie
+                  a ete activee par le Souverain. Ton statut actuel:
+                </p>
+                <div
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full"
+                  style={{
+                    backgroundColor: `${ENERGY_STATUS[myProfile?.energy_status || 'calibrating'].color}20`,
+                    color: ENERGY_STATUS[myProfile?.energy_status || 'calibrating'].color
+                  }}
+                >
+                  <span>{ENERGY_STATUS[myProfile?.energy_status || 'calibrating'].icon}</span>
+                  <span>{ENERGY_STATUS[myProfile?.energy_status || 'calibrating'].name}</span>
+                </div>
+                <p className="text-gray-500 text-sm mt-6">
+                  Lorsque ton energie sera alignee et prete, tu seras active dans la Grid.
+                </p>
+              </div>
+            ) : (
+              <>
+                {/* Statistiques de la Grid */}
+                {gridStats && (
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <div className="bg-gradient-to-br from-yellow-900/20 to-yellow-600/10 border border-yellow-600/30 rounded-xl p-4 text-center">
+                      <div className="text-3xl font-bold text-yellow-500">{gridStats.total_founders || 0}</div>
+                      <div className="text-gray-400 text-sm">Fondateurs Total</div>
+                    </div>
+                    <div className="bg-gradient-to-br from-green-900/20 to-green-600/10 border border-green-600/30 rounded-xl p-4 text-center">
+                      <div className="text-3xl font-bold text-green-500">{gridStats.activated_founders || 0}</div>
+                      <div className="text-gray-400 text-sm">Actives dans la Grid</div>
+                    </div>
+                    <div className="bg-gradient-to-br from-blue-900/20 to-blue-600/10 border border-blue-600/30 rounded-xl p-4 text-center">
+                      <div className="text-3xl font-bold text-blue-500">{gridStats.grid_points || 0}</div>
+                      <div className="text-gray-400 text-sm">Points d'Ancrage</div>
+                    </div>
+                    <div className="bg-gradient-to-br from-purple-900/20 to-purple-600/10 border border-purple-600/30 rounded-xl p-4 text-center">
+                      <div className="text-3xl font-bold text-purple-500">{gridStats.countries_represented || 0}</div>
+                      <div className="text-gray-400 text-sm">Pays Representes</div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Carte simplifiee (representation visuelle) */}
+                <div className="bg-gray-900 border border-gray-800 rounded-xl p-6 mb-8">
+                  <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    🌐 Carte de la Grid Energetique
+                  </h3>
+
+                  {/* Representation simplifiee de la carte */}
+                  <div className="relative bg-black/50 rounded-xl p-4 min-h-[300px] overflow-hidden">
+                    {/* Fond de carte stylise */}
+                    <div className="absolute inset-0 opacity-20">
+                      <svg viewBox="0 0 800 400" className="w-full h-full">
+                        <ellipse cx="400" cy="200" rx="350" ry="150" fill="none" stroke="#444" strokeWidth="1" />
+                        <ellipse cx="400" cy="200" rx="250" ry="100" fill="none" stroke="#444" strokeWidth="1" />
+                        <ellipse cx="400" cy="200" rx="150" ry="50" fill="none" stroke="#444" strokeWidth="1" />
+                        <line x1="50" y1="200" x2="750" y2="200" stroke="#444" strokeWidth="1" />
+                        <line x1="400" y1="50" x2="400" y2="350" stroke="#444" strokeWidth="1" />
+                      </svg>
+                    </div>
+
+                    {/* Points d'ancrage */}
+                    <div className="absolute inset-0">
+                      {gridPoints.map((point, idx) => {
+                        // Convertir lat/long en position relative (simplifiee)
+                        const x = ((point.longitude + 180) / 360) * 100;
+                        const y = ((90 - point.latitude) / 180) * 100;
+
+                        return (
+                          <div
+                            key={point.id || idx}
+                            className="absolute transform -translate-x-1/2 -translate-y-1/2 group"
+                            style={{ left: `${x}%`, top: `${y}%` }}
+                          >
+                            <div className="w-4 h-4 bg-yellow-500 rounded-full animate-pulse shadow-lg shadow-yellow-500/50" />
+                            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2
+                              bg-black/90 px-2 py-1 rounded text-xs text-white whitespace-nowrap
+                              opacity-0 group-hover:opacity-100 transition-opacity">
+                              {point.name}
+                            </div>
+                          </div>
+                        );
+                      })}
+
+                      {/* Points des fondateurs actives */}
+                      {founders.filter(f => f.grid_latitude && f.grid_longitude && f.energy_status === 'activated').map((founder, idx) => {
+                        const x = ((founder.grid_longitude + 180) / 360) * 100;
+                        const y = ((90 - founder.grid_latitude) / 180) * 100;
+                        const type = FOUNDER_TYPES[founder.founder_type] || FOUNDER_TYPES.lumiere;
+
+                        return (
+                          <div
+                            key={`f-${founder.id || idx}`}
+                            className="absolute transform -translate-x-1/2 -translate-y-1/2 group cursor-pointer"
+                            style={{ left: `${x}%`, top: `${y}%` }}
+                            onClick={() => setSelectedFounder(founder)}
+                          >
+                            <div
+                              className="w-3 h-3 rounded-full shadow-lg"
+                              style={{
+                                backgroundColor: type.color,
+                                boxShadow: `0 0 10px ${type.color}`
+                              }}
+                            />
+                            <div className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2
+                              bg-black/90 px-2 py-1 rounded text-xs whitespace-nowrap
+                              opacity-0 group-hover:opacity-100 transition-opacity"
+                              style={{ color: type.color }}>
+                              {type.icon} #{founder.founder_number}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Legende */}
+                    <div className="absolute bottom-2 right-2 bg-black/80 rounded-lg p-2 text-xs">
+                      <div className="flex items-center gap-2 mb-1">
+                        <div className="w-3 h-3 bg-yellow-500 rounded-full" />
+                        <span className="text-gray-400">Point d'Ancrage</span>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="w-3 h-3 bg-green-500 rounded-full" />
+                        <span className="text-gray-400">Fondateur Actif</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Liste des fondateurs sur la Grid */}
+                <div className="bg-gray-900 border border-gray-800 rounded-xl p-6">
+                  <h3 className="text-lg font-bold text-white mb-4">
+                    Points de Lumiere Actifs
+                  </h3>
+                  <div className="space-y-3">
+                    {founders.filter(f => f.energy_status === 'activated').map(founder => {
+                      const type = FOUNDER_TYPES[founder.founder_type] || FOUNDER_TYPES.lumiere;
+                      const contrib = CONTRIBUTION_TYPES[founder.contribution_type] || CONTRIBUTION_TYPES.energetic;
+
+                      return (
+                        <div
+                          key={founder.id}
+                          className="flex items-center gap-4 p-3 bg-black/30 rounded-lg
+                            hover:bg-black/50 cursor-pointer transition-colors"
+                          onClick={() => setSelectedFounder(founder)}
+                        >
+                          <div
+                            className="w-10 h-10 rounded-full flex items-center justify-center text-lg"
+                            style={{ backgroundColor: `${type.color}20` }}
+                          >
+                            {type.icon}
+                          </div>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2">
+                              <span className="text-white font-medium">
+                                {founder.profiles?.display_name || `Fondateur #${founder.founder_number}`}
+                              </span>
+                              <span className="text-xs px-2 py-0.5 rounded-full bg-green-600/20 text-green-400">
+                                {founder.energy_signature} Hz
+                              </span>
+                            </div>
+                            <div className="text-gray-500 text-sm">
+                              {founder.grid_location_name || 'Position non definie'} • {contrib.icon} {contrib.name}
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-xs text-gray-500">
+                              Active depuis
+                            </div>
+                            <div className="text-sm text-gray-400">
+                              {founder.grid_activated_at
+                                ? new Date(founder.grid_activated_at).toLocaleDateString('fr-FR')
+                                : '-'}
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+
+                    {founders.filter(f => f.energy_status === 'activated').length === 0 && (
+                      <div className="text-center py-8 text-gray-500">
+                        Aucun fondateur encore active dans la Grid
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         )}
 

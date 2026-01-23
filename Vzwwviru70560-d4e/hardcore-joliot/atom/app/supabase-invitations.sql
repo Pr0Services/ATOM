@@ -68,7 +68,7 @@ CREATE TABLE IF NOT EXISTS invitations (
 );
 
 -- ═══════════════════════════════════════════════════════════════════════════════
--- 2. TABLE DES MEMBRES FONDATEURS (Extension du profil)
+-- 2. TABLE DES MEMBRES FONDATEURS (Extension du profil avec Grid Énergétique)
 -- ═══════════════════════════════════════════════════════════════════════════════
 
 CREATE TABLE IF NOT EXISTS founders (
@@ -84,7 +84,46 @@ CREATE TABLE IF NOT EXISTS founders (
   -- Numéro de fondateur (ordre d'arrivée)
   founder_number INTEGER,
 
-  -- Informations personnelles partagées
+  -- ═══════════════════════════════════════════════════════════════════════════
+  -- GRID ÉNERGÉTIQUE - Coordonnées et Ancrage Planétaire
+  -- ═══════════════════════════════════════════════════════════════════════════
+
+  -- Coordonnées géographiques pour la Grid mondiale
+  grid_latitude DECIMAL(10, 8),           -- Latitude du point d'ancrage
+  grid_longitude DECIMAL(11, 8),          -- Longitude du point d'ancrage
+  grid_location_name TEXT,                -- Nom du lieu d'ancrage (ex: "Montréal, Québec")
+
+  -- Signature fréquentielle pour validation énergétique
+  energy_signature INTEGER DEFAULT 444 CHECK (energy_signature IN (
+    111, 222, 333, 444, 528, 639, 741, 852, 963, 999
+  )),
+
+  -- Statut d'activation (l'énergie doit être alignée avant activation)
+  energy_status TEXT DEFAULT 'calibrating' CHECK (energy_status IN (
+    'calibrating',    -- En cours de calibration énergétique
+    'aligned',        -- Énergie alignée, prêt pour activation
+    'activated',      -- Pleinement activé dans la Grid
+    'dormant'         -- Temporairement en pause
+  )),
+
+  -- Date d'activation dans la Grid (quand l'énergie n'est plus "dangereuse")
+  grid_activated_at TIMESTAMP WITH TIME ZONE,
+
+  -- Type de contribution à la Grid
+  contribution_type TEXT DEFAULT 'energetic' CHECK (contribution_type IN (
+    'energetic',      -- Contribution énergétique pure
+    'material',       -- Ressources matérielles
+    'scientific',     -- Expertise scientifique/technique
+    'creative',       -- Arts et création
+    'healing',        -- Guérison et bien-être
+    'bridge'          -- Pont entre les mondes
+  )),
+
+  -- ═══════════════════════════════════════════════════════════════════════════
+  -- INFORMATIONS PERSONNELLES
+  -- ═══════════════════════════════════════════════════════════════════════════
+
+  -- Localisation (texte, pour affichage)
   location_country TEXT,
   location_city TEXT,
   timezone TEXT,
@@ -95,17 +134,57 @@ CREATE TABLE IF NOT EXISTS founders (
   gifts TEXT[],                  -- Dons/talents à partager
   seeking TEXT[],                -- Ce qu'ils cherchent
 
-  -- Résonance
+  -- Résonance spirituelle
   resonance_frequency INTEGER DEFAULT 444,
   spirit_animal TEXT,
   element TEXT CHECK (element IN ('feu', 'eau', 'terre', 'air', 'ether')),
 
-  -- Activité
+  -- ═══════════════════════════════════════════════════════════════════════════
+  -- ACTIVITÉ ET MÉTADONNÉES
+  -- ═══════════════════════════════════════════════════════════════════════════
+
   is_active BOOLEAN DEFAULT true,
   last_seen_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
 
-  -- Métadonnées
   joined_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- ═══════════════════════════════════════════════════════════════════════════════
+-- 2.1 TABLE DE LA GRID MONDIALE (Points d'ancrage actifs)
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+CREATE TABLE IF NOT EXISTS energy_grid (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+
+  -- Point d'ancrage
+  name TEXT NOT NULL,                     -- Nom du point d'ancrage
+  latitude DECIMAL(10, 8) NOT NULL,
+  longitude DECIMAL(11, 8) NOT NULL,
+
+  -- Type de point
+  point_type TEXT DEFAULT 'anchor' CHECK (point_type IN (
+    'anchor',         -- Point d'ancrage fondateur
+    'node',           -- Nœud de connexion
+    'portal',         -- Portail énergétique
+    'sanctuary'       -- Sanctuaire
+  )),
+
+  -- Fréquence du point
+  frequency INTEGER DEFAULT 444,
+
+  -- Fondateur responsable de ce point (si applicable)
+  guardian_id UUID REFERENCES founders(user_id) ON DELETE SET NULL,
+
+  -- Nombre de fondateurs connectés à ce point
+  connected_founders INTEGER DEFAULT 0,
+
+  -- Statut
+  is_active BOOLEAN DEFAULT true,
+  activated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+
+  -- Métadonnées
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
@@ -188,6 +267,7 @@ ALTER TABLE invitations ENABLE ROW LEVEL SECURITY;
 ALTER TABLE founders ENABLE ROW LEVEL SECURITY;
 ALTER TABLE founder_connections ENABLE ROW LEVEL SECURITY;
 ALTER TABLE founder_messages ENABLE ROW LEVEL SECURITY;
+ALTER TABLE energy_grid ENABLE ROW LEVEL SECURITY;
 
 -- ═══════════════════════════════════════════════════════════════════════════════
 -- 6. POLICIES POUR INVITATIONS
@@ -324,6 +404,48 @@ CREATE POLICY "Founders can update own messages"
 CREATE POLICY "Founders can delete own messages"
   ON founder_messages FOR DELETE
   USING (author_id = auth.uid());
+
+-- ═══════════════════════════════════════════════════════════════════════════════
+-- 9.1 POLICIES POUR ENERGY_GRID
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+-- Seuls les fondateurs activés peuvent voir la Grid
+CREATE POLICY "Activated founders can view energy grid"
+  ON energy_grid FOR SELECT
+  USING (
+    EXISTS (
+      SELECT 1 FROM founders f
+      WHERE f.user_id = auth.uid()
+      AND f.energy_status = 'activated'
+    )
+    OR EXISTS (
+      SELECT 1 FROM profiles
+      WHERE profiles.id = auth.uid()
+      AND profiles.role = 'souverain'
+    )
+  );
+
+-- Seul le Souverain peut créer des points de Grid
+CREATE POLICY "Souverain can create grid points"
+  ON energy_grid FOR INSERT
+  WITH CHECK (
+    EXISTS (
+      SELECT 1 FROM profiles
+      WHERE profiles.id = auth.uid()
+      AND profiles.role = 'souverain'
+    )
+  );
+
+-- Seul le Souverain peut modifier la Grid
+CREATE POLICY "Souverain can update grid points"
+  ON energy_grid FOR UPDATE
+  USING (
+    EXISTS (
+      SELECT 1 FROM profiles
+      WHERE profiles.id = auth.uid()
+      AND profiles.role = 'souverain'
+    )
+  );
 
 -- ═══════════════════════════════════════════════════════════════════════════════
 -- 10. FONCTIONS SÉCURISÉES
@@ -489,6 +611,172 @@ END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- ═══════════════════════════════════════════════════════════════════════════════
+-- 10.1 FONCTIONS GRID ÉNERGÉTIQUE
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+-- Fonction pour activer un fondateur dans la Grid (Souverain seulement)
+CREATE OR REPLACE FUNCTION activate_founder_in_grid(
+  p_user_id UUID,
+  p_energy_signature INTEGER DEFAULT 444
+)
+RETURNS JSONB AS $$
+DECLARE
+  founder_rec RECORD;
+BEGIN
+  -- Vérifier que l'appelant est Souverain
+  IF NOT EXISTS (
+    SELECT 1 FROM profiles
+    WHERE id = auth.uid() AND role = 'souverain'
+  ) THEN
+    RETURN jsonb_build_object(
+      'success', false,
+      'error', 'Seul le Souverain peut activer les fondateurs dans la Grid'
+    );
+  END IF;
+
+  -- Vérifier que le fondateur existe
+  SELECT * INTO founder_rec FROM founders WHERE user_id = p_user_id;
+
+  IF founder_rec IS NULL THEN
+    RETURN jsonb_build_object(
+      'success', false,
+      'error', 'Fondateur non trouvé'
+    );
+  END IF;
+
+  -- Activer le fondateur
+  UPDATE founders
+  SET
+    energy_status = 'activated',
+    energy_signature = p_energy_signature,
+    grid_activated_at = NOW(),
+    updated_at = NOW()
+  WHERE user_id = p_user_id;
+
+  RETURN jsonb_build_object(
+    'success', true,
+    'message', 'Fondateur activé dans la Grid',
+    'founder_number', founder_rec.founder_number,
+    'energy_signature', p_energy_signature
+  );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Fonction pour mettre à jour la position Grid d'un fondateur
+CREATE OR REPLACE FUNCTION update_grid_position(
+  p_latitude DECIMAL,
+  p_longitude DECIMAL,
+  p_location_name TEXT
+)
+RETURNS JSONB AS $$
+BEGIN
+  -- Vérifier que l'utilisateur est fondateur
+  IF NOT EXISTS (SELECT 1 FROM founders WHERE user_id = auth.uid()) THEN
+    RETURN jsonb_build_object(
+      'success', false,
+      'error', 'Vous devez être membre fondateur'
+    );
+  END IF;
+
+  -- Mettre à jour la position
+  UPDATE founders
+  SET
+    grid_latitude = p_latitude,
+    grid_longitude = p_longitude,
+    grid_location_name = p_location_name,
+    updated_at = NOW()
+  WHERE user_id = auth.uid();
+
+  RETURN jsonb_build_object(
+    'success', true,
+    'message', 'Position Grid mise à jour'
+  );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Fonction pour créer un point d'ancrage dans la Grid (Souverain seulement)
+CREATE OR REPLACE FUNCTION create_grid_point(
+  p_name TEXT,
+  p_latitude DECIMAL,
+  p_longitude DECIMAL,
+  p_point_type TEXT DEFAULT 'anchor',
+  p_frequency INTEGER DEFAULT 444,
+  p_guardian_id UUID DEFAULT NULL
+)
+RETURNS JSONB AS $$
+DECLARE
+  new_point_id UUID;
+BEGIN
+  -- Vérifier que l'appelant est Souverain
+  IF NOT EXISTS (
+    SELECT 1 FROM profiles
+    WHERE id = auth.uid() AND role = 'souverain'
+  ) THEN
+    RETURN jsonb_build_object(
+      'success', false,
+      'error', 'Seul le Souverain peut créer des points de Grid'
+    );
+  END IF;
+
+  -- Créer le point
+  INSERT INTO energy_grid (
+    name, latitude, longitude, point_type, frequency, guardian_id
+  ) VALUES (
+    p_name, p_latitude, p_longitude, p_point_type, p_frequency, p_guardian_id
+  )
+  RETURNING id INTO new_point_id;
+
+  RETURN jsonb_build_object(
+    'success', true,
+    'point_id', new_point_id,
+    'message', 'Point de Grid créé: ' || p_name
+  );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- Fonction pour obtenir les statistiques de la Grid
+CREATE OR REPLACE FUNCTION get_grid_stats()
+RETURNS JSONB AS $$
+DECLARE
+  stats JSONB;
+BEGIN
+  -- Vérifier que l'utilisateur est fondateur activé ou Souverain
+  IF NOT EXISTS (
+    SELECT 1 FROM founders
+    WHERE user_id = auth.uid() AND energy_status = 'activated'
+  ) AND NOT EXISTS (
+    SELECT 1 FROM profiles
+    WHERE id = auth.uid() AND role = 'souverain'
+  ) THEN
+    RETURN jsonb_build_object(
+      'success', false,
+      'error', 'Accès réservé aux fondateurs activés'
+    );
+  END IF;
+
+  SELECT jsonb_build_object(
+    'success', true,
+    'total_founders', (SELECT COUNT(*) FROM founders),
+    'activated_founders', (SELECT COUNT(*) FROM founders WHERE energy_status = 'activated'),
+    'calibrating_founders', (SELECT COUNT(*) FROM founders WHERE energy_status = 'calibrating'),
+    'grid_points', (SELECT COUNT(*) FROM energy_grid WHERE is_active = true),
+    'countries_represented', (SELECT COUNT(DISTINCT location_country) FROM founders WHERE location_country IS NOT NULL),
+    'frequency_distribution', (
+      SELECT jsonb_object_agg(energy_signature, count)
+      FROM (
+        SELECT energy_signature, COUNT(*) as count
+        FROM founders
+        WHERE energy_signature IS NOT NULL
+        GROUP BY energy_signature
+      ) freq
+    )
+  ) INTO stats;
+
+  RETURN stats;
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- ═══════════════════════════════════════════════════════════════════════════════
 -- 11. INDEX POUR PERFORMANCE
 -- ═══════════════════════════════════════════════════════════════════════════════
 
@@ -496,9 +784,13 @@ CREATE INDEX IF NOT EXISTS idx_invitations_code ON invitations(code);
 CREATE INDEX IF NOT EXISTS idx_invitations_status ON invitations(status);
 CREATE INDEX IF NOT EXISTS idx_founders_user_id ON founders(user_id);
 CREATE INDEX IF NOT EXISTS idx_founders_founder_number ON founders(founder_number);
+CREATE INDEX IF NOT EXISTS idx_founders_energy_status ON founders(energy_status);
+CREATE INDEX IF NOT EXISTS idx_founders_grid_location ON founders(grid_latitude, grid_longitude);
 CREATE INDEX IF NOT EXISTS idx_founder_connections_founders ON founder_connections(founder_a, founder_b);
 CREATE INDEX IF NOT EXISTS idx_founder_messages_author ON founder_messages(author_id);
 CREATE INDEX IF NOT EXISTS idx_founder_messages_created ON founder_messages(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_energy_grid_location ON energy_grid(latitude, longitude);
+CREATE INDEX IF NOT EXISTS idx_energy_grid_guardian ON energy_grid(guardian_id);
 
 -- ═══════════════════════════════════════════════════════════════════════════════
 -- 12. MISE À JOUR DU RÔLE PROFILES
@@ -508,16 +800,27 @@ CREATE INDEX IF NOT EXISTS idx_founder_messages_created ON founder_messages(crea
 -- (Note: profiles.role est TEXT sans contrainte, donc pas de modification nécessaire)
 
 -- ═══════════════════════════════════════════════════════════════════════════════
--- FIN DU SCRIPT D'INVITATION
+-- 13. POINT D'ANCRAGE INITIAL - QUÉBEC
+-- ═══════════════════════════════════════════════════════════════════════════════
+
+-- Créer le premier point d'ancrage au Québec (Centre de la Grid)
+INSERT INTO energy_grid (name, latitude, longitude, point_type, frequency, is_active)
+VALUES ('Québec - Point Zéro', 46.8139, -71.2080, 'anchor', 999, true)
+ON CONFLICT DO NOTHING;
+
+-- ═══════════════════════════════════════════════════════════════════════════════
+-- FIN DU SCRIPT D'INVITATION ET GRID ÉNERGÉTIQUE
 -- ═══════════════════════════════════════════════════════════════════════════════
 --
 -- RÉSUMÉ:
 -- ✅ Table invitations: Codes d'invitation uniques avec expiration
--- ✅ Table founders: Profils étendus des membres fondateurs
+-- ✅ Table founders: Profils étendus avec Grid énergétique
+-- ✅ Table energy_grid: Points d'ancrage planétaires
 -- ✅ Table founder_connections: Liens entre fondateurs
 -- ✅ Table founder_messages: Cercle de communication
 -- ✅ Fonctions sécurisées pour gérer les invitations
--- ✅ RLS strict: Seuls les fondateurs voient le cercle
+-- ✅ Fonctions Grid: activation, positionnement, statistiques
+-- ✅ RLS strict: Seuls les fondateurs activés voient la Grid
 --
 -- TYPES DE FONDATEURS:
 -- 🌟 lumiere - Point de Lumière International
@@ -525,5 +828,17 @@ CREATE INDEX IF NOT EXISTS idx_founder_messages_created ON founder_messages(crea
 -- 🏛️ architecte - Architecte de Civilisation
 -- 🕸️ tisserand - Tisserand de Liens
 -- 🔥 porteur - Porteur de Flamme
+--
+-- SIGNATURES ÉNERGÉTIQUES:
+-- 111, 222, 333, 444 (Heartbeat), 528 (Love), 639, 741, 852, 963, 999 (Source)
+--
+-- STATUTS D'ACTIVATION:
+-- calibrating → aligned → activated → (dormant si pause)
+--
+-- TYPES DE CONTRIBUTION:
+-- energetic, material, scientific, creative, healing, bridge
+--
+-- TYPES DE POINTS GRID:
+-- anchor, node, portal, sanctuary
 --
 -- ═══════════════════════════════════════════════════════════════════════════════
