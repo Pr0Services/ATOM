@@ -28,7 +28,19 @@ import { supabase } from '../lib/supabase';
 
 const FREQUENCIES = {
   HEARTBEAT: 444,
+  LOVE: 528,
+  CONNECTION: 639,
+  VISION: 852,
   SOURCE: 999
+};
+
+// Map completion percentage to frequency
+const getFrequencyFromCompletion = (percentage) => {
+  if (percentage >= 100) return FREQUENCIES.SOURCE;
+  if (percentage >= 75) return FREQUENCIES.VISION;
+  if (percentage >= 50) return FREQUENCIES.CONNECTION;
+  if (percentage >= 25) return FREQUENCIES.LOVE;
+  return FREQUENCIES.HEARTBEAT;
 };
 
 const RELAY_TYPES = {
@@ -52,8 +64,16 @@ const RELAYS = [
 // COMPOSANT: INDICATEUR DE FREQUENCE
 // ═══════════════════════════════════════════════════════════════════════════════
 
-const FrequencyIndicator = ({ frequency, foundersCount }) => {
+const FrequencyIndicator = ({ frequency, foundersCount, completionPercentage = 0 }) => {
   const isSource = frequency >= 999;
+
+  const getFrequencyLabel = () => {
+    if (frequency >= 999) return 'Frequence Source';
+    if (frequency >= 852) return 'Frequence Vision';
+    if (frequency >= 639) return 'Frequence Connexion';
+    if (frequency >= 528) return 'Frequence Amour';
+    return 'Frequence Coeur';
+  };
 
   return (
     <div className={`
@@ -80,8 +100,23 @@ const FrequencyIndicator = ({ frequency, foundersCount }) => {
                 {frequency} Hz
               </h2>
               <p className="text-sm text-gray-400">
-                {isSource ? 'Frequence Source' : 'Frequence Coeur'}
+                {getFrequencyLabel()}
               </p>
+            </div>
+          </div>
+          {/* Completion Progress */}
+          <div className="mt-3">
+            <div className="flex justify-between text-xs mb-1">
+              <span className="text-gray-500">Activation</span>
+              <span className={isSource ? 'text-white' : 'text-yellow-400'}>{completionPercentage}%</span>
+            </div>
+            <div className="h-2 bg-gray-800 rounded-full overflow-hidden w-48">
+              <div
+                className={`h-full rounded-full transition-all duration-500 ${
+                  isSource ? 'bg-white' : 'bg-gradient-to-r from-yellow-600 to-yellow-400'
+                }`}
+                style={{ width: `${completionPercentage}%` }}
+              />
             </div>
           </div>
         </div>
@@ -192,11 +227,39 @@ const APIConfigSection = ({ onStatusChange }) => {
     setTesting(relayId);
     setStatuses(prev => ({ ...prev, [relayId]: 'testing' }));
 
-    // Simulate testing - in production, this would call actual endpoints
-    await new Promise(resolve => setTimeout(resolve, 1500));
-
     const key = apiKeys[relayId];
-    const success = key && key.length > 10;
+    let success = false;
+
+    try {
+      // Test actual API connections based on relay type
+      if (relayId === 'openrouter' && key) {
+        const response = await fetch('https://openrouter.ai/api/v1/models', {
+          headers: { 'Authorization': `Bearer ${key}` }
+        });
+        success = response.ok;
+      } else if (relayId === 'anthropic' && key) {
+        // Anthropic doesn't have a simple test endpoint, check key format
+        success = key.startsWith('sk-ant-') && key.length > 20;
+      } else if (relayId === 'stripe' && key) {
+        // Stripe key format validation
+        success = (key.startsWith('sk_live_') || key.startsWith('sk_test_')) && key.length > 20;
+      } else {
+        // For other APIs, validate key format
+        success = key && key.length > 10;
+      }
+
+      // Persist status to database
+      if (success) {
+        await supabase.rpc('update_api_connection_status', {
+          p_api_name: relayId,
+          p_connected: true,
+          p_extra_data: null
+        });
+      }
+    } catch (error) {
+      console.error(`Error testing ${relayId}:`, error);
+      success = false;
+    }
 
     setStatuses(prev => ({ ...prev, [relayId]: success ? 'connected' : 'error' }));
     setTesting(null);
@@ -664,6 +727,8 @@ const SetupWizardPage = () => {
   const [frequency, setFrequency] = useState(FREQUENCIES.HEARTBEAT);
   const [relayStatuses, setRelayStatuses] = useState({});
   const [completedSteps, setCompletedSteps] = useState({});
+  const [setupStatus, setSetupStatus] = useState(null);
+  const [completionPercentage, setCompletionPercentage] = useState(0);
 
   const steps = [
     { id: 'api', name: 'Connexion API', icon: '🔌', description: 'Configurer les cles API souveraines' },
@@ -679,32 +744,87 @@ const SetupWizardPage = () => {
     }
   }, [user, profile, authLoading, navigate]);
 
+  // Load setup status from database
+  const loadSetupStatus = useCallback(async () => {
+    try {
+      const { data, error } = await supabase.rpc('get_setup_status');
+
+      if (error) {
+        console.warn('Could not load setup status:', error);
+        return;
+      }
+
+      if (data?.success) {
+        setSetupStatus(data);
+        setCompletionPercentage(data.completion_percentage || 0);
+        setFrequency(data.current_frequency || FREQUENCIES.HEARTBEAT);
+
+        // Update relay statuses from database
+        const apis = data.apis || {};
+        const newStatuses = {};
+        if (apis.openrouter?.connected) newStatuses.openrouter = 'connected';
+        if (apis.anthropic?.connected) newStatuses.anthropic = 'connected';
+        if (apis.stripe?.connected) newStatuses.stripe = 'connected';
+        if (apis.digitalocean?.connected) newStatuses.digitalocean = 'connected';
+        if (apis.vercel?.connected) newStatuses.vercel = 'connected';
+        if (data.database?.connected) newStatuses.supabase = 'connected';
+
+        setRelayStatuses(prev => ({ ...prev, ...newStatuses }));
+
+        // Update completed steps
+        setCompletedSteps({
+          api: apis.openrouter?.connected || apis.anthropic?.connected || apis.stripe?.connected,
+          database: data.database?.connected,
+          stripe: data.finance?.stripe_connect_configured,
+          relay: data.completion_percentage >= 75
+        });
+      }
+    } catch (err) {
+      console.warn('Error loading setup status:', err);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (user && profile?.role === 'souverain') {
+      loadSetupStatus();
+    }
+  }, [user, profile, loadSetupStatus]);
+
   // Load founders count
   useEffect(() => {
     const loadFoundersCount = async () => {
-      const { count } = await supabase
-        .from('founding_members')
-        .select('*', { count: 'exact', head: true })
-        .eq('status', 'active');
-      setFoundersCount(count || 0);
+      try {
+        const { count } = await supabase
+          .from('founding_members')
+          .select('*', { count: 'exact', head: true })
+          .eq('status', 'active');
+        setFoundersCount(count || 0);
+      } catch {
+        // Table might not exist yet
+        setFoundersCount(0);
+      }
     };
     loadFoundersCount();
   }, []);
 
-  // Calculate frequency based on completed steps
+  // Calculate frequency based on completion percentage
   useEffect(() => {
-    const completedCount = Object.values(completedSteps).filter(Boolean).length;
-    const newFrequency = FREQUENCIES.HEARTBEAT + (completedCount / steps.length) * (FREQUENCIES.SOURCE - FREQUENCIES.HEARTBEAT);
-    setFrequency(Math.round(newFrequency));
-  }, [completedSteps, steps.length]);
+    const newFrequency = getFrequencyFromCompletion(completionPercentage);
+    setFrequency(newFrequency);
+  }, [completionPercentage]);
 
-  const handleStatusChange = (relayId, success) => {
+  const handleStatusChange = async (relayId, success) => {
     setRelayStatuses(prev => ({ ...prev, [relayId]: success ? 'connected' : 'error' }));
 
     // Update completed steps
     const stepId = steps[activeStep]?.id;
     if (stepId) {
       setCompletedSteps(prev => ({ ...prev, [stepId]: success }));
+    }
+
+    // Reload setup status to get updated completion percentage
+    if (success) {
+      await loadSetupStatus();
     }
   };
 
@@ -752,7 +872,7 @@ const SetupWizardPage = () => {
         </div>
 
         {/* Frequency Indicator */}
-        <FrequencyIndicator frequency={frequency} foundersCount={foundersCount} />
+        <FrequencyIndicator frequency={frequency} foundersCount={foundersCount} completionPercentage={completionPercentage} />
 
         {/* Main Content */}
         <div className="grid grid-cols-4 gap-6 mt-8">
