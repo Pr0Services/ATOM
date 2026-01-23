@@ -15,6 +15,15 @@
  */
 
 import React, { Component, createContext, useContext, useState, useCallback } from 'react';
+import { sanitizeError, sanitizePII, secureStorage } from '../lib/CryptoService';
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// CONSTANTES DE SÉCURITÉ
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const MAX_ERROR_REPORTS = 25;
+const ERROR_REPORT_TTL = 7 * 24 * 60 * 60 * 1000; // 7 jours
+const IS_PRODUCTION = process.env.NODE_ENV === 'production';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // CONTEXTE D'ERREUR GLOBAL
@@ -275,24 +284,75 @@ export class ErrorBoundary extends Component {
   }
 
   reportError(error, errorInfo) {
-    // Ici vous pouvez envoyer l'erreur à Sentry, LogRocket, etc.
+    // Rapport d'erreur SÉCURISÉ - nettoie les données sensibles
     try {
+      // Nettoie l'erreur pour supprimer les informations sensibles
+      const sanitized = sanitizeError(error);
+
+      // En production, on ne stocke que le minimum nécessaire
       const errorReport = {
-        message: error.message,
-        stack: error.stack,
-        componentStack: errorInfo?.componentStack,
+        id: `err_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        message: IS_PRODUCTION ? 'Une erreur est survenue' : sanitized.message,
+        // Ne JAMAIS inclure le stack trace en production
+        stack: IS_PRODUCTION ? null : sanitized.stack,
+        componentStack: IS_PRODUCTION ? null : this.sanitizeComponentStack(errorInfo?.componentStack),
         timestamp: new Date().toISOString(),
-        url: window.location.href,
-        userAgent: navigator.userAgent
+        // Ne pas inclure l'URL complète (peut contenir des tokens)
+        path: window.location.pathname,
+        // Minimal user agent
+        browser: IS_PRODUCTION ? null : navigator.userAgent.split(' ').slice(-1)[0]
       };
 
-      // Sauvegarder localement pour debug
-      const reports = JSON.parse(localStorage.getItem('chenu_error_reports') || '[]');
-      reports.push(errorReport);
-      localStorage.setItem('chenu_error_reports', JSON.stringify(reports.slice(-50)));
+      // Utilise le stockage sécurisé chiffré
+      this.saveErrorReportSecurely(errorReport);
 
     } catch (e) {
-      console.error('[ErrorBoundary] Failed to report error:', e);
+      // Silently fail - ne pas exposer d'erreur de reporting
+      if (!IS_PRODUCTION) {
+        console.error('[ErrorBoundary] Failed to report error:', e);
+      }
+    }
+  }
+
+  // Nettoie le component stack pour supprimer les chemins de fichiers
+  sanitizeComponentStack(stack) {
+    if (!stack) return null;
+    return stack
+      .replace(/\(.*?\)/g, '([path])') // Supprime les chemins entre parenthèses
+      .replace(/at\s+https?:\/\/[^\s]+/g, 'at [url]') // Supprime les URLs
+      .replace(/\/[a-zA-Z0-9_\-/.]+\.(js|jsx|ts|tsx)/g, '/[file]') // Supprime les chemins de fichiers
+      .split('\n')
+      .slice(0, 5) // Limite à 5 lignes
+      .join('\n');
+  }
+
+  // Sauvegarde sécurisée avec chiffrement et TTL
+  async saveErrorReportSecurely(report) {
+    try {
+      // Récupère les rapports existants
+      const existingReports = await secureStorage.getItem('error_reports', []);
+
+      // Filtre les anciens rapports (TTL)
+      const now = Date.now();
+      const validReports = existingReports.filter(r => {
+        const reportTime = new Date(r.timestamp).getTime();
+        return (now - reportTime) < ERROR_REPORT_TTL;
+      });
+
+      // Ajoute le nouveau rapport
+      validReports.push(report);
+
+      // Limite le nombre de rapports
+      const trimmedReports = validReports.slice(-MAX_ERROR_REPORTS);
+
+      // Sauvegarde avec chiffrement
+      await secureStorage.setItem('error_reports', trimmedReports, {
+        encrypt: true,
+        ttl: ERROR_REPORT_TTL
+      });
+
+    } catch (e) {
+      // Fallback silencieux
     }
   }
 
@@ -329,15 +389,16 @@ export class ErrorBoundary extends Component {
               Nos équipes en sont informées.
             </p>
 
-            {/* Détails de l'erreur (mode debug) */}
-            {process.env.NODE_ENV === 'development' && this.state.error && (
+            {/* Détails de l'erreur - UNIQUEMENT en développement, JAMAIS en production */}
+            {!IS_PRODUCTION && this.state.error && (
               <details className="mb-6 text-left">
                 <summary className="text-xs text-gray-500 cursor-pointer hover:text-gray-400">
-                  Détails techniques
+                  Détails techniques (dev only)
                 </summary>
                 <pre className="mt-2 p-3 bg-black/50 rounded-lg text-xs text-red-400 overflow-auto max-h-40">
-                  {this.state.error.toString()}
-                  {this.state.errorInfo?.componentStack}
+                  {/* Affiche une version nettoyée même en dev */}
+                  {sanitizeError(this.state.error).message}
+                  {this.sanitizeComponentStack(this.state.errorInfo?.componentStack)}
                 </pre>
               </details>
             )}

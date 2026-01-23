@@ -10,18 +10,69 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-// Configuration Supabase (à remplacer par tes vraies clés)
-const supabaseUrl = process.env.REACT_APP_SUPABASE_URL || 'https://your-project.supabase.co';
-const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY || 'your-anon-key';
+// ═══════════════════════════════════════════════════════════════════════════════
+// CONFIGURATION SÉCURISÉE - AUCUN FALLBACK POUR LES CLÉS SENSIBLES
+// ═══════════════════════════════════════════════════════════════════════════════
 
-// Client Supabase
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-  auth: {
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true
+const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
+const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
+
+// Validation stricte des variables d'environnement
+const validateConfig = () => {
+  const missing = [];
+  if (!supabaseUrl) missing.push('REACT_APP_SUPABASE_URL');
+  if (!supabaseAnonKey) missing.push('REACT_APP_SUPABASE_ANON_KEY');
+
+  if (missing.length > 0) {
+    console.error(`[SECURITY] Variables d'environnement manquantes: ${missing.join(', ')}`);
+    console.error('[SECURITY] Configurez ces variables dans le Setup Wizard (/admin) ou dans votre fichier .env');
+    // En développement, on avertit mais on ne bloque pas complètement
+    if (process.env.NODE_ENV === 'production') {
+      throw new Error(`Configuration Supabase incomplète. Variables manquantes: ${missing.join(', ')}`);
+    }
   }
-});
+  return missing.length === 0;
+};
+
+const isConfigured = validateConfig();
+
+// Client Supabase - créé seulement si configuré, sinon client mock pour dev
+export const supabase = isConfigured
+  ? createClient(supabaseUrl, supabaseAnonKey, {
+      auth: {
+        autoRefreshToken: true,
+        persistSession: true,
+        detectSessionInUrl: true
+      }
+    })
+  : createMockClient();
+
+// Client mock pour développement sans Supabase configuré
+function createMockClient() {
+  console.warn('[DEV] Supabase non configuré - utilisation du client mock');
+  const mockResponse = { data: null, error: { message: 'Supabase non configuré' } };
+  const mockAuth = {
+    signUp: async () => mockResponse,
+    signInWithPassword: async () => mockResponse,
+    signOut: async () => ({ error: null }),
+    getUser: async () => ({ data: { user: null }, error: null }),
+    getSession: async () => ({ data: { session: null }, error: null }),
+    onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } })
+  };
+  return {
+    auth: mockAuth,
+    from: () => ({
+      select: () => ({ eq: () => ({ order: () => ({ limit: () => mockResponse }) }) }),
+      insert: () => ({ select: () => mockResponse }),
+      update: () => ({ eq: () => mockResponse }),
+      delete: () => ({ eq: () => mockResponse })
+    }),
+    rpc: async () => mockResponse
+  };
+}
+
+// Export du status de configuration
+export const isSupabaseConfigured = isConfigured;
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // TYPES DE RÔLES - HIÉRARCHIE DE CIVILISATION
