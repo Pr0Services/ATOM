@@ -4,10 +4,10 @@
 ---
 
 **Application Type:** Provisional Patent Application
-**Filing Date:** [DATE TO BE FILLED]
-**Applicant:** [APPLICANT NAME / CHE-NU INC.]
-**Inventor(s):** [INVENTOR NAME(S)]
-**Docket Number:** CHENU-2024-001-PROV
+**Filing Date:** 23-01-2026
+**Applicant:** Jonathan Emmanuel Rodrigue
+**Inventor(s):** Jonathan Emmanuel Rodrigue
+**Docket Number:** CHENU-2026-001-PROV
 
 ---
 
