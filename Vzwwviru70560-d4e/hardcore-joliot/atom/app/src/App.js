@@ -55,6 +55,8 @@ import EntreePage from './pages/EntreePage';
 import TableauDeBordPage from './pages/TableauDeBordPage';
 import AdminCockpit from './components/AdminCockpit';
 import AgentConversation from './components/AgentConversation';
+import InvitationPortal from './components/InvitationPortal';
+import CerclePage from './pages/CerclePage';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // CONSTANTES GLOBALES
@@ -348,6 +350,10 @@ const App = () => {
                 {/* Route Agent Conversation */}
                 <Route path="/agent/:agentId" element={<AgentConversation />} />
                 <Route path="/agent" element={<AgentConversation initialAgentId="nova" />} />
+
+                {/* Routes Membres Fondateurs */}
+                <Route path="/invitation" element={<InvitationPortal />} />
+                <Route path="/cercle" element={<CerclePage />} />
 
                 {/* Routes Souveraines (avec Layout complet) */}
                 <Route path="/*" element={

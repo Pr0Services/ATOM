@@ -1813,11 +1813,376 @@ const SystemConfiguration = () => {
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════
+// MODULE: INVITATION MANAGER - GESTION DES MEMBRES FONDATEURS
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const FOUNDER_TYPES = {
+  lumiere: { name: 'Point de Lumiere', icon: '🌟', color: '#FFD700', description: 'Ambassadeur de la vision' },
+  gardien: { name: 'Gardien de l\'Arche', icon: '🛡️', color: '#4A90D9', description: 'Protecteur des valeurs' },
+  architecte: { name: 'Architecte', icon: '🏛️', color: '#9B59B6', description: 'Batisseur de structures' },
+  tisserand: { name: 'Tisserand', icon: '🕸️', color: '#2ECC71', description: 'Createur de liens' },
+  porteur: { name: 'Porteur de Flamme', icon: '🔥', color: '#E74C3C', description: 'Gardien de l\'energie' }
+};
+
+const InvitationManager = () => {
+  const [invitations, setInvitations] = useState([]);
+  const [founders, setFounders] = useState([]);
+  const [showCreateModal, setShowCreateModal] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [creating, setCreating] = useState(false);
+
+  // Formulaire nouvelle invitation
+  const [newInvite, setNewInvite] = useState({
+    name: '',
+    email: '',
+    message: '',
+    founderType: 'lumiere',
+    contributionNote: '',
+    expiresDays: 30
+  });
+
+  // Charger les donnees
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = async () => {
+    setLoading(true);
+    try {
+      // Note: Ces requetes necessitent le role souverain
+      // En mode demo, on utilise des donnees mockees
+      setInvitations([
+        { id: '1', code: 'ATOM-DEMO-1234', invited_name: 'Demo Invite', status: 'pending', founder_type: 'lumiere', created_at: new Date().toISOString() }
+      ]);
+      setFounders([]);
+    } catch (err) {
+      console.error('Erreur chargement:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const createInvitation = async () => {
+    if (!newInvite.name.trim()) return;
+
+    setCreating(true);
+    try {
+      // Simuler la creation (en production, utiliser la fonction RPC)
+      const mockCode = `ATOM-${Math.random().toString(36).substr(2, 4).toUpperCase()}-${Math.random().toString(36).substr(2, 4).toUpperCase()}`;
+
+      const newInvitation = {
+        id: Date.now().toString(),
+        code: mockCode,
+        invited_name: newInvite.name,
+        invited_email: newInvite.email,
+        personal_message: newInvite.message,
+        founder_type: newInvite.founderType,
+        contribution_note: newInvite.contributionNote,
+        status: 'pending',
+        created_at: new Date().toISOString(),
+        expires_at: new Date(Date.now() + newInvite.expiresDays * 24 * 60 * 60 * 1000).toISOString()
+      };
+
+      setInvitations(prev => [newInvitation, ...prev]);
+      setShowCreateModal(false);
+      setNewInvite({
+        name: '',
+        email: '',
+        message: '',
+        founderType: 'lumiere',
+        contributionNote: '',
+        expiresDays: 30
+      });
+
+      // Copier le code
+      navigator.clipboard?.writeText(mockCode);
+      alert(`Invitation creee! Code copie: ${mockCode}`);
+    } catch (err) {
+      console.error('Erreur creation:', err);
+      alert('Erreur lors de la creation');
+    } finally {
+      setCreating(false);
+    }
+  };
+
+  const copyCode = (code) => {
+    navigator.clipboard?.writeText(code);
+    alert(`Code copie: ${code}`);
+  };
+
+  const getStatusBadge = (status) => {
+    const styles = {
+      pending: 'bg-yellow-500/20 text-yellow-400',
+      accepted: 'bg-green-500/20 text-green-400',
+      expired: 'bg-gray-500/20 text-gray-400',
+      revoked: 'bg-red-500/20 text-red-400'
+    };
+    const labels = {
+      pending: 'En attente',
+      accepted: 'Accepte',
+      expired: 'Expire',
+      revoked: 'Revoque'
+    };
+    return (
+      <span className={`px-2 py-1 rounded-full text-xs ${styles[status] || styles.pending}`}>
+        {labels[status] || status}
+      </span>
+    );
+  };
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-center">
+          <div className="text-4xl animate-pulse mb-4">🌟</div>
+          <p className="text-gray-400">Chargement...</p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-lg font-bold text-white flex items-center gap-2">
+            <span>🌟</span> Gestion des Invitations - Membres Fondateurs
+          </h2>
+          <p className="text-sm text-gray-500 mt-1">
+            Inviter personnellement les points de lumiere internationaux
+          </p>
+        </div>
+        <button
+          onClick={() => setShowCreateModal(true)}
+          className="px-4 py-2 bg-yellow-600 text-black font-medium rounded-lg hover:bg-yellow-500"
+        >
+          + Nouvelle Invitation
+        </button>
+      </div>
+
+      {/* Stats */}
+      <div className="grid grid-cols-4 gap-4">
+        <div className="bg-black/50 rounded-xl p-4 border border-gray-800">
+          <div className="text-3xl font-bold text-yellow-500">{invitations.filter(i => i.status === 'pending').length}</div>
+          <div className="text-sm text-gray-500">En attente</div>
+        </div>
+        <div className="bg-black/50 rounded-xl p-4 border border-gray-800">
+          <div className="text-3xl font-bold text-green-500">{founders.length}</div>
+          <div className="text-sm text-gray-500">Fondateurs actifs</div>
+        </div>
+        <div className="bg-black/50 rounded-xl p-4 border border-gray-800">
+          <div className="text-3xl font-bold text-blue-500">{invitations.length}</div>
+          <div className="text-sm text-gray-500">Total invitations</div>
+        </div>
+        <div className="bg-black/50 rounded-xl p-4 border border-gray-800">
+          <div className="text-3xl font-bold text-purple-500">
+            {Object.keys(FOUNDER_TYPES).length}
+          </div>
+          <div className="text-sm text-gray-500">Types de fondateurs</div>
+        </div>
+      </div>
+
+      {/* Liste des invitations */}
+      <div className="bg-black/50 rounded-xl border border-gray-800">
+        <div className="p-4 border-b border-gray-800">
+          <h3 className="text-white font-medium">Invitations</h3>
+        </div>
+
+        {invitations.length === 0 ? (
+          <div className="p-8 text-center">
+            <div className="text-4xl mb-4">📭</div>
+            <p className="text-gray-500">Aucune invitation creee</p>
+            <p className="text-gray-600 text-sm mt-2">Commencez par inviter votre premier membre fondateur</p>
+          </div>
+        ) : (
+          <div className="divide-y divide-gray-800">
+            {invitations.map(inv => {
+              const type = FOUNDER_TYPES[inv.founder_type] || FOUNDER_TYPES.lumiere;
+              return (
+                <div key={inv.id} className="p-4 hover:bg-gray-900/50">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div
+                        className="w-10 h-10 rounded-full flex items-center justify-center text-xl"
+                        style={{ backgroundColor: `${type.color}20` }}
+                      >
+                        {type.icon}
+                      </div>
+                      <div>
+                        <div className="text-white font-medium">{inv.invited_name}</div>
+                        <div className="text-sm text-gray-500">
+                          {type.name} | {inv.invited_email || 'Pas d\'email'}
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-4">
+                      {getStatusBadge(inv.status)}
+                      <button
+                        onClick={() => copyCode(inv.code)}
+                        className="px-3 py-1 bg-gray-800 text-gray-300 rounded font-mono text-sm hover:bg-gray-700"
+                      >
+                        {inv.code}
+                      </button>
+                    </div>
+                  </div>
+
+                  {inv.personal_message && (
+                    <div className="mt-3 ml-14 text-sm text-gray-400 italic">
+                      "{inv.personal_message}"
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        )}
+      </div>
+
+      {/* Modal creation */}
+      {showCreateModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80">
+          <div className="bg-gray-900 border border-yellow-600/30 rounded-2xl p-6 max-w-lg w-full max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-lg font-bold text-white">Nouvelle Invitation</h3>
+              <button
+                onClick={() => setShowCreateModal(false)}
+                className="text-gray-500 hover:text-white text-2xl"
+              >
+                x
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              {/* Nom */}
+              <div>
+                <label className="block text-sm text-gray-400 mb-2">Nom de l'invite *</label>
+                <input
+                  type="text"
+                  value={newInvite.name}
+                  onChange={(e) => setNewInvite(p => ({ ...p, name: e.target.value }))}
+                  placeholder="Prenom Nom"
+                  className="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-lg
+                    text-white placeholder-gray-600 focus:outline-none focus:border-yellow-500"
+                />
+              </div>
+
+              {/* Email */}
+              <div>
+                <label className="block text-sm text-gray-400 mb-2">Email (optionnel)</label>
+                <input
+                  type="email"
+                  value={newInvite.email}
+                  onChange={(e) => setNewInvite(p => ({ ...p, email: e.target.value }))}
+                  placeholder="email@exemple.com"
+                  className="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-lg
+                    text-white placeholder-gray-600 focus:outline-none focus:border-yellow-500"
+                />
+              </div>
+
+              {/* Type de fondateur */}
+              <div>
+                <label className="block text-sm text-gray-400 mb-2">Type de Fondateur</label>
+                <div className="grid grid-cols-1 gap-2">
+                  {Object.entries(FOUNDER_TYPES).map(([key, type]) => (
+                    <button
+                      key={key}
+                      type="button"
+                      onClick={() => setNewInvite(p => ({ ...p, founderType: key }))}
+                      className={`flex items-center gap-3 p-3 rounded-lg border transition-all ${
+                        newInvite.founderType === key
+                          ? 'bg-gray-800 border-yellow-500'
+                          : 'bg-black/30 border-gray-700 hover:border-gray-600'
+                      }`}
+                    >
+                      <span className="text-2xl">{type.icon}</span>
+                      <div className="text-left">
+                        <div className="text-white text-sm">{type.name}</div>
+                        <div className="text-gray-500 text-xs">{type.description}</div>
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Message personnel */}
+              <div>
+                <label className="block text-sm text-gray-400 mb-2">Message personnel</label>
+                <textarea
+                  value={newInvite.message}
+                  onChange={(e) => setNewInvite(p => ({ ...p, message: e.target.value }))}
+                  placeholder="Un message personnel pour cet invite..."
+                  rows={3}
+                  className="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-lg
+                    text-white placeholder-gray-600 focus:outline-none focus:border-yellow-500 resize-none"
+                />
+              </div>
+
+              {/* Note contribution */}
+              <div>
+                <label className="block text-sm text-gray-400 mb-2">
+                  Note sur la contribution (pour toi)
+                </label>
+                <input
+                  type="text"
+                  value={newInvite.contributionNote}
+                  onChange={(e) => setNewInvite(p => ({ ...p, contributionNote: e.target.value }))}
+                  placeholder="Pourquoi cette personne est invitee..."
+                  className="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-lg
+                    text-white placeholder-gray-600 focus:outline-none focus:border-yellow-500"
+                />
+              </div>
+
+              {/* Expiration */}
+              <div>
+                <label className="block text-sm text-gray-400 mb-2">Expiration (jours)</label>
+                <select
+                  value={newInvite.expiresDays}
+                  onChange={(e) => setNewInvite(p => ({ ...p, expiresDays: parseInt(e.target.value) }))}
+                  className="w-full px-4 py-3 bg-black/50 border border-gray-700 rounded-lg
+                    text-white focus:outline-none focus:border-yellow-500"
+                >
+                  <option value={7}>7 jours</option>
+                  <option value={14}>14 jours</option>
+                  <option value={30}>30 jours</option>
+                  <option value={60}>60 jours</option>
+                  <option value={90}>90 jours</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Actions */}
+            <div className="flex gap-3 mt-6">
+              <button
+                onClick={() => setShowCreateModal(false)}
+                className="flex-1 py-3 bg-gray-800 text-gray-300 rounded-lg hover:bg-gray-700"
+              >
+                Annuler
+              </button>
+              <button
+                onClick={createInvitation}
+                disabled={creating || !newInvite.name.trim()}
+                className="flex-1 py-3 bg-yellow-600 text-black font-medium rounded-lg
+                  hover:bg-yellow-500 disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {creating ? 'Creation...' : 'Creer l\'Invitation'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ═══════════════════════════════════════════════════════════════════════════════
 // COMPOSANT PRINCIPAL: ADMIN COCKPIT
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const COCKPIT_MODULES = [
   { id: 'setup', name: 'Setup Wizard', icon: '🔧', component: SetupWizard },
+  { id: 'invitations', name: 'Invitations', icon: '🌟', component: InvitationManager },
   { id: 'analytics', name: 'Analytics', icon: '📊', component: AnalyticsDashboard },
   { id: 'users', name: 'Utilisateurs', icon: '👥', component: UserManagement },
   { id: 'agents', name: 'Agents', icon: '🤖', component: AgentOrchestrator },
