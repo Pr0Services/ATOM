@@ -264,16 +264,47 @@ ACTE II: L'ARCHITECTURE DE LA LIBERTÉ
 - Montrer comment le réinvestissement génère des bonus
 - Présenter le réseau de parrainage (non pyramidal - limité à 2 niveaux)
 
-**[40:00-45:00] Le Pont de Transition**
+**[40:00-45:00] Le Pont de Transition & L'Exfiltration**
 - Expliquer comment convertir UR en dollars canadiens
 - Montrer la carte virtuelle (à venir)
 - Rassurer: on peut vivre dans le nouveau monde tout en payant son épicerie dans l'ancien
+
+**[SCÈNE 4 DÉTAILLÉE - L'EXFILTRATION]**
+
+> *"Maintenant, je vais te révéler quelque chose que peu de systèmes osent expliquer ouvertement.*
+>
+> *Nous utilisons les mécanismes de l'ancien monde pour financer le nouveau. C'est ce que j'appelle la Stratégie Vampire.*
+>
+> *[VISUEL: Dashboard d'exfiltration avec jauges de risque]*
+>
+> *Regarde cet écran. C'est notre Miroir de l'Ancien Monde. Il surveille en permanence les signes vitaux du système financier traditionnel: l'inflation, les taux d'intérêt, la stabilité des banques, la volatilité des devises.*
+>
+> *Quand tu déposes de l'argent dans l'Arche, il ne dort pas dans un coffre. Il travaille. Il génère des rendements via les mécanismes classiques - intérêts, placements sécurisés. Mais contrairement aux banques qui gardent ces profits, nous les convertissons.*
+>
+> *[VISUEL: Animation de conversion Fiat → UR → Actifs Tangibles]*
+>
+> *Nous convertissons progressivement ces réserves fiat en deux choses: des Unités de Résonance sur le réseau Hedera - hors de portée des banques traditionnelles - et des actifs tangibles: des terrains, des infrastructures solaires, du matériel technologique.*
+>
+> *Le premier camping glamping de l'Arche au Lac-Saint-Jean? Il sera financé par cette exfiltration. Les serveurs qui font tourner nos agents IA? Pareil.*
+>
+> *[VISUEL: Curseur de vitesse d'extraction]*
+>
+> *Et voici le Volant d'Extraction. En temps normal, nous extrayons environ 10% par mois - assez pour construire, pas assez pour créer des problèmes de liquidité. Mais si nos indicateurs détectent une crise imminente - une inflation qui s'emballe, un gel de comptes bancaires - ce curseur peut passer à 100%. Évacuation totale.*
+>
+> *[VISUEL: Liste d'actifs tangibles]*
+>
+> *Regarde. Voici ce que nous avons déjà converti en actifs souverains. Des terres. Du solaire. Des serveurs. Ces choses ne peuvent pas être gelées par une banque. Elles ne peuvent pas être dévaluées par l'impression monétaire.*
+>
+> *C'est ça, la vraie souveraineté. Pas fuir le système. L'utiliser pour construire quelque chose de mieux. Puis sortir au bon moment."*
 
 #### Points clés à couvrir:
 - Pas une crypto spéculative - une monnaie d'échange stable
 - La valeur vient des services réels (puissance IA, infrastructure)
 - Les règles sont dans le code, transparentes
 - En cas de crise, le Bouclier de Liquidité protège tout le monde
+- **L'exfiltration utilise les failles du vieux système pour financer le nouveau**
+- **Conversion progressive: Fiat → UR → Actifs tangibles**
+- **Monitoring en temps réel du risque systémique**
 
 ---
 
