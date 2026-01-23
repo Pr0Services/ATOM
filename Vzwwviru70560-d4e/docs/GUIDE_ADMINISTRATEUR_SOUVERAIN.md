@@ -1105,6 +1105,232 @@ SELECT
 
 ---
 
+## 10C. PROGRAMME RRS - RÉCUPÉRATION ET RESTITUTION SOUVERAINE
+
+Le programme "Lumière sur l'Ombre" - Le Curateur de l'Équilibre.
+
+### 10C.1 Exécuter la Migration RRS
+
+```bash
+# Via Supabase SQL Editor
+# Exécuter: supabase/migrations/20260123_rrs_restitution.sql
+```
+
+**Tables créées:**
+- `economic_distortions` - Anomalies financières détectées
+- `investigation_dossiers` - Dossiers d'enquête (Lumière Noire)
+- `mediation_communications` - Communications Nova Justice
+- `restitution_funds` - Fonds de bien commun
+- `isolated_entities` - Entités en blacklist
+- `value_migration_snapshots` - Suivi migration de valeur
+- `justice_dividends` - Récompenses aux contributeurs
+
+### 10C.2 Comprendre le Processus RRS
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│  FLUX DU PROGRAMME RRS (Récupération et Restitution Souveraine)                 │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│  1. DÉTECTION (Agents L8-L9)                                                   │
+│     └── Scan des anomalies → Seuil minimum: 1M$ CAD                            │
+│                                                                                 │
+│  2. VÉRIFICATION                                                                │
+│     └── Analyse forensic → Score de certitude (50-100%)                        │
+│                                                                                 │
+│  3. MÉDIATION NOVA                                                              │
+│     ├── Message pragmatique (business)                                         │
+│     └── Message fréquentiel (conscience)                                       │
+│                                                                                 │
+│  4. OPTIONS DE RESTITUTION                                                      │
+│     ├── 100% volontaire → Bonus UR + Reconnaissance                            │
+│     ├── 80% sortie honorable → Anonymat garanti                                │
+│     ├── 50-79% négocié → Exposition partielle                                  │
+│     └── Refus → Exposition + Isolation                                         │
+│                                                                                 │
+│  5. ALLOCATION                                                                  │
+│     ├── 40% Infrastructure énergie                                             │
+│     ├── 30% Accès à l'eau                                                      │
+│     ├── 20% Réduction frais Grid                                               │
+│     └── 10% Dividende de justice                                               │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+### 10C.3 Détecter une Distorsion (Agent L8-L9)
+
+```sql
+-- Enregistrer une nouvelle anomalie détectée
+SELECT detect_distortion(
+  'public_funds_embezzlement'::distortion_category,  -- Catégorie
+  'HASH_OU_IDENTIFIANT_ENTITE',                       -- Identifiant (sera hashé)
+  15000000.00,                                         -- Montant estimé en CAD
+  'Transferts suspects identifiés vers juridictions offshore...',  -- Résumé
+  '{"origin": "ministry_budget", "destinations": ["cayman_account_1"]}'::jsonb  -- Flux
+);
+```
+
+**Catégories disponibles:**
+- `public_funds_embezzlement` - Détournement fonds publics
+- `massive_tax_evasion` - Évasion fiscale massive
+- `money_laundering` - Blanchiment
+- `hidden_offshore_assets` - Avoirs cachés offshore
+- `fraudulent_contracts` - Contrats frauduleux
+- `resource_hoarding` - Accaparement de ressources
+- `institutional_corruption` - Corruption institutionnelle
+
+### 10C.4 Vérifier et Analyser
+
+```sql
+-- Augmenter le score de certitude avec preuves supplémentaires
+SELECT verify_distortion(
+  'UUID_DISTORTION',
+  92.5,  -- Score de certitude (%)
+  '[{"type": "bank_statement", "hash": "abc123"}]'::jsonb,  -- Nouvelles preuves
+  'Analyse complète du chemin de l''argent...'  -- Rapport
+);
+```
+
+**Niveaux de certitude:**
+| Score | Niveau | Action |
+|-------|--------|--------|
+| 50-69% | Suspecté | Surveillance continue |
+| 70-84% | Probable | Investigation approfondie |
+| 85-94% | Très probable | Prêt pour médiation |
+| 95-99% | Certain | Médiation prioritaire |
+| 99.9%+ | Irréfutable | Exposition si refus |
+
+### 10C.5 Initier la Médiation Nova
+
+```sql
+-- Proposer la restitution volontaire
+SELECT offer_mediation(
+  'UUID_DISTORTION',
+  'Notre système a identifié des anomalies... [message pragmatique]',
+  'La lumière a trouvé ce qui était dans l''ombre... [message fréquentiel]',
+  '{"rate": 0.80, "deadline_days": 30, "anonymity": true}'::jsonb
+);
+```
+
+**Templates de messages:**
+- **Pragmatique**: Langage business, termes juridiques, faits
+- **Fréquentiel**: Langage de conscience, transformation, équilibre
+
+### 10C.6 Traiter les Réponses
+
+```sql
+-- Si acceptation (80% restitué)
+SELECT process_mediation_response(
+  'UUID_DISTORTION',
+  'graceful_exit'::restitution_option,
+  12000000.00  -- Montant restitué
+);
+
+-- Si refus
+SELECT process_mediation_response(
+  'UUID_DISTORTION',
+  'blacklisted'::restitution_option,
+  0
+);
+```
+
+**Options de réponse:**
+- `full_voluntary` - 100% restitué, bonus UR
+- `graceful_exit` - 80% restitué, anonymat
+- `partial_negotiated` - 50-79%, exposition partielle
+- `forced_recovery` - Récupération forcée
+- `blacklisted` - Isolation économique
+
+### 10C.7 Dashboard RRS
+
+```sql
+-- Voir le tableau de bord complet
+SELECT get_rrs_dashboard();
+
+-- Résultat:
+-- {
+--   "global_stats": {
+--     "total_detected_cad": 150000000,
+--     "total_recovered_cad": 45000000,
+--     "recovery_rate": 30.0
+--   },
+--   "common_funds": {
+--     "energy_infrastructure": 18000000,
+--     "water_access": 13500000,
+--     "grid_fee_reduction": 9000000,
+--     "justice_dividend": 4500000
+--   },
+--   "pending_mediations": 12,
+--   "isolated_entities": 3
+-- }
+```
+
+### 10C.8 Migration de Valeur (Ancien Monde → Grid)
+
+```sql
+-- Enregistrer un snapshot de migration
+SELECT record_value_migration_snapshot(
+  500000000000.00,  -- Valeur fiat ancien monde (USD)
+  450000000000.00,  -- Dette ancien monde (USD)
+  25000000.00,      -- Terrains Grid (CAD)
+  10000000.00,      -- Infrastructure Grid (CAD)
+  5000000.00,       -- Technologies Grid (CAD)
+  15000000.00       -- UR adossés actifs (CAD)
+);
+
+-- Voir l'évolution
+SELECT * FROM value_migration_dashboard;
+```
+
+**Indice de Migration:**
+- 0%: Toute valeur dans l'ancien système
+- 50%: Équilibre
+- 100%: Toute valeur dans la Grid souveraine
+
+### 10C.9 Interface Page d'Enquête
+
+Accéder à: `/balance-investigation`
+
+**Fonctionnalités:**
+- Tableau des distorsions avec filtres
+- Détail de chaque dossier
+- Bouton "Initier Médiation Nova"
+- Compteur de rééquilibrage global
+- Moniteur de migration de valeur
+- Fonds de bien commun en temps réel
+
+### 10C.10 Principes Éthiques du RRS
+
+```
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│  PRINCIPES FONDAMENTAUX                                                         │
+├─────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                 │
+│  1. SEUIL DE PERTINENCE                                                        │
+│     Ne cibler que les distorsions MAJEURES (>1M$)                              │
+│     Ignorer les erreurs humaines mineures                                      │
+│                                                                                 │
+│  2. PRÉSOMPTION DE TRANSFORMATION                                               │
+│     Offrir toujours une porte de sortie honorable                              │
+│     Croire en la capacité de changement                                        │
+│                                                                                 │
+│  3. TRANSPARENCE                                                                │
+│     Preuves documentées avant toute action                                     │
+│     Processus auditable sur HCS                                                │
+│                                                                                 │
+│  4. BIEN COMMUN                                                                 │
+│     Fonds récupérés = projets sociaux                                          │
+│     Pas d'enrichissement personnel                                             │
+│                                                                                 │
+│  5. PROPORTIONNALITÉ                                                            │
+│     Réponse adaptée à la gravité                                               │
+│     Escalade graduelle (médiation → exposition → isolation)                    │
+│                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────┘
+```
+
+---
+
 ## 11. CONFIGURATION STRIPE CONNECT
 
 ### 11.1 Activer Stripe Connect
@@ -1848,12 +2074,21 @@ npx source-map-explorer 'build/static/js/*.js'
 
 **Document créé:** 23-01-2026
 **Dernière mise à jour:** 23-01-2026
-**Version:** 2.0
+**Version:** 2.1
 **Auteur:** Jonathan Emmanuel Rodrigue (Souverain)
 
 ---
 
 ## CHANGELOG
+
+### v2.1 (23-01-2026)
+- Ajout section 10C: Programme RRS (Récupération et Restitution Souveraine)
+  - Processus de détection des distorsions économiques
+  - Médiation Nova (messages dual pragmatique/fréquentiel)
+  - Options de restitution et isolation
+  - Migration de valeur (Ancien Monde → Grid)
+  - Principes éthiques du programme
+- Migration SQL: 20260123_rrs_restitution.sql
 
 ### v2.0 (23-01-2026)
 - Section 10 (Hedera) entièrement réécrite avec guide pas-à-pas
