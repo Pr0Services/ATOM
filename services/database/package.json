@@ -1,0 +1,18 @@
+{
+  "name": "@atom/database-services",
+  "version": "1.0.0",
+  "description": "AT·OM Database Services (Supabase)",
+  "main": "supabaseClient.js",
+  "scripts": {
+    "test-connection": "node supabaseClient.js",
+    "upload-image": "node upload-image.js",
+    "migrate": "node migrations/run.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.45.0",
+    "dotenv": "^16.4.5"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

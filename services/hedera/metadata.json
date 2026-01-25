@@ -1,0 +1,33 @@
+{
+  "name": "AT·OM Zama Divine Armor #001",
+  "description": "Certificat de souveraineté et d'armure biométrique calibrée sur le Nombre d'Or. Triple Sceau: Physique + Fréquentiel + Numérique.",
+  "image": "https://vzbrhovthpihrhdbbjud.supabase.co/storage/v1/object/public/zama-assets/placeholder-zama-armor.png",
+  "attributes": [
+    { "trait_type": "Mesure_M", "value": "44.4" },
+    { "trait_type": "Mesure_P", "value": "161.8" },
+    { "trait_type": "Mesure_I", "value": "369" },
+    { "trait_type": "Mesure_Po", "value": "1728" },
+    { "trait_type": "Pierre_Centrale", "value": "Citrine" },
+    { "trait_type": "Protection_Sceau", "value": "Obsidienne" },
+    { "trait_type": "Frequence_Ancrage", "value": "444" },
+    { "trait_type": "Sequence_Tesla", "value": "3-6-9-12" },
+    { "trait_type": "Ratio_Phi", "value": "1.618033988749" },
+    { "trait_type": "Version_Architecture", "value": "1.0-Souverain" }
+  ],
+  "properties": {
+    "creator": "Pr0Services",
+    "system": "CHE-NU",
+    "network": "Hedera Mainnet Ready",
+    "triple_sceau": {
+      "physique": "Photo calibrée carte Québec 85.6mm",
+      "frequentiel": "Tesla 369 + Phi 1.618",
+      "numerique": "Hedera TokenID + Supabase Hash"
+    },
+    "calibration": {
+      "M_description": "Fréquence d'ancrage / 10",
+      "P_description": "Nombre d'Or × 100",
+      "I_description": "Séquence Tesla",
+      "Po_description": "Cube parfait 12³"
+    }
+  }
+}
