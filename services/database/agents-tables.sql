@@ -1,226 +1,241 @@
 -- ===============================================================================
--- AT·OM - AGENTS INVITÉS SQL
--- Système d'agents IA invitables dans les rooms et threads
+-- AT·OM - AGENTS TABLES SQL
+-- Système d'agents IA pour la plateforme
+-- ===============================================================================
+--
+-- INSTRUCTIONS:
+-- 1. Aller dans Supabase Dashboard > SQL Editor
+-- 2. Copier-coller ce script EN ENTIER
+-- 3. Cliquer "Run" (ignorer l'avertissement "destructive operation")
+--
 -- ===============================================================================
 
--- 1. TABLE: AGENTS (Définition des agents disponibles)
+-- ===============================================================================
+-- SECTION 1: TABLE AGENTS (Définition des agents)
 -- ===============================================================================
 
 CREATE TABLE IF NOT EXISTS agents (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  name TEXT NOT NULL,
-  type TEXT NOT NULL CHECK (type IN ('facilitator', 'synthesis', 'memory')),
+  agent_type TEXT NOT NULL UNIQUE,
+  display_name TEXT NOT NULL,
   description TEXT,
-  provider TEXT DEFAULT 'claude',
-  model TEXT DEFAULT 'claude-3-5-sonnet',
   capabilities JSONB DEFAULT '[]',
-  default_objective TEXT,
-  icon TEXT DEFAULT '🤖',
-  created_by UUID REFERENCES auth.users(id),
+  config JSONB DEFAULT '{}',
+  is_active BOOLEAN DEFAULT TRUE,
+  origin_context TEXT DEFAULT 'founder',
   created_at TIMESTAMPTZ DEFAULT NOW(),
-  is_active BOOLEAN DEFAULT TRUE
+  updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Agents par défaut
-INSERT INTO agents (name, type, description, default_objective, icon) VALUES
-  ('Facilitateur', 'facilitator', 'Clarifie, reformule et aide à converger', 'Aider le groupe à clarifier ses idées et atteindre un consensus', '🎯'),
-  ('Synthèse', 'synthesis', 'Observe et produit résumés, décisions, actions', 'Produire un résumé structuré des échanges', '📋'),
-  ('Mémoire', 'memory', 'Extrait faits, décisions et accords pour archivage', 'Extraire et structurer les informations importantes', '🧠')
-ON CONFLICT DO NOTHING;
+-- Index
+CREATE INDEX IF NOT EXISTS idx_agents_type ON agents(agent_type);
+CREATE INDEX IF NOT EXISTS idx_agents_active ON agents(is_active);
 
--- 2. TABLE: AGENT_INSTANCES (Instances actives dans rooms/threads)
+-- RLS
+ALTER TABLE agents ENABLE ROW LEVEL SECURITY;
+
+DROP POLICY IF EXISTS "Anyone can view agents" ON agents;
+CREATE POLICY "Anyone can view agents"
+ON agents FOR SELECT
+USING (true);
+
+DROP POLICY IF EXISTS "Only admins can modify agents" ON agents;
+CREATE POLICY "Only admins can modify agents"
+ON agents FOR ALL
+TO authenticated
+USING (
+  EXISTS (
+    SELECT 1 FROM profiles
+    WHERE profiles.id = auth.uid()
+    AND profiles.role IN ('admin', 'architect', 'SOUVERAIN')
+  )
+);
+
+-- Insérer les agents de base (s'ils n'existent pas)
+INSERT INTO agents (agent_type, display_name, description, capabilities, config)
+VALUES
+  ('facilitator', 'Agent Facilitateur', 'Facilite les conversations et aide les utilisateurs',
+   '["conversation", "guidance", "help"]'::jsonb,
+   '{"tone": "helpful", "language": "fr"}'::jsonb),
+  ('synthesis', 'Agent de Synthèse', 'Résume les discussions et extrait les points clés',
+   '["summarize", "extract", "analyze"]'::jsonb,
+   '{"max_length": 500}'::jsonb),
+  ('memory', 'Agent Mémoire', 'Conserve et retrouve les informations importantes',
+   '["store", "retrieve", "connect"]'::jsonb,
+   '{"retention_days": 365}'::jsonb)
+ON CONFLICT (agent_type) DO NOTHING;
+
+-- ===============================================================================
+-- SECTION 2: TABLE AGENT_INSTANCES (Sessions actives des agents)
 -- ===============================================================================
 
 CREATE TABLE IF NOT EXISTS agent_instances (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   agent_id UUID REFERENCES agents(id) ON DELETE CASCADE,
-  context_type TEXT NOT NULL CHECK (context_type IN ('room', 'thread', 'global')),
-  context_id TEXT,  -- ID de la room ou du thread
-  objective TEXT NOT NULL,
-  mode TEXT DEFAULT 'observe' CHECK (mode IN ('observe', 'assist', 'active')),
-  status TEXT DEFAULT 'active' CHECK (status IN ('active', 'paused', 'stopped')),
-  added_by UUID REFERENCES auth.users(id),
-  added_by_name TEXT,
-  config JSONB DEFAULT '{}',
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ DEFAULT NOW()
+  context_type TEXT NOT NULL,
+  context_id UUID,
+  status TEXT DEFAULT 'active',
+  metadata JSONB DEFAULT '{}',
+  started_at TIMESTAMPTZ DEFAULT NOW(),
+  ended_at TIMESTAMPTZ
 );
 
--- Index pour les instances actives
-CREATE INDEX IF NOT EXISTS idx_agent_instances_context
-ON agent_instances(context_type, context_id) WHERE status = 'active';
-
-CREATE INDEX IF NOT EXISTS idx_agent_instances_agent
-ON agent_instances(agent_id);
+-- Index
+CREATE INDEX IF NOT EXISTS idx_agent_instances_agent ON agent_instances(agent_id);
+CREATE INDEX IF NOT EXISTS idx_agent_instances_context ON agent_instances(context_type, context_id);
+CREATE INDEX IF NOT EXISTS idx_agent_instances_status ON agent_instances(status);
 
 -- RLS
 ALTER TABLE agent_instances ENABLE ROW LEVEL SECURITY;
 
--- Lecture pour tous les authentifiés
+DROP POLICY IF EXISTS "Authenticated can view agent instances" ON agent_instances;
 CREATE POLICY "Authenticated can view agent instances"
 ON agent_instances FOR SELECT
 TO authenticated
 USING (true);
 
--- Création par les membres
-CREATE POLICY "Members can create agent instances"
-ON agent_instances FOR INSERT
+DROP POLICY IF EXISTS "System can manage agent instances" ON agent_instances;
+CREATE POLICY "System can manage agent instances"
+ON agent_instances FOR ALL
 TO authenticated
-WITH CHECK (added_by = auth.uid());
+USING (true)
+WITH CHECK (true);
 
--- Modification par le créateur ou admin
-CREATE POLICY "Creators can update agent instances"
-ON agent_instances FOR UPDATE
-TO authenticated
-USING (
-  added_by = auth.uid()
-  OR EXISTS (
-    SELECT 1 FROM profiles
-    WHERE profiles.id = auth.uid()
-    AND profiles.role IN ('admin', 'architect')
-  )
-);
-
--- 3. TABLE: AGENT_OUTPUTS (Artefacts produits par les agents)
+-- ===============================================================================
+-- SECTION 3: TABLE AGENT_OUTPUTS (Sorties/Réponses des agents)
 -- ===============================================================================
 
 CREATE TABLE IF NOT EXISTS agent_outputs (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   instance_id UUID REFERENCES agent_instances(id) ON DELETE CASCADE,
-  output_type TEXT NOT NULL CHECK (output_type IN (
-    'summary', 'memory_candidate', 'plan', 'clarification',
-    'decisions', 'actions', 'insights', 'extraction'
-  )),
-  title TEXT,
-  content TEXT,
-  payload JSONB DEFAULT '{}',
+  output_type TEXT NOT NULL,
+  content JSONB NOT NULL,
+  confidence DECIMAL(3, 2),
   validated BOOLEAN DEFAULT FALSE,
   validated_by UUID REFERENCES auth.users(id),
   validated_at TIMESTAMPTZ,
-  archived BOOLEAN DEFAULT FALSE,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Index pour les outputs
-CREATE INDEX IF NOT EXISTS idx_agent_outputs_instance
-ON agent_outputs(instance_id);
-
-CREATE INDEX IF NOT EXISTS idx_agent_outputs_type
-ON agent_outputs(output_type);
-
-CREATE INDEX IF NOT EXISTS idx_agent_outputs_pending
-ON agent_outputs(validated) WHERE validated = FALSE;
+-- Index
+CREATE INDEX IF NOT EXISTS idx_agent_outputs_instance ON agent_outputs(instance_id);
+CREATE INDEX IF NOT EXISTS idx_agent_outputs_type ON agent_outputs(output_type);
+CREATE INDEX IF NOT EXISTS idx_agent_outputs_validated ON agent_outputs(validated);
 
 -- RLS
 ALTER TABLE agent_outputs ENABLE ROW LEVEL SECURITY;
 
--- Lecture pour tous les authentifiés
+DROP POLICY IF EXISTS "Authenticated can view agent outputs" ON agent_outputs;
 CREATE POLICY "Authenticated can view agent outputs"
 ON agent_outputs FOR SELECT
 TO authenticated
 USING (true);
 
--- Création par le système (via service role)
+DROP POLICY IF EXISTS "System can create agent outputs" ON agent_outputs;
 CREATE POLICY "System can create agent outputs"
 ON agent_outputs FOR INSERT
 TO authenticated
 WITH CHECK (true);
 
--- Validation par les membres
-CREATE POLICY "Members can validate agent outputs"
+DROP POLICY IF EXISTS "Admins can validate outputs" ON agent_outputs;
+CREATE POLICY "Admins can validate outputs"
 ON agent_outputs FOR UPDATE
 TO authenticated
-USING (true)
-WITH CHECK (true);
+USING (
+  EXISTS (
+    SELECT 1 FROM profiles
+    WHERE profiles.id = auth.uid()
+    AND profiles.role IN ('admin', 'architect', 'SOUVERAIN')
+  )
+);
 
--- 4. TABLE: AGENT_MESSAGES (Messages des agents dans les discussions)
+-- ===============================================================================
+-- SECTION 4: TABLE AGENT_MESSAGES (Messages entre agents et utilisateurs)
 -- ===============================================================================
 
 CREATE TABLE IF NOT EXISTS agent_messages (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   instance_id UUID REFERENCES agent_instances(id) ON DELETE CASCADE,
-  context_type TEXT NOT NULL,
-  context_id TEXT,
+  sender_type TEXT NOT NULL,
+  sender_id TEXT,
   content TEXT NOT NULL,
-  message_type TEXT DEFAULT 'response' CHECK (message_type IN (
-    'response', 'summary', 'question', 'clarification', 'suggestion'
-  )),
   metadata JSONB DEFAULT '{}',
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- Index
-CREATE INDEX IF NOT EXISTS idx_agent_messages_context
-ON agent_messages(context_type, context_id);
+CREATE INDEX IF NOT EXISTS idx_agent_messages_instance ON agent_messages(instance_id);
+CREATE INDEX IF NOT EXISTS idx_agent_messages_created ON agent_messages(created_at);
 
 -- RLS
 ALTER TABLE agent_messages ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Authenticated can view agent messages" ON agent_messages;
 CREATE POLICY "Authenticated can view agent messages"
 ON agent_messages FOR SELECT
 TO authenticated
 USING (true);
 
-CREATE POLICY "System can create agent messages"
+DROP POLICY IF EXISTS "Authenticated can send agent messages" ON agent_messages;
+CREATE POLICY "Authenticated can send agent messages"
 ON agent_messages FOR INSERT
 TO authenticated
 WITH CHECK (true);
 
--- 5. TABLE: VALIDATED_MEMORY (Mémoire validée par les humains)
+-- ===============================================================================
+-- SECTION 5: TABLE VALIDATED_MEMORY (Mémoire validée par les humains)
 -- ===============================================================================
 
 CREATE TABLE IF NOT EXISTS validated_memory (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  memory_type TEXT NOT NULL,
+  title TEXT NOT NULL,
+  content JSONB NOT NULL,
   source_output_id UUID REFERENCES agent_outputs(id),
-  memory_type TEXT NOT NULL CHECK (memory_type IN (
-    'fact', 'decision', 'agreement', 'action', 'insight'
-  )),
-  content TEXT NOT NULL,
-  context TEXT,
-  tags TEXT[],
-  importance INTEGER DEFAULT 5 CHECK (importance BETWEEN 1 AND 10),
   validated_by UUID REFERENCES auth.users(id),
+  tags TEXT[] DEFAULT '{}',
+  importance INTEGER DEFAULT 1,
+  origin_context TEXT DEFAULT 'founder',
   created_at TIMESTAMPTZ DEFAULT NOW(),
-  expires_at TIMESTAMPTZ  -- NULL = permanent
+  expires_at TIMESTAMPTZ
 );
 
--- Index pour la recherche
-CREATE INDEX IF NOT EXISTS idx_validated_memory_type
-ON validated_memory(memory_type);
-
-CREATE INDEX IF NOT EXISTS idx_validated_memory_tags
-ON validated_memory USING GIN(tags);
+-- Index
+CREATE INDEX IF NOT EXISTS idx_validated_memory_type ON validated_memory(memory_type);
+CREATE INDEX IF NOT EXISTS idx_validated_memory_tags ON validated_memory USING GIN(tags);
+CREATE INDEX IF NOT EXISTS idx_validated_memory_importance ON validated_memory(importance DESC);
 
 -- RLS
 ALTER TABLE validated_memory ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Authenticated can view validated memory" ON validated_memory;
 CREATE POLICY "Authenticated can view validated memory"
 ON validated_memory FOR SELECT
 TO authenticated
 USING (true);
 
-CREATE POLICY "Validators can create memory"
-ON validated_memory FOR INSERT
+DROP POLICY IF EXISTS "Admins can manage validated memory" ON validated_memory;
+CREATE POLICY "Admins can manage validated memory"
+ON validated_memory FOR ALL
 TO authenticated
-WITH CHECK (validated_by = auth.uid());
+USING (
+  EXISTS (
+    SELECT 1 FROM profiles
+    WHERE profiles.id = auth.uid()
+    AND profiles.role IN ('admin', 'architect', 'SOUVERAIN')
+  )
+);
 
--- 6. REALTIME
+-- ===============================================================================
+-- SECTION 6: FONCTIONS UTILITAIRES
 -- ===============================================================================
 
-ALTER PUBLICATION supabase_realtime ADD TABLE agent_instances;
-ALTER PUBLICATION supabase_realtime ADD TABLE agent_outputs;
-ALTER PUBLICATION supabase_realtime ADD TABLE agent_messages;
-
--- 7. FONCTIONS UTILITAIRES
--- ===============================================================================
-
--- Fonction pour ajouter un agent à un contexte
+-- Fonction: Ajouter un agent à un contexte
 CREATE OR REPLACE FUNCTION add_agent_to_context(
   p_agent_type TEXT,
   p_context_type TEXT,
-  p_context_id TEXT,
-  p_objective TEXT,
-  p_mode TEXT DEFAULT 'observe'
+  p_context_id UUID DEFAULT NULL,
+  p_metadata JSONB DEFAULT '{}'
 )
 RETURNS UUID AS $$
 DECLARE
@@ -228,71 +243,81 @@ DECLARE
   v_instance_id UUID;
 BEGIN
   -- Trouver l'agent
-  SELECT id INTO v_agent_id FROM agents WHERE type = p_agent_type AND is_active = TRUE LIMIT 1;
+  SELECT id INTO v_agent_id FROM agents WHERE agent_type = p_agent_type AND is_active = TRUE;
 
   IF v_agent_id IS NULL THEN
-    RAISE EXCEPTION 'Agent type not found: %', p_agent_type;
+    RAISE EXCEPTION 'Agent % not found or not active', p_agent_type;
   END IF;
 
   -- Créer l'instance
-  INSERT INTO agent_instances (agent_id, context_type, context_id, objective, mode, added_by)
-  VALUES (v_agent_id, p_context_type, p_context_id, p_objective, p_mode, auth.uid())
+  INSERT INTO agent_instances (agent_id, context_type, context_id, metadata)
+  VALUES (v_agent_id, p_context_type, p_context_id, p_metadata)
   RETURNING id INTO v_instance_id;
 
   RETURN v_instance_id;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- Fonction pour retirer un agent
-CREATE OR REPLACE FUNCTION remove_agent_from_context(p_instance_id UUID)
+-- Fonction: Retirer un agent d'un contexte
+CREATE OR REPLACE FUNCTION remove_agent_from_context(
+  p_instance_id UUID
+)
 RETURNS BOOLEAN AS $$
 BEGIN
   UPDATE agent_instances
-  SET status = 'stopped', updated_at = NOW()
-  WHERE id = p_instance_id
-  AND (added_by = auth.uid() OR EXISTS (
-    SELECT 1 FROM profiles WHERE id = auth.uid() AND role IN ('admin', 'architect')
-  ));
+  SET status = 'ended', ended_at = NOW()
+  WHERE id = p_instance_id;
 
   RETURN FOUND;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- Fonction pour valider un output d'agent
+-- Fonction: Valider une sortie d'agent
 CREATE OR REPLACE FUNCTION validate_agent_output(
   p_output_id UUID,
-  p_create_memory BOOLEAN DEFAULT FALSE,
-  p_memory_type TEXT DEFAULT 'insight'
+  p_validator_id UUID
 )
 RETURNS BOOLEAN AS $$
-DECLARE
-  v_output RECORD;
 BEGIN
-  -- Marquer comme validé
   UPDATE agent_outputs
-  SET validated = TRUE, validated_by = auth.uid(), validated_at = NOW()
-  WHERE id = p_output_id
-  RETURNING * INTO v_output;
+  SET validated = TRUE, validated_by = p_validator_id, validated_at = NOW()
+  WHERE id = p_output_id;
 
-  IF NOT FOUND THEN
-    RETURN FALSE;
-  END IF;
-
-  -- Créer une entrée mémoire si demandé
-  IF p_create_memory THEN
-    INSERT INTO validated_memory (source_output_id, memory_type, content, validated_by)
-    VALUES (p_output_id, p_memory_type, v_output.content, auth.uid());
-  END IF;
-
-  RETURN TRUE;
+  RETURN FOUND;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- ===============================================================================
--- FIN DU SCRIPT
+-- SECTION 7: ACTIVER REALTIME
 -- ===============================================================================
 
--- Pour vérifier l'installation:
+DO $$
+BEGIN
+  BEGIN
+    ALTER PUBLICATION supabase_realtime ADD TABLE agents;
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
+
+  BEGIN
+    ALTER PUBLICATION supabase_realtime ADD TABLE agent_instances;
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
+
+  BEGIN
+    ALTER PUBLICATION supabase_realtime ADD TABLE agent_outputs;
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
+
+  BEGIN
+    ALTER PUBLICATION supabase_realtime ADD TABLE agent_messages;
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
+END $$;
+
+-- ===============================================================================
+-- FIN DU SCRIPT - AGENTS TABLES
+-- ===============================================================================
+
+-- Vérification:
 -- SELECT * FROM agents;
--- SELECT * FROM agent_instances WHERE status = 'active';
--- SELECT * FROM agent_outputs WHERE validated = FALSE;
+-- SELECT table_name FROM information_schema.tables WHERE table_schema = 'public' AND table_name LIKE 'agent%';

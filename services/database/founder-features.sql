@@ -1,64 +1,158 @@
 -- ===============================================================================
 -- AT·OM - FOUNDER FEATURES SQL
--- Intégration YouTube, Vault Vidéo Underground, Chat Rooms
+-- Version simplifiée - Ne touche PAS aux tables threads existantes
+-- ===============================================================================
+--
+-- INSTRUCTIONS:
+-- 1. Exécuter D'ABORD: 01-fix-existing-policies.sql (si erreur de participants)
+-- 2. Ensuite exécuter ce fichier
+--
 -- ===============================================================================
 
--- 1. AJOUTER LES CHAMPS YOUTUBE ET SOCIAL AU PROFIL
+-- ===============================================================================
+-- SECTION 1: MISE À JOUR DE LA TABLE PROFILES
 -- ===============================================================================
 
-ALTER TABLE profiles
-ADD COLUMN IF NOT EXISTS youtube_channel_url TEXT,
-ADD COLUMN IF NOT EXISTS facebook_url TEXT,
-ADD COLUMN IF NOT EXISTS is_active_creator BOOLEAN DEFAULT FALSE,
-ADD COLUMN IF NOT EXISTS creator_verified_at TIMESTAMPTZ;
+-- 1.1 Ajouter la colonne role si elle n'existe pas
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'profiles' AND column_name = 'role'
+  ) THEN
+    ALTER TABLE profiles ADD COLUMN role TEXT DEFAULT 'FOUNDER';
+  END IF;
+END $$;
 
--- Index pour les créateurs actifs
-CREATE INDEX IF NOT EXISTS idx_profiles_active_creator
-ON profiles(is_active_creator) WHERE is_active_creator = TRUE;
+-- 1.2 Ajouter les colonnes YouTube/Social si elles n'existent pas
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'profiles' AND column_name = 'youtube_channel_url'
+  ) THEN
+    ALTER TABLE profiles ADD COLUMN youtube_channel_url TEXT;
+  END IF;
 
--- 2. AJOUTER LE CHAMP ROOM AU CHAT COMMUNAUTAIRE
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'profiles' AND column_name = 'facebook_url'
+  ) THEN
+    ALTER TABLE profiles ADD COLUMN facebook_url TEXT;
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'profiles' AND column_name = 'is_active_creator'
+  ) THEN
+    ALTER TABLE profiles ADD COLUMN is_active_creator BOOLEAN DEFAULT FALSE;
+  END IF;
+
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'profiles' AND column_name = 'creator_verified_at'
+  ) THEN
+    ALTER TABLE profiles ADD COLUMN creator_verified_at TIMESTAMPTZ;
+  END IF;
+END $$;
+
+-- 1.3 Index pour les créateurs actifs
+CREATE INDEX IF NOT EXISTS idx_profiles_role ON profiles(role);
+CREATE INDEX IF NOT EXISTS idx_profiles_active_creator ON profiles(is_active_creator)
+WHERE is_active_creator = TRUE;
+
+-- ===============================================================================
+-- SECTION 2: MISE À JOUR DE LA TABLE COMMUNITY_MESSAGES
 -- ===============================================================================
 
-ALTER TABLE community_messages
-ADD COLUMN IF NOT EXISTS room TEXT DEFAULT 'global';
+-- 2.1 Créer si n'existe pas
+CREATE TABLE IF NOT EXISTS community_messages (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  content TEXT NOT NULL,
+  sender_id TEXT NOT NULL,
+  sender_name TEXT,
+  room TEXT DEFAULT 'global',
+  origin_context TEXT DEFAULT 'founder',
+  future_sphere TEXT DEFAULT 'communication',
+  created_at TIMESTAMPTZ DEFAULT NOW()
+);
 
--- Index pour filtrer par room
-CREATE INDEX IF NOT EXISTS idx_community_messages_room
-ON community_messages(room);
+-- 2.2 Ajouter la colonne room si elle n'existe pas
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM information_schema.columns
+    WHERE table_name = 'community_messages' AND column_name = 'room'
+  ) THEN
+    ALTER TABLE community_messages ADD COLUMN room TEXT DEFAULT 'global';
+  END IF;
+END $$;
 
--- 3. TABLE POUR LES VIDÉOS UNDERGROUND (VAULT)
+-- 2.3 Index
+CREATE INDEX IF NOT EXISTS idx_community_messages_room ON community_messages(room);
+CREATE INDEX IF NOT EXISTS idx_community_messages_created ON community_messages(created_at);
+
+-- 2.4 RLS
+ALTER TABLE community_messages ENABLE ROW LEVEL SECURITY;
+
+DO $$
+DECLARE
+  pol RECORD;
+BEGIN
+  FOR pol IN SELECT policyname FROM pg_policies WHERE tablename = 'community_messages'
+  LOOP
+    EXECUTE format('DROP POLICY IF EXISTS %I ON community_messages', pol.policyname);
+  END LOOP;
+END $$;
+
+CREATE POLICY "Anyone can view messages"
+ON community_messages FOR SELECT
+USING (true);
+
+CREATE POLICY "Authenticated can send messages"
+ON community_messages FOR INSERT
+WITH CHECK (true);
+
+-- ===============================================================================
+-- SECTION 3: TABLE UNDERGROUND_VIDEOS (Vault)
 -- ===============================================================================
 
 CREATE TABLE IF NOT EXISTS underground_videos (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   title TEXT NOT NULL,
   description TEXT,
-  file_path TEXT NOT NULL,  -- Chemin dans Supabase Storage
-  file_size BIGINT,         -- Taille en bytes
+  file_path TEXT NOT NULL,
+  file_size BIGINT,
   duration_seconds INTEGER,
   thumbnail_path TEXT,
   uploaded_by UUID REFERENCES auth.users(id) ON DELETE SET NULL,
   uploader_name TEXT,
-  visibility TEXT DEFAULT 'founders', -- 'founders', 'admins', 'all'
-  category TEXT DEFAULT 'general',    -- 'ceremony', 'teaching', 'message', 'general'
+  visibility TEXT DEFAULT 'founders',
+  category TEXT DEFAULT 'general',
+  origin_context TEXT DEFAULT 'founder',
+  future_sphere TEXT DEFAULT 'scholar',
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Index pour les requêtes
-CREATE INDEX IF NOT EXISTS idx_underground_videos_visibility
-ON underground_videos(visibility);
+-- Index
+CREATE INDEX IF NOT EXISTS idx_underground_videos_visibility ON underground_videos(visibility);
+CREATE INDEX IF NOT EXISTS idx_underground_videos_category ON underground_videos(category);
+CREATE INDEX IF NOT EXISTS idx_underground_videos_created ON underground_videos(created_at DESC);
 
-CREATE INDEX IF NOT EXISTS idx_underground_videos_category
-ON underground_videos(category);
-
-CREATE INDEX IF NOT EXISTS idx_underground_videos_created
-ON underground_videos(created_at DESC);
-
--- RLS pour les vidéos underground
+-- RLS
 ALTER TABLE underground_videos ENABLE ROW LEVEL SECURITY;
 
--- Politique: Seuls les membres authentifiés peuvent voir
+DO $$
+DECLARE
+  pol RECORD;
+BEGIN
+  FOR pol IN SELECT policyname FROM pg_policies WHERE tablename = 'underground_videos'
+  LOOP
+    EXECUTE format('DROP POLICY IF EXISTS %I ON underground_videos', pol.policyname);
+  END LOOP;
+END $$;
+
 CREATE POLICY "Founders can view underground videos"
 ON underground_videos FOR SELECT
 TO authenticated
@@ -68,95 +162,81 @@ USING (
   OR (visibility = 'admins' AND EXISTS (
     SELECT 1 FROM profiles
     WHERE profiles.id = auth.uid()
-    AND profiles.role IN ('admin', 'architect')
+    AND profiles.role IN ('admin', 'architect', 'SOUVERAIN')
   ))
 );
 
--- Politique: Seuls les admins peuvent insérer
-CREATE POLICY "Admins can upload underground videos"
+CREATE POLICY "Founders can upload underground videos"
 ON underground_videos FOR INSERT
 TO authenticated
-WITH CHECK (
-  EXISTS (
-    SELECT 1 FROM profiles
-    WHERE profiles.id = auth.uid()
-    AND profiles.role IN ('admin', 'architect', 'founder')
-  )
-);
+WITH CHECK (true);
 
--- Politique: Seuls les admins peuvent modifier
-CREATE POLICY "Admins can update underground videos"
+CREATE POLICY "Uploaders can update their videos"
 ON underground_videos FOR UPDATE
 TO authenticated
-USING (
-  uploaded_by = auth.uid()
-  OR EXISTS (
-    SELECT 1 FROM profiles
-    WHERE profiles.id = auth.uid()
-    AND profiles.role IN ('admin', 'architect')
-  )
-);
+USING (uploaded_by = auth.uid());
 
--- 4. TABLE POUR LE FLUX D'ACTIVITÉ
+-- ===============================================================================
+-- SECTION 4: TABLE ACTIVITY_FEED
 -- ===============================================================================
 
 CREATE TABLE IF NOT EXISTS activity_feed (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
   user_name TEXT,
-  activity_type TEXT NOT NULL, -- 'joined', 'message', 'video_upload', 'thread_created', 'profile_updated'
+  activity_type TEXT NOT NULL,
   content TEXT,
   metadata JSONB DEFAULT '{}',
+  origin_context TEXT DEFAULT 'founder',
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Index pour le flux chronologique
-CREATE INDEX IF NOT EXISTS idx_activity_feed_created
-ON activity_feed(created_at DESC);
+-- Index
+CREATE INDEX IF NOT EXISTS idx_activity_feed_created ON activity_feed(created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_activity_feed_type ON activity_feed(activity_type);
+CREATE INDEX IF NOT EXISTS idx_activity_feed_user ON activity_feed(user_id);
 
-CREATE INDEX IF NOT EXISTS idx_activity_feed_type
-ON activity_feed(activity_type);
-
--- RLS pour le flux d'activité
+-- RLS
 ALTER TABLE activity_feed ENABLE ROW LEVEL SECURITY;
 
--- Tout le monde peut lire le flux
+DO $$
+DECLARE
+  pol RECORD;
+BEGIN
+  FOR pol IN SELECT policyname FROM pg_policies WHERE tablename = 'activity_feed'
+  LOOP
+    EXECUTE format('DROP POLICY IF EXISTS %I ON activity_feed', pol.policyname);
+  END LOOP;
+END $$;
+
 CREATE POLICY "Anyone can view activity feed"
 ON activity_feed FOR SELECT
 TO authenticated
 USING (true);
 
--- Seul le système ou l'utilisateur peut créer ses entrées
 CREATE POLICY "Users can create their activity"
 ON activity_feed FOR INSERT
 TO authenticated
 WITH CHECK (user_id = auth.uid() OR user_id IS NULL);
 
--- 5. ACTIVER REALTIME POUR LES NOUVELLES TABLES
 -- ===============================================================================
-
-ALTER PUBLICATION supabase_realtime ADD TABLE underground_videos;
-ALTER PUBLICATION supabase_realtime ADD TABLE activity_feed;
-
--- 6. FONCTION TRIGGER POUR ENREGISTRER L'ACTIVITÉ
+-- SECTION 5: TRIGGER POUR ENREGISTRER L'ACTIVITÉ
 -- ===============================================================================
 
 CREATE OR REPLACE FUNCTION log_user_activity()
 RETURNS TRIGGER AS $$
 BEGIN
-  -- Log quand un message est envoyé
   IF TG_TABLE_NAME = 'community_messages' THEN
     INSERT INTO activity_feed (user_id, user_name, activity_type, content, metadata)
     VALUES (
-      NEW.sender_id::UUID,
+      CASE WHEN NEW.sender_id ~ '^[0-9a-f-]{36}$' THEN NEW.sender_id::UUID ELSE NULL END,
       NEW.sender_name,
       'message',
       LEFT(NEW.content, 100),
-      jsonb_build_object('room', NEW.room)
+      jsonb_build_object('room', COALESCE(NEW.room, 'global'))
     );
   END IF;
 
-  -- Log quand une vidéo est uploadée
   IF TG_TABLE_NAME = 'underground_videos' THEN
     INSERT INTO activity_feed (user_id, user_name, activity_type, content, metadata)
     VALUES (
@@ -172,63 +252,38 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- Trigger pour les messages
 DROP TRIGGER IF EXISTS on_message_activity ON community_messages;
 CREATE TRIGGER on_message_activity
 AFTER INSERT ON community_messages
 FOR EACH ROW EXECUTE FUNCTION log_user_activity();
 
--- Trigger pour les vidéos
 DROP TRIGGER IF EXISTS on_video_activity ON underground_videos;
 CREATE TRIGGER on_video_activity
 AFTER INSERT ON underground_videos
 FOR EACH ROW EXECUTE FUNCTION log_user_activity();
 
--- 7. CRÉER LE BUCKET POUR LES VIDÉOS UNDERGROUND
 -- ===============================================================================
--- Note: Exécuter ces commandes via l'interface Supabase ou l'API
-
--- CREATE BUCKET 'underground-vault' (à faire via Dashboard Supabase)
--- Paramètres recommandés:
---   - Public: FALSE
---   - File size limit: 50MB (50000000 bytes)
---   - Allowed MIME types: video/mp4, video/webm, video/quicktime
-
--- Politique de stockage (à exécuter dans SQL Editor de Supabase):
-
--- INSERT INTO storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
--- VALUES (
---   'underground-vault',
---   'underground-vault',
---   false,
---   52428800,  -- 50MB
---   ARRAY['video/mp4', 'video/webm', 'video/quicktime']
--- );
-
--- Politique pour lire (membres authentifiés uniquement)
--- CREATE POLICY "Authenticated users can read underground vault"
--- ON storage.objects FOR SELECT
--- TO authenticated
--- USING (bucket_id = 'underground-vault');
-
--- Politique pour upload (founders et admins)
--- CREATE POLICY "Founders can upload to underground vault"
--- ON storage.objects FOR INSERT
--- TO authenticated
--- WITH CHECK (
---   bucket_id = 'underground-vault'
---   AND EXISTS (
---     SELECT 1 FROM profiles
---     WHERE profiles.id = auth.uid()
---     AND profiles.role IN ('admin', 'architect', 'founder')
---   )
--- );
-
--- ===============================================================================
--- FIN DU SCRIPT
+-- SECTION 6: ACTIVER REALTIME
 -- ===============================================================================
 
--- Pour vérifier l'installation:
--- SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles';
--- SELECT * FROM underground_videos LIMIT 5;
--- SELECT * FROM activity_feed ORDER BY created_at DESC LIMIT 10;
+DO $$
+BEGIN
+  BEGIN
+    ALTER PUBLICATION supabase_realtime ADD TABLE community_messages;
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
+
+  BEGIN
+    ALTER PUBLICATION supabase_realtime ADD TABLE underground_videos;
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
+
+  BEGIN
+    ALTER PUBLICATION supabase_realtime ADD TABLE activity_feed;
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
+END $$;
+
+-- ===============================================================================
+-- FIN DU SCRIPT - FOUNDER FEATURES
+-- ===============================================================================

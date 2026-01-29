@@ -1,0 +1,382 @@
+{
+  "$schema": "skyvern-operations-v1",
+  "metadata": {
+    "project": "AT·OM",
+    "codename": "CHE-NU",
+    "version": "1.0.0",
+    "created": "2026-01-27",
+    "author": "Claude Opus 4.5"
+  },
+
+  "infrastructure": {
+    "frontend": {
+      "platform": "vercel",
+      "project_name": "atom-sovereign",
+      "repository": "ATOM",
+      "branch": "main",
+      "build_path": "ATOM/Vzwwviru70560-d4e/hardcore-joliot/atom/app",
+      "framework": "react",
+      "region": "iad1"
+    },
+    "backend": {
+      "platform": "digitalocean",
+      "app_name": "sea-turtle-app-n4vsa",
+      "url": "https://sea-turtle-app-n4vsa.ondigitalocean.app",
+      "region": "nyc9",
+      "framework": "fastapi",
+      "port": 8000
+    },
+    "database": {
+      "platform": "supabase",
+      "project_ref": "vzbrhovthpihrhdbbjud",
+      "url": "https://vzbrhovthpihrhdbbjud.supabase.co",
+      "features": ["auth", "database", "storage", "realtime"]
+    },
+    "blockchain": {
+      "platform": "hedera",
+      "network": "testnet",
+      "token_id": "0.0.7730446",
+      "operator_account": "0.0.7702951"
+    }
+  },
+
+  "secrets_mapping": {
+    "vercel": {
+      "REACT_APP_SUPABASE_URL": {
+        "source": "supabase",
+        "path": "Settings > API > Project URL",
+        "required": true
+      },
+      "REACT_APP_SUPABASE_ANON_KEY": {
+        "source": "supabase",
+        "path": "Settings > API > anon key",
+        "required": true
+      },
+      "REACT_APP_HEDERA_TOKEN_ID": {
+        "source": "hedera",
+        "path": "Token > Token ID",
+        "required": true
+      },
+      "REACT_APP_HEDERA_NETWORK": {
+        "value": "testnet",
+        "required": true
+      },
+      "REACT_APP_ATOM_M": { "value": "44.4", "required": false },
+      "REACT_APP_ATOM_P": { "value": "161.8", "required": false },
+      "REACT_APP_ATOM_I": { "value": "369", "required": false },
+      "REACT_APP_ATOM_PO": { "value": "1728", "required": false }
+    },
+    "digitalocean": {
+      "SUPABASE_URL": {
+        "source": "supabase",
+        "path": "Settings > API > Project URL",
+        "required": true
+      },
+      "SUPABASE_SERVICE_ROLE_KEY": {
+        "source": "supabase",
+        "path": "Settings > API > service_role key",
+        "required": true,
+        "security": "critical"
+      },
+      "DATABASE_URL": {
+        "source": "digitalocean",
+        "path": "Database > Connection Details > Connection String",
+        "required": true,
+        "security": "critical"
+      },
+      "HEDERA_OPERATOR_ID": {
+        "source": "hedera",
+        "path": "Account > Account ID",
+        "required": true
+      },
+      "HEDERA_OPERATOR_KEY": {
+        "source": "hedera",
+        "path": "Account > Private Key",
+        "required": true,
+        "security": "critical"
+      },
+      "JWT_SECRET_KEY": {
+        "source": "generate",
+        "type": "uuid_v4",
+        "required": true,
+        "security": "critical"
+      },
+      "ENV": { "value": "production", "required": true },
+      "DEBUG": { "value": "false", "required": true },
+      "HOST": { "value": "0.0.0.0", "required": true },
+      "ANTHROPIC_API_KEY": {
+        "source": "anthropic",
+        "path": "Console > API Keys",
+        "required": false,
+        "security": "critical"
+      },
+      "OPENAI_API_KEY": {
+        "source": "openai",
+        "path": "Platform > API Keys",
+        "required": false,
+        "security": "critical"
+      }
+    }
+  },
+
+  "dns_configuration": {
+    "domain": "{{CUSTOM_DOMAIN}}",
+    "records": [
+      {
+        "type": "A",
+        "name": "@",
+        "value": "76.76.21.21",
+        "ttl": 300,
+        "purpose": "Vercel frontend"
+      },
+      {
+        "type": "CNAME",
+        "name": "www",
+        "value": "cname.vercel-dns.com",
+        "ttl": 300,
+        "purpose": "WWW redirect"
+      },
+      {
+        "type": "CNAME",
+        "name": "api",
+        "value": "sea-turtle-app-n4vsa.ondigitalocean.app",
+        "ttl": 300,
+        "purpose": "API subdomain (optional)"
+      }
+    ]
+  },
+
+  "database_migrations": {
+    "order": [
+      {
+        "sequence": 1,
+        "file": "services/database/01-fix-existing-policies.sql",
+        "description": "Fix RLS policies for existing thread tables",
+        "validation": {
+          "query": "SELECT COUNT(*) FROM pg_policies WHERE tablename = 'private_threads'",
+          "expected": "result > 0"
+        }
+      },
+      {
+        "sequence": 2,
+        "file": "services/database/founder-features.sql",
+        "description": "Add founder features (YouTube, vault, activity)",
+        "validation": {
+          "query": "SELECT column_name FROM information_schema.columns WHERE table_name = 'profiles' AND column_name = 'role'",
+          "expected": "result_count = 1"
+        }
+      },
+      {
+        "sequence": 3,
+        "file": "services/database/agents-tables.sql",
+        "description": "Create AI agent system tables",
+        "validation": {
+          "query": "SELECT COUNT(*) FROM agents",
+          "expected": "result >= 3"
+        }
+      },
+      {
+        "sequence": 4,
+        "file": "services/database/founder-adaptive-agents.sql",
+        "description": "Create adaptive UX agent tables",
+        "validation": {
+          "query": "SELECT COUNT(*) FROM agents WHERE agent_type = 'ux_observer'",
+          "expected": "result = 1"
+        }
+      },
+      {
+        "sequence": 5,
+        "file": "services/database/grid-tables.sql",
+        "description": "Create planetary grid tables",
+        "validation": {
+          "query": "SELECT COUNT(*) FROM grid_sectors",
+          "expected": "result = 12"
+        }
+      }
+    ]
+  },
+
+  "storage_buckets": {
+    "create": [
+      {
+        "name": "underground-vault",
+        "public": false,
+        "file_size_limit": 52428800,
+        "policies": [
+          {
+            "name": "Founders can upload videos",
+            "operation": "INSERT",
+            "definition": "bucket_id = 'underground-vault'"
+          },
+          {
+            "name": "Founders can view videos",
+            "operation": "SELECT",
+            "definition": "bucket_id = 'underground-vault'"
+          }
+        ]
+      }
+    ],
+    "verify": [
+      {
+        "name": "zama-assets",
+        "public": true
+      }
+    ]
+  },
+
+  "validation_tests": {
+    "infrastructure": [
+      {
+        "name": "frontend_accessible",
+        "type": "http",
+        "method": "GET",
+        "url": "https://{{DOMAIN}}/",
+        "expected_status": 200,
+        "timeout_ms": 10000
+      },
+      {
+        "name": "backend_health",
+        "type": "http",
+        "method": "GET",
+        "url": "https://sea-turtle-app-n4vsa.ondigitalocean.app/api/v2/health",
+        "expected_status": 200,
+        "expected_json": { "status": "healthy" },
+        "timeout_ms": 15000
+      },
+      {
+        "name": "supabase_health",
+        "type": "http",
+        "method": "GET",
+        "url": "https://vzbrhovthpihrhdbbjud.supabase.co/rest/v1/",
+        "headers": {
+          "apikey": "{{SUPABASE_ANON_KEY}}"
+        },
+        "expected_status": 200,
+        "timeout_ms": 5000
+      },
+      {
+        "name": "api_proxy",
+        "type": "http",
+        "method": "GET",
+        "url": "https://{{DOMAIN}}/api/health",
+        "expected_status": 200,
+        "timeout_ms": 10000
+      }
+    ],
+    "database": [
+      {
+        "name": "tables_exist",
+        "type": "sql",
+        "query": "SELECT COUNT(*) as cnt FROM information_schema.tables WHERE table_schema = 'public'",
+        "expected": "cnt >= 15"
+      },
+      {
+        "name": "agents_seeded",
+        "type": "sql",
+        "query": "SELECT COUNT(*) as cnt FROM agents",
+        "expected": "cnt >= 7"
+      },
+      {
+        "name": "grid_sectors_seeded",
+        "type": "sql",
+        "query": "SELECT COUNT(*) as cnt FROM grid_sectors",
+        "expected": "cnt = 12"
+      }
+    ]
+  },
+
+  "execution_workflow": {
+    "phases": [
+      {
+        "id": "security_remediation",
+        "name": "Security Remediation",
+        "priority": "CRITICAL",
+        "manual": true,
+        "steps": [
+          "Remove .env and .env.local from git tracking",
+          "Revoke all exposed API keys",
+          "Generate new keys for all services",
+          "Update environment variables in platforms"
+        ]
+      },
+      {
+        "id": "verify_infrastructure",
+        "name": "Verify Infrastructure",
+        "steps": [
+          "Login to Vercel - verify project exists",
+          "Login to Supabase - verify project exists",
+          "Login to DigitalOcean - verify app running",
+          "Check Hedera account balance"
+        ]
+      },
+      {
+        "id": "configure_domain",
+        "name": "Configure Domain",
+        "condition": "if domain not configured",
+        "steps": [
+          "Add domain to Vercel",
+          "Configure DNS records",
+          "Wait for propagation",
+          "Verify SSL certificate"
+        ]
+      },
+      {
+        "id": "database_setup",
+        "name": "Database Setup",
+        "steps": [
+          "Execute SQL migrations in order",
+          "Create storage buckets",
+          "Verify realtime enabled"
+        ]
+      },
+      {
+        "id": "deploy",
+        "name": "Deploy",
+        "steps": [
+          "Commit changes",
+          "Merge to main branch",
+          "Monitor Vercel deployment",
+          "Verify deployment success"
+        ]
+      },
+      {
+        "id": "validate",
+        "name": "Validate",
+        "steps": [
+          "Run infrastructure tests",
+          "Run database tests",
+          "Test user flows",
+          "Generate report"
+        ]
+      }
+    ]
+  },
+
+  "error_handling": {
+    "on_build_failure": {
+      "action": "check_logs",
+      "retry": 2,
+      "escalate_after": "2_failures"
+    },
+    "on_dns_timeout": {
+      "action": "wait",
+      "wait_time_ms": 1800000,
+      "retry": 3,
+      "escalate_after": "60_minutes"
+    },
+    "on_database_error": {
+      "action": "rollback_if_possible",
+      "escalate_immediately": true
+    },
+    "escalation_channel": "human_operator"
+  },
+
+  "file_paths": {
+    "vercel_config": "/vercel.json",
+    "frontend_app": "/ATOM/Vzwwviru70560-d4e/hardcore-joliot/atom/app/",
+    "backend_app": "/Vzwwviru70560-d4e/hardcore-joliot/backend/",
+    "sql_scripts": "/services/database/",
+    "hedera_service": "/services/hedera/",
+    "automation_docs": "/automation/"
+  }
+}

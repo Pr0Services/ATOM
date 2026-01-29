@@ -1,161 +1,87 @@
 -- ===============================================================================
--- AT·OM - SYSTÈME D'AGENTS ADAPTATIFS FOUNDER
--- Agents d'observation, analyse et proposition pour la phase fondatrice
+-- AT·OM - FOUNDER ADAPTIVE AGENTS SQL
+-- Système d'agents UX adaptatifs pour la phase Founder
 -- ===============================================================================
 --
--- PRINCIPE CLÉ:
--- Les agents n'imposent jamais un layout.
--- Ils OBSERVENT → PROPOSENT → PRÉPARENT → ATTENDENT validation.
+-- INSTRUCTIONS:
+-- 1. Aller dans Supabase Dashboard > SQL Editor
+-- 2. Copier-coller ce script EN ENTIER
+-- 3. Cliquer "Run" (ignorer l'avertissement "destructive operation")
 --
--- AGENTS:
--- 1. Observateur UX (silencieux) - voir sans intervenir
--- 2. Analyste Feedback - écouter les humains
--- 3. Architecte Structure - proposer des ajustements
--- 4. Gardien Cohérence - empêcher la dérive
+-- IMPORTANT: Exécuter APRÈS agents-tables.sql
 --
 -- ===============================================================================
 
--- 1. TABLE: AGENTS ADAPTATIFS (types spécifiques Founder)
+-- ===============================================================================
+-- SECTION 1: TABLES DE MÉTRIQUES UX
 -- ===============================================================================
 
--- Ajouter les nouveaux types d'agents
-ALTER TABLE agents DROP CONSTRAINT IF EXISTS agents_type_check;
-ALTER TABLE agents ADD CONSTRAINT agents_type_check
-CHECK (type IN (
-  'facilitator', 'synthesis', 'memory',
-  'ux_observer', 'feedback_analyst', 'structure_architect', 'coherence_guardian'
-));
-
--- Insérer les 4 agents adaptatifs Founder
-INSERT INTO agents (name, type, description, default_objective, icon, capabilities) VALUES
-  (
-    'Observateur UX',
-    'ux_observer',
-    'Observe l''usage réel sans intervenir. Produit des rapports périodiques et des signaux de friction.',
-    'Détecter les patterns d''usage et les zones de friction',
-    '👁️',
-    '["scroll_tracking", "time_tracking", "navigation_patterns", "heatmap_logic"]'
-  ),
-  (
-    'Analyste Feedback',
-    'feedback_analyst',
-    'Écoute les messages humains et extrait les frustrations, attentes et demandes répétées.',
-    'Traduire l''émotion humaine en signal UX actionnable',
-    '👂',
-    '["sentiment_analysis", "friction_detection", "pattern_extraction", "redundancy_check"]'
-  ),
-  (
-    'Architecte Structure',
-    'structure_architect',
-    'Propose des ajustements de layout basés sur les signaux UX et feedback. Ne modifie JAMAIS directement.',
-    'Proposer des ajustements minimaux pour réduire la confusion',
-    '🏗️',
-    '["layout_proposal", "section_analysis", "priority_suggestion", "migration_readiness"]'
-  ),
-  (
-    'Gardien Cohérence',
-    'coherence_guardian',
-    'Vérifie que Founder reste une page fondation, sans dérive vers complexité prématurée.',
-    'Empêcher l''exposition prématurée de logiques opérationnelles',
-    '🛡️',
-    '["complexity_check", "sphere_leak_detection", "automation_guard", "human_level_check"]'
-  )
-ON CONFLICT DO NOTHING;
-
--- 2. TABLE: MÉTRIQUES UX FOUNDER
--- ===============================================================================
-
+-- 1.1 Métriques d'usage par section
 CREATE TABLE IF NOT EXISTS founder_ux_metrics (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  user_id UUID REFERENCES auth.users(id),
+  user_id UUID REFERENCES auth.users(id) ON DELETE CASCADE,
   session_id TEXT NOT NULL,
-
-  -- Métriques de navigation
-  section_name TEXT NOT NULL,
-  time_spent_ms INTEGER DEFAULT 0,
-  scroll_depth_percent INTEGER DEFAULT 0,
-  visit_order INTEGER,
-
-  -- Métriques d'interaction
-  clicks INTEGER DEFAULT 0,
-  messages_sent INTEGER DEFAULT 0,
-  messages_read INTEGER DEFAULT 0,
-
-  -- Contexte
-  device_type TEXT DEFAULT 'desktop',
-  window_start TIMESTAMPTZ DEFAULT NOW(),
-  window_end TIMESTAMPTZ,
-
+  section TEXT NOT NULL,
+  time_spent_seconds INTEGER DEFAULT 0,
+  scroll_depth INTEGER DEFAULT 0,
+  interactions INTEGER DEFAULT 0,
+  metadata JSONB DEFAULT '{}',
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Index pour les analyses
-CREATE INDEX IF NOT EXISTS idx_founder_ux_section ON founder_ux_metrics(section_name);
-CREATE INDEX IF NOT EXISTS idx_founder_ux_session ON founder_ux_metrics(session_id);
-CREATE INDEX IF NOT EXISTS idx_founder_ux_time ON founder_ux_metrics(created_at);
+CREATE INDEX IF NOT EXISTS idx_founder_ux_metrics_user ON founder_ux_metrics(user_id);
+CREATE INDEX IF NOT EXISTS idx_founder_ux_metrics_section ON founder_ux_metrics(section);
+CREATE INDEX IF NOT EXISTS idx_founder_ux_metrics_created ON founder_ux_metrics(created_at);
 
--- RLS
 ALTER TABLE founder_ux_metrics ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "System can insert metrics"
+DROP POLICY IF EXISTS "Users can insert their metrics" ON founder_ux_metrics;
+CREATE POLICY "Users can insert their metrics"
 ON founder_ux_metrics FOR INSERT
 TO authenticated
-WITH CHECK (true);
+WITH CHECK (user_id = auth.uid() OR user_id IS NULL);
 
-CREATE POLICY "Admins can view metrics"
+DROP POLICY IF EXISTS "Admins can view all metrics" ON founder_ux_metrics;
+CREATE POLICY "Admins can view all metrics"
 ON founder_ux_metrics FOR SELECT
 TO authenticated
 USING (
-  EXISTS (
+  user_id = auth.uid()
+  OR EXISTS (
     SELECT 1 FROM profiles
     WHERE profiles.id = auth.uid()
     AND profiles.role IN ('admin', 'architect', 'SOUVERAIN')
   )
 );
 
--- 3. TABLE: SIGNAUX DE FRICTION (feedbacks verbaux)
--- ===============================================================================
-
+-- 1.2 Signaux de friction détectés
 CREATE TABLE IF NOT EXISTS founder_friction_signals (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-
-  -- Source du signal
-  source_type TEXT NOT NULL CHECK (source_type IN ('chat', 'thread', 'feedback')),
-  source_id UUID,
-  message_content TEXT NOT NULL,
-
-  -- Analyse
-  friction_type TEXT NOT NULL CHECK (friction_type IN (
-    'confusion',      -- "je ne comprends pas"
-    'navigation',     -- "où est...", "je cherche..."
-    'overload',       -- "c'est trop", "c'est chargé"
-    'suggestion',     -- "on devrait...", "il faudrait..."
-    'question',       -- questions répétées
-    'frustration'     -- expressions négatives
-  )),
-  keywords TEXT[],
-  severity INTEGER DEFAULT 1 CHECK (severity BETWEEN 1 AND 5),
-
-  -- Contexte
-  user_id UUID REFERENCES auth.users(id),
-  detected_at TIMESTAMPTZ DEFAULT NOW(),
-  processed BOOLEAN DEFAULT FALSE,
-  processed_at TIMESTAMPTZ
+  signal_type TEXT NOT NULL,
+  source TEXT NOT NULL,
+  content TEXT,
+  severity TEXT DEFAULT 'low',
+  detected_patterns JSONB DEFAULT '[]',
+  context JSONB DEFAULT '{}',
+  resolved BOOLEAN DEFAULT FALSE,
+  resolved_by UUID REFERENCES auth.users(id),
+  resolved_at TIMESTAMPTZ,
+  created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Index
-CREATE INDEX IF NOT EXISTS idx_friction_type ON founder_friction_signals(friction_type);
-CREATE INDEX IF NOT EXISTS idx_friction_unprocessed ON founder_friction_signals(processed) WHERE processed = FALSE;
-CREATE INDEX IF NOT EXISTS idx_friction_time ON founder_friction_signals(detected_at);
+CREATE INDEX IF NOT EXISTS idx_friction_signals_type ON founder_friction_signals(signal_type);
+CREATE INDEX IF NOT EXISTS idx_friction_signals_severity ON founder_friction_signals(severity);
+CREATE INDEX IF NOT EXISTS idx_friction_signals_resolved ON founder_friction_signals(resolved);
 
--- RLS
 ALTER TABLE founder_friction_signals ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "System can insert friction signals"
+DROP POLICY IF EXISTS "System can create friction signals" ON founder_friction_signals;
+CREATE POLICY "System can create friction signals"
 ON founder_friction_signals FOR INSERT
 TO authenticated
 WITH CHECK (true);
 
+DROP POLICY IF EXISTS "Admins can view friction signals" ON founder_friction_signals;
 CREATE POLICY "Admins can view friction signals"
 ON founder_friction_signals FOR SELECT
 TO authenticated
@@ -167,110 +93,90 @@ USING (
   )
 );
 
--- 4. TABLE: PROPOSITIONS D'AJUSTEMENT (Agent Architecte)
+DROP POLICY IF EXISTS "Admins can resolve friction signals" ON founder_friction_signals;
+CREATE POLICY "Admins can resolve friction signals"
+ON founder_friction_signals FOR UPDATE
+TO authenticated
+USING (
+  EXISTS (
+    SELECT 1 FROM profiles
+    WHERE profiles.id = auth.uid()
+    AND profiles.role IN ('admin', 'architect', 'SOUVERAIN')
+  )
+);
+
+-- ===============================================================================
+-- SECTION 2: PROPOSITIONS DE LAYOUT
 -- ===============================================================================
 
 CREATE TABLE IF NOT EXISTS founder_layout_proposals (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  proposal_id TEXT UNIQUE NOT NULL,  -- ex: "founder-ux-004"
-
-  -- Fenêtre d'analyse
-  trigger_window_start TIMESTAMPTZ NOT NULL,
-  trigger_window_end TIMESTAMPTZ NOT NULL,
-
-  -- Raison du déclenchement
+  proposal_id TEXT UNIQUE NOT NULL,
   trigger_reason TEXT NOT NULL,
-  observed_signals JSONB NOT NULL DEFAULT '[]',
-
-  -- Proposition unique
+  observed_signals JSONB DEFAULT '[]',
   problem TEXT NOT NULL,
   suggested_change TEXT NOT NULL,
-  expected_effect TEXT NOT NULL,
-  confidence TEXT NOT NULL CHECK (confidence IN ('faible', 'moyen', 'élevé')),
-
-  -- Statut
-  status TEXT DEFAULT 'pending' CHECK (status IN (
-    'pending',    -- En attente de discussion
-    'discussed',  -- Discuté mais pas de décision
-    'approved',   -- Approuvé, en attente d'implémentation
-    'rejected',   -- Rejeté
-    'implemented' -- Implémenté
-  )),
-
-  -- Validation humaine
-  discussed_in_thread UUID,
-  discussion_summary TEXT,
-  validated_by UUID REFERENCES auth.users(id),
-  validated_at TIMESTAMPTZ,
+  expected_effect TEXT,
+  confidence TEXT DEFAULT 'moyen',
+  status TEXT DEFAULT 'pending',
+  responded_by UUID REFERENCES auth.users(id),
+  responded_at TIMESTAMPTZ,
   rejection_reason TEXT,
-
-  -- Métadonnées
-  agent_instance_id UUID REFERENCES agent_instances(id),
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ DEFAULT NOW()
+  implementation_notes TEXT,
+  created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Index
-CREATE INDEX IF NOT EXISTS idx_proposals_status ON founder_layout_proposals(status);
-CREATE INDEX IF NOT EXISTS idx_proposals_pending ON founder_layout_proposals(created_at) WHERE status = 'pending';
+CREATE INDEX IF NOT EXISTS idx_layout_proposals_status ON founder_layout_proposals(status);
+CREATE INDEX IF NOT EXISTS idx_layout_proposals_created ON founder_layout_proposals(created_at DESC);
 
--- RLS
 ALTER TABLE founder_layout_proposals ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Authenticated can view proposals"
+DROP POLICY IF EXISTS "Anyone can view proposals" ON founder_layout_proposals;
+CREATE POLICY "Anyone can view proposals"
 ON founder_layout_proposals FOR SELECT
 TO authenticated
 USING (true);
 
-CREATE POLICY "Agents can create proposals"
+DROP POLICY IF EXISTS "System can create proposals" ON founder_layout_proposals;
+CREATE POLICY "System can create proposals"
 ON founder_layout_proposals FOR INSERT
 TO authenticated
 WITH CHECK (true);
 
-CREATE POLICY "Validators can update proposals"
+DROP POLICY IF EXISTS "Admins can respond to proposals" ON founder_layout_proposals;
+CREATE POLICY "Admins can respond to proposals"
 ON founder_layout_proposals FOR UPDATE
 TO authenticated
 USING (
   EXISTS (
     SELECT 1 FROM profiles
     WHERE profiles.id = auth.uid()
-    AND profiles.role IN ('admin', 'architect', 'SOUVERAIN', 'FOUNDER')
+    AND profiles.role IN ('admin', 'architect', 'SOUVERAIN')
   )
 );
 
--- 5. TABLE: ANALYSES PÉRIODIQUES (rapports toutes les 4h)
+-- ===============================================================================
+-- SECTION 3: ANALYSES PÉRIODIQUES
 -- ===============================================================================
 
 CREATE TABLE IF NOT EXISTS founder_periodic_analyses (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-
-  -- Fenêtre d'analyse
-  window_start TIMESTAMPTZ NOT NULL,
-  window_end TIMESTAMPTZ NOT NULL,
-
-  -- Métriques agrégées par section
-  section_metrics JSONB NOT NULL DEFAULT '{}',
-  -- Format: { "vision": { "avg_time": 45000, "visits": 23, "scroll_depth": 78 }, ... }
-
-  -- Signaux de friction agrégés
-  friction_summary JSONB NOT NULL DEFAULT '{}',
-  -- Format: { "confusion": 3, "navigation": 5, "total": 8 }
-
-  -- Décision de l'agent
-  proposal_generated BOOLEAN DEFAULT FALSE,
-  proposal_id TEXT REFERENCES founder_layout_proposals(proposal_id),
-  no_proposal_reason TEXT,  -- Si pas de proposition, pourquoi
-
-  -- Métadonnées
+  analysis_type TEXT NOT NULL,
+  period_start TIMESTAMPTZ NOT NULL,
+  period_end TIMESTAMPTZ NOT NULL,
+  metrics_summary JSONB DEFAULT '{}',
+  signals_summary JSONB DEFAULT '{}',
+  recommendations JSONB DEFAULT '[]',
+  generated_proposals INTEGER DEFAULT 0,
   created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Index
-CREATE INDEX IF NOT EXISTS idx_analyses_time ON founder_periodic_analyses(window_end DESC);
+CREATE INDEX IF NOT EXISTS idx_periodic_analyses_type ON founder_periodic_analyses(analysis_type);
+CREATE INDEX IF NOT EXISTS idx_periodic_analyses_period ON founder_periodic_analyses(period_start, period_end);
 
--- RLS
 ALTER TABLE founder_periodic_analyses ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Admins can view analyses" ON founder_periodic_analyses;
 CREATE POLICY "Admins can view analyses"
 ON founder_periodic_analyses FOR SELECT
 TO authenticated
@@ -282,85 +188,108 @@ USING (
   )
 );
 
--- 6. TABLE: ÉTAT DE MATURITÉ FONDATION → OPÉRATION
+DROP POLICY IF EXISTS "System can create analyses" ON founder_periodic_analyses;
+CREATE POLICY "System can create analyses"
+ON founder_periodic_analyses FOR INSERT
+TO authenticated
+WITH CHECK (true);
+
+-- ===============================================================================
+-- SECTION 4: TRACKING DE MATURITÉ FOUNDER
 -- ===============================================================================
 
 CREATE TABLE IF NOT EXISTS founder_maturity_tracking (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-
-  -- Sujet suivi
-  topic TEXT NOT NULL,
-  topic_type TEXT NOT NULL CHECK (topic_type IN (
-    'discussion',  -- Fil de discussion
-    'decision',    -- Décision émergente
-    'process',     -- Processus potentiel
-    'section'      -- Section de la page
-  )),
-
-  -- Indicateurs de maturité
-  first_mentioned_at TIMESTAMPTZ NOT NULL,
-  mention_count INTEGER DEFAULT 1,
-  participant_count INTEGER DEFAULT 1,
-  divergence_level INTEGER DEFAULT 5 CHECK (divergence_level BETWEEN 1 AND 10),
-  -- 10 = très divergent (fondation), 1 = convergé (opération)
-
-  -- Signaux de stabilisation
-  decision_phrases_detected INTEGER DEFAULT 0,
-  -- "on décide que", "on est d'accord", "à partir de maintenant"
-
-  -- Statut
-  maturity_status TEXT DEFAULT 'foundation' CHECK (maturity_status IN (
-    'foundation',      -- Encore en discussion libre
-    'stabilizing',     -- Commence à converger
-    'ready_synthesis', -- Prêt pour synthèse agent
-    'synthesized',     -- Synthèse produite
-    'ready_migration', -- Prêt pour migration vers sphère
-    'migrated'         -- Migré
-  )),
-
-  -- Migration
-  target_sphere TEXT,  -- 'communication', 'scholar', 'identity', etc.
-  migrated_at TIMESTAMPTZ,
-  migrated_by UUID REFERENCES auth.users(id),
-
-  created_at TIMESTAMPTZ DEFAULT NOW(),
-  updated_at TIMESTAMPTZ DEFAULT NOW()
+  total_founders INTEGER DEFAULT 0,
+  active_founders INTEGER DEFAULT 0,
+  sections_usage JSONB DEFAULT '{}',
+  feature_adoption JSONB DEFAULT '{}',
+  complexity_score INTEGER DEFAULT 0,
+  readiness_for_migration TEXT DEFAULT 'not_ready',
+  snapshot_date DATE DEFAULT CURRENT_DATE,
+  created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- Index
-CREATE INDEX IF NOT EXISTS idx_maturity_status ON founder_maturity_tracking(maturity_status);
-CREATE INDEX IF NOT EXISTS idx_maturity_topic ON founder_maturity_tracking(topic);
+CREATE INDEX IF NOT EXISTS idx_maturity_tracking_date ON founder_maturity_tracking(snapshot_date);
 
--- RLS
 ALTER TABLE founder_maturity_tracking ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Authenticated can view maturity tracking"
+DROP POLICY IF EXISTS "Admins can view maturity tracking" ON founder_maturity_tracking;
+CREATE POLICY "Admins can view maturity tracking"
 ON founder_maturity_tracking FOR SELECT
 TO authenticated
-USING (true);
+USING (
+  EXISTS (
+    SELECT 1 FROM profiles
+    WHERE profiles.id = auth.uid()
+    AND profiles.role IN ('admin', 'architect', 'SOUVERAIN')
+  )
+);
 
--- 7. FONCTIONS UTILITAIRES
+DROP POLICY IF EXISTS "System can track maturity" ON founder_maturity_tracking;
+CREATE POLICY "System can track maturity"
+ON founder_maturity_tracking FOR INSERT
+TO authenticated
+WITH CHECK (true);
+
+-- ===============================================================================
+-- SECTION 5: AJOUTER LES AGENTS ADAPTATIFS
 -- ===============================================================================
 
--- Fonction pour enregistrer une métrique UX
+-- Vérifier que la table agents existe
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'agents') THEN
+    RAISE NOTICE 'Table agents does not exist. Run agents-tables.sql first.';
+  ELSE
+    -- Insérer les agents adaptatifs
+    INSERT INTO agents (agent_type, display_name, description, capabilities, config)
+    VALUES
+      ('ux_observer', 'Observateur UX', 'Observe silencieusement l''usage: temps par section, scroll, interactions',
+       '["track_time", "track_scroll", "track_interactions"]'::jsonb,
+       '{"silent": true, "sample_rate": 1.0}'::jsonb),
+      ('feedback_analyst', 'Analyste Feedback', 'Détecte les signaux de friction dans les messages et comportements',
+       '["detect_confusion", "detect_frustration", "pattern_recognition"]'::jsonb,
+       '{"keywords": ["où trouver", "je ne comprends pas", "comment", "bug", "erreur"], "threshold": 3}'::jsonb),
+      ('structure_architect', 'Architecte Structure', 'Propose des ajustements de layout basés sur les données',
+       '["analyze_usage", "propose_changes", "simulate_impact"]'::jsonb,
+       '{"analysis_interval_hours": 4, "min_confidence": 0.6}'::jsonb),
+      ('coherence_guardian', 'Gardien Cohérence', 'Empêche la dérive vers la complexité prématurée',
+       '["check_complexity", "validate_proposals", "enforce_boundaries"]'::jsonb,
+       '{"max_tabs": 5, "max_depth": 2, "founder_only": true}'::jsonb)
+    ON CONFLICT (agent_type) DO UPDATE SET
+      display_name = EXCLUDED.display_name,
+      description = EXCLUDED.description,
+      capabilities = EXCLUDED.capabilities,
+      config = EXCLUDED.config;
+  END IF;
+END $$;
+
+-- ===============================================================================
+-- SECTION 6: FONCTIONS UTILITAIRES
+-- ===============================================================================
+
+-- Fonction: Enregistrer une métrique UX
 CREATE OR REPLACE FUNCTION record_ux_metric(
+  p_user_id UUID,
   p_session_id TEXT,
-  p_section_name TEXT,
-  p_time_spent_ms INTEGER,
+  p_section TEXT,
+  p_time_spent INTEGER,
   p_scroll_depth INTEGER DEFAULT 0,
-  p_visit_order INTEGER DEFAULT NULL
+  p_interactions INTEGER DEFAULT 0,
+  p_metadata JSONB DEFAULT '{}'
 )
 RETURNS UUID AS $$
 DECLARE
   v_metric_id UUID;
 BEGIN
   INSERT INTO founder_ux_metrics (
-    user_id, session_id, section_name,
-    time_spent_ms, scroll_depth_percent, visit_order
+    user_id, session_id, section, time_spent_seconds,
+    scroll_depth, interactions, metadata
   )
   VALUES (
-    auth.uid(), p_session_id, p_section_name,
-    p_time_spent_ms, p_scroll_depth, p_visit_order
+    p_user_id, p_session_id, p_section, p_time_spent,
+    p_scroll_depth, p_interactions, p_metadata
   )
   RETURNING id INTO v_metric_id;
 
@@ -368,48 +297,33 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- Fonction pour détecter un signal de friction
+-- Fonction: Détecter un signal de friction
 CREATE OR REPLACE FUNCTION detect_friction_signal(
-  p_source_type TEXT,
-  p_source_id UUID,
-  p_message TEXT
+  p_signal_type TEXT,
+  p_source TEXT,
+  p_content TEXT DEFAULT NULL,
+  p_patterns JSONB DEFAULT '[]',
+  p_context JSONB DEFAULT '{}'
 )
 RETURNS UUID AS $$
 DECLARE
   v_signal_id UUID;
-  v_friction_type TEXT;
-  v_keywords TEXT[];
-  v_severity INTEGER;
+  v_severity TEXT := 'low';
+  v_pattern_count INTEGER;
 BEGIN
-  -- Détection simple basée sur les mots-clés
-  IF p_message ~* '(je ne comprends pas|c''est confus|pas clair)' THEN
-    v_friction_type := 'confusion';
-    v_severity := 3;
-    v_keywords := ARRAY['comprendre', 'confus', 'clair'];
-  ELSIF p_message ~* '(où est|je cherche|je trouve pas|où trouver)' THEN
-    v_friction_type := 'navigation';
-    v_severity := 2;
-    v_keywords := ARRAY['où', 'cherche', 'trouve'];
-  ELSIF p_message ~* '(c''est trop|trop chargé|trop complexe|trop de)' THEN
-    v_friction_type := 'overload';
-    v_severity := 3;
-    v_keywords := ARRAY['trop', 'chargé', 'complexe'];
-  ELSIF p_message ~* '(on devrait|il faudrait|pourquoi pas|et si on)' THEN
-    v_friction_type := 'suggestion';
-    v_severity := 1;
-    v_keywords := ARRAY['devrait', 'faudrait', 'pourquoi'];
-  ELSE
-    -- Pas de friction détectée
-    RETURN NULL;
+  -- Calculer la sévérité basée sur le nombre de patterns
+  v_pattern_count := jsonb_array_length(p_patterns);
+  IF v_pattern_count >= 5 THEN
+    v_severity := 'high';
+  ELSIF v_pattern_count >= 3 THEN
+    v_severity := 'medium';
   END IF;
 
   INSERT INTO founder_friction_signals (
-    source_type, source_id, message_content,
-    friction_type, keywords, severity, user_id
+    signal_type, source, content, severity, detected_patterns, context
   )
   VALUES (
-    p_source_type, p_source_id, p_message,
-    v_friction_type, v_keywords, v_severity, auth.uid()
+    p_signal_type, p_source, p_content, v_severity, p_patterns, p_context
   )
   RETURNING id INTO v_signal_id;
 
@@ -417,65 +331,40 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- Fonction pour vérifier si une proposition doit être générée
+-- Fonction: Vérifier si une proposition doit être générée
 CREATE OR REPLACE FUNCTION should_generate_proposal(
-  p_window_hours INTEGER DEFAULT 4
+  p_hours_lookback INTEGER DEFAULT 4
 )
-RETURNS JSONB AS $$
+RETURNS BOOLEAN AS $$
 DECLARE
-  v_window_start TIMESTAMPTZ;
-  v_confusion_count INTEGER;
+  v_friction_count INTEGER;
   v_section_imbalance BOOLEAN;
-  v_redundancy_count INTEGER;
-  v_result JSONB;
+  v_low_usage_sections INTEGER;
 BEGIN
-  v_window_start := NOW() - (p_window_hours || ' hours')::INTERVAL;
-
-  -- Critère 1: Confusion répétée (>= 3)
-  SELECT COUNT(*) INTO v_confusion_count
+  -- Compter les signaux de friction récents non résolus
+  SELECT COUNT(*) INTO v_friction_count
   FROM founder_friction_signals
-  WHERE friction_type IN ('confusion', 'navigation')
-  AND detected_at > v_window_start
-  AND processed = FALSE;
+  WHERE created_at > NOW() - (p_hours_lookback || ' hours')::INTERVAL
+  AND resolved = FALSE;
 
-  -- Critère 2: Déséquilibre structurel (section > 60% ou < 15%)
-  SELECT EXISTS (
-    SELECT 1 FROM (
-      SELECT section_name,
-        SUM(time_spent_ms) * 100.0 / NULLIF(SUM(SUM(time_spent_ms)) OVER (), 0) as pct
-      FROM founder_ux_metrics
-      WHERE created_at > v_window_start
-      GROUP BY section_name
-    ) sub
-    WHERE pct > 60 OR pct < 15
-  ) INTO v_section_imbalance;
-
-  -- Critère 3: Redondance (même question >= 3 fois)
-  SELECT COUNT(*) INTO v_redundancy_count
+  -- Vérifier le déséquilibre des sections
+  SELECT COUNT(*) INTO v_low_usage_sections
   FROM (
-    SELECT message_content, COUNT(*) as cnt
-    FROM founder_friction_signals
-    WHERE friction_type = 'question'
-    AND detected_at > v_window_start
-    GROUP BY message_content
-    HAVING COUNT(*) >= 3
-  ) sub;
+    SELECT section, SUM(time_spent_seconds) as total_time
+    FROM founder_ux_metrics
+    WHERE created_at > NOW() - (p_hours_lookback || ' hours')::INTERVAL
+    GROUP BY section
+    HAVING SUM(time_spent_seconds) < 60  -- Moins d'une minute
+  ) low_sections;
 
-  -- Construire le résultat
-  v_result := jsonb_build_object(
-    'should_trigger', (v_confusion_count >= 3 OR v_section_imbalance OR v_redundancy_count > 0),
-    'confusion_count', v_confusion_count,
-    'section_imbalance', v_section_imbalance,
-    'redundancy_detected', v_redundancy_count > 0,
-    'window_start', v_window_start,
-    'window_end', NOW()
-  );
+  v_section_imbalance := v_low_usage_sections > 0;
 
-  RETURN v_result;
+  -- Générer proposition si friction >= 3 OU déséquilibre
+  RETURN v_friction_count >= 3 OR v_section_imbalance;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- Fonction pour créer une proposition
+-- Fonction: Créer une proposition de layout
 CREATE OR REPLACE FUNCTION create_layout_proposal(
   p_trigger_reason TEXT,
   p_signals JSONB,
@@ -487,10 +376,7 @@ CREATE OR REPLACE FUNCTION create_layout_proposal(
 RETURNS TEXT AS $$
 DECLARE
   v_proposal_id TEXT;
-  v_window_start TIMESTAMPTZ;
 BEGIN
-  v_window_start := NOW() - INTERVAL '4 hours';
-
   -- Générer un ID unique
   v_proposal_id := 'founder-ux-' || LPAD(
     (SELECT COUNT(*) + 1 FROM founder_layout_proposals)::TEXT,
@@ -498,13 +384,11 @@ BEGIN
   );
 
   INSERT INTO founder_layout_proposals (
-    proposal_id, trigger_window_start, trigger_window_end,
-    trigger_reason, observed_signals,
+    proposal_id, trigger_reason, observed_signals,
     problem, suggested_change, expected_effect, confidence
   )
   VALUES (
-    v_proposal_id, v_window_start, NOW(),
-    p_trigger_reason, p_signals,
+    v_proposal_id, p_trigger_reason, p_signals,
     p_problem, p_suggested_change, p_expected_effect, p_confidence
   );
 
@@ -512,73 +396,65 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- Fonction pour valider/rejeter une proposition
+-- Fonction: Répondre à une proposition
 CREATE OR REPLACE FUNCTION respond_to_proposal(
   p_proposal_id TEXT,
-  p_action TEXT,  -- 'approve', 'reject', 'discuss'
-  p_reason TEXT DEFAULT NULL,
-  p_thread_id UUID DEFAULT NULL
+  p_action TEXT,
+  p_reason TEXT DEFAULT NULL
 )
 RETURNS BOOLEAN AS $$
 BEGIN
+  IF p_action NOT IN ('approve', 'reject', 'defer') THEN
+    RAISE EXCEPTION 'Invalid action: %', p_action;
+  END IF;
+
   UPDATE founder_layout_proposals
   SET
-    status = CASE p_action
-      WHEN 'approve' THEN 'approved'
-      WHEN 'reject' THEN 'rejected'
-      WHEN 'discuss' THEN 'discussed'
-      ELSE status
+    status = CASE
+      WHEN p_action = 'approve' THEN 'approved'
+      WHEN p_action = 'reject' THEN 'rejected'
+      ELSE 'deferred'
     END,
-    validated_by = auth.uid(),
-    validated_at = CASE WHEN p_action IN ('approve', 'reject') THEN NOW() ELSE NULL END,
-    rejection_reason = CASE WHEN p_action = 'reject' THEN p_reason ELSE NULL END,
-    discussed_in_thread = COALESCE(p_thread_id, discussed_in_thread),
-    updated_at = NOW()
+    responded_by = auth.uid(),
+    responded_at = NOW(),
+    rejection_reason = CASE WHEN p_action = 'reject' THEN p_reason ELSE NULL END
   WHERE proposal_id = p_proposal_id;
 
   RETURN FOUND;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
--- 8. REALTIME
+-- ===============================================================================
+-- SECTION 7: ACTIVER REALTIME
 -- ===============================================================================
 
-ALTER PUBLICATION supabase_realtime ADD TABLE founder_layout_proposals;
-ALTER PUBLICATION supabase_realtime ADD TABLE founder_friction_signals;
+DO $$
+BEGIN
+  BEGIN
+    ALTER PUBLICATION supabase_realtime ADD TABLE founder_ux_metrics;
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
 
--- 9. VUES UTILES
--- ===============================================================================
+  BEGIN
+    ALTER PUBLICATION supabase_realtime ADD TABLE founder_friction_signals;
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
 
--- Vue des propositions en attente
-CREATE OR REPLACE VIEW pending_proposals AS
-SELECT
-  p.*,
-  (SELECT COUNT(*) FROM founder_friction_signals
-   WHERE detected_at BETWEEN p.trigger_window_start AND p.trigger_window_end
-  ) as signal_count
-FROM founder_layout_proposals p
-WHERE p.status = 'pending'
-ORDER BY p.created_at DESC;
+  BEGIN
+    ALTER PUBLICATION supabase_realtime ADD TABLE founder_layout_proposals;
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
 
--- Vue des métriques agrégées par section (dernières 24h)
-CREATE OR REPLACE VIEW section_metrics_24h AS
-SELECT
-  section_name,
-  COUNT(DISTINCT session_id) as unique_sessions,
-  COUNT(DISTINCT user_id) as unique_users,
-  AVG(time_spent_ms) as avg_time_ms,
-  AVG(scroll_depth_percent) as avg_scroll_depth,
-  SUM(messages_sent) as total_messages
-FROM founder_ux_metrics
-WHERE created_at > NOW() - INTERVAL '24 hours'
-GROUP BY section_name
-ORDER BY avg_time_ms DESC;
+  BEGIN
+    ALTER PUBLICATION supabase_realtime ADD TABLE founder_periodic_analyses;
+  EXCEPTION WHEN duplicate_object THEN NULL;
+  END;
+END $$;
 
 -- ===============================================================================
--- FIN DU SCRIPT
+-- FIN DU SCRIPT - FOUNDER ADAPTIVE AGENTS
 -- ===============================================================================
 
--- Pour vérifier l'installation:
--- SELECT * FROM agents WHERE type LIKE '%_observer' OR type LIKE '%_analyst' OR type LIKE '%_architect' OR type LIKE '%_guardian';
--- SELECT * FROM pending_proposals;
--- SELECT * FROM section_metrics_24h;
+-- Vérification:
+-- SELECT * FROM agents WHERE agent_type LIKE '%observer%' OR agent_type LIKE '%analyst%';
+-- SELECT table_name FROM information_schema.tables WHERE table_name LIKE 'founder_%';
