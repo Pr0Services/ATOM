@@ -9,7 +9,7 @@
  */
 
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
-import { supabase, ROLES, ROLE_PERMISSIONS, signIn, signUp, signOut, getCurrentUser } from '../lib/supabase';
+import { supabase, ROLES, ROLE_PERMISSIONS, signIn, signUp, signOut, signInWithSocial, linkSocialAccount, getCurrentUser, updateProfile } from '../lib/supabase';
 
 // Contexte d'authentification
 const AuthContext = createContext(null);
@@ -98,6 +98,40 @@ export const AuthProvider = ({ children }) => {
     return result;
   }, []);
 
+  // Connexion OAuth sociale
+  const loginWithSocial = useCallback(async (provider) => {
+    setLoading(true);
+    setError(null);
+
+    const result = await signInWithSocial(provider);
+
+    if (!result.success) {
+      setError(result.error);
+    }
+    // Note: OAuth redirige vers le provider, pas de setUser ici
+    // Le onAuthStateChange capturera le retour
+
+    setLoading(false);
+    return result;
+  }, []);
+
+  // Lier un compte social additionnel
+  const linkSocial = useCallback(async (provider) => {
+    setError(null);
+    const result = await linkSocialAccount(provider);
+    if (!result.success) {
+      setError(result.error);
+    }
+    return result;
+  }, []);
+
+  // Mettre à jour le profil
+  const updateUserProfile = useCallback(async (profileData) => {
+    if (!user?.id) return { success: false, error: 'Non connecté' };
+    const result = await updateProfile(user.id, profileData);
+    return result;
+  }, [user]);
+
   // Déconnexion
   const logout = useCallback(async () => {
     setLoading(true);
@@ -152,6 +186,9 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
+    loginWithSocial,
+    linkSocial,
+    updateUserProfile,
 
     // Permissions
     getRole,

@@ -24,16 +24,20 @@
  * ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
  */
 
-import React, { useState, useEffect, createContext, useContext } from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// CONTEXTE GLOBAL — Source unique (élimine la dépendance circulaire)
+// ═══════════════════════════════════════════════════════════════════════════════
+
+import { ATOMProvider, useATOMContext } from './contexts/ATOMContext';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // IMPORTS DES COMPOSANTS
 // ═══════════════════════════════════════════════════════════════════════════════
 
 import TorusBackground from './components/TorusBackground';
-import { useArithmos } from './hooks/useArithmos';
-import { useGratitude } from './hooks/useGratitude';
 
 // Authentification
 import { AuthProvider, useAuth } from './contexts/AuthContext';
@@ -41,6 +45,14 @@ import AuthPortal, { UserProfileButton } from './components/AuthPortal';
 
 // Error Handling
 import { ErrorBoundary, ErrorProvider } from './components/ErrorBoundary';
+
+// Route Guards
+import ProtectedRoute, { SovereignRoute } from './components/ProtectedRoute';
+
+// Navigation & Widgets
+import { NavigationHistoryProvider, NavigationButtons } from './components/WindowControls';
+import { MiniUsageWidget } from './components/UsageTracker';
+import { Point0Badge, Point0StatusBar } from './components/Point0Badge';
 
 // Pages
 import NexusPage from './pages/NexusPage';
@@ -58,125 +70,13 @@ import AgentConversation from './components/AgentConversation';
 import InvitationPortal from './components/InvitationPortal';
 import CerclePage from './pages/CerclePage';
 import SetupWizardPage from './pages/SetupWizardPage';
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// CONSTANTES GLOBALES
-// ═══════════════════════════════════════════════════════════════════════════════
-
-export const PHI = 1.6180339887498949;
-export const HEARTBEAT = 444;
-export const SOURCE = 999;
-export const ARCHITECT_NAME = "JONATHAN RODRIGUE";
-export const ARCHITECT_ORACLE = 17;
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// CONTEXTE GLOBAL AT·OM
-// ═══════════════════════════════════════════════════════════════════════════════
-
-export const ATOMContext = createContext(null);
-
-export const ATOMProvider = ({ children }) => {
-  // États globaux
-  const [frequency, setFrequency] = useState(HEARTBEAT);
-  const [isArchitectMode, setIsArchitectMode] = useState(false);
-  const [isGratitudeMode, setIsGratitudeMode] = useState(false);
-  const [annales, setAnnales] = useState([]);
-  const [torusSpeed, setTorusSpeed] = useState(1);
-  
-  // Configuration
-  const [config, setConfig] = useState({
-    animationSpeed: 1,
-    frequencyOffset: 0,
-    soundEnabled: true,
-    particleCount: 50,
-    colorScheme: 'gold'
-  });
-
-  // Ajouter une entrée aux Annales
-  const addToAnnales = (entry) => {
-    const newEntry = {
-      ...entry,
-      id: Date.now(),
-      timestamp: new Date().toISOString()
-    };
-    setAnnales(prev => [newEntry, ...prev].slice(0, 1000)); // Max 1000 entrées
-    
-    // Sauvegarder en localStorage
-    try {
-      const stored = JSON.parse(localStorage.getItem('atom_annales') || '[]');
-      localStorage.setItem('atom_annales', JSON.stringify([newEntry, ...stored].slice(0, 1000)));
-    } catch (e) {
-      console.warn('Erreur localStorage:', e);
-    }
-  };
-
-  // Charger les Annales au démarrage
-  useEffect(() => {
-    try {
-      const stored = JSON.parse(localStorage.getItem('atom_annales') || '[]');
-      setAnnales(stored);
-    } catch (e) {
-      console.warn('Erreur chargement Annales:', e);
-    }
-  }, []);
-
-  // Activer le Mode Architecte
-  const activateArchitectMode = () => {
-    setIsArchitectMode(true);
-    setFrequency(SOURCE);
-    setTorusSpeed(PHI * 2);
-  };
-
-  // Désactiver le Mode Architecte
-  const deactivateArchitectMode = () => {
-    setIsArchitectMode(false);
-    setFrequency(HEARTBEAT);
-    setTorusSpeed(1);
-  };
-
-  const value = {
-    // États
-    frequency,
-    setFrequency,
-    isArchitectMode,
-    setIsArchitectMode,
-    isGratitudeMode,
-    setIsGratitudeMode,
-    annales,
-    setAnnales,
-    torusSpeed,
-    setTorusSpeed,
-    config,
-    setConfig,
-    
-    // Actions
-    addToAnnales,
-    activateArchitectMode,
-    deactivateArchitectMode,
-    
-    // Constantes
-    PHI,
-    HEARTBEAT,
-    SOURCE,
-    ARCHITECT_NAME,
-    ARCHITECT_ORACLE
-  };
-
-  return (
-    <ATOMContext.Provider value={value}>
-      {children}
-    </ATOMContext.Provider>
-  );
-};
-
-// Hook pour utiliser le contexte
-export const useATOMContext = () => {
-  const context = useContext(ATOMContext);
-  if (!context) {
-    throw new Error('useATOMContext must be used within ATOMProvider');
-  }
-  return context;
-};
+import GridPage from './pages/GridPage';
+import FounderPage from './pages/FounderPage';
+import ProgresoPage from './pages/ProgresoPage';
+import ProfilPage from './pages/ProfilPage';
+import InscriptionPage from './pages/InscriptionPage';
+import ArbreDeViePage from './pages/ArbreDeViePage';
+import MapLumineusePage from './pages/MapLumineusePage';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // NAVIGATION PAR LES 4 ÉLÉMENTS
@@ -252,6 +152,19 @@ const Navigation = () => {
 
 const Header = ({ onAuthClick }) => {
   const { isArchitectMode, isGratitudeMode, frequency } = useATOMContext();
+  const { isAuthenticated, isSovereign } = useAuth();
+  const [showMenu, setShowMenu] = useState(false);
+
+  const menuItems = [
+    { path: '/tableau-de-bord', label: 'Bureau', icon: '🏛️', auth: true },
+    { path: '/profil', label: 'Profil', icon: '👤', auth: true },
+    { path: '/agent', label: 'Agent Nova', icon: '🤖', auth: true },
+    { path: '/carte-gaia', label: 'Carte Gaïa', icon: '🗺️', auth: false },
+    { path: '/arbre-de-vie', label: 'Arbre de Vie', icon: '🌳', auth: false },
+    { path: '/grid', label: 'Grille 144', icon: '🌍', auth: false },
+    { path: '/cercle', label: 'Cercle', icon: '⭕', auth: true },
+    ...(isSovereign() ? [{ path: '/admin', label: 'Admin', icon: '⚡', auth: true }] : []),
+  ];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-yellow-900/50">
@@ -271,7 +184,16 @@ const Header = ({ onAuthClick }) => {
             </div>
           </Link>
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-3">
+            {/* Point 0 — Ancrage fréquentiel */}
+            <Point0Badge frequency={frequency} />
+
+            {/* Navigation Back/Forward */}
+            <NavigationButtons />
+
+            {/* Widget Usage */}
+            <MiniUsageWidget />
+
             {/* Indicateur de Mode */}
             {isGratitudeMode && (
               <span className="text-green-400 text-sm animate-pulse">
@@ -283,6 +205,46 @@ const Header = ({ onAuthClick }) => {
                 ★ MODE DIVIN
               </span>
             )}
+
+            {/* Menu Secondaire */}
+            <div className="relative">
+              <button
+                onClick={() => setShowMenu(!showMenu)}
+                className="w-8 h-8 flex items-center justify-center rounded-lg text-gray-400 hover:text-white hover:bg-gray-800 transition-all"
+              >
+                ☰
+              </button>
+              {showMenu && (
+                <>
+                  <div className="fixed inset-0 z-40" onClick={() => setShowMenu(false)} />
+                  <div className="absolute right-0 top-full mt-2 w-48 bg-gray-900 border border-gray-700 rounded-xl shadow-2xl z-50 overflow-hidden">
+                    {menuItems
+                      .filter(item => !item.auth || isAuthenticated)
+                      .map(item => (
+                        <Link
+                          key={item.path}
+                          to={item.path}
+                          onClick={() => setShowMenu(false)}
+                          className="flex items-center gap-3 px-4 py-2.5 text-sm text-gray-300 hover:bg-gray-800 hover:text-white transition-colors"
+                        >
+                          <span>{item.icon}</span>
+                          <span>{item.label}</span>
+                        </Link>
+                      ))}
+                    {!isAuthenticated && (
+                      <Link
+                        to="/inscription"
+                        onClick={() => setShowMenu(false)}
+                        className="flex items-center gap-3 px-4 py-2.5 text-sm text-yellow-400 hover:bg-yellow-900/20 transition-colors border-t border-gray-800"
+                      >
+                        <span>✨</span>
+                        <span>S'inscrire</span>
+                      </Link>
+                    )}
+                  </div>
+                </>
+              )}
+            </div>
 
             {/* Bouton Authentification */}
             <UserProfileButton onClick={onAuthClick} />
@@ -298,11 +260,24 @@ const Header = ({ onAuthClick }) => {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const Layout = ({ children }) => {
-  const { isArchitectMode, torusSpeed } = useATOMContext();
+  const { isArchitectMode, torusSpeed, frequency } = useATOMContext();
   const [showAuthPortal, setShowAuthPortal] = useState(false);
+  const location = useLocation();
+
+  // Nom de la page pour la StatusBar
+  const pageNames = {
+    '/': 'NEXUS',
+    '/annales': 'ANNALES',
+    '/lexique': 'LEXIQUE',
+    '/flux': 'FLUX',
+    '/forge': 'FORGE',
+    '/besoins': 'BESOINS',
+    '/gratitude': 'GRATITUDE',
+    '/accreditation': 'PORTAIL',
+  };
 
   return (
-    <div className={`min-h-screen relative ${
+    <div className={`min-h-screen relative flex flex-col ${
       isArchitectMode ? 'bg-gradient-to-b from-white/10 to-black' : 'bg-black'
     }`}>
       {/* Fond Toroïdal */}
@@ -312,11 +287,17 @@ const Layout = ({ children }) => {
       <Header onAuthClick={() => setShowAuthPortal(true)} />
 
       {/* Contenu Principal */}
-      <main className="pt-20 pb-24 px-4 relative z-10">
+      <main className="flex-1 pt-20 pb-24 px-4 relative z-10">
         <div className="max-w-4xl mx-auto">
           {children}
         </div>
       </main>
+
+      {/* StatusBar Point 0 — Connexion permanente au cœur */}
+      <Point0StatusBar
+        frequency={frequency}
+        pageName={pageNames[location.pathname] || ''}
+      />
 
       {/* Navigation */}
       <Navigation />
@@ -340,22 +321,55 @@ const App = () => {
         <AuthProvider>
           <ATOMProvider>
             <Router>
+              <NavigationHistoryProvider>
               <Routes>
-                {/* Routes Canoniques Publiques (sans Layout Souverain) */}
+                {/* ═══ ROUTES PUBLIQUES (Aucune auth requise) ═══ */}
                 <Route path="/entree" element={<EntreePage />} />
-                <Route path="/tableau-de-bord" element={<TableauDeBordPage />} />
+                <Route path="/inscription" element={<InscriptionPage />} />
 
-                {/* Route Admin Cockpit (accès restreint) */}
-                <Route path="/admin" element={<AdminCockpit />} />
-                <Route path="/admin/setup" element={<SetupWizardPage />} />
+                {/* ═══ ROUTES PROTÉGÉES (Auth requise) ═══ */}
+                <Route path="/tableau-de-bord" element={
+                  <ProtectedRoute><TableauDeBordPage /></ProtectedRoute>
+                } />
+                <Route path="/profil" element={
+                  <ProtectedRoute><ProfilPage /></ProtectedRoute>
+                } />
+                <Route path="/agent/:agentId" element={
+                  <ProtectedRoute><AgentConversation /></ProtectedRoute>
+                } />
+                <Route path="/agent" element={
+                  <ProtectedRoute><AgentConversation initialAgentId="nova" /></ProtectedRoute>
+                } />
+                <Route path="/cercle" element={
+                  <ProtectedRoute><CerclePage /></ProtectedRoute>
+                } />
+                <Route path="/founder" element={
+                  <ProtectedRoute><FounderPage /></ProtectedRoute>
+                } />
 
-                {/* Route Agent Conversation */}
-                <Route path="/agent/:agentId" element={<AgentConversation />} />
-                <Route path="/agent" element={<AgentConversation initialAgentId="nova" />} />
+                {/* ═══ ROUTES SOUVERAIN (Admin uniquement) ═══ */}
+                <Route path="/admin" element={
+                  <SovereignRoute><AdminCockpit /></SovereignRoute>
+                } />
+                <Route path="/admin/setup" element={
+                  <SovereignRoute><SetupWizardPage /></SovereignRoute>
+                } />
 
-                {/* Routes Membres Fondateurs */}
+                {/* ═══ ROUTES SEMI-PUBLIQUES (Visibles mais interaction auth) ═══ */}
                 <Route path="/invitation" element={<InvitationPortal />} />
-                <Route path="/cercle" element={<CerclePage />} />
+                <Route path="/grid" element={<GridPage />} />
+
+                {/* Arbre de Vie — Séphiroth */}
+                <Route path="/arbre-de-vie" element={<ArbreDeViePage />} />
+                <Route path="/sephiroth" element={<ArbreDeViePage />} />
+
+                {/* Carte du Potentiel Lumineux */}
+                <Route path="/carte-gaia" element={<MapLumineusePage />} />
+                <Route path="/potentiel-lumineux" element={<MapLumineusePage />} />
+
+                {/* Landing Page Progreso 2026 - Publique */}
+                <Route path="/progreso" element={<ProgresoPage />} />
+                <Route path="/arche" element={<ProgresoPage />} />
 
                 {/* Routes Souveraines (avec Layout complet) */}
                 <Route path="/*" element={
@@ -373,6 +387,7 @@ const App = () => {
                   </Layout>
                 } />
               </Routes>
+              </NavigationHistoryProvider>
             </Router>
           </ATOMProvider>
         </AuthProvider>

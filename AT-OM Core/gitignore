@@ -1,0 +1,63 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# AT-OM Core - .gitignore
+# Protège les secrets et fichiers sensibles
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# Environnement et secrets
+.env
+.env.local
+.env.development
+.env.production
+.env*.local
+
+# Supabase / Database secrets
+supa.txt
+supabase.txt
+*.secret
+
+# Dépendances
+node_modules/
+.pnp/
+.pnp.js
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Cache
+.cache/
+.parcel-cache/
+.vercel/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp

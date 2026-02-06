@@ -115,8 +115,8 @@ async function createZamaTokenCollection(client, options = {}) {
   console.log('Création de la collection ZAMA Armor...');
 
   const createTx = await new TokenCreateTransaction()
-    .setTokenName(options.name || 'ZAMA Armor Collection')
-    .setTokenSymbol(options.symbol || 'ZAMA')
+    .setTokenName(options.name || 'AT-OM : Back to Light')
+    .setTokenSymbol(options.symbol || 'ATOM')
     .setTokenType(TokenType.NonFungibleUnique)
     .setSupplyType(TokenSupplyType.Infinite)
     .setInitialSupply(0)

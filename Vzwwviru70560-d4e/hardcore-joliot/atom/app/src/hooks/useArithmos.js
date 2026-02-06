@@ -23,7 +23,13 @@
  * ═══════════════════════════════════════════════════════════════════════════════════════════════════════════════════
  */
 
-import React, { useState, useCallback, useMemo, useRef, useEffect } from 'react';
+import { useState, useCallback } from 'react';
+
+// Données de résonance enrichies (chakras étendus, séquences sacrées, matrice 1728)
+import RESONANCE_DATA from '../data/resonance_data.json';
+
+// Exporter les données de résonance pour usage externe
+export { RESONANCE_DATA };
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // CONSTANTES
@@ -389,83 +395,6 @@ export const useArithmos = () => {
     ALPHABET,
     ARITHMOS_DATA,
     PHI
-  };
-};
-
-// ═══════════════════════════════════════════════════════════════════════════════
-// HOOK GRATITUDE (LongPress)
-// ═══════════════════════════════════════════════════════════════════════════════
-
-export const useGratitude = (onGratitudeActivate, delay = 3000) => {
-  const [isPressed, setIsPressed] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const [isGratitudeMode, setIsGratitudeMode] = useState(false);
-  const timerRef = useRef(null);
-  const intervalRef = useRef(null);
-
-  const startPress = useCallback(() => {
-    setIsPressed(true);
-    setProgress(0);
-    
-    const startTime = Date.now();
-    
-    // Mise à jour du progress
-    intervalRef.current = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      const newProgress = Math.min((elapsed / delay) * 100, 100);
-      setProgress(newProgress);
-    }, 50);
-    
-    // Timer pour activer le mode gratitude
-    timerRef.current = setTimeout(() => {
-      setIsGratitudeMode(true);
-      setProgress(100);
-      if (onGratitudeActivate) {
-        onGratitudeActivate();
-      }
-      
-      // Auto-désactivation après 10 secondes
-      setTimeout(() => {
-        setIsGratitudeMode(false);
-      }, 10000);
-    }, delay);
-  }, [delay, onGratitudeActivate]);
-
-  const endPress = useCallback(() => {
-    setIsPressed(false);
-    setProgress(0);
-    
-    if (timerRef.current) {
-      clearTimeout(timerRef.current);
-      timerRef.current = null;
-    }
-    
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-  }, []);
-
-  // Nettoyage
-  useEffect(() => {
-    return () => {
-      if (timerRef.current) clearTimeout(timerRef.current);
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, []);
-
-  return {
-    isPressed,
-    progress,
-    isGratitudeMode,
-    setIsGratitudeMode,
-    handlers: {
-      onMouseDown: startPress,
-      onMouseUp: endPress,
-      onMouseLeave: endPress,
-      onTouchStart: startPress,
-      onTouchEnd: endPress
-    }
   };
 };
 

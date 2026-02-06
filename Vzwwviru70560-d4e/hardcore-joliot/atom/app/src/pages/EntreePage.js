@@ -24,6 +24,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import OnboardingWizard from '../components/OnboardingWizard';
+import { useAuth } from '../contexts/AuthContext';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // PAGE PUBLIQUE: LANDING MINIMAL
@@ -81,17 +82,33 @@ const LoginMinimal = ({ onBack, onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const { login } = useAuth();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!email || !password) {
       setError('Remplissez tous les champs.');
       return;
     }
-    // Simulation connexion
-    localStorage.setItem('atom_charte_accepted', 'true');
-    localStorage.setItem('atom_onboarding_complete', 'true');
-    onLogin();
+
+    setIsLoading(true);
+    setError('');
+
+    try {
+      const result = await login(email, password);
+      if (result.success) {
+        localStorage.setItem('atom_charte_accepted', 'true');
+        localStorage.setItem('atom_onboarding_complete', 'true');
+        onLogin();
+      } else {
+        setError(result.error || 'Email ou mot de passe incorrect');
+      }
+    } catch (err) {
+      setError('Erreur de connexion. Veuillez réessayer.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -128,9 +145,14 @@ const LoginMinimal = ({ onBack, onLogin }) => {
 
           <button
             type="submit"
-            className="w-full px-6 py-3 bg-yellow-600 text-black font-medium rounded-lg hover:bg-yellow-500 transition-colors"
+            disabled={isLoading}
+            className={`w-full px-6 py-3 font-medium rounded-lg transition-colors ${
+              isLoading
+                ? 'bg-gray-700 text-gray-400 cursor-not-allowed'
+                : 'bg-yellow-600 text-black hover:bg-yellow-500'
+            }`}
           >
-            Se connecter
+            {isLoading ? 'Connexion...' : 'Se connecter'}
           </button>
         </form>
 

@@ -15,7 +15,7 @@
  */
 
 import React, { useState, useMemo, useRef, useEffect } from 'react';
-import { useATOMContext, PHI } from '../App';
+import { useATOMContext, PHI } from '../contexts/ATOMContext';
 import { useArithmos } from '../hooks/useArithmos';
 
 // ═══════════════════════════════════════════════════════════════════════════════

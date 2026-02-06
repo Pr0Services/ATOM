@@ -17,6 +17,7 @@
 
 import React, { useState, useCallback, useRef } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import SocialAuthButtons from './SocialAuthButtons';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // VALIDATION SÉCURISÉE DES ENTRÉES
@@ -420,6 +421,16 @@ const AuthPortal = ({ onClose, initialMode = 'login' }) => {
             )}
           </button>
         </form>
+
+        {/* Social Auth Buttons */}
+        <SocialAuthButtons
+          mode={mode === 'login' ? 'login' : 'signup'}
+          onSuccess={() => {
+            setSuccess('Connexion sociale réussie !');
+            setTimeout(() => onClose?.(), 1500);
+          }}
+          onError={(provider, err) => setLocalError(`Erreur ${provider}: ${err}`)}
+        />
 
         {/* Toggle login/register */}
         <div className="mt-6 text-center">

@@ -13,7 +13,7 @@
  *
  *   VÉRITÉS CANONIQUES RESPECTÉES:
  *   - 3 Hubs: LEFT/CENTER/RIGHT (ou BOTTOM sur mobile)
- *   - 8 Sphères FROZEN dans Hub LEFT
+ *   - 10 Sphères FROZEN dans Hub LEFT
  *   - 6 Sections Bureau MAX (HARD LIMIT)
  *   - Nova Is System (toujours présent dans Hub RIGHT)
  *   - Onglets flexibles style Windows
@@ -32,16 +32,19 @@ const AgentConversation = lazy(() => import('./AgentConversation'));
 // CONSTANTES CANONIQUES (FROZEN)
 // ═══════════════════════════════════════════════════════════════════════════════
 
-// Les 8 Sphères - FROZEN - NE JAMAIS MODIFIER
+// Les 10 Sphères - FROZEN - NE JAMAIS MODIFIER
+// Source de vérité: 01_PUBLIC_HARMONY.md + lib/point0.js
 export const SPHERES = [
-  { id: 'personal', name: 'Personnel', icon: '🏠', color: '#22C55E' },
-  { id: 'business', name: 'Affaires', icon: '💼', color: '#3B82F6' },
-  { id: 'government', name: 'Gouvernement', icon: '🏛️', color: '#8B5CF6' },
-  { id: 'studio', name: 'Studio', icon: '🎨', color: '#EC4899' },
-  { id: 'community', name: 'Communauté', icon: '👥', color: '#F59E0B' },
-  { id: 'social', name: 'Social', icon: '📱', color: '#06B6D4' },
-  { id: 'entertainment', name: 'Divertissement', icon: '🎬', color: '#EF4444' },
-  { id: 'team', name: 'Mon Équipe', icon: '🤝', color: '#10B981' }
+  { id: 'personal',      name: 'Personnel',       icon: '🏠', color: '#22C55E' },
+  { id: 'team',          name: 'Mon Équipe',      icon: '🤝', color: '#10B981' },
+  { id: 'business',      name: 'Entreprise',      icon: '💼', color: '#3B82F6' },
+  { id: 'government',    name: 'Gouvernement',    icon: '🏛️', color: '#8B5CF6' },
+  { id: 'studio',        name: 'Studio Créatif',  icon: '🎨', color: '#EC4899' },
+  { id: 'community',     name: 'Communauté',      icon: '👥', color: '#F59E0B' },
+  { id: 'social',        name: 'Social & Médias', icon: '📱', color: '#06B6D4' },
+  { id: 'entertainment', name: 'Divertissement',  icon: '🎬', color: '#EF4444' },
+  { id: 'erudition',     name: 'Érudition',       icon: '📚', color: '#8B5CF6' },
+  { id: 'mapping',       name: 'AT-OM Mapping',   icon: '🗺️', color: '#D4AF37' },
 ];
 
 // Les 6 Sections Bureau - HARD LIMIT - NE JAMAIS DÉPASSER
@@ -152,7 +155,7 @@ const TabBar = ({ tabs, activeTabId, onSelectTab, onCloseTab, onReorderTabs }) =
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// COMPOSANT: HUB LEFT - NAVIGATION (8 Sphères)
+// COMPOSANT: HUB LEFT - NAVIGATION (10 Sphères)
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const HubLeft = ({ activeSphere, onSelectSphere, collapsed, onToggleCollapse }) => {
@@ -189,7 +192,7 @@ const HubLeft = ({ activeSphere, onSelectSphere, collapsed, onToggleCollapse }) 
         </div>
       )}
 
-      {/* Les 8 Sphères (FROZEN) */}
+      {/* Les 10 Sphères (FROZEN) */}
       <div className="flex-1 overflow-y-auto py-2">
         {SPHERES.map(sphere => (
           <button
@@ -213,10 +216,13 @@ const HubLeft = ({ activeSphere, onSelectSphere, collapsed, onToggleCollapse }) 
         ))}
       </div>
 
-      {/* Indicateur de fréquence */}
+      {/* Indicateur Point 0 — Ancrage fréquentiel */}
       <div className="p-3 border-t border-gray-800 text-center">
-        <div className="text-xs text-gray-600">
-          {collapsed ? '444' : '444 Hz ↔ 999 Hz'}
+        <div className="text-xs text-emerald-500/60">
+          {collapsed ? '●' : '● Point 0 — 444 Hz'}
+        </div>
+        <div className="text-xs text-gray-700 mt-0.5">
+          {collapsed ? '' : '↕ 111 Hz ↔ 999 Hz'}
         </div>
       </div>
     </div>

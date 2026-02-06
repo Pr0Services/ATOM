@@ -15,7 +15,7 @@
  */
 
 import React, { useState, useMemo } from 'react';
-import { useATOMContext } from '../App';
+import { useATOMContext } from '../contexts/ATOMContext';
 
 const AnnalesPage = () => {
   const { annales, setAnnales } = useATOMContext();

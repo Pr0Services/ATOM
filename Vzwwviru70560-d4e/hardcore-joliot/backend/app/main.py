@@ -257,12 +257,12 @@ async def lifespan(app: FastAPI) -> AsyncGenerator:
 # ===========================================================================================
 
 app = FastAPI(
-    title="NOVA-999 Sovereign Architecture API",
-    description="Governed Intelligence Operating System",
+    title="AT·OM API",
+    description="Sovereign Architecture",
     version=config.APP_VERSION,
     lifespan=lifespan,
-    docs_url="/docs",
-    redoc_url="/redoc"
+    docs_url=None,
+    redoc_url=None,
 )
 
 # ===========================================================================================
@@ -340,6 +340,9 @@ register_router("app.routers.dataspaces", "/api/v2/dataspaces", ["DataSpaces"], 
 register_router("app.routers.meetings", "/api/v2/meetings", ["Meetings"], "meetings")
 register_router("app.routers.notifications", "/api/v2/notifications", ["Notifications"], "notifications")
 register_router("app.routers.atom", "/api/v2/atom", ["AT-OM"], "atom")
+
+# Tokenomics engine (4-instrument economy: UR, JT, ATOM, NFT + Flow Keeper)
+register_router("api.v1.routes.tokenomics_routes", "/api/v2/tokenomics", ["Tokenomics"], "tokenomics")
 
 # ===========================================================================================
 # HEALTH ENDPOINTS

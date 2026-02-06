@@ -15,8 +15,10 @@
  */
 
 import React, { useState, useCallback, useEffect } from 'react';
-import { useArithmos, useGratitude } from '../hooks/useArithmos';
-import { useATOMContext, PHI } from '../App';
+import { useArithmos } from '../hooks/useArithmos';
+import { useGratitude } from '../hooks/useGratitude';
+import { useATOMContext, PHI } from '../contexts/ATOMContext';
+import Harmoniseur from '../components/Harmoniseur';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // CONSTANTES DE RÉSONANCE
@@ -156,7 +158,7 @@ const PerceptionJournal = ({ onPerceptionChange }) => {
   const [entries, setEntries] = useState([]);
   const [saved, setSaved] = useState(false);
 
-  // Charger depuis localStorage au montage
+  // Charger depuis localStorage au montage (une seule fois)
   useEffect(() => {
     try {
       const stored = localStorage.getItem('atom_perception_journal');
@@ -168,7 +170,8 @@ const PerceptionJournal = ({ onPerceptionChange }) => {
     } catch (e) {
       console.warn('[PERCEPTION] Erreur chargement localStorage:', e);
     }
-  }, [onPerceptionChange]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Sauvegarder la perception
   const handleSave = useCallback(() => {
@@ -522,6 +525,11 @@ const NexusPage = () => {
       <FrequencyDisplay isArchitectMode={isArchitectMode} />
 
       {/* ═══════════════════════════════════════════════════════════════════════════ */}
+      {/* HARMONISEUR — Séquences d'Activation (Passé/Présent/Futur/Restauration) */}
+      {/* ═══════════════════════════════════════════════════════════════════════════ */}
+      <Harmoniseur />
+
+      {/* ═══════════════════════════════════════════════════════════════════════════ */}
       {/* INDICATEUR D'AGENTS ACTIFS */}
       {/* ═══════════════════════════════════════════════════════════════════════════ */}
       <AgentIndicator perceptionCount={perceptionCount} />
@@ -595,7 +603,7 @@ const NexusPage = () => {
           {isGratitudeMode && (
             <div className="mt-4 p-4 bg-emerald-500/20 rounded-lg text-center">
               <p className="text-emerald-400 text-lg">☯ MODE GRATITUDE ACTIF ☯</p>
-              <p className="text-sm text-emerald-300/70">Point Zéro — 444 Hz — Silence Intérieur</p>
+              <p className="text-sm text-emerald-300/70">● Point 0 — 444 Hz — Tulum · Silence Intérieur</p>
             </div>
           )}
 
@@ -605,7 +613,7 @@ const NexusPage = () => {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyPress={handleKeyPress}
+              onKeyDown={handleKeyPress}
               placeholder="Entrez un mot ou un nom..."
               className={`w-full px-6 py-4 text-center text-xl bg-transparent border-b-2 outline-none transition-all ${
                 isArchitectMode

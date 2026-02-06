@@ -160,9 +160,13 @@ const CerclePage = () => {
     }
   }, [user]);
 
+  // Charger les données une seule fois quand user change
   useEffect(() => {
-    loadData();
-  }, [loadData]);
+    if (user) {
+      loadData();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   // ═══════════════════════════════════════════════════════════════════════════════
   // ENVOI DE MESSAGE

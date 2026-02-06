@@ -20,9 +20,12 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
+import { useATOMContext } from '../contexts/ATOMContext';
 import CanonicalLayout, { SPHERES, BUREAU_SECTIONS, useCanonicalLayout } from '../components/CanonicalLayout';
+import UserProfile from '../components/UserProfile';
+import ArmorDisplay from '../components/ArmorDisplay';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // COMPOSANT: SECTION CAPTURE RAPIDE (Quick Capture)
@@ -87,13 +90,26 @@ const ResumeWorkspaceSection = () => {
   const [recentItems, setRecentItems] = useState([]);
 
   useEffect(() => {
-    // Charger les items récents
-    const items = [
-      { id: 1, name: 'Projet Camping', type: 'project', lastAccess: '2 min' },
-      { id: 2, name: 'Thread Nova', type: 'thread', lastAccess: '15 min' },
-      { id: 3, name: 'Besoin: Énergie', type: 'need', lastAccess: '1h' }
-    ];
-    setRecentItems(items);
+    // Charger les notes sauvegardées depuis QuickCapture
+    try {
+      const notes = JSON.parse(localStorage.getItem('atom_quick_notes') || '[]');
+      const items = notes.slice(0, 5).map(note => {
+        const age = Date.now() - new Date(note.createdAt).getTime();
+        const ageStr = age < 60000 ? 'à l\'instant'
+          : age < 3600000 ? `${Math.floor(age / 60000)} min`
+          : age < 86400000 ? `${Math.floor(age / 3600000)}h`
+          : `${Math.floor(age / 86400000)}j`;
+        return {
+          id: note.id,
+          name: note.text.slice(0, 50) + (note.text.length > 50 ? '...' : ''),
+          type: 'note',
+          lastAccess: ageStr
+        };
+      });
+      setRecentItems(items);
+    } catch (e) {
+      setRecentItems([]);
+    }
   }, []);
 
   const getTypeIcon = (type) => {
@@ -186,52 +202,82 @@ const ThreadsSection = () => {
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// COMPOSANT: SECTION DONNÉES/FICHIERS (Data/Files)
+// COMPOSANT: SECTION ÉCONOMIE AT·OM (Live depuis Tokenomics)
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const DataFilesSection = () => {
-  const [files, setFiles] = useState([]);
+  const { tokenomics, frequency } = useATOMContext();
+  const { economy, momentum, isSimulation, loading } = tokenomics || {};
 
-  useEffect(() => {
-    setFiles([
-      { id: 1, name: 'Mapping_CHE-NU.json', size: '24 KB', type: 'json' },
-      { id: 2, name: 'Perceptions_2026.md', size: '12 KB', type: 'md' }
-    ]);
-  }, []);
+  // Notes sauvegardées
+  const noteCount = (() => {
+    try { return JSON.parse(localStorage.getItem('atom_quick_notes') || '[]').length; } catch { return 0; }
+  })();
 
-  const getFileIcon = (type) => {
-    switch (type) {
-      case 'json': return '📋';
-      case 'md': return '📝';
-      case 'pdf': return '📕';
-      default: return '📄';
-    }
-  };
+  // Annales count
+  const annalesCount = (() => {
+    try { return JSON.parse(localStorage.getItem('atom_annales') || '[]').length; } catch { return 0; }
+  })();
+
+  const atomPrice = economy?.atom_price || '0.01';
+  const pct = momentum?.percentage || '0';
+  const contributors = momentum?.contributors || 0;
 
   return (
     <div className="bg-gray-900/50 rounded-xl p-4 border border-gray-800">
-      <h3 className="text-sm font-medium text-white flex items-center gap-2 mb-3">
-        <span>📁</span> Données & Fichiers
-      </h3>
-      {files.length > 0 ? (
-        <div className="space-y-2">
-          {files.map(file => (
-            <button
-              key={file.id}
-              className="w-full flex items-center gap-3 p-2 rounded-lg bg-black/30 hover:bg-black/50
-                transition-all text-left"
-            >
-              <span className="text-lg">{getFileIcon(file.type)}</span>
-              <div className="flex-1 min-w-0">
-                <div className="text-sm text-white truncate">{file.name}</div>
-                <div className="text-xs text-gray-600">{file.size}</div>
-              </div>
-            </button>
-          ))}
+      <div className="flex items-center justify-between mb-3">
+        <h3 className="text-sm font-medium text-white flex items-center gap-2">
+          <span>📁</span> Données & Fichiers
+        </h3>
+        {isSimulation && (
+          <span className="text-xs text-orange-400 bg-orange-900/20 px-2 py-0.5 rounded">SIM</span>
+        )}
+      </div>
+
+      {/* Données système */}
+      <div className="grid grid-cols-3 gap-2 mb-3">
+        <div className="bg-black/30 rounded-lg p-2 text-center">
+          <p className="text-yellow-400 font-mono font-bold text-sm">{noteCount}</p>
+          <p className="text-gray-600 text-xs">Notes</p>
         </div>
-      ) : (
-        <p className="text-gray-600 text-sm text-center py-4">Aucun fichier</p>
+        <div className="bg-black/30 rounded-lg p-2 text-center">
+          <p className="text-cyan-400 font-mono font-bold text-sm">{annalesCount}</p>
+          <p className="text-gray-600 text-xs">Annales</p>
+        </div>
+        <div className="bg-black/30 rounded-lg p-2 text-center">
+          <p className="text-emerald-400 font-mono font-bold text-sm">{frequency || 444}</p>
+          <p className="text-gray-600 text-xs">Hz</p>
+        </div>
+      </div>
+
+      {/* Momentum compact */}
+      {!loading && (
+        <div className="mb-2">
+          <div className="flex justify-between text-xs text-gray-500 mb-1">
+            <span>Momentum</span>
+            <span className="text-yellow-400">{parseFloat(pct).toFixed(1)}%</span>
+          </div>
+          <div className="h-1.5 bg-gray-800 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-gradient-to-r from-yellow-600 to-yellow-400 rounded-full transition-all"
+              style={{ width: `${Math.min(parseFloat(pct), 100)}%` }}
+            />
+          </div>
+        </div>
       )}
+
+      {/* AT·OM$ + Contributeurs */}
+      <div className="flex items-center justify-between text-xs text-gray-500">
+        <span>AT·OM$ <span className="text-yellow-400 font-mono">${parseFloat(atomPrice).toFixed(4)}</span></span>
+        <span>{contributors} contributeur{contributors !== 1 ? 's' : ''}</span>
+      </div>
+
+      <Link
+        to="/accreditation"
+        className="block mt-3 text-center text-xs text-yellow-400/60 hover:text-yellow-400 transition-colors"
+      >
+        Voir l'économie complète →
+      </Link>
     </div>
   );
 };
@@ -326,6 +372,7 @@ const MeetingsSection = () => {
 
 const BureauCanonique = ({ sphereId }) => {
   const sphere = SPHERES.find(s => s.id === sphereId) || SPHERES[0];
+  const { user } = useAuth();
 
   return (
     <div className="p-6">
@@ -338,6 +385,12 @@ const BureauCanonique = ({ sphereId }) => {
             <p className="text-sm text-gray-500">6 sections • Structure canonique</p>
           </div>
         </div>
+      </div>
+
+      {/* Profile & Armor Section */}
+      <div className="mb-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <UserProfile showArmor={false} showHedera={true} />
+        <ArmorDisplay userId={user?.id} compact={false} />
       </div>
 
       {/* Les 6 Sections Bureau (HARD LIMIT) */}

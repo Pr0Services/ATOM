@@ -16,7 +16,7 @@
 
 import React, { useState, useCallback } from 'react';
 import { useArithmos } from '../hooks/useArithmos';
-import { useATOMContext } from '../App';
+import { useATOMContext } from '../contexts/ATOMContext';
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // CONSTANTES
