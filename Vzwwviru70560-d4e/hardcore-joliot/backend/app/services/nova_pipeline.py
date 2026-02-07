@@ -621,10 +621,26 @@ class CheckpointHandler:
 class Executor:
     """
     Lane F: Execution
-    
+
     Executes the AI operation (LLM call).
+    Uses the real LLMConnector for actual API calls.
     """
-    
+
+    def __init__(self, llm_connector=None):
+        """Initialize with optional LLM connector."""
+        self._connector = llm_connector
+
+    def _get_connector(self):
+        """Get or create LLM connector."""
+        if self._connector is None:
+            try:
+                from app.services.llm_connector import get_llm_connector
+                self._connector = get_llm_connector()
+            except ImportError:
+                logger.warning("LLMConnector not available, using mock")
+                return None
+        return self._connector
+
     async def execute(
         self,
         request: NovaRequest,
@@ -634,7 +650,7 @@ class Executor:
         """Execute the AI operation."""
         import time
         start_time = time.time()
-        
+
         # Check if checkpoint approval is needed
         if checkpoint.requires_approval and not checkpoint.approved:
             return ExecutionResult(
@@ -642,33 +658,95 @@ class Executor:
                 output_text="Awaiting human approval",
                 duration_ms=0,
             )
-        
-        # Mock LLM execution (TODO: integrate real LLM)
+
         try:
-            # Simulate LLM call
-            output_text = f"[Nova Response] Processed request: {request.input_text[:100]}..."
-            
-            # Mock token usage
-            input_tokens = encoding.context_tokens
-            output_tokens = len(output_text.split())
-            total_tokens = input_tokens + output_tokens
-            cost = total_tokens * 0.00001
-            
-            duration_ms = int((time.time() - start_time) * 1000)
-            
-            return ExecutionResult(
-                success=True,
-                output_text=output_text,
-                output_data={"processed": True},
-                input_tokens=input_tokens,
-                output_tokens=output_tokens,
-                total_tokens=total_tokens,
-                cost=cost,
-                duration_ms=duration_ms,
-                model_used=encoding.model,
-                finish_reason="stop",
-            )
-            
+            connector = self._get_connector()
+
+            if connector and connector.get_available_providers():
+                # ═══════════════════════════════════════════════════════════
+                # REAL LLM EXECUTION
+                # ═══════════════════════════════════════════════════════════
+
+                # Determine provider based on model
+                provider = "anthropic"  # Default
+                if "gpt" in encoding.model.lower() or "o1" in encoding.model.lower():
+                    provider = "openai"
+                elif "gemini" in encoding.model.lower():
+                    provider = "google"
+                elif "llama" in encoding.model.lower():
+                    provider = "groq"
+                elif "deepseek" in encoding.model.lower():
+                    provider = "deepseek"
+                elif "mistral" in encoding.model.lower() or "codestral" in encoding.model.lower():
+                    provider = "mistral"
+
+                # Check if provider is available
+                available = connector.get_available_providers()
+                if provider not in available:
+                    # Fallback to first available
+                    if available:
+                        provider = available[0]
+                    else:
+                        raise RuntimeError("No LLM providers available")
+
+                # Build messages
+                messages = [
+                    {"role": "user", "content": encoding.encoded_prompt}
+                ]
+
+                # Execute real LLM call
+                result = await connector.complete(
+                    provider=provider,
+                    model=encoding.model,
+                    messages=messages,
+                    system_prompt=encoding.system_message,
+                    max_tokens=encoding.max_tokens,
+                    temperature=encoding.temperature,
+                )
+
+                duration_ms = int((time.time() - start_time) * 1000)
+
+                return ExecutionResult(
+                    success=True,
+                    output_text=result["content"],
+                    output_data={"processed": True, "provider": provider},
+                    input_tokens=result["input_tokens"],
+                    output_tokens=result["output_tokens"],
+                    total_tokens=result["total_tokens"],
+                    cost=result["cost"],
+                    duration_ms=duration_ms,
+                    model_used=result["model"],
+                    finish_reason=result["finish_reason"],
+                )
+
+            else:
+                # ═══════════════════════════════════════════════════════════
+                # MOCK EXECUTION (fallback when no API keys)
+                # ═══════════════════════════════════════════════════════════
+                logger.warning("No LLM providers available, using mock response")
+
+                output_text = f"[Nova Mock] No API keys configured. Request: {request.input_text[:100]}..."
+
+                input_tokens = encoding.context_tokens
+                output_tokens = len(output_text.split())
+                total_tokens = input_tokens + output_tokens
+                cost = total_tokens * 0.00001
+
+                duration_ms = int((time.time() - start_time) * 1000)
+
+                return ExecutionResult(
+                    success=True,
+                    output_text=output_text,
+                    output_data={"processed": True, "mock": True},
+                    input_tokens=input_tokens,
+                    output_tokens=output_tokens,
+                    total_tokens=total_tokens,
+                    cost=cost,
+                    duration_ms=duration_ms,
+                    model_used=encoding.model,
+                    finish_reason="stop",
+                )
+
         except Exception as e:
             logger.error(f"Execution failed: {e}")
             return ExecutionResult(

@@ -144,16 +144,19 @@ class CacheKeyBuilder:
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
-# MOCK REDIS CLIENT (Replace with real Redis in production)
+# REDIS CLIENT (Real + Mock fallback)
 # ═══════════════════════════════════════════════════════════════════════════════
 
+import os
+
 class MockRedisClient:
-    """Mock Redis client for testing. Replace with redis-py in production."""
-    
+    """Mock Redis client for testing when Redis is not available."""
+
     def __init__(self):
         self._store: Dict[str, Any] = {}
         self._ttls: Dict[str, datetime] = {}
-    
+        logger.warning("Using MockRedisClient - for production, set REDIS_URL")
+
     async def get(self, key: str) -> Optional[str]:
         """Get value from cache."""
         if key in self._store:
@@ -163,14 +166,14 @@ class MockRedisClient:
                 return None
             return self._store[key]
         return None
-    
+
     async def set(self, key: str, value: str, ex: Optional[int] = None) -> bool:
         """Set value in cache with optional TTL."""
         self._store[key] = value
         if ex:
             self._ttls[key] = datetime.utcnow() + timedelta(seconds=ex)
         return True
-    
+
     async def delete(self, *keys: str) -> int:
         """Delete keys from cache."""
         count = 0
@@ -181,17 +184,101 @@ class MockRedisClient:
                     del self._ttls[key]
                 count += 1
         return count
-    
+
     async def keys(self, pattern: str) -> List[str]:
         """Get keys matching pattern (simple glob support)."""
         import fnmatch
         return [k for k in self._store.keys() if fnmatch.fnmatch(k, pattern)]
-    
+
     async def flushdb(self) -> bool:
         """Clear all cache."""
         self._store.clear()
         self._ttls.clear()
         return True
+
+
+class RealRedisClient:
+    """Real Redis client wrapper for async operations."""
+
+    def __init__(self, redis_url: str):
+        self._url = redis_url
+        self._client = None
+        logger.info(f"RealRedisClient initialized with URL: {redis_url[:20]}...")
+
+    async def _get_client(self):
+        """Lazy load Redis client."""
+        if self._client is None:
+            try:
+                import redis.asyncio as aioredis
+                self._client = aioredis.from_url(
+                    self._url,
+                    encoding="utf-8",
+                    decode_responses=True,
+                )
+                # Test connection
+                await self._client.ping()
+                logger.info("✓ Redis connected successfully")
+            except ImportError:
+                logger.error("redis package not installed. Run: pip install redis")
+                raise
+            except Exception as e:
+                logger.error(f"Redis connection failed: {e}")
+                raise
+        return self._client
+
+    async def get(self, key: str) -> Optional[str]:
+        """Get value from cache."""
+        client = await self._get_client()
+        return await client.get(key)
+
+    async def set(self, key: str, value: str, ex: Optional[int] = None) -> bool:
+        """Set value in cache with optional TTL."""
+        client = await self._get_client()
+        await client.set(key, value, ex=ex)
+        return True
+
+    async def delete(self, *keys: str) -> int:
+        """Delete keys from cache."""
+        if not keys:
+            return 0
+        client = await self._get_client()
+        return await client.delete(*keys)
+
+    async def keys(self, pattern: str) -> List[str]:
+        """Get keys matching pattern."""
+        client = await self._get_client()
+        return await client.keys(pattern)
+
+    async def flushdb(self) -> bool:
+        """Clear all cache."""
+        client = await self._get_client()
+        await client.flushdb()
+        return True
+
+    async def close(self):
+        """Close Redis connection."""
+        if self._client:
+            await self._client.close()
+            self._client = None
+
+
+def create_redis_client():
+    """
+    Create the appropriate Redis client based on environment.
+
+    Uses REDIS_URL environment variable if set, otherwise falls back to mock.
+    """
+    redis_url = os.getenv("REDIS_URL")
+
+    if redis_url:
+        try:
+            return RealRedisClient(redis_url)
+        except Exception as e:
+            logger.warning(f"Failed to create Redis client: {e}, falling back to mock")
+            return MockRedisClient()
+    else:
+        logger.info("REDIS_URL not set, using MockRedisClient")
+        return MockRedisClient()
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -211,7 +298,7 @@ class CacheService:
     """
     
     def __init__(self, redis_client=None):
-        self.redis = redis_client or MockRedisClient()
+        self.redis = redis_client or create_redis_client()
         self.stats = {
             "hits": 0,
             "misses": 0,
@@ -488,5 +575,8 @@ __all__ = [
     "CachePrefix",
     "CacheTTL",
     "CacheWarmer",
-    "cached"
+    "cached",
+    "create_redis_client",
+    "RealRedisClient",
+    "MockRedisClient",
 ]
