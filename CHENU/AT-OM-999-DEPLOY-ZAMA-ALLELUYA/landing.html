@@ -223,48 +223,112 @@
             line-height: 1.6;
         }
 
-        /* Video Container */
-        .video-container {
-            width: 100%;
-            max-width: 800px;
-            aspect-ratio: 16 / 9;
-            background: var(--dark-surface);
+        /* Hero Stats */
+        .hero-stats {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(216, 178, 106, 0.15);
             border-radius: 16px;
-            margin: 2.5rem auto;
-            border: 1px solid rgba(216, 178, 106, 0.2);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            overflow: hidden;
         }
 
-        .video-placeholder {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-            color: var(--text-muted);
+        .hero-stat {
+            text-align: center;
         }
 
-        .video-play-btn {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: rgba(216, 178, 106, 0.2);
-            border: 2px solid var(--sacred-gold);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2rem;
+        .hero-stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
             color: var(--sacred-gold);
-            cursor: pointer;
+            line-height: 1;
+        }
+
+        .hero-stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .hero-stat-divider {
+            width: 1px;
+            height: 50px;
+            background: rgba(216, 178, 106, 0.3);
+        }
+
+        /* Impact Section */
+        .impact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2.5rem;
+        }
+
+        .impact-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
             transition: all 0.3s;
         }
 
-        .video-play-btn:hover {
-            transform: scale(1.1);
-            background: rgba(216, 178, 106, 0.3);
+        .impact-card:hover {
+            border-color: var(--sacred-gold);
+            transform: translateY(-4px);
+        }
+
+        .impact-before {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            text-decoration: line-through;
+            text-decoration-color: rgba(255, 107, 107, 0.5);
+        }
+
+        .impact-after {
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+            line-height: 1.5;
+        }
+
+        .impact-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        /* Stats Band */
+        .stats-band {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            padding: 3rem 2rem;
+            background: rgba(216, 178, 106, 0.05);
+            border-top: 1px solid rgba(216, 178, 106, 0.15);
+            border-bottom: 1px solid rgba(216, 178, 106, 0.15);
+            margin: 0 -2rem;
+        }
+
+        .stats-band-item {
+            text-align: center;
+        }
+
+        .stats-band-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--sacred-gold);
+        }
+
+        .stats-band-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
         }
 
         .hero-cta {
@@ -684,8 +748,33 @@
                 font-size: 2rem;
             }
 
+            .hero-stats {
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 1.5rem;
+            }
+
+            .hero-stat-divider {
+                width: 60px;
+                height: 1px;
+            }
+
+            .hero-stat-value {
+                font-size: 2rem;
+            }
+
             .section {
                 padding: 3rem 1.5rem;
+            }
+
+            .impact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-band {
+                gap: 1.5rem;
+                margin: 0;
+                padding: 2rem 1rem;
             }
 
             .pricing-grid {
@@ -730,23 +819,66 @@
         <section class="hero" id="accueil">
             <div class="hero-content">
                 <span class="hero-badge">Bêta ouverte — Accès gratuit</span>
-                <h1 class="hero-title">L'intelligence collective au service de votre réussite</h1>
+                <h1 class="hero-title">Un assistant IA pour chaque aspect de votre vie</h1>
                 <p class="hero-subtitle">
-                    Une plateforme qui coordonne 400+ agents IA spécialisés dans 9 domaines
-                    pour vous accompagner au quotidien.
+                    Imaginez 400 experts qui collaborent pour vous — dans votre carrière,
+                    vos projets, votre quotidien. AT·OM couvre 9 domaines entiers de la société
+                    avec des agents IA spécialisés qui travaillent ensemble.
                 </p>
 
                 <div class="hero-cta">
                     <a href="/index.html" class="btn btn-primary btn-large">Explorer la plateforme →</a>
-                    <a href="#fonctionnement" class="btn btn-outline btn-large">Comment ça marche</a>
+                    <a href="#impact" class="btn btn-outline btn-large">Pourquoi AT·OM ?</a>
                 </div>
 
-                <!-- Demo Preview -->
-                <div class="video-container" onclick="window.location.href='/index.html'">
-                    <div class="video-placeholder">
-                        <div class="video-play-btn">▶</div>
-                        <span>Voir la plateforme en action</span>
+                <!-- Hero Stats -->
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">400+</div>
+                        <div class="hero-stat-label">Agents IA spécialisés</div>
                     </div>
+                    <div class="hero-stat-divider"></div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">9</div>
+                        <div class="hero-stat-label">Domaines de la société</div>
+                    </div>
+                    <div class="hero-stat-divider"></div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">24/7</div>
+                        <div class="hero-stat-label">Disponible en continu</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════════
+             POURQUOI AT·OM CHANGE TOUT
+        ═══════════════════════════════════════════════════════════════ -->
+        <section class="section" id="impact" style="background: rgba(255,255,255,0.02);">
+            <div class="section-header">
+                <h2 class="section-title">Pourquoi AT·OM change tout</h2>
+                <p class="section-subtitle">
+                    Ce n'est pas un outil de plus. C'est un système complet qui couvre votre vie entière.
+                </p>
+            </div>
+
+            <div class="impact-grid">
+                <div class="impact-card">
+                    <div class="impact-icon">🔍</div>
+                    <div class="impact-before">Vous cherchez seul sur Google, outil par outil</div>
+                    <div class="impact-after">400+ agents spécialisés recherchent, analysent et synthétisent pour vous en parallèle</div>
+                </div>
+
+                <div class="impact-card">
+                    <div class="impact-icon">🧩</div>
+                    <div class="impact-before">Un outil différent pour chaque besoin (compta, design, RH, formation...)</div>
+                    <div class="impact-after">Une seule plateforme qui couvre 9 domaines entiers de la société, de votre carrière à votre bien-être</div>
+                </div>
+
+                <div class="impact-card">
+                    <div class="impact-icon">🤝</div>
+                    <div class="impact-before">Vos outils IA ne se parlent pas entre eux, le contexte est perdu</div>
+                    <div class="impact-after">Nos agents collaborent, partagent le contexte et coordonnent leurs actions pour un résultat cohérent</div>
                 </div>
             </div>
         </section>
@@ -756,9 +888,9 @@
         ═══════════════════════════════════════════════════════════════ -->
         <section class="section" id="domaines">
             <div class="section-header">
-                <h2 class="section-title">9 Domaines d'Expertise</h2>
+                <h2 class="section-title">9 Domaines, toute votre vie couverte</h2>
                 <p class="section-subtitle">
-                    Nos agents couvrent tous les aspects de la société moderne pour vous accompagner efficacement.
+                    Chaque domaine dispose de dizaines d'agents spécialisés. Ensemble, ils couvrent tous les aspects de la société moderne.
                 </p>
             </div>
 
@@ -766,63 +898,63 @@
                 <div class="domain-card" data-domain="personnel">
                     <div class="domain-icon">👤</div>
                     <h3 class="domain-name">Développement Personnel</h3>
-                    <p class="domain-description">Croissance personnelle, bien-être et équilibre de vie.</p>
+                    <p class="domain-description">Un coach IA qui suit vos objectifs, votre bien-être et vous pousse à avancer chaque jour.</p>
                     <span class="domain-agents">45 agents spécialisés</span>
                 </div>
 
                 <div class="domain-card" data-domain="business">
                     <div class="domain-icon">💼</div>
                     <h3 class="domain-name">Entreprise</h3>
-                    <p class="domain-description">Gestion d'entreprise, commerce et stratégies business.</p>
+                    <p class="domain-description">Votre business plan analysé, votre stratégie optimisée, vos décisions éclairées par 62 agents.</p>
                     <span class="domain-agents">62 agents spécialisés</span>
                 </div>
 
                 <div class="domain-card" data-domain="gouvernement">
                     <div class="domain-icon">🏛️</div>
                     <h3 class="domain-name">Institutions</h3>
-                    <p class="domain-description">Administration, conformité et relations gouvernementales.</p>
+                    <p class="domain-description">Conformité, démarches administratives et relations institutionnelles gérées pour vous.</p>
                     <span class="domain-agents">38 agents spécialisés</span>
                 </div>
 
                 <div class="domain-card" data-domain="creatif">
                     <div class="domain-icon">🎨</div>
                     <h3 class="domain-name">Création</h3>
-                    <p class="domain-description">Design, innovation et projets créatifs.</p>
+                    <p class="domain-description">De l'idée au prototype, 54 agents créatifs transforment votre vision en réalité.</p>
                     <span class="domain-agents">54 agents spécialisés</span>
                 </div>
 
                 <div class="domain-card" data-domain="communaute">
                     <div class="domain-icon">🤝</div>
                     <h3 class="domain-name">Communauté</h3>
-                    <p class="domain-description">Projets locaux et initiatives communautaires.</p>
+                    <p class="domain-description">Mobilisez, organisez et fédérez autour de vos projets locaux et initiatives collectives.</p>
                     <span class="domain-agents">41 agents spécialisés</span>
                 </div>
 
                 <div class="domain-card" data-domain="social">
                     <div class="domain-icon">💬</div>
                     <h3 class="domain-name">Communication</h3>
-                    <p class="domain-description">Réseaux, engagement et présence digitale.</p>
+                    <p class="domain-description">Votre présence digitale gérée, vos messages amplifiés, votre audience engagée.</p>
                     <span class="domain-agents">48 agents spécialisés</span>
                 </div>
 
                 <div class="domain-card" data-domain="education">
                     <div class="domain-icon">📚</div>
                     <h3 class="domain-name">Formation</h3>
-                    <p class="domain-description">Apprentissage continu et développement des compétences.</p>
+                    <p class="domain-description">Un programme d'apprentissage adapté à votre rythme, vos forces et vos objectifs.</p>
                     <span class="domain-agents">52 agents spécialisés</span>
                 </div>
 
                 <div class="domain-card" data-domain="transport">
                     <div class="domain-icon">🚀</div>
                     <h3 class="domain-name">Logistique</h3>
-                    <p class="domain-description">Mouvement, livraison et optimisation des flux.</p>
+                    <p class="domain-description">Vos flux optimisés, vos livraisons planifiées, votre chaîne logistique sous contrôle.</p>
                     <span class="domain-agents">35 agents spécialisés</span>
                 </div>
 
                 <div class="domain-card" data-domain="environnement">
                     <div class="domain-icon">🌿</div>
                     <h3 class="domain-name">Durabilité</h3>
-                    <p class="domain-description">Impact écologique et pratiques responsables.</p>
+                    <p class="domain-description">Mesurez votre impact, adoptez des pratiques responsables, agissez pour la planète.</p>
                     <span class="domain-agents">29 agents spécialisés</span>
                 </div>
             </div>
@@ -833,43 +965,55 @@
         ═══════════════════════════════════════════════════════════════ -->
         <section class="section" id="fonctionnement" style="background: rgba(255,255,255,0.02);">
             <div class="section-header">
-                <h2 class="section-title">Comment ça marche</h2>
+                <h2 class="section-title">Simple comme une conversation</h2>
                 <p class="section-subtitle">
-                    Un processus simple et efficace pour atteindre vos objectifs.
+                    Pas de configuration complexe. Dites ce dont vous avez besoin, les agents s'occupent du reste.
                 </p>
             </div>
 
             <div class="steps-container">
                 <div class="step">
                     <div class="step-number">1</div>
-                    <h3 class="step-title">Créez votre compte</h3>
+                    <h3 class="step-title">Dites ce que vous voulez accomplir</h3>
                     <p class="step-description">
-                        Inscrivez-vous gratuitement et accédez immédiatement à la plateforme.
+                        Parlez naturellement à Aria, votre guide. Elle comprend vos besoins et active les bons domaines.
                     </p>
                 </div>
 
                 <div class="step">
                     <div class="step-number">2</div>
-                    <h3 class="step-title">Choisissez vos domaines</h3>
+                    <h3 class="step-title">Les agents se coordonnent</h3>
                     <p class="step-description">
-                        Sélectionnez les domaines qui correspondent à vos besoins et objectifs.
+                        Orion sélectionne les meilleurs agents parmi les 400+ disponibles. Ils collaborent en temps réel.
                     </p>
                 </div>
 
                 <div class="step">
                     <div class="step-number">3</div>
-                    <h3 class="step-title">Nos agents travaillent</h3>
+                    <h3 class="step-title">Recevez des résultats concrets</h3>
                     <p class="step-description">
-                        Les agents collaborent pour vous fournir des recommandations personnalisées.
+                        Pas des suggestions vagues : des actions précises, des analyses détaillées, des plans structurés.
                     </p>
                 </div>
+            </div>
 
-                <div class="step">
-                    <div class="step-number">4</div>
-                    <h3 class="step-title">Suivez vos résultats</h3>
-                    <p class="step-description">
-                        Visualisez vos progrès et ajustez votre stratégie en temps réel.
-                    </p>
+            <!-- Stats Band -->
+            <div class="stats-band">
+                <div class="stats-band-item">
+                    <div class="stats-band-value">400+</div>
+                    <div class="stats-band-label">Agents IA spécialisés</div>
+                </div>
+                <div class="stats-band-item">
+                    <div class="stats-band-value">9</div>
+                    <div class="stats-band-label">Domaines couverts</div>
+                </div>
+                <div class="stats-band-item">
+                    <div class="stats-band-value">3</div>
+                    <div class="stats-band-label">Agents système dédiés</div>
+                </div>
+                <div class="stats-band-item">
+                    <div class="stats-band-value">24/7</div>
+                    <div class="stats-band-label">Toujours disponible</div>
                 </div>
             </div>
         </section>
@@ -1046,6 +1190,21 @@
                             Les 9 domaines couvrent tous les aspects de la société : Développement Personnel, Entreprise,
                             Institutions, Création, Communauté, Communication, Formation, Logistique et Durabilité.
                             Chaque domaine dispose d'agents spécialisés pour répondre à vos besoins spécifiques.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>En quoi AT·OM est différent de ChatGPT ?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p class="faq-answer-content">
+                            ChatGPT est un assistant généraliste unique. AT·OM est un système complet de 400+ agents
+                            spécialisés qui couvrent 9 domaines de la société et collaborent entre eux. Chaque agent a
+                            son expertise propre, et ils se coordonnent pour vous fournir des résultats qu'un seul
+                            assistant ne pourrait pas produire.
                         </p>
                     </div>
                 </div>
