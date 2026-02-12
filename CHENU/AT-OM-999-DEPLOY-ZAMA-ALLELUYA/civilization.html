@@ -981,6 +981,289 @@
                 left: 24px;
             }
         }
+
+        /* ═══════════════════════════════════════════════════════════════
+           ENVIRONMENT CREATION MODAL
+        ═══════════════════════════════════════════════════════════════ */
+        .env-modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .env-modal-overlay.open { display: flex; }
+
+        .env-modal {
+            width: 100%;
+            max-width: 560px;
+            background: #111118;
+            border: 1px solid rgba(216, 178, 106, 0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            animation: modalSlideIn 0.3s ease;
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .env-modal-header {
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, var(--env-color, var(--sacred-gold)), transparent);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .env-modal-header h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .env-modal-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+        }
+
+        .env-modal-body { padding: 2rem; }
+
+        .env-form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .env-form-label {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .env-form-input {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .env-form-input:focus {
+            outline: none;
+            border-color: var(--sacred-gold);
+        }
+
+        .env-form-textarea {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            color: white;
+            font-size: 0.95rem;
+            resize: vertical;
+            min-height: 80px;
+            font-family: inherit;
+        }
+
+        .env-form-textarea:focus {
+            outline: none;
+            border-color: var(--sacred-gold);
+        }
+
+        .env-types {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .env-type-option {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .env-type-option:hover {
+            border-color: rgba(216, 178, 106, 0.4);
+        }
+
+        .env-type-option.selected {
+            border-color: var(--sacred-gold);
+            background: rgba(216, 178, 106, 0.1);
+        }
+
+        .env-type-icon {
+            font-size: 1.3rem;
+        }
+
+        .env-type-name {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .env-type-desc {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.3;
+        }
+
+        .env-zones {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .env-zone-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .env-zone-option:hover {
+            border-color: rgba(216, 178, 106, 0.4);
+        }
+
+        .env-zone-option.selected {
+            border-color: var(--sacred-gold);
+            background: rgba(216, 178, 106, 0.1);
+            color: white;
+        }
+
+        .env-zone-check {
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            flex-shrink: 0;
+        }
+
+        .env-zone-option.selected .env-zone-check {
+            background: var(--sacred-gold);
+            border-color: var(--sacred-gold);
+            color: black;
+        }
+
+        .env-modal-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .env-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+
+        .env-btn-cancel {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .env-btn-cancel:hover { background: rgba(255, 255, 255, 0.15); }
+
+        .env-btn-create {
+            background: linear-gradient(135deg, var(--sacred-gold), #c9a55a);
+            color: #0a0a0f;
+        }
+
+        .env-btn-create:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(216, 178, 106, 0.4);
+        }
+
+        .env-success {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .env-success.show { display: block; }
+
+        .env-success-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .env-success-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .env-success-text {
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.6);
+            line-height: 1.5;
+        }
+
+        /* Create Env Button in Details Panel */
+        .btn-create-env {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 0.85rem;
+            margin-top: 1rem;
+            background: linear-gradient(135deg, var(--sacred-gold), #c9a55a);
+            color: #0a0a0f;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-create-env:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(216, 178, 106, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -1153,7 +1436,7 @@
                 <div id="selectedSphereContainer">
                     <div class="empty-state">
                         <div class="empty-state-icon">🌐</div>
-                        <div class="empty-state-text">Selectionnez une sphere<br>pour voir ses agents</div>
+                        <div class="empty-state-text">Sélectionnez un domaine<br>pour voir ses agents</div>
                     </div>
                 </div>
 
@@ -1282,6 +1565,83 @@
         <div class="chat-input-area">
             <input type="text" class="chat-input" id="chatInput" placeholder="Message..." onkeypress="handleChatKeypress(event)">
             <button class="chat-send" onclick="sendChatMessage()">→</button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         ENVIRONMENT CREATION MODAL
+    ═══════════════════════════════════════════════════════════════ -->
+    <div class="env-modal-overlay" id="envModal">
+        <div class="env-modal">
+            <div class="env-modal-header" id="envModalHeader">
+                <h2><span id="envModalIcon"></span> Créer un environnement</h2>
+                <button class="env-modal-close" onclick="closeEnvModal()">&times;</button>
+            </div>
+
+            <div id="envFormContent">
+                <div class="env-modal-body">
+                    <div class="env-form-group">
+                        <label class="env-form-label">Nom de votre cause ou projet</label>
+                        <input type="text" class="env-form-input" id="envName" placeholder="Ex: Transition écologique de mon quartier">
+                    </div>
+
+                    <div class="env-form-group">
+                        <label class="env-form-label">Décrivez votre objectif</label>
+                        <textarea class="env-form-textarea" id="envDescription" placeholder="Que voulez-vous accomplir avec cet environnement ?"></textarea>
+                    </div>
+
+                    <div class="env-form-group">
+                        <label class="env-form-label">Type d'environnement</label>
+                        <div class="env-types" id="envTypes">
+                            <!-- Populated dynamically per domain -->
+                        </div>
+                    </div>
+
+                    <div class="env-form-group">
+                        <label class="env-form-label">Zones actives de l'environnement</label>
+                        <div class="env-zones" id="envZones">
+                            <div class="env-zone-option selected" data-zone="intent" onclick="toggleZone(this)">
+                                <div class="env-zone-check">✓</div>
+                                <span>Objectifs</span>
+                            </div>
+                            <div class="env-zone-option selected" data-zone="action" onclick="toggleZone(this)">
+                                <div class="env-zone-check">✓</div>
+                                <span>Actions</span>
+                            </div>
+                            <div class="env-zone-option selected" data-zone="decision" onclick="toggleZone(this)">
+                                <div class="env-zone-check">✓</div>
+                                <span>Décisions</span>
+                            </div>
+                            <div class="env-zone-option" data-zone="memory" onclick="toggleZone(this)">
+                                <div class="env-zone-check">✓</div>
+                                <span>Mémoire</span>
+                            </div>
+                            <div class="env-zone-option" data-zone="timeline" onclick="toggleZone(this)">
+                                <div class="env-zone-check">✓</div>
+                                <span>Chronologie</span>
+                            </div>
+                            <div class="env-zone-option" data-zone="resources" onclick="toggleZone(this)">
+                                <div class="env-zone-check">✓</div>
+                                <span>Ressources</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="env-modal-footer">
+                    <button class="env-btn env-btn-cancel" onclick="closeEnvModal()">Annuler</button>
+                    <button class="env-btn env-btn-create" onclick="createEnvironment()">Créer l'environnement →</button>
+                </div>
+            </div>
+
+            <div class="env-success" id="envSuccess">
+                <div class="env-success-icon">✅</div>
+                <div class="env-success-title" id="envSuccessTitle">Environnement créé !</div>
+                <p class="env-success-text" id="envSuccessText"></p>
+                <div class="env-modal-footer" style="justify-content: center; border: none;">
+                    <button class="env-btn env-btn-create" onclick="closeEnvModal()">Fermer</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1626,6 +1986,9 @@
                     <div class="selected-icon">${sphere.icon}</div>
                     <div class="selected-name" style="color: ${sphere.color};">${sphere.name}</div>
                     <div class="selected-count">${agents.length} agents actifs</div>
+                    <button class="btn-create-env" onclick="openEnvModal('${key}')">
+                        + Créer un environnement dédié
+                    </button>
                 </div>
                 <div class="panel-section">
                     <div class="panel-title"><span>🤖</span> Agents</div>
@@ -1706,7 +2069,7 @@
                 frequency: 999, // Internal use only
                 color: '#9333EA',
                 personality: 'calm, wise, protective',
-                greeting: 'Bienvenue! Je suis Nova, superviseur du systeme AT-OM. Je veille au bon fonctionnement de l\'ensemble. Comment puis-je t\'aider?'
+                greeting: 'Bienvenue ! Je suis Nova, superviseur du système AT·OM. Je veille au bon fonctionnement de l\'ensemble. Comment puis-je vous aider ?'
             },
             aria: {
                 id: 'aria',
@@ -1716,7 +2079,7 @@
                 frequency: 528, // Internal use only
                 color: '#00FF88',
                 personality: 'warm, patient, encouraging',
-                greeting: 'Bonjour! Je suis Aria, ta guide d\'accueil. Je suis la pour t\'accompagner dans la decouverte du systeme. Que puis-je faire pour toi?'
+                greeting: 'Bonjour ! Je suis Aria, votre guide d\'accueil. Je suis là pour vous accompagner dans la découverte du système. Que puis-je faire pour vous ?'
             },
             orion: {
                 id: 'orion',
@@ -1896,6 +2259,186 @@
             alert('Quick Connect : Bientôt disponible !\n\nVous pourrez ajouter des agents personnalisés à votre liste de raccourcis.');
             console.log('[QUICK CONNECT] Feature coming soon');
         }
+
+        // ═══════════════════════════════════════════════════════════════
+        // ENVIRONMENT CREATION
+        // ═══════════════════════════════════════════════════════════════
+
+        // Types d'environnement par domaine
+        const ENV_TYPES = {
+            personal: [
+                { id: 'coaching', icon: '🎯', name: 'Coaching', desc: 'Suivi d\'objectifs personnels', template: 'PERSONAL_ROOM' },
+                { id: 'wellness', icon: '🧘', name: 'Bien-être', desc: 'Santé, routine, habitudes', template: 'PERSONAL_ROOM' },
+                { id: 'project', icon: '📋', name: 'Projet perso', desc: 'Planification et suivi', template: 'CUSTOM_ROOM' },
+                { id: 'learning', icon: '📖', name: 'Apprentissage', desc: 'Parcours auto-formation', template: 'LAB_ROOM' }
+            ],
+            business: [
+                { id: 'startup', icon: '🚀', name: 'Startup', desc: 'Lancement d\'activité', template: 'BUSINESS_ROOM' },
+                { id: 'organisation', icon: '🏢', name: 'Organisation', desc: 'Gestion d\'équipe et processus', template: 'BUSINESS_ROOM' },
+                { id: 'strategy', icon: '📊', name: 'Stratégie', desc: 'Plan d\'affaires et croissance', template: 'BUSINESS_ROOM' },
+                { id: 'finance', icon: '💰', name: 'Finance', desc: 'Budget, trésorerie, KPI', template: 'BUSINESS_ROOM' }
+            ],
+            government: [
+                { id: 'governance', icon: '⚖️', name: 'Gouvernance', desc: 'Politiques et décisions', template: 'CAUSE_ROOM' },
+                { id: 'regulation', icon: '📜', name: 'Réglementation', desc: 'Conformité et normes', template: 'CUSTOM_ROOM' },
+                { id: 'public_service', icon: '🏛️', name: 'Service public', desc: 'Administration et citoyens', template: 'CAUSE_ROOM' },
+                { id: 'diplomacy', icon: '🤝', name: 'Coopération', desc: 'Partenariats institutionnels', template: 'CUSTOM_ROOM' }
+            ],
+            creative: [
+                { id: 'studio', icon: '🎬', name: 'Studio', desc: 'Production audiovisuelle', template: 'CUSTOM_ROOM' },
+                { id: 'design', icon: '✏️', name: 'Design', desc: 'Conception et prototypage', template: 'CUSTOM_ROOM' },
+                { id: 'writing', icon: '✍️', name: 'Écriture', desc: 'Rédaction et narration', template: 'CUSTOM_ROOM' },
+                { id: 'innovation', icon: '💡', name: 'Innovation', desc: 'Idéation et R&D', template: 'LAB_ROOM' }
+            ],
+            community: [
+                { id: 'cause', icon: '✊', name: 'Cause', desc: 'Mouvement et mobilisation', template: 'CAUSE_ROOM' },
+                { id: 'association', icon: '🤲', name: 'Association', desc: 'Gestion associative', template: 'CAUSE_ROOM' },
+                { id: 'neighbourhood', icon: '🏘️', name: 'Quartier', desc: 'Vie locale et initiatives', template: 'CAUSE_ROOM' },
+                { id: 'thread', icon: '💬', name: 'Discussion', desc: 'Échange et collaboration', template: 'CUSTOM_ROOM' }
+            ],
+            social: [
+                { id: 'campaign', icon: '📢', name: 'Campagne', desc: 'Sensibilisation et action', template: 'CAUSE_ROOM' },
+                { id: 'solidarity', icon: '💛', name: 'Solidarité', desc: 'Entraide et inclusion', template: 'CAUSE_ROOM' },
+                { id: 'network', icon: '🌐', name: 'Réseau', desc: 'Connexions et partenaires', template: 'CUSTOM_ROOM' },
+                { id: 'thread', icon: '💬', name: 'Discussion', desc: 'Forum et débat ouvert', template: 'CUSTOM_ROOM' }
+            ],
+            education: [
+                { id: 'classroom', icon: '🏫', name: 'Classe', desc: 'Espace d\'apprentissage', template: 'LAB_ROOM' },
+                { id: 'lab', icon: '🔬', name: 'Laboratoire', desc: 'Recherche et expérimentation', template: 'LAB_ROOM' },
+                { id: 'mentoring', icon: '👩‍🏫', name: 'Mentorat', desc: 'Accompagnement personnalisé', template: 'PERSONAL_ROOM' },
+                { id: 'curriculum', icon: '📝', name: 'Programme', desc: 'Parcours structuré', template: 'LAB_ROOM' }
+            ],
+            transport: [
+                { id: 'logistics', icon: '📦', name: 'Logistique', desc: 'Flux et distribution', template: 'BUSINESS_ROOM' },
+                { id: 'fleet', icon: '🚛', name: 'Flotte', desc: 'Gestion de véhicules', template: 'BUSINESS_ROOM' },
+                { id: 'infrastructure', icon: '🛤️', name: 'Infrastructure', desc: 'Planification réseau', template: 'CUSTOM_ROOM' },
+                { id: 'mobility', icon: '🚲', name: 'Mobilité', desc: 'Solutions de déplacement', template: 'CUSTOM_ROOM' }
+            ],
+            environment: [
+                { id: 'transition', icon: '♻️', name: 'Transition', desc: 'Écologie et durabilité', template: 'CAUSE_ROOM' },
+                { id: 'monitoring', icon: '📡', name: 'Monitoring', desc: 'Suivi environnemental', template: 'LAB_ROOM' },
+                { id: 'conservation', icon: '🌳', name: 'Conservation', desc: 'Protection des ressources', template: 'CAUSE_ROOM' },
+                { id: 'impact', icon: '📈', name: 'Impact', desc: 'Mesure et reporting', template: 'CUSTOM_ROOM' }
+            ]
+        };
+
+        let envSphereKey = null;
+        let envSelectedType = null;
+
+        function openEnvModal(sphereKey) {
+            envSphereKey = sphereKey;
+            envSelectedType = null;
+            const sphere = CIVILIZATION_SPHERES[sphereKey];
+
+            // Set modal header color and icon
+            const header = document.getElementById('envModalHeader');
+            header.style.setProperty('--env-color', sphere.color);
+            document.getElementById('envModalIcon').textContent = sphere.icon;
+
+            // Reset form
+            document.getElementById('envName').value = '';
+            document.getElementById('envDescription').value = '';
+            document.getElementById('envFormContent').style.display = 'block';
+            document.getElementById('envSuccess').classList.remove('show');
+
+            // Set placeholder based on domain
+            const examples = {
+                personal: 'Ex: Programme de développement personnel 2025',
+                business: 'Ex: Lancement de mon activité freelance',
+                government: 'Ex: Suivi de conformité réglementaire',
+                creative: 'Ex: Production de mon court-métrage',
+                community: 'Ex: Revitalisation du quartier Saint-Michel',
+                social: 'Ex: Campagne de sensibilisation climat',
+                education: 'Ex: Formation continue en data science',
+                transport: 'Ex: Optimisation logistique entrepôt Nord',
+                environment: 'Ex: Transition écologique de mon entreprise'
+            };
+            document.getElementById('envName').placeholder = examples[sphereKey] || 'Nom de votre projet';
+
+            // Populate environment types for this domain
+            const typesContainer = document.getElementById('envTypes');
+            const types = ENV_TYPES[sphereKey] || [];
+            typesContainer.innerHTML = types.map((t, i) => `
+                <div class="env-type-option${i === 0 ? ' selected' : ''}" data-type-id="${t.id}" data-template="${t.template}" onclick="selectEnvType(this)">
+                    <div class="env-type-icon">${t.icon}</div>
+                    <div class="env-type-name">${t.name}</div>
+                    <div class="env-type-desc">${t.desc}</div>
+                </div>
+            `).join('');
+
+            // Auto-select first type
+            if (types.length > 0) {
+                envSelectedType = types[0];
+            }
+
+            // Open modal
+            document.getElementById('envModal').classList.add('open');
+        }
+
+        function selectEnvType(el) {
+            document.querySelectorAll('.env-type-option').forEach(o => o.classList.remove('selected'));
+            el.classList.add('selected');
+            const typeId = el.dataset.typeId;
+            const types = ENV_TYPES[envSphereKey] || [];
+            envSelectedType = types.find(t => t.id === typeId) || null;
+        }
+
+        function closeEnvModal() {
+            document.getElementById('envModal').classList.remove('open');
+            envSphereKey = null;
+        }
+
+        function toggleZone(el) {
+            el.classList.toggle('selected');
+        }
+
+        function createEnvironment() {
+            const name = document.getElementById('envName').value.trim();
+            const description = document.getElementById('envDescription').value.trim();
+            const zones = [...document.querySelectorAll('.env-zone-option.selected')].map(z => z.dataset.zone);
+
+            if (!name) {
+                document.getElementById('envName').style.borderColor = '#FF6B6B';
+                document.getElementById('envName').focus();
+                return;
+            }
+
+            if (!envSelectedType) {
+                return;
+            }
+
+            const sphere = CIVILIZATION_SPHERES[envSphereKey];
+
+            // Store locally (will integrate with POST /xr/generate later)
+            const envs = JSON.parse(localStorage.getItem('atom_environments') || '[]');
+            const newEnv = {
+                id: 'env_' + Date.now(),
+                name,
+                description,
+                sphere_id: envSphereKey,
+                sphere_name: sphere.name,
+                type_id: envSelectedType.id,
+                type_name: envSelectedType.name,
+                template: envSelectedType.template,
+                zones,
+                created_at: new Date().toISOString()
+            };
+            envs.push(newEnv);
+            localStorage.setItem('atom_environments', JSON.stringify(envs));
+
+            // Show success
+            document.getElementById('envFormContent').style.display = 'none';
+            document.getElementById('envSuccessTitle').textContent = `Environnement "${name}" créé !`;
+            document.getElementById('envSuccessText').textContent = `${envSelectedType.icon} ${envSelectedType.name} · Domaine ${sphere.name} · ${zones.length} zones actives · ${getSphereAgentCount(envSphereKey)} agents disponibles.`;
+            document.getElementById('envSuccess').classList.add('show');
+
+            console.log('[AT-OM] Environment created:', newEnv);
+        }
+
+        // Close modal on overlay click
+        document.getElementById('envModal').addEventListener('click', function(e) {
+            if (e.target === this) closeEnvModal();
+        });
 
         // ═══════════════════════════════════════════════════════════════
         // MAKE FAB DRAGGABLE (Amovible)
