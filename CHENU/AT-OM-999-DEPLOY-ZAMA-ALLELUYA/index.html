@@ -1164,11 +1164,11 @@
 
                     switch(status) {
                         case 'connected':
-                            label.textContent = 'Connecte';
-                            detail.textContent = 'Temps reel actif';
+                            label.textContent = 'Connecté';
+                            detail.textContent = 'Temps réel actif';
                             break;
                         case 'disconnected':
-                            label.textContent = 'Deconnecte';
+                            label.textContent = 'Déconnecté';
                             detail.textContent = 'Reconnexion...';
                             break;
                         case 'gratitude':
@@ -1447,7 +1447,7 @@
                 return `Bien reçu. Je vais structurer votre demande. Précisez votre objectif et le domaine concerné pour que je puisse coordonner les agents les plus adaptés.`;
             }
 
-            return `Message recu. Agent ${agent.name} traite ta demande...`;
+            return `Message reçu. L'agent ${agent.name} traite votre demande...`;
         }
 
         function handleChatKeypress(event) {
@@ -1455,7 +1455,7 @@
         }
 
         function openQuickConnect() {
-            alert('Quick Connect: Bientot disponible!\n\nVous pourrez ajouter des agents personnalises a votre liste.');
+            alert('Quick Connect : Bientôt disponible !\n\nVous pourrez ajouter des agents personnalisés à votre liste.');
         }
 
         // ═══════════════════════════════════════════════════════════════

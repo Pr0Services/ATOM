@@ -2006,7 +2006,7 @@
             // Fermer modal
             document.querySelector('.tier-modal-overlay')?.remove();
             // Afficher message de bienvenue
-            alert('🌱 Bienvenue dans l\'Arche, Citoyen!\n\nTon compte gratuit est actif.\nExplore les spheres et connecte-toi avec Nova, Aria et Orion.');
+            alert('Bienvenue ! Votre accès gratuit est actif.\nExplorez les domaines et connectez-vous avec Nova, Aria et Orion.');
             console.log('[FUNDER] New Citoyen joined');
         }
 
@@ -2015,7 +2015,7 @@
             const params = new URLSearchParams(window.location.search);
             if (params.get('success') === 'true') {
                 const tier = params.get('tier');
-                alert(`🎉 Bienvenue dans le tier ${tier ? FUNDER_TIERS[tier]?.name : ''} !\nTon acces est maintenant actif.`);
+                alert(`Bienvenue dans le niveau ${tier ? FUNDER_TIERS[tier]?.name : ''} !\nVotre accès est maintenant actif.`);
                 window.history.replaceState({}, '', '/funder.html');
             }
             if (params.get('canceled') === 'true') {
@@ -2220,7 +2220,7 @@
         }
 
         function openQuickConnect() {
-            alert('Quick Connect: Bientot disponible!\n\nVous pourrez ajouter des agents personnalises.');
+            alert('Quick Connect : Bientôt disponible !\n\nVous pourrez ajouter des agents personnalisés.');
         }
 
         // Make FAB draggable
