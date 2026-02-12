@@ -411,7 +411,7 @@
 
         <a href="/landing.html" class="back-link">
             <span>←</span>
-            <span>Retour a l'accueil</span>
+            <span>Retour à l'accueil</span>
         </a>
     </header>
 
@@ -423,7 +423,7 @@
             <!-- Tab Switcher -->
             <div class="auth-tabs">
                 <button class="auth-tab active" onclick="switchTab('signin')">Se connecter</button>
-                <button class="auth-tab" onclick="switchTab('signup')">Creer un compte</button>
+                <button class="auth-tab" onclick="switchTab('signup')">Créer un compte</button>
             </div>
 
             <!-- Error Message -->
@@ -433,7 +433,7 @@
             <form class="auth-form active" id="signinForm" onsubmit="handleSignIn(event)">
                 <div class="form-header">
                     <h1 class="form-title">Bienvenue</h1>
-                    <p class="form-subtitle">Connectez-vous pour acceder a votre espace</p>
+                    <p class="form-subtitle">Connectez-vous pour accéder à votre espace</p>
                 </div>
 
                 <div class="form-group">
@@ -446,7 +446,7 @@
                     <input type="password" class="form-input" placeholder="Votre mot de passe" required>
                 </div>
 
-                <a href="#" class="form-link">Mot de passe oublie?</a>
+                <a href="#" class="form-link">Mot de passe oublié?</a>
 
                 <button type="submit" class="btn btn-primary">Se connecter</button>
 
@@ -479,8 +479,8 @@
             <!-- Sign Up Form -->
             <form class="auth-form" id="signupForm" onsubmit="handleSignUp(event)">
                 <div class="form-header">
-                    <h1 class="form-title">Creer un compte</h1>
-                    <p class="form-subtitle">Rejoignez AT-OM et accedez a 400+ agents</p>
+                    <h1 class="form-title">Créer un compte</h1>
+                    <p class="form-subtitle">Rejoignez AT-OM et accédez à 400+ agents</p>
                 </div>
 
                 <div class="form-group">
@@ -495,7 +495,7 @@
 
                 <div class="form-group">
                     <label class="form-label">Mot de passe</label>
-                    <input type="password" class="form-input" placeholder="Minimum 8 caracteres" required minlength="8">
+                    <input type="password" class="form-input" placeholder="Minimum 8 caractères" required minlength="8">
                 </div>
 
                 <div class="form-group">
@@ -506,11 +506,11 @@
                 <div class="form-checkbox">
                     <input type="checkbox" id="terms" required>
                     <label for="terms">
-                        J'accepte les <a href="#">Conditions d'utilisation</a> et la <a href="#">Politique de confidentialite</a>
+                        J'accepte les <a href="#">Conditions d'utilisation</a> et la <a href="#">Politique de confidentialité</a>
                     </label>
                 </div>
 
-                <button type="submit" class="btn btn-primary">Creer mon compte</button>
+                <button type="submit" class="btn btn-primary">Créer mon compte</button>
 
                 <div class="auth-divider">
                     <span>ou continuer avec</span>
@@ -539,7 +539,7 @@
             </form>
 
             <div class="auth-footer">
-                <p>En continuant, vous acceptez nos conditions d'utilisation et reconnaissez avoir lu notre politique de confidentialite.</p>
+                <p>En continuant, vous acceptez nos conditions d'utilisation et reconnaissez avoir lu notre politique de confidentialité.</p>
             </div>
         </div>
     </main>
@@ -581,7 +581,7 @@
             // Temporary redirect to app
             // window.location.href = '/civilization.html';
 
-            showError('Authentification en cours de configuration. Revenez bientot!');
+            showError('Authentification en cours de configuration. Revenez bientôt!');
         }
 
         // Sign Up Handler
@@ -601,7 +601,7 @@
             // TODO: Integrate with Supabase Auth
             console.log('[AT-OM] Sign Up attempt');
 
-            showError('Inscription en cours de configuration. Revenez bientot!');
+            showError('Inscription en cours de configuration. Revenez bientôt!');
         }
 
         // Social Auth Handler

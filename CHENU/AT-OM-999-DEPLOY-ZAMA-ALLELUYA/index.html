@@ -850,7 +850,7 @@
             <span class="logo-icon">Ψ</span>
             <div>
                 <div class="logo-text">AT·OM</div>
-                <div class="logo-subtitle">L'Arche des Resonances</div>
+                <div class="logo-subtitle">Intelligence collective</div>
             </div>
         </a>
 
@@ -892,7 +892,7 @@
             <aside class="nav-hub">
                 <div class="nav-header">
                     <h3><span>🧭</span> Navigation</h3>
-                    <span style="font-size: 0.75rem; color: rgba(255,255,255,0.4);">L'Arche</span>
+                    <span style="font-size: 0.75rem; color: rgba(255,255,255,0.4);">AT·OM</span>
                 </div>
 
                 <div class="nav-list">
@@ -1172,8 +1172,8 @@
                             detail.textContent = 'Reconnexion...';
                             break;
                         case 'gratitude':
-                            label.textContent = 'Mode Gratitude';
-                            detail.textContent = '444 Hz';
+                            label.textContent = 'Mode veille';
+                            detail.textContent = 'En attente';
                             break;
                         default:
                             label.textContent = 'Connexion...';
@@ -1199,7 +1199,7 @@
         if (coreOrb) {
             const startHold = () => {
                 holdTimer = setTimeout(() => {
-                    console.log('%c[GRATITUDE MODE] 444 Hz Activated', 'color: #00FF88; font-size: 14px;');
+                    console.log('%c[AT-OM] Easter egg activated', 'color: #00FF88; font-size: 14px;');
                     coreOrb.classList.add('gratitude');
                     coreOrb.textContent = '🙏';
 
@@ -1525,10 +1525,8 @@
         // ═══════════════════════════════════════════════════════════════
         window.atomStatus = () => {
             console.log('%c═══════════════════════════════════════════════════', 'color: #D8B26A;');
-            console.log('%c AT-OM NEXUS - 3 HUBS CANONICAL LAYOUT', 'color: #D8B26A; font-size: 14px; font-weight: bold;');
-            console.log('%c Nova (🔱 999Hz) + Aria (✨ 528Hz) + Orion (🏛️ 741Hz)', 'color: #9333EA;');
-            console.log('%c═══════════════════════════════════════════════════', 'color: #D8B26A;');
-            console.log('%c PHI = 1.618 | 444 Hz | 369 | 999 Hz', 'color: #00FF88;');
+            console.log('%c AT·OM — Tableau de bord', 'color: #D8B26A; font-size: 14px; font-weight: bold;');
+            console.log('%c Nova + Aria + Orion', 'color: #9333EA;');
             console.log('%c═══════════════════════════════════════════════════', 'color: #D8B26A;');
         };
 

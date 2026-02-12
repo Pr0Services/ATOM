@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AT-OM | Annales - Analytics Dashboard</title>
-    <meta name="description" content="Annales AT-OM - Tableau de bord analytics des agents et fréquences">
+    <title>AT·OM | Tableau de bord analytique</title>
+    <meta name="description" content="AT·OM — Tableau de bord analytique des agents et domaines">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <script src="/config.js"></script>
     <script src="/js/governance-init.js"></script>
@@ -17,13 +17,7 @@
            ═══════════════════════════════════════════════════════════════════ */
 
         :root {
-            /* ADN Vibratoire */
-            --phi: 1.618033988749895;
-            --heartbeat: 444;
-            --tesla: 369;
-            --source: 999;
-
-            /* Couleurs Sacrées */
+            /* Thème */
             --sacred-gold: #D4AF37;
             --sacred-gold-dim: rgba(212, 175, 55, 0.3);
             --dark-bg: #0a0a0f;
@@ -726,17 +720,16 @@
         <div class="header-content">
             <div class="logo-section">
                 <a href="/" class="logo">AT-OM</a>
-                <span class="page-title">Annales Analytics</span>
+                <span class="page-title">Tableau de bord</span>
             </div>
             <nav class="global-nav">
-                <a href="/" class="nav-link">Ψ Nexus</a>
-                <a href="/civilization.html" class="nav-link">🌐 Civilisation</a>
-                <a href="/agents.html" class="nav-link">🤖 Lexique</a>
-                <a href="/spheres.html" class="nav-link">🔮 Forge</a>
-                <a href="/live.html" class="nav-link">⚡ Flux</a>
-                <a href="/dashboard.html" class="nav-link active">📊 Annales</a>
-                <a href="/frequencies.html" class="nav-link">📡 Freq</a>
-                <a href="/funder.html" class="nav-link">💎 Funder</a>
+                <a href="/" class="nav-link">🏠 Accueil</a>
+                <a href="/civilization.html" class="nav-link">🌐 Domaines</a>
+                <a href="/agents.html" class="nav-link">🤖 Agents</a>
+                <a href="/spheres.html" class="nav-link">🔮 Vue d'ensemble</a>
+                <a href="/live.html" class="nav-link">⚡ Activité</a>
+                <a href="/dashboard.html" class="nav-link active">📊 Tableau de bord</a>
+                <a href="/funder.html" class="nav-link">💎 Partenaire</a>
             </nav>
         </div>
     </header>
@@ -762,7 +755,7 @@
                 <div class="hub-card">
                     <div class="hub-card-header">
                         <span>🔮</span>
-                        <h3>Filtrer par Sphère</h3>
+                        <h3>Filtrer par Domaine</h3>
                     </div>
                     <div class="hub-card-content">
                         <div class="filter-list" id="filterList">
@@ -771,27 +764,13 @@
                     </div>
                 </div>
 
-                <div class="hub-card">
-                    <div class="hub-card-header">
-                        <span>🧬</span>
-                        <h3>ADN Vibratoire</h3>
-                    </div>
-                    <div class="hub-card-content">
-                        <div class="adn-grid">
-                            <div class="adn-item"><span class="adn-label">PHI</span><span class="adn-value">1.618033...</span></div>
-                            <div class="adn-item"><span class="adn-label">Heartbeat</span><span class="adn-value">444 Hz</span></div>
-                            <div class="adn-item"><span class="adn-label">Tesla</span><span class="adn-value">369</span></div>
-                            <div class="adn-item"><span class="adn-label">Source</span><span class="adn-value">999 Hz</span></div>
-                        </div>
-                    </div>
-                </div>
             </aside>
 
             <!-- HUB 2 - Charts -->
             <section class="analytics-hub">
                 <div id="loadingState" class="loading-state">
                     <div class="spinner"></div>
-                    <p>Chargement des annales...</p>
+                    <p>Chargement des données...</p>
                 </div>
 
                 <div id="chartsContainer" style="display: none;">
@@ -799,7 +778,7 @@
                         <div class="hub-card">
                             <div class="hub-card-header">
                                 <span>🔮</span>
-                                <h3>Distribution par Sphère</h3>
+                                <h3>Distribution par Domaine</h3>
                             </div>
                             <div class="hub-card-content">
                                 <div class="pie-chart-container" id="pieChartContainer"></div>
@@ -809,7 +788,7 @@
                         <div class="hub-card">
                             <div class="hub-card-header">
                                 <span>📈</span>
-                                <h3>Top Fréquences</h3>
+                                <h3>Top Agents</h3>
                             </div>
                             <div class="hub-card-content">
                                 <div class="bar-chart" id="barChart"></div>
@@ -820,7 +799,7 @@
                     <div class="hub-card table-card">
                         <div class="hub-card-header">
                             <span>📋</span>
-                            <h3>Détails par Sphère</h3>
+                            <h3>Détails par Domaine</h3>
                         </div>
                         <div class="table-container" id="tableContainer"></div>
                     </div>
@@ -859,21 +838,21 @@
                 <span class="agent-sphere-icon">🔱</span>
                 <div class="agent-sphere-info">
                     <span class="agent-sphere-name">Nova</span>
-                    <span class="agent-sphere-freq">999 Hz • Overseer</span>
+                    <span class="agent-sphere-freq">Superviseur</span>
                 </div>
             </div>
             <div class="agent-sphere" onclick="openAgentChat('aria')" style="--agent-color: #00FF88;">
                 <span class="agent-sphere-icon">✨</span>
                 <div class="agent-sphere-info">
                     <span class="agent-sphere-name">Aria</span>
-                    <span class="agent-sphere-freq">528 Hz • Guide</span>
+                    <span class="agent-sphere-freq">Guide</span>
                 </div>
             </div>
             <div class="agent-sphere" onclick="openAgentChat('orion')" style="--agent-color: #FF6B35;">
                 <span class="agent-sphere-icon">🏛️</span>
                 <div class="agent-sphere-info">
                     <span class="agent-sphere-name">Orion</span>
-                    <span class="agent-sphere-freq">741 Hz • Orchestrateur</span>
+                    <span class="agent-sphere-freq">Coordinateur</span>
                 </div>
             </div>
         </div>
@@ -886,7 +865,7 @@
             <span class="chat-agent-icon" id="chatAgentIcon">🔱</span>
             <div class="chat-agent-info">
                 <div class="chat-agent-name" id="chatAgentName">Nova</div>
-                <div class="chat-agent-title" id="chatAgentTitle">System Overseer</div>
+                <div class="chat-agent-title" id="chatAgentTitle">Superviseur Système</div>
             </div>
             <button class="chat-close" onclick="closeAgentChat()">&times;</button>
         </div>
@@ -915,19 +894,19 @@
 
         const CORE_AGENTS = {
             nova: {
-                name: 'Nova', icon: '🔱', title: 'System Overseer', color: '#9333EA',
-                greeting: 'Bienvenue dans les Annales. Je supervise les métriques du système.',
-                responses: { help: 'Les Annales révèlent les patterns de fréquences dans le système.' }
+                name: 'Nova', icon: '🔱', title: 'Superviseur Système', color: '#9333EA',
+                greeting: 'Bienvenue. Je supervise les métriques du système.',
+                responses: { help: 'Le tableau de bord affiche les statistiques de vos agents et domaines.' }
             },
             aria: {
-                name: 'Aria', icon: '✨', title: 'Onboarding Guide', color: '#00FF88',
-                greeting: 'Bonjour! Les Annales te permettent d\'analyser les performances des agents.',
-                responses: { help: 'Je t\'accompagne dans l\'exploration des données analytiques!' }
+                name: 'Aria', icon: '✨', title: 'Votre Guide', color: '#00FF88',
+                greeting: 'Bonjour! Ce tableau de bord vous permet d\'analyser les performances des agents.',
+                responses: { help: 'Je vous accompagne dans l\'exploration des données analytiques!' }
             },
             orion: {
-                name: 'Orion', icon: '🏛️', title: 'Ton Orchestrateur', color: '#FF6B35',
-                greeting: 'Salutations. Les Annales permettent d\'identifier les patterns d\'optimisation.',
-                responses: { help: 'Je peux t\'aider à structurer ton analyse des données.' }
+                name: 'Orion', icon: '🏛️', title: 'Votre Coordinateur', color: '#FF6B35',
+                greeting: 'Bonjour. Ce tableau de bord permet d\'identifier les tendances d\'optimisation.',
+                responses: { help: 'Je peux vous aider à structurer votre analyse des données.' }
             }
         };
 
@@ -983,9 +962,9 @@
 
             const kpis = [
                 { icon: '🤖', value: data.length, label: 'Agents', change: '+12%', up: true },
-                { icon: '🔮', value: spheres.length, label: 'Sphères', change: '+2', up: true },
-                { icon: '📡', value: avgFreq.toFixed(0), label: 'Moy. Hz', change: '+5%', up: true },
-                { icon: '⚡', value: maxFreq, label: 'Max Hz', change: '+15%', up: true },
+                { icon: '🔮', value: spheres.length, label: 'Domaines', change: '+2', up: true },
+                { icon: '📡', value: avgFreq.toFixed(0), label: 'Score moy.', change: '+5%', up: true },
+                { icon: '⚡', value: maxFreq, label: 'Score max', change: '+15%', up: true },
             ];
 
             document.getElementById('kpiGrid').innerHTML = kpis.map(k => `
@@ -1099,11 +1078,11 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Sphère</th>
+                            <th>Domaine</th>
                             <th>Agents</th>
                             <th>% Total</th>
-                            <th>Fréq. Moy.</th>
-                            <th>Fréq. Max</th>
+                            <th>Score moy.</th>
+                            <th>Score max</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1148,10 +1127,10 @@
             const above741 = freqs.filter(f => f >= 741).length;
 
             const insights = [
-                { title: 'Moyenne système', value: `${avg.toFixed(0)} Hz - ${avg >= 528 ? 'Optimal' : 'À améliorer'}` },
-                { title: 'Au-dessus du Heartbeat', value: `${above444} agents (${((above444 / agents.length) * 100).toFixed(0)}%)` },
-                { title: 'Zone Awakening (741+)', value: `${above741} agents en haute fréquence` },
-                { title: 'Tendance', value: 'Stabilité vibratoire ↑' }
+                { title: 'Score moyen', value: `${avg.toFixed(0)} — ${avg >= 528 ? 'Optimal' : 'À améliorer'}` },
+                { title: 'Agents performants', value: `${above444} agents (${((above444 / agents.length) * 100).toFixed(0)}%)` },
+                { title: 'Agents avancés', value: `${above741} agents haut niveau` },
+                { title: 'Tendance', value: 'Stabilité ↑' }
             ];
 
             document.getElementById('insightList').innerHTML = insights.map(i => `

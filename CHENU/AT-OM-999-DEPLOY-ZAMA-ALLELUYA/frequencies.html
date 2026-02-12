@@ -6,32 +6,26 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#D4AF37">
-    <meta name="description" content="AT-OM | Analyse des Frequences Vibratoires - CHE-NU V76">
+    <meta name="description" content="AT·OM — Statistiques et analyses des agents">
 
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/logo192.png">
 
-    <title>AT-OM | Frequences Vibratoires</title>
+    <title>AT·OM | Statistiques</title>
     <script src="/config.js"></script>
     <script src="/js/governance-init.js"></script>
 
     <style>
         /* ═══════════════════════════════════════════════════════════════════
-           AT-OM FREQUENCIES - CANONICAL 3 HUBS LAYOUT
+           AT-OM STATISTIQUES - CANONICAL 3 HUBS LAYOUT
            Hub 1: Stats & Filtres (280px)
            Hub 2: Visualisations (1fr)
-           Hub 3: Top Frequences (320px)
+           Hub 3: Top Agents (320px)
            ═══════════════════════════════════════════════════════════════════ */
 
         :root {
-            /* ADN Vibratoire */
-            --phi: 1.618033988749895;
-            --heartbeat: 444;
-            --tesla: 369;
-            --source: 999;
-
-            /* Couleurs Sacrees */
+            /* Thème */
             --sacred-gold: #D4AF37;
             --sacred-gold-dim: rgba(212, 175, 55, 0.3);
             --dark-bg: #0a0a0f;
@@ -210,21 +204,6 @@
             text-transform: uppercase;
         }
 
-        /* ADN Card */
-        .adn-grid { display: grid; gap: 0.5rem; }
-
-        .adn-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 0.5rem 0.75rem;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 6px;
-            font-size: 0.8rem;
-        }
-
-        .adn-label { color: #888; }
-        .adn-value { font-family: 'Courier New', monospace; color: var(--sacred-gold); }
-
         /* ═══════════════════════════════════════════════════════════════════
            HUB 2 - Visualisations
            ═══════════════════════════════════════════════════════════════════ */
@@ -294,7 +273,7 @@
         }
 
         /* ═══════════════════════════════════════════════════════════════════
-           HUB 3 - Top Frequences
+           HUB 3 - Top Agents
            ═══════════════════════════════════════════════════════════════════ */
 
         .top-hub {
@@ -556,17 +535,16 @@
         <div class="header-content">
             <div class="logo-section">
                 <a href="/" class="logo">AT-OM</a>
-                <span class="page-title">Frequences Vibratoires</span>
+                <span class="page-title">Statistiques</span>
             </div>
             <nav class="global-nav">
-                <a href="/" class="nav-link">Ψ Nexus</a>
-                <a href="/civilization.html" class="nav-link">🌐 Civilisation</a>
-                <a href="/agents.html" class="nav-link">🤖 Lexique</a>
-                <a href="/spheres.html" class="nav-link">🔮 Forge</a>
-                <a href="/live.html" class="nav-link">⚡ Flux</a>
-                <a href="/dashboard.html" class="nav-link">📊 Annales</a>
-                <a href="/frequencies.html" class="nav-link active">📡 Freq</a>
-                <a href="/funder.html" class="nav-link">💎 Funder</a>
+                <a href="/" class="nav-link">🏠 Accueil</a>
+                <a href="/civilization.html" class="nav-link">🌐 Domaines</a>
+                <a href="/agents.html" class="nav-link">🤖 Agents</a>
+                <a href="/spheres.html" class="nav-link">🔮 Vue d'ensemble</a>
+                <a href="/live.html" class="nav-link">⚡ Activité</a>
+                <a href="/dashboard.html" class="nav-link">📊 Tableau de bord</a>
+                <a href="/funder.html" class="nav-link">💎 Partenaire</a>
             </nav>
         </div>
     </header>
@@ -586,11 +564,11 @@
                         <div class="stats-grid" id="statsGrid">
                             <div class="stat-item">
                                 <div class="stat-value" id="statMin">--</div>
-                                <div class="stat-label">Min Hz</div>
+                                <div class="stat-label">Min</div>
                             </div>
                             <div class="stat-item">
                                 <div class="stat-value" id="statMax">--</div>
-                                <div class="stat-label">Max Hz</div>
+                                <div class="stat-label">Max</div>
                             </div>
                             <div class="stat-item">
                                 <div class="stat-value" id="statAvg">--</div>
@@ -598,7 +576,7 @@
                             </div>
                             <div class="stat-item">
                                 <div class="stat-value" id="statMedian">--</div>
-                                <div class="stat-label">Mediane</div>
+                                <div class="stat-label">Médiane</div>
                             </div>
                             <div class="stat-item">
                                 <div class="stat-value" id="statCount">--</div>
@@ -606,26 +584,12 @@
                             </div>
                             <div class="stat-item">
                                 <div class="stat-value" id="statSpheres">--</div>
-                                <div class="stat-label">Spheres</div>
+                                <div class="stat-label">Domaines</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="hub-card">
-                    <div class="hub-card-header">
-                        <span>🧬</span>
-                        <h3>ADN Vibratoire</h3>
-                    </div>
-                    <div class="hub-card-content">
-                        <div class="adn-grid">
-                            <div class="adn-item"><span class="adn-label">PHI</span><span class="adn-value">1.618033...</span></div>
-                            <div class="adn-item"><span class="adn-label">Heartbeat</span><span class="adn-value">444 Hz</span></div>
-                            <div class="adn-item"><span class="adn-label">Tesla</span><span class="adn-value">369</span></div>
-                            <div class="adn-item"><span class="adn-label">Source</span><span class="adn-value">999 Hz</span></div>
-                        </div>
-                    </div>
-                </div>
             </aside>
 
             <!-- HUB 2 - Visualisations -->
@@ -633,7 +597,7 @@
                 <div class="hub-card">
                     <div class="hub-card-header">
                         <span>🌊</span>
-                        <h3>Visualisation Ondulatoire</h3>
+                        <h3>Visualisation</h3>
                     </div>
                     <div class="hub-card-content">
                         <div class="wave-container" id="waveViz"></div>
@@ -643,24 +607,24 @@
                 <div class="hub-card">
                     <div class="hub-card-header">
                         <span>📊</span>
-                        <h3>Distribution par Plage de Frequence</h3>
+                        <h3>Distribution par Score</h3>
                     </div>
                     <div class="hub-card-content">
                         <div id="loadingChart" class="loading-state">
                             <div class="spinner"></div>
-                            <p>Analyse des frequences...</p>
+                            <p>Analyse en cours...</p>
                         </div>
                         <div class="bar-chart" id="barChart" style="display: none;"></div>
                     </div>
                 </div>
             </section>
 
-            <!-- HUB 3 - Top Frequences -->
+            <!-- HUB 3 - Top Agents -->
             <aside class="top-hub">
                 <div class="hub-card" style="height: 100%;">
                     <div class="hub-card-header">
                         <span>🏆</span>
-                        <h3>Top 20 Frequences</h3>
+                        <h3>Top 20 Agents</h3>
                     </div>
                     <div class="hub-card-content">
                         <div id="loadingTop" class="loading-state">
@@ -681,21 +645,21 @@
                 <span class="agent-sphere-icon">🔱</span>
                 <div class="agent-sphere-info">
                     <span class="agent-sphere-name">Nova</span>
-                    <span class="agent-sphere-freq">999 Hz - Overseer</span>
+                    <span class="agent-sphere-freq">Superviseur</span>
                 </div>
             </div>
             <div class="agent-sphere" onclick="openAgentChat('aria')" style="--agent-color: #00FF88;">
                 <span class="agent-sphere-icon">✨</span>
                 <div class="agent-sphere-info">
                     <span class="agent-sphere-name">Aria</span>
-                    <span class="agent-sphere-freq">528 Hz - Guide</span>
+                    <span class="agent-sphere-freq">Guide</span>
                 </div>
             </div>
             <div class="agent-sphere" onclick="openAgentChat('orion')" style="--agent-color: #FF6B35;">
                 <span class="agent-sphere-icon">🏛️</span>
                 <div class="agent-sphere-info">
                     <span class="agent-sphere-name">Orion</span>
-                    <span class="agent-sphere-freq">741 Hz - Orchestrateur</span>
+                    <span class="agent-sphere-freq">Coordinateur</span>
                 </div>
             </div>
         </div>
@@ -708,7 +672,7 @@
             <span class="chat-agent-icon" id="chatAgentIcon">🔱</span>
             <div class="chat-agent-info">
                 <div class="chat-agent-name" id="chatAgentName">Nova</div>
-                <div class="chat-agent-title" id="chatAgentTitle">System Overseer</div>
+                <div class="chat-agent-title" id="chatAgentTitle">Superviseur Système</div>
             </div>
             <button class="chat-close" onclick="closeAgentChat()">&times;</button>
         </div>
@@ -736,17 +700,17 @@
         ];
 
         const CORE_AGENTS = {
-            nova: { name: 'Nova', icon: '🔱', title: 'System Overseer', color: '#9333EA',
-                greeting: 'Bienvenue dans l\'analyse des frequences. Les frequences sacrees guident notre chemin.',
-                responses: { help: 'Le 444 Hz pulse comme le coeur du systeme, le 369 de Tesla revele les patterns, et le 999 Hz ouvre la Source.' }
+            nova: { name: 'Nova', icon: '🔱', title: 'Superviseur Système', color: '#9333EA',
+                greeting: 'Bienvenue dans l\'espace statistiques. Vous trouverez ici les indicateurs clés de vos agents.',
+                responses: { help: 'Cette page vous présente les scores, distributions et classements de l\'ensemble des agents du système.' }
             },
-            aria: { name: 'Aria', icon: '✨', title: 'Onboarding Guide', color: '#00FF88',
-                greeting: 'Bonjour! Cette page te montre la distribution des frequences de tous les agents.',
-                responses: { help: 'Chaque agent vibre a sa propre frequence. Les frequences sacrees (444, 528, 741, 999 Hz) ont des proprietes speciales!' }
+            aria: { name: 'Aria', icon: '✨', title: 'Votre Guide', color: '#00FF88',
+                greeting: 'Bonjour ! Cette page vous présente la distribution des scores de tous les agents.',
+                responses: { help: 'Chaque agent dispose de son propre score. Vous pouvez consulter le classement et les statistiques détaillées ici.' }
             },
-            orion: { name: 'Orion', icon: '🏛️', title: 'Ton Orchestrateur', color: '#FF6B35',
-                greeting: 'Salutations. L\'analyse frequentielle revele la structure vibratoire de la civilisation.',
-                responses: { help: 'Je peux coordonner les agents selon leurs frequences pour atteindre l\'harmonie de ton projet.' }
+            orion: { name: 'Orion', icon: '🏛️', title: 'Votre Coordinateur', color: '#FF6B35',
+                greeting: 'Bienvenue. L\'analyse statistique vous donne une vue d\'ensemble sur la performance des agents.',
+                responses: { help: 'Je peux vous aider à coordonner les agents et à optimiser votre projet.' }
             }
         };
 
@@ -808,7 +772,7 @@
                 waveViz.appendChild(bar);
             }
 
-            // Frequency ranges distribution
+            // Score ranges distribution
             const ranges = [
                 { label: '0-100 Hz', min: 0, max: 100 },
                 { label: '100-500 Hz', min: 100, max: 500 },
@@ -835,7 +799,7 @@
                 `;
             }).join('');
 
-            // Top 20 frequencies
+            // Top 20 agents
             document.getElementById('loadingTop').style.display = 'none';
             const topFreq = document.getElementById('topFreq');
             topFreq.style.display = 'flex';
@@ -908,7 +872,7 @@
         // Init
         fetchAgents();
 
-        console.log('%c[AT-OM FREQUENCIES] 3 Hubs Canonical Layout', 'color: #D4AF37; font-size: 14px;');
+        console.log('%c[AT-OM STATISTIQUES] 3 Hubs Canonical Layout', 'color: #D4AF37; font-size: 14px;');
     </script>
 </body>
 </html>

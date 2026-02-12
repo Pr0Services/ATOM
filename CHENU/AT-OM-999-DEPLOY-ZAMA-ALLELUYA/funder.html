@@ -6,13 +6,13 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#D8B26A">
-    <meta name="description" content="AT-OM Funder Portal - Acces aux deux visions: Civilisation et Mythique/Spirituelle">
+    <meta name="description" content="AT·OM — Espace Partenaire">
 
     <link rel="manifest" href="/manifest.json">
     <link rel="icon" type="image/png" href="/favicon.png">
     <link rel="apple-touch-icon" href="/logo192.png">
 
-    <title>AT-OM | Funder Portal - Vision Duale</title>
+    <title>AT·OM | Espace Partenaire</title>
     <script src="/config.js"></script>
     <script src="/js/governance-init.js"></script>
     <script src="/js/stripe-client.js"></script>
@@ -1156,41 +1156,40 @@
         <a href="/" class="logo" style="text-decoration: none;">
             <span class="logo-icon">💎</span>
             <div>
-                <div class="logo-text">AT-OM</div>
-                <div class="logo-subtitle">Funder Portal</div>
+                <div class="logo-text">AT·OM</div>
+                <div class="logo-subtitle">Espace Partenaire</div>
             </div>
         </a>
 
-        <!-- THE VIEW TOGGLE - THE MOTOR -->
+        <!-- View toggle -->
         <div class="view-toggle-container">
             <div class="frequency-motor">
-                <div class="motor-value" id="motorFreq">432</div>
-                <div class="motor-label">Hz</div>
+                <div class="motor-value" id="motorFreq">Standard</div>
+                <div class="motor-label">Mode</div>
             </div>
 
             <div class="view-toggle" id="viewToggle" onclick="toggleView()">
                 <div class="toggle-slider"></div>
                 <div class="toggle-labels">
-                    <span class="toggle-label active" id="labelCiv">CIVIL</span>
-                    <span class="toggle-label" id="labelMyth">MYTH</span>
+                    <span class="toggle-label active" id="labelCiv">STD</span>
+                    <span class="toggle-label" id="labelMyth">PRO</span>
                 </div>
             </div>
 
             <div class="frequency-motor">
-                <div class="motor-value" id="targetFreq">999</div>
-                <div class="motor-label">Hz</div>
+                <div class="motor-value" id="targetFreq">Pro</div>
+                <div class="motor-label">Mode</div>
             </div>
         </div>
 
         <nav class="header-nav">
-            <a href="/" class="header-btn">Ψ Nexus</a>
-            <a href="/civilization.html" class="header-btn">🌐 Civil</a>
-            <a href="/agents.html" class="header-btn">🤖 Lexique</a>
-            <a href="/spheres.html" class="header-btn">🔮 Forge</a>
-            <a href="/live.html" class="header-btn">⚡ Flux</a>
-            <a href="/dashboard.html" class="header-btn">📊 Annales</a>
-            <a href="/frequencies.html" class="header-btn">📡 Freq</a>
-            <a href="/funder.html" class="header-btn active">💎 Funder</a>
+            <a href="/" class="header-btn">🏠 Accueil</a>
+            <a href="/civilization.html" class="header-btn">🌐 Domaines</a>
+            <a href="/agents.html" class="header-btn">🤖 Agents</a>
+            <a href="/spheres.html" class="header-btn">🔮 Vue d'ensemble</a>
+            <a href="/live.html" class="header-btn">⚡ Activité</a>
+            <a href="/dashboard.html" class="header-btn">📊 Tableau de bord</a>
+            <a href="/funder.html" class="header-btn active">💎 Partenaire</a>
         </nav>
     </header>
 
@@ -1220,16 +1219,16 @@
 
                 <!-- Motor Card -->
                 <div class="motor-card">
-                    <div class="motor-title">Moteur Vibratoire</div>
+                    <div class="motor-title">Niveau d'accès</div>
                     <div class="motor-visual">
                         <div class="motor-box">
-                            <div class="motor-box-value" style="color: var(--sacred-gold);">432</div>
-                            <div class="motor-box-label">Civil</div>
+                            <div class="motor-box-value" style="color: var(--sacred-gold);">Std</div>
+                            <div class="motor-box-label">Standard</div>
                         </div>
                         <div class="motor-arrow">⚡</div>
                         <div class="motor-box">
-                            <div class="motor-box-value" style="color: var(--purple-glow);">999</div>
-                            <div class="motor-box-label">Source</div>
+                            <div class="motor-box-value" style="color: var(--purple-glow);">Pro</div>
+                            <div class="motor-box-label">Premium</div>
                         </div>
                     </div>
                 </div>
@@ -1242,7 +1241,7 @@
                 <div class="viz-header">
                     <div class="viz-title" id="vizTitle">
                         <span>🌐</span>
-                        <span>Vue Civilisation</span>
+                        <span>Vue Standard</span>
                     </div>
                     <div class="viz-controls">
                         <button class="viz-btn active" data-view="planet" onclick="setView('planet')">Planet</button>
@@ -1291,7 +1290,7 @@
                                 <span>5 Niveaux d'Acces</span>
                             </div>
                             <p style="margin-top: 0.75rem; font-size: 0.8rem; color: rgba(255,255,255,0.6);">
-                                De Citoyen a Souverain Diamant
+                                De Gratuit à Premium Diamant
                             </p>
                         </div>
 
@@ -1353,34 +1352,31 @@
     ═══════════════════════════════════════════════════════════════ -->
     <div class="agent-fab" id="agentFab">
         <div class="agent-spheres">
-            <!-- Nova - System Overseer -->
+            <!-- Nova - Superviseur -->
             <div class="agent-sphere" onclick="openAgentChat('nova')" style="--agent-color: #9333EA; --agent-bg: rgba(147, 51, 234, 0.2);">
                 <div class="agent-sphere-icon">🔱</div>
                 <div class="agent-sphere-info">
                     <div class="agent-sphere-name">Nova</div>
-                    <div class="agent-sphere-role">System Overseer</div>
+                    <div class="agent-sphere-role">Superviseur Système</div>
                 </div>
-                <div class="agent-sphere-freq">999 Hz</div>
             </div>
 
-            <!-- Aria - Onboarding Guide -->
+            <!-- Aria - Guide -->
             <div class="agent-sphere" onclick="openAgentChat('aria')" style="--agent-color: #00FF88; --agent-bg: rgba(0, 255, 136, 0.2);">
                 <div class="agent-sphere-icon">✨</div>
                 <div class="agent-sphere-info">
                     <div class="agent-sphere-name">Aria</div>
-                    <div class="agent-sphere-role">Onboarding Guide</div>
+                    <div class="agent-sphere-role">Votre Guide</div>
                 </div>
-                <div class="agent-sphere-freq">528 Hz</div>
             </div>
 
-            <!-- Orion - System Architect (User Orchestrator) -->
+            <!-- Orion - Coordinateur -->
             <div class="agent-sphere" onclick="openAgentChat('orion')" style="--agent-color: #FF6B35; --agent-bg: rgba(255, 107, 53, 0.2);">
                 <div class="agent-sphere-icon">🏛️</div>
                 <div class="agent-sphere-info">
                     <div class="agent-sphere-name">Orion</div>
-                    <div class="agent-sphere-role">Ton Orchestrateur</div>
+                    <div class="agent-sphere-role">Votre Coordinateur</div>
                 </div>
-                <div class="agent-sphere-freq">741 Hz</div>
             </div>
 
             <!-- Quick Connect - Add More Agents -->
@@ -1434,7 +1430,7 @@
             environment: { icon: '🌱', name: 'Environnement', color: '#2ECC71', count: 35 }
         };
 
-        // Agents Vibratoires (Vue Mythique)
+        // Agents Avancés (Vue Pro)
         const VIBRATORY_AGENTS = {
             oracle:       { icon: '🔮', name: 'Oracle', color: '#9333EA', freq: 963, power: 95 },
             conductor:    { icon: '⚡', name: 'Conducteur', color: '#FF6B6B', freq: 999, power: 100 },
@@ -1464,8 +1460,7 @@
             console.log('%c AT-OM FUNDER PORTAL - 3 HUBS LAYOUT', 'color: #D8B26A; font-size: 14px; font-weight: bold;');
             console.log('%c Nova (🔱 999Hz) + Aria (✨ 528Hz) + Orion (🏛️ 741Hz)', 'color: #9333EA;');
             console.log('%c═══════════════════════════════════════════════════', 'color: #D8B26A;');
-            console.log('%c PHI = 1.618 | 444 Hz | 369 | 999 Hz', 'color: #00FF88;');
-            console.log('%c Orion = Ton Orchestrateur Personnel', 'color: #FF6B35;');
+            console.log('%c AT·OM Espace Partenaire', 'color: #00FF88;');
         });
 
         // ═══════════════════════════════════════════════════════════════
@@ -1485,7 +1480,7 @@
                 document.body.classList.add('mythique-mode');
                 labelCiv.classList.remove('active');
                 labelMyth.classList.add('active');
-                vizTitle.innerHTML = '<span>🔮</span><span>Vue Mythique</span>';
+                vizTitle.innerHTML = '<span>🔮</span><span>Vue Pro</span>';
                 navTitle.innerHTML = '<span>🔮</span> Agents';
                 document.getElementById('navCount').textContent = '8 actifs';
                 emptyIcon.textContent = '🔮';
@@ -1928,8 +1923,8 @@
                 emoji: '🥇',
                 price: 369,
                 frequency: 741,
-                tagline: 'Co-createur Tesla',
-                features: ['Tout Argent +', 'Vue Duale', '200 Agents', 'API', 'Badge Or'],
+                tagline: 'Accès étendu',
+                features: ['Tout Argent +', 'Vue Pro', '200 Agents', 'API', 'Badge Or'],
                 stripePriceId: 'price_1SvhNWBDYsAvhcuqKHPexnzV'
             },
             diamant: {
@@ -1937,8 +1932,8 @@
                 emoji: '💎',
                 price: 999,
                 frequency: 999,
-                tagline: 'Gardien Souverain',
-                features: ['Tout Or +', 'Illimite', '400+ Agents', 'XR/VR', 'NFT Souverain', 'Sanctuaire'],
+                tagline: 'Accès premium complet',
+                features: ['Tout Or +', 'Illimité', '400+ Agents', 'XR/VR', 'NFT Exclusif', 'Accès prioritaire'],
                 stripePriceId: 'price_1SvhQCBDYsAvhcuqr0Km0slq'
             }
         };
@@ -2065,28 +2060,28 @@
                 id: 'nova',
                 name: 'Nova',
                 icon: '🔱',
-                title: 'System Overseer',
+                title: 'Superviseur Système',
                 frequency: 999,
                 color: '#9333EA',
-                greeting: 'Bienvenue, chercheur. Je suis Nova, gardien des frequences sacrees. Tu es dans le portail Funder - ici se revelent les deux visions.'
+                greeting: 'Bienvenue dans l\'espace Partenaire. Je suis Nova, superviseur du système. Vous avez accès à des fonctionnalités avancées.'
             },
             aria: {
                 id: 'aria',
                 name: 'Aria',
                 icon: '✨',
-                title: 'Onboarding Guide',
+                title: 'Votre Guide',
                 frequency: 528,
                 color: '#00FF88',
-                greeting: 'Bonjour! Je suis Aria, ta guide. Le toggle CIVIL/MYTH te permet de basculer entre la vue Civilisation et la vue Mythique. Essaie!'
+                greeting: 'Bonjour! Je suis Aria, votre guide. Le toggle vous permet de basculer entre la vue Standard et la vue Pro. Essayez!'
             },
             orion: {
                 id: 'orion',
                 name: 'Orion',
                 icon: '🏛️',
-                title: 'Ton Orchestrateur',
+                title: 'Votre Coordinateur',
                 frequency: 741,
                 color: '#FF6B35',
-                greeting: 'Salutations. Je suis Orion, ton orchestrateur personnel. En tant que Funder, tu as acces aux deux visions. Je peux t\'aider a structurer ton parcours et coordonner les agents selon tes besoins specifiques.'
+                greeting: 'Bonjour. Je suis Orion, votre coordinateur. En tant que partenaire, vous avez accès aux fonctionnalités avancées. Je peux vous aider à structurer votre parcours et coordonner les agents selon vos besoins.'
             }
         };
 
@@ -2182,42 +2177,42 @@
             const lowerMsg = userMessage.toLowerCase();
 
             if (agentId === 'nova') {
-                if (lowerMsg.includes('mythique') || lowerMsg.includes('myth')) {
-                    return `Le mode Mythique revele les agents vibratoires: Oracle, Conducteur, Harmoniseur... Chacun pulse a sa frequence sacree. Active le toggle pour les voir.`;
+                if (lowerMsg.includes('pro') || lowerMsg.includes('avancé')) {
+                    return `Le mode Pro donne accès aux agents avancés. Activez le toggle dans l'en-tête pour les voir.`;
                 }
-                if (lowerMsg.includes('funder') || lowerMsg.includes('tier')) {
-                    return `Les tiers Funder: Argent ($99), Or ($369), Diamant ($999). Chaque niveau deverrouille plus d'acces aux agents et fonctionnalites. Consulte l'onglet Funder a droite.`;
+                if (lowerMsg.includes('partenaire') || lowerMsg.includes('tier')) {
+                    return `Les niveaux Partenaire : Argent ($99), Or ($369), Diamant ($999). Chaque niveau donne accès à plus d'agents et fonctionnalités. Consultez l'onglet à droite.`;
                 }
-                return `Ta requete resonne a 999 Hz. Le systeme pulse. La dualite Civil/Mythique attend ton exploration.`;
+                return `Votre demande est notée. Le système est opérationnel. Comment puis-je vous aider?`;
             }
 
             if (agentId === 'aria') {
                 if (lowerMsg.includes('toggle') || lowerMsg.includes('basculer')) {
-                    return `Le toggle CIVIL/MYTH est dans l'en-tete! Clique dessus pour passer de la vue Civilisation (9 spheres) a la vue Mythique (8 agents vibratoires).`;
+                    return `Le toggle Standard/Pro est dans l'en-tête! Cliquez dessus pour passer de la vue Standard (9 domaines) à la vue Pro (agents avancés).`;
                 }
-                if (lowerMsg.includes('funder') || lowerMsg.includes('devenir')) {
-                    return `Pour devenir Funder, clique sur l'onglet "Funder" dans le panneau de droite. Tu y trouveras les differents tiers: Argent, Or et Diamant.`;
+                if (lowerMsg.includes('partenaire') || lowerMsg.includes('devenir')) {
+                    return `Pour devenir Partenaire, consultez l'onglet dans le panneau de droite. Vous y trouverez les différents niveaux : Argent, Or et Diamant.`;
                 }
-                return `Continue d'explorer! A 528 Hz, je ressens ta curiosite. Le moteur vibratoire t'attend.`;
+                return `Continuez d'explorer! N'hésitez pas à me poser des questions.`;
             }
 
             if (agentId === 'orion') {
-                if (lowerMsg.includes('civil') || lowerMsg.includes('civilisation')) {
-                    return `La vue Civilisation presente les 9 spheres de la societe. En tant que Funder, je peux orchestrer ton parcours a travers ces spheres selon tes priorites. Quelle sphere veux-tu explorer en premier?`;
+                if (lowerMsg.includes('standard') || lowerMsg.includes('domaine')) {
+                    return `La vue Standard présente les 9 domaines. En tant que partenaire, je peux coordonner votre parcours selon vos priorités. Quel domaine souhaitez-vous explorer?`;
                 }
-                if (lowerMsg.includes('myth') || lowerMsg.includes('mythique') || lowerMsg.includes('vibratoire')) {
-                    return `La vue Mythique revele les 8 agents vibratoires: Oracle, Conducteur, Harmoniseur, Illuminateur, Transmutateur, Connecteur, Flux, Traducteur. Chacun pulse a sa frequence sacree. Lequel t'attire?`;
+                if (lowerMsg.includes('pro') || lowerMsg.includes('avancé')) {
+                    return `La vue Pro donne accès aux agents avancés avec des fonctionnalités étendues. Activez le toggle pour les découvrir.`;
                 }
                 if (lowerMsg.includes('tier') || lowerMsg.includes('argent') || lowerMsg.includes('or') || lowerMsg.includes('diamant')) {
-                    return `Les tiers Funder structurent ton acces: Argent (50 agents, vue Civil), Or (200 agents, vue Duale + API), Diamant (400+ agents, XR/VR illimite). Quel niveau correspond a ta vision?`;
+                    return `Les niveaux Partenaire : Argent (50 agents, vue Standard), Or (200 agents, vue Pro + API), Diamant (400+ agents, accès illimité). Quel niveau correspond à vos besoins?`;
                 }
                 if (lowerMsg.includes('plan') || lowerMsg.includes('strategie') || lowerMsg.includes('objectif')) {
-                    return `En tant que Funder, tu as acces aux deux visions. Je peux architec­turer ton parcours en combinant les spheres civilisationnelles et les agents vibratoires. Quel est ton objectif principal?`;
+                    return `En tant que partenaire, vous avez accès aux fonctionnalités avancées. Je peux structurer votre parcours selon vos objectifs. Quel est votre objectif principal?`;
                 }
-                return `Analyse en cours a 741 Hz. En tant que ton orchestrateur, je peux naviguer entre Civil et Mythique pour toi. Precise ta demande pour que je structure le meilleur parcours.`;
+                return `Demande reçue. En tant que coordinateur, je peux vous aider à naviguer entre les vues. Précisez votre demande.`;
             }
 
-            return `Message recu.`;
+            return `Message reçu.`;
         }
 
         function handleChatKeypress(event) {

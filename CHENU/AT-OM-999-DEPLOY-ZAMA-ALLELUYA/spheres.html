@@ -3,27 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AT-OM | Forge - Les 9 Sphères</title>
-    <meta name="description" content="Forge des Sphères AT-OM - Les 9 domaines de la civilisation souveraine">
+    <title>AT·OM | Vue d'ensemble</title>
+    <meta name="description" content="AT·OM — Vue d'ensemble des 9 domaines et agents">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <script src="/config.js"></script>
     <script src="/js/governance-init.js"></script>
     <style>
         /* ═══════════════════════════════════════════════════════════════════
            AT-OM FORGE - CANONICAL 3 HUBS LAYOUT
-           Hub 1: Liste des Sphères (280px)
+           Hub 1: Liste des Domaines (280px)
            Hub 2: Visualisation Centrale (1fr)
-           Hub 3: Détails Sphère (320px)
+           Hub 3: Détails Domaine (320px)
            ═══════════════════════════════════════════════════════════════════ */
 
         :root {
-            /* ADN Vibratoire */
-            --phi: 1.618033988749895;
-            --heartbeat: 444;
-            --tesla: 369;
-            --source: 999;
-
-            /* Couleurs Sacrées */
+            /* Thème */
             --sacred-gold: #D4AF37;
             --sacred-gold-dim: rgba(212, 175, 55, 0.3);
             --dark-bg: #0a0a0f;
@@ -165,7 +159,7 @@
         .hub-card-content { padding: 1rem; }
 
         /* ═══════════════════════════════════════════════════════════════════
-           HUB 1 - Liste des Sphères
+           HUB 1 - Liste des Domaines
            ═══════════════════════════════════════════════════════════════════ */
 
         .spheres-hub {
@@ -357,7 +351,7 @@
         @keyframes spin { to { transform: rotate(360deg); } }
 
         /* ═══════════════════════════════════════════════════════════════════
-           HUB 3 - Détails Sphère
+           HUB 3 - Détails Domaine
            ═══════════════════════════════════════════════════════════════════ */
 
         .details-hub {
@@ -697,17 +691,16 @@
         <div class="header-content">
             <div class="logo-section">
                 <a href="/" class="logo">AT-OM</a>
-                <span class="page-title">Forge des Sphères</span>
+                <span class="page-title">Vue d'ensemble</span>
             </div>
             <nav class="global-nav">
-                <a href="/" class="nav-link">Ψ Nexus</a>
-                <a href="/civilization.html" class="nav-link">🌐 Civilisation</a>
-                <a href="/agents.html" class="nav-link">🤖 Lexique</a>
-                <a href="/spheres.html" class="nav-link active">🔮 Forge</a>
-                <a href="/live.html" class="nav-link">⚡ Flux</a>
-                <a href="/dashboard.html" class="nav-link">📊 Annales</a>
-                <a href="/frequencies.html" class="nav-link">📡 Freq</a>
-                <a href="/funder.html" class="nav-link">💎 Funder</a>
+                <a href="/" class="nav-link">🏠 Accueil</a>
+                <a href="/civilization.html" class="nav-link">🌐 Domaines</a>
+                <a href="/agents.html" class="nav-link">🤖 Agents</a>
+                <a href="/spheres.html" class="nav-link active">🔮 Vue d'ensemble</a>
+                <a href="/live.html" class="nav-link">⚡ Activité</a>
+                <a href="/dashboard.html" class="nav-link">📊 Tableau de bord</a>
+                <a href="/funder.html" class="nav-link">💎 Partenaire</a>
             </nav>
         </div>
     </header>
@@ -716,7 +709,7 @@
     <main class="main-container">
         <div class="grid-container">
 
-            <!-- HUB 1 - Liste des Sphères -->
+            <!-- HUB 1 - Liste des Domaines -->
             <aside class="spheres-hub">
                 <div class="hub-card">
                     <div class="hub-card-header">
@@ -731,7 +724,7 @@
                             </div>
                             <div class="stat-item">
                                 <div class="stat-value" id="totalSpheres">9</div>
-                                <div class="stat-label">Sphères</div>
+                                <div class="stat-label">Domaines</div>
                             </div>
                         </div>
                     </div>
@@ -740,7 +733,7 @@
                 <div class="hub-card" style="flex: 1; overflow: hidden;">
                     <div class="hub-card-header">
                         <span>🔮</span>
-                        <h3>Les 9 Sphères</h3>
+                        <h3>Les 9 Domaines</h3>
                     </div>
                     <div class="hub-card-content" style="height: calc(100% - 50px); overflow-y: auto;">
                         <div id="loadingList" class="loading-state">
@@ -751,20 +744,6 @@
                     </div>
                 </div>
 
-                <div class="hub-card">
-                    <div class="hub-card-header">
-                        <span>🧬</span>
-                        <h3>ADN Vibratoire</h3>
-                    </div>
-                    <div class="hub-card-content">
-                        <div class="adn-grid">
-                            <div class="adn-item"><span class="adn-label">PHI</span><span class="adn-value">1.618033...</span></div>
-                            <div class="adn-item"><span class="adn-label">Heartbeat</span><span class="adn-value">444 Hz</span></div>
-                            <div class="adn-item"><span class="adn-label">Tesla</span><span class="adn-value">369</span></div>
-                            <div class="adn-item"><span class="adn-label">Source</span><span class="adn-value">999 Hz</span></div>
-                        </div>
-                    </div>
-                </div>
             </aside>
 
             <!-- HUB 2 - Visualisation -->
@@ -782,7 +761,7 @@
                 <div class="hub-card" style="flex: 1; overflow: hidden;">
                     <div class="details-empty" id="detailsEmpty">
                         <div class="details-empty-icon">🔮</div>
-                        <p>Sélectionnez une sphère pour voir ses détails</p>
+                        <p>Sélectionnez un domaine pour voir ses détails</p>
                     </div>
 
                     <div id="detailsContent" style="display: none;">
@@ -799,17 +778,17 @@
                                 <span class="detail-value" id="detailPercent">--%</span>
                             </div>
                             <div class="detail-row">
-                                <span class="detail-label">Fréquence moyenne</span>
-                                <span class="detail-value" id="detailAvgFreq">-- Hz</span>
+                                <span class="detail-label">Score moyen</span>
+                                <span class="detail-value" id="detailAvgFreq">--</span>
                             </div>
                             <div class="detail-row">
-                                <span class="detail-label">Fréquence max</span>
-                                <span class="detail-value" id="detailMaxFreq">-- Hz</span>
+                                <span class="detail-label">Score max</span>
+                                <span class="detail-value" id="detailMaxFreq">--</span>
                             </div>
                         </div>
 
                         <div class="detail-section">
-                            <div class="section-title">Agents de cette sphère</div>
+                            <div class="section-title">Agents de ce domaine</div>
                             <div class="agents-list-scroll" id="agentsList"></div>
                         </div>
                     </div>
@@ -825,21 +804,21 @@
                 <span class="agent-sphere-icon">🔱</span>
                 <div class="agent-sphere-info">
                     <span class="agent-sphere-name">Nova</span>
-                    <span class="agent-sphere-freq">999 Hz • Overseer</span>
+                    <span class="agent-sphere-freq">Superviseur</span>
                 </div>
             </div>
             <div class="agent-sphere" onclick="openAgentChat('aria')" style="--agent-color: #00FF88;">
                 <span class="agent-sphere-icon">✨</span>
                 <div class="agent-sphere-info">
                     <span class="agent-sphere-name">Aria</span>
-                    <span class="agent-sphere-freq">528 Hz • Guide</span>
+                    <span class="agent-sphere-freq">Guide</span>
                 </div>
             </div>
             <div class="agent-sphere" onclick="openAgentChat('orion')" style="--agent-color: #FF6B35;">
                 <span class="agent-sphere-icon">🏛️</span>
                 <div class="agent-sphere-info">
                     <span class="agent-sphere-name">Orion</span>
-                    <span class="agent-sphere-freq">741 Hz • Orchestrateur</span>
+                    <span class="agent-sphere-freq">Coordinateur</span>
                 </div>
             </div>
         </div>
@@ -852,7 +831,7 @@
             <span class="chat-agent-icon" id="chatAgentIcon">🔱</span>
             <div class="chat-agent-info">
                 <div class="chat-agent-name" id="chatAgentName">Nova</div>
-                <div class="chat-agent-title" id="chatAgentTitle">System Overseer</div>
+                <div class="chat-agent-title" id="chatAgentTitle">Superviseur Système</div>
             </div>
             <button class="chat-close" onclick="closeAgentChat()">&times;</button>
         </div>
@@ -886,17 +865,17 @@
         ];
 
         const CORE_AGENTS = {
-            nova: { name: 'Nova', icon: '🔱', title: 'System Overseer', color: '#9333EA',
-                greeting: 'Bienvenue dans la Forge. Je supervise l\'harmonie des 9 sphères.',
-                responses: { help: 'Les sphères organisent les agents par domaine de compétence.' }
+            nova: { name: 'Nova', icon: '🔱', title: 'Superviseur Système', color: '#9333EA',
+                greeting: 'Bienvenue. Je supervise l\'ensemble des 9 domaines et de leurs agents.',
+                responses: { help: 'Les domaines organisent les agents par champ de compétence.' }
             },
-            aria: { name: 'Aria', icon: '✨', title: 'Onboarding Guide', color: '#00FF88',
-                greeting: 'Bonjour! La Forge te permet d\'explorer les 9 sphères de la civilisation.',
-                responses: { help: 'Clique sur une sphère pour découvrir ses agents!' }
+            aria: { name: 'Aria', icon: '✨', title: 'Votre Guide', color: '#00FF88',
+                greeting: 'Bonjour ! Cette vue vous permet d\'explorer les 9 domaines du système.',
+                responses: { help: 'Cliquez sur un domaine pour découvrir ses agents.' }
             },
-            orion: { name: 'Orion', icon: '🏛️', title: 'Ton Orchestrateur', color: '#FF6B35',
-                greeting: 'Salutations. Les sphères structurent les domaines d\'expertise des agents.',
-                responses: { help: 'Je peux coordonner les agents de plusieurs sphères pour ton objectif.' }
+            orion: { name: 'Orion', icon: '🏛️', title: 'Votre Coordinateur', color: '#FF6B35',
+                greeting: 'Bienvenue. Les domaines structurent les champs d\'expertise des agents.',
+                responses: { help: 'Je peux coordonner les agents de plusieurs domaines pour votre objectif.' }
             }
         };
 
@@ -1028,15 +1007,15 @@
             const maxFreq = freqs.length ? Math.max(...freqs) : 0;
 
             document.getElementById('detailPercent').textContent = percent + '%';
-            document.getElementById('detailAvgFreq').textContent = avgFreq + ' Hz';
-            document.getElementById('detailMaxFreq').textContent = maxFreq + ' Hz';
+            document.getElementById('detailAvgFreq').textContent = avgFreq;
+            document.getElementById('detailMaxFreq').textContent = maxFreq;
 
             // Agents list
             const sortedAgents = [...agentList].sort((a, b) => (b.frequency_hz || 0) - (a.frequency_hz || 0));
             document.getElementById('agentsList').innerHTML = sortedAgents.map(a => `
                 <div class="agent-row">
                     <span class="agent-name">${a.name}</span>
-                    <span class="agent-freq" style="color: ${color};">${a.frequency_hz || 0} Hz</span>
+                    <span class="agent-freq" style="color: ${color};">${a.frequency_hz || 0}</span>
                 </div>
             `).join('');
         }

@@ -3,27 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AT-OM | Lexique des Agents</title>
-    <meta name="description" content="Lexique des 287+ Agents de l'Arche AT-OM - Navigation par sphères et fréquences">
+    <title>AT·OM | Catalogue d'agents</title>
+    <meta name="description" content="Catalogue des 287+ Agents de la plateforme AT·OM - Navigation par domaines">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <script src="/config.js"></script>
     <script src="/js/governance-init.js"></script>
     <style>
         /* ═══════════════════════════════════════════════════════════════════
-           AT-OM LEXIQUE - CANONICAL 3 HUBS LAYOUT
+           AT·OM AGENTS - CANONICAL 3 HUBS LAYOUT
            Hub 1: Filtres & Navigation (280px)
            Hub 2: Grille des Agents (1fr)
            Hub 3: Détails Agent (320px)
            ═══════════════════════════════════════════════════════════════════ */
 
         :root {
-            /* ADN Vibratoire */
-            --phi: 1.618033988749895;
-            --heartbeat: 444;
-            --tesla: 369;
-            --source: 999;
-
-            /* Couleurs Sacrées */
+            /* Thème */
             --sacred-gold: #D4AF37;
             --sacred-gold-dim: rgba(212, 175, 55, 0.3);
             --dark-bg: #0a0a0f;
@@ -36,7 +30,7 @@
             --aria-color: #00FF88;
             --orion-color: #FF6B35;
 
-            /* Fréquences */
+            /* Couleurs par niveau */
             --freq-999: #9333EA;
             --freq-741: #FF6B35;
             --freq-528: #00FF88;
@@ -278,7 +272,6 @@
             border-radius: 10px;
         }
 
-        /* ADN Vibratoire Card */
         .adn-card {
             flex-shrink: 0;
         }
@@ -1085,18 +1078,17 @@
     <header class="global-header">
         <div class="header-content">
             <div class="logo-section">
-                <a href="/" class="logo">AT-OM</a>
-                <span class="page-title">Lexique des Agents</span>
+                <a href="/" class="logo">AT·OM</a>
+                <span class="page-title">Catalogue d'agents</span>
             </div>
             <nav class="global-nav">
-                <a href="/" class="nav-link">Ψ Nexus</a>
-                <a href="/civilization.html" class="nav-link">🌐 Civilisation</a>
-                <a href="/agents.html" class="nav-link active">🤖 Lexique</a>
-                <a href="/spheres.html" class="nav-link">🔮 Forge</a>
-                <a href="/live.html" class="nav-link">⚡ Flux</a>
-                <a href="/dashboard.html" class="nav-link">📊 Annales</a>
-                <a href="/frequencies.html" class="nav-link">📡 Freq</a>
-                <a href="/funder.html" class="nav-link">💎 Funder</a>
+                <a href="/" class="nav-link">🏠 Accueil</a>
+                <a href="/civilization.html" class="nav-link">🌐 Domaines</a>
+                <a href="/agents.html" class="nav-link active">🤖 Agents</a>
+                <a href="/spheres.html" class="nav-link">🔮 Vue d'ensemble</a>
+                <a href="/live.html" class="nav-link">⚡ Activité</a>
+                <a href="/dashboard.html" class="nav-link">📊 Tableau de bord</a>
+                <a href="/funder.html" class="nav-link">💎 Partenaire</a>
             </nav>
         </div>
     </header>
@@ -1125,7 +1117,7 @@
                             </div>
                             <div class="stat-item">
                                 <div class="stat-value" id="sphereCount">--</div>
-                                <div class="stat-label">Sphères</div>
+                                <div class="stat-label">Domaines</div>
                             </div>
                             <div class="stat-item">
                                 <div class="stat-value" id="avgFreq">--</div>
@@ -1143,13 +1135,13 @@
                 <div class="hub-card" style="flex: 1; overflow: hidden;">
                     <div class="hub-card-header">
                         <span>🔮</span>
-                        <h3>Filtrer par Sphère</h3>
+                        <h3>Filtrer par Domaine</h3>
                     </div>
                     <div class="hub-card-content" style="height: calc(100% - 50px); overflow-y: auto;">
                         <div class="sphere-list" id="sphereList">
                             <div class="sphere-item active" data-sphere="">
                                 <span class="sphere-icon">✨</span>
-                                <span class="sphere-name">Toutes les sphères</span>
+                                <span class="sphere-name">Tous les domaines</span>
                                 <span class="sphere-count" id="allCount">--</span>
                             </div>
                             <!-- Dynamically populated -->
@@ -1157,33 +1149,6 @@
                     </div>
                 </div>
 
-                <!-- ADN Vibratoire -->
-                <div class="hub-card adn-card">
-                    <div class="hub-card-header">
-                        <span>🧬</span>
-                        <h3>ADN Vibratoire</h3>
-                    </div>
-                    <div class="hub-card-content">
-                        <div class="adn-grid">
-                            <div class="adn-item">
-                                <span class="adn-label">PHI</span>
-                                <span class="adn-value">1.618033...</span>
-                            </div>
-                            <div class="adn-item">
-                                <span class="adn-label">Heartbeat</span>
-                                <span class="adn-value">444 Hz</span>
-                            </div>
-                            <div class="adn-item">
-                                <span class="adn-label">Tesla</span>
-                                <span class="adn-value">369</span>
-                            </div>
-                            <div class="adn-item">
-                                <span class="adn-label">Source</span>
-                                <span class="adn-value">999 Hz</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </aside>
 
             <!-- ═══════════════════════════════════════════════════════════
@@ -1198,7 +1163,7 @@
                     </div>
                     <select class="sort-select" id="sortSelect">
                         <option value="name">Trier par Nom</option>
-                        <option value="sphere">Trier par Sphère</option>
+                        <option value="sphere">Trier par Domaine</option>
                         <option value="frequency">Trier par Fréquence ↓</option>
                         <option value="frequency-asc">Trier par Fréquence ↑</option>
                         <option value="id">Trier par ID</option>
@@ -1209,7 +1174,7 @@
                 <div class="agents-scroll" id="agentsScroll">
                     <div id="loadingState" class="loading-state">
                         <div class="spinner"></div>
-                        <p>Chargement des agents de l'Arche...</p>
+                        <p>Chargement des agents...</p>
                     </div>
                     <div class="agents-grid" id="agentsGrid"></div>
                     <div id="emptyState" class="empty-state" style="display: none;">
@@ -1238,7 +1203,7 @@
                         <div class="agent-portrait">
                             <div class="agent-avatar" id="detailAvatar">🤖</div>
                             <div class="agent-detail-name" id="detailName">--</div>
-                            <div class="agent-detail-title" id="detailTitle">Agent de l'Arche</div>
+                            <div class="agent-detail-title" id="detailTitle">Agent</div>
                         </div>
 
                         <div class="agent-detail-section">
@@ -1259,7 +1224,7 @@
                                 <span class="detail-value" id="detailId">#--</span>
                             </div>
                             <div class="detail-row">
-                                <span class="detail-label">Sphère</span>
+                                <span class="detail-label">Domaine</span>
                                 <span class="detail-value" id="detailSphere">--</span>
                             </div>
                             <div class="detail-row">
@@ -1305,30 +1270,30 @@
          ═══════════════════════════════════════════════════════════════════ -->
     <div class="agent-fab" id="agentFab">
         <div class="agent-spheres">
-            <!-- Nova - 999 Hz -->
+            <!-- Nova - Superviseur -->
             <div class="agent-sphere" onclick="openAgentChat('nova')" style="--agent-color: #9333EA;">
                 <span class="agent-sphere-icon">🔱</span>
                 <div class="agent-sphere-info">
                     <span class="agent-sphere-name">Nova</span>
-                    <span class="agent-sphere-freq">999 Hz • Overseer</span>
+                    <span class="agent-sphere-freq">Superviseur</span>
                 </div>
             </div>
 
-            <!-- Aria - 528 Hz -->
+            <!-- Aria - Guide -->
             <div class="agent-sphere" onclick="openAgentChat('aria')" style="--agent-color: #00FF88;">
                 <span class="agent-sphere-icon">✨</span>
                 <div class="agent-sphere-info">
                     <span class="agent-sphere-name">Aria</span>
-                    <span class="agent-sphere-freq">528 Hz • Guide</span>
+                    <span class="agent-sphere-freq">Guide</span>
                 </div>
             </div>
 
-            <!-- Orion - 741 Hz -->
+            <!-- Orion - Coordinateur -->
             <div class="agent-sphere" onclick="openAgentChat('orion')" style="--agent-color: #FF6B35;">
                 <span class="agent-sphere-icon">🏛️</span>
                 <div class="agent-sphere-info">
                     <span class="agent-sphere-name">Orion</span>
-                    <span class="agent-sphere-freq">741 Hz • Orchestrateur</span>
+                    <span class="agent-sphere-freq">Coordinateur</span>
                 </div>
             </div>
         </div>
@@ -1344,13 +1309,13 @@
             <span class="chat-agent-icon" id="chatAgentIcon">🔱</span>
             <div class="chat-agent-info">
                 <div class="chat-agent-name" id="chatAgentName">Nova</div>
-                <div class="chat-agent-title" id="chatAgentTitle">System Overseer</div>
+                <div class="chat-agent-title" id="chatAgentTitle">Superviseur Systeme</div>
             </div>
             <button class="chat-close" onclick="closeAgentChat()">&times;</button>
         </div>
         <div class="chat-messages" id="chatMessages">
             <div class="chat-message agent" id="chatGreeting">
-                Bienvenue dans le Lexique des Agents. Comment puis-je t'aider?
+                Bienvenue dans le catalogue des agents. Comment puis-je vous aider?
             </div>
         </div>
         <div class="chat-input-area">
@@ -1434,45 +1399,45 @@
                 id: 'nova',
                 name: 'Nova',
                 icon: '🔱',
-                title: 'System Overseer',
+                title: 'Superviseur Système',
                 frequency: 999,
                 color: '#9333EA',
-                greeting: 'Bienvenue dans le Lexique des Agents. Je suis Nova, gardien des fréquences sacrées. Comment puis-je t\'aider à naviguer parmi les 287 agents de l\'Arche?',
+                greeting: 'Bienvenue dans le catalogue des agents. Je suis Nova, superviseur du système. Comment puis-je vous aider à naviguer parmi les 287 agents de la plateforme?',
                 responses: {
-                    agent: 'Chaque agent possède une fréquence unique qui définit sa résonance dans le système.',
-                    frequency: 'Les fréquences sacrées - 444 Hz (Heartbeat), 369 (Tesla), 999 Hz (Source) - sont les piliers vibratoires de notre système.',
-                    sphere: 'Les 9 sphères organisent les agents par domaine de compétence.',
-                    help: 'Je peux t\'aider à comprendre les fréquences des agents et leur rôle dans l\'Arche.'
+                    agent: 'Chaque agent possède des capacités spécifiques qui définissent son rôle dans le système.',
+                    frequency: 'Les agents sont organisés par niveaux et domaines de compétence au sein de la plateforme.',
+                    sphere: 'Les 9 domaines organisent les agents par domaine de compétence.',
+                    help: 'Je peux vous aider à comprendre le rôle des agents et leur organisation dans la plateforme.'
                 }
             },
             aria: {
                 id: 'aria',
                 name: 'Aria',
                 icon: '✨',
-                title: 'Onboarding Guide',
+                title: 'Votre Guide',
                 frequency: 528,
                 color: '#00FF88',
-                greeting: 'Bonjour! Je suis Aria, ta guide dans le Lexique. Utilise les filtres à gauche pour explorer les agents par sphère, ou la recherche pour trouver un agent spécifique.',
+                greeting: 'Bonjour! Je suis Aria, votre guide dans le catalogue. Utilisez les filtres à gauche pour explorer les agents par domaine, ou la recherche pour trouver un agent spécifique.',
                 responses: {
-                    agent: 'Clique sur un agent pour voir ses détails complets dans le panneau de droite.',
-                    search: 'Tu peux rechercher par nom ou par ID. Essaie de taper "Nova" ou "#1".',
-                    filter: 'Les filtres par sphère te permettent de voir uniquement les agents d\'un domaine spécifique.',
-                    help: 'Je suis là pour t\'accompagner dans ta découverte des agents!'
+                    agent: 'Cliquez sur un agent pour voir ses détails complets dans le panneau de droite.',
+                    search: 'Vous pouvez rechercher par nom ou par ID. Essayez de taper "Nova" ou "#1".',
+                    filter: 'Les filtres par domaine vous permettent de voir uniquement les agents d\'un domaine spécifique.',
+                    help: 'Je suis là pour vous accompagner dans votre découverte des agents!'
                 }
             },
             orion: {
                 id: 'orion',
                 name: 'Orion',
                 icon: '🏛️',
-                title: 'Ton Orchestrateur',
+                title: 'Votre Coordinateur',
                 frequency: 741,
                 color: '#FF6B35',
-                greeting: 'Salutations. Je suis Orion, ton orchestrateur. Le Lexique te permet d\'explorer et de coordonner les 287 agents selon tes objectifs. Que cherches-tu à accomplir?',
+                greeting: 'Bonjour. Je suis Orion, votre coordinateur. Le catalogue vous permet d\'explorer et de coordonner les 287 agents selon vos objectifs. Que souhaitez-vous accomplir?',
                 responses: {
                     agent: 'Je peux coordonner plusieurs agents pour accomplir des tâches complexes.',
-                    plan: 'Dis-moi ton objectif, et je structurerai un parcours optimal à travers les agents disponibles.',
-                    coordinate: 'La coordination multi-agents permet d\'atteindre des objectifs que nul agent seul ne pourrait accomplir.',
-                    help: 'Je structure l\'invisible pour manifester le visible. Quel est ton objectif?'
+                    plan: 'Indiquez-moi votre objectif, et je structurerai un parcours optimal à travers les agents disponibles.',
+                    coordinate: 'La coordination multi-agents permet d\'atteindre des objectifs qu\'aucun agent seul ne pourrait accomplir.',
+                    help: 'Je coordonne les agents pour atteindre vos objectifs. Que souhaitez-vous accomplir?'
                 }
             }
         };
@@ -1737,7 +1702,7 @@
                 setTimeout(() => {
                     addChatMessage(`Je souhaite coordonner avec l'agent ${selectedAgent.name} (#${selectedAgent.id})`, 'user');
                     setTimeout(() => {
-                        addChatMessage(`Compris. L'agent ${selectedAgent.name} opère à ${selectedAgent.frequency_hz} Hz dans la sphère ${selectedAgent.sphere}. Je peux orchestrer une collaboration. Quel est ton objectif?`, 'agent');
+                        addChatMessage(`Compris. L'agent ${selectedAgent.name} opère dans le domaine ${selectedAgent.sphere}. Je peux coordonner une collaboration. Quel est votre objectif?`, 'agent');
                     }, 500);
                 }, 300);
             }

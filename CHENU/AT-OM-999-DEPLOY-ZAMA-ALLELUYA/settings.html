@@ -49,15 +49,14 @@
 <body>
     <header class="header"><h1>⚙️ Paramètres</h1></header>
     <nav class="nav">
-        <a href="/">Ψ Nexus</a>
-        <a href="/civilization.html">🌐 Civilisation</a>
-        <a href="/agents.html">🤖 Lexique</a>
-        <a href="/spheres.html">🔮 Forge</a>
-        <a href="/live.html">⚡ Flux</a>
-        <a href="/dashboard.html">📊 Annales</a>
-        <a href="/frequencies.html">📡 Freq</a>
-        <a href="/funder.html">💎 Funder</a>
-        <a href="/settings.html" class="active">⚙️ Settings</a>
+        <a href="/">🏠 Accueil</a>
+        <a href="/civilization.html">🌐 Domaines</a>
+        <a href="/agents.html">🤖 Agents</a>
+        <a href="/spheres.html">🔮 Vue d'ensemble</a>
+        <a href="/live.html">⚡ Activité</a>
+        <a href="/dashboard.html">📊 Tableau de bord</a>
+        <a href="/funder.html">💎 Partenaire</a>
+        <a href="/settings.html" class="active">⚙️ Paramètres</a>
     </nav>
 
     <div class="settings">
@@ -101,7 +100,7 @@
                     <div class="setting-desc">Apparence de l'interface</div>
                 </div>
                 <select class="select-input" id="theme" onchange="saveSettings()">
-                    <option value="dark">🌙 Sombre (Cosmique)</option>
+                    <option value="dark">🌙 Sombre</option>
                     <option value="light">☀️ Clair</option>
                     <option value="gold">✨ Doré</option>
                 </select>
@@ -199,14 +198,14 @@
                 <div class="setting-info">
                     <div class="setting-label">Version</div>
                 </div>
-                <span>ZAMA-999 v1.0.0</span>
+                <span>v1.0.0</span>
             </div>
 
             <div class="setting-row">
                 <div class="setting-info">
                     <div class="setting-label">Backend</div>
                 </div>
-                <span>CHE·NU™ V76</span>
+                <span>AT·OM Backend</span>
             </div>
 
             <div class="setting-row">
@@ -294,8 +293,8 @@
             const config = {
                 api: API_BASE + '/agents',
                 websocket: WS_URL,
-                version: 'ZAMA-999 v1.0.0',
-                backend: 'CHE·NU™ V76'
+                version: 'v1.0.0',
+                backend: 'AT·OM Backend'
             };
             navigator.clipboard.writeText(JSON.stringify(config, null, 2));
             showToast('Configuration copiée!');

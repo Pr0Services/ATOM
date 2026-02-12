@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AT-OM | Flux - Live Monitoring</title>
-    <meta name="description" content="Flux en temps réel des agents AT-OM - Monitoring WebSocket et visualisation des fréquences">
+    <title>AT·OM | Activité en direct</title>
+    <meta name="description" content="AT·OM — Suivi en temps réel des agents et monitoring WebSocket">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <script src="/config.js"></script>
     <script src="/js/governance-init.js"></script>
@@ -17,13 +17,7 @@
            ═══════════════════════════════════════════════════════════════════ */
 
         :root {
-            /* ADN Vibratoire */
-            --phi: 1.618033988749895;
-            --heartbeat: 444;
-            --tesla: 369;
-            --source: 999;
-
-            /* Couleurs Sacrées */
+            /* Thème */
             --sacred-gold: #D4AF37;
             --sacred-gold-dim: rgba(212, 175, 55, 0.3);
             --dark-bg: #0a0a0f;
@@ -826,17 +820,16 @@
         <div class="header-content">
             <div class="logo-section">
                 <a href="/" class="logo">AT-OM</a>
-                <span class="page-title">Flux Live</span>
+                <span class="page-title">Activité en direct</span>
             </div>
             <nav class="global-nav">
-                <a href="/" class="nav-link">Ψ Nexus</a>
-                <a href="/civilization.html" class="nav-link">🌐 Civilisation</a>
-                <a href="/agents.html" class="nav-link">🤖 Lexique</a>
-                <a href="/spheres.html" class="nav-link">🔮 Forge</a>
-                <a href="/live.html" class="nav-link active">⚡ Flux</a>
-                <a href="/dashboard.html" class="nav-link">📊 Annales</a>
-                <a href="/frequencies.html" class="nav-link">📡 Freq</a>
-                <a href="/funder.html" class="nav-link">💎 Funder</a>
+                <a href="/" class="nav-link">🏠 Accueil</a>
+                <a href="/civilization.html" class="nav-link">🌐 Domaines</a>
+                <a href="/agents.html" class="nav-link">🤖 Agents</a>
+                <a href="/spheres.html" class="nav-link">🔮 Vue d'ensemble</a>
+                <a href="/live.html" class="nav-link active">⚡ Activité</a>
+                <a href="/dashboard.html" class="nav-link">📊 Tableau de bord</a>
+                <a href="/funder.html" class="nav-link">💎 Partenaire</a>
             </nav>
         </div>
     </header>
@@ -916,43 +909,16 @@
                             </div>
                             <div class="stat-item">
                                 <div class="stat-value" id="peakFreq">--</div>
-                                <div class="stat-label">Peak Hz</div>
+                                <div class="stat-label">Score max</div>
                             </div>
                             <div class="stat-item">
                                 <div class="stat-value" id="atlasCount">0</div>
-                                <div class="stat-label">3i Atlas</div>
+                                <div class="stat-label">Pics détectés</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- ADN Vibratoire -->
-                <div class="hub-card">
-                    <div class="hub-card-header">
-                        <span>🧬</span>
-                        <h3>ADN Vibratoire</h3>
-                    </div>
-                    <div class="hub-card-content">
-                        <div class="adn-grid">
-                            <div class="adn-item">
-                                <span class="adn-label">PHI</span>
-                                <span class="adn-value">1.618033...</span>
-                            </div>
-                            <div class="adn-item">
-                                <span class="adn-label">Heartbeat</span>
-                                <span class="adn-value">444 Hz</span>
-                            </div>
-                            <div class="adn-item">
-                                <span class="adn-label">Tesla</span>
-                                <span class="adn-value">369</span>
-                            </div>
-                            <div class="adn-item">
-                                <span class="adn-label">Source</span>
-                                <span class="adn-value">999 Hz</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </aside>
 
             <!-- ═══════════════════════════════════════════════════════════
@@ -968,7 +934,7 @@
                 </div>
 
                 <div class="frequency-bar">
-                    <span class="freq-label">Fréquence moyenne</span>
+                    <span class="freq-label">Score moyen</span>
                     <div class="freq-meter">
                         <div class="freq-meter-fill" id="freqMeterFill" style="width: 0%;"></div>
                     </div>
@@ -1016,21 +982,21 @@
                 <span class="agent-sphere-icon">🔱</span>
                 <div class="agent-sphere-info">
                     <span class="agent-sphere-name">Nova</span>
-                    <span class="agent-sphere-freq">999 Hz • Overseer</span>
+                    <span class="agent-sphere-freq">Superviseur</span>
                 </div>
             </div>
             <div class="agent-sphere" onclick="openAgentChat('aria')" style="--agent-color: #00FF88;">
                 <span class="agent-sphere-icon">✨</span>
                 <div class="agent-sphere-info">
                     <span class="agent-sphere-name">Aria</span>
-                    <span class="agent-sphere-freq">528 Hz • Guide</span>
+                    <span class="agent-sphere-freq">Guide</span>
                 </div>
             </div>
             <div class="agent-sphere" onclick="openAgentChat('orion')" style="--agent-color: #FF6B35;">
                 <span class="agent-sphere-icon">🏛️</span>
                 <div class="agent-sphere-info">
                     <span class="agent-sphere-name">Orion</span>
-                    <span class="agent-sphere-freq">741 Hz • Orchestrateur</span>
+                    <span class="agent-sphere-freq">Coordinateur</span>
                 </div>
             </div>
         </div>
@@ -1045,7 +1011,7 @@
             <span class="chat-agent-icon" id="chatAgentIcon">🔱</span>
             <div class="chat-agent-info">
                 <div class="chat-agent-name" id="chatAgentName">Nova</div>
-                <div class="chat-agent-title" id="chatAgentTitle">System Overseer</div>
+                <div class="chat-agent-title" id="chatAgentTitle">Superviseur Système</div>
             </div>
             <button class="chat-close" onclick="closeAgentChat()">&times;</button>
         </div>
@@ -1097,33 +1063,33 @@
 
         const CORE_AGENTS = {
             nova: {
-                id: 'nova', name: 'Nova', icon: '🔱', title: 'System Overseer',
+                id: 'nova', name: 'Nova', icon: '🔱', title: 'Superviseur Système',
                 frequency: 999, color: '#9333EA',
-                greeting: 'Bienvenue dans le Flux Live. Je suis Nova, gardien des fréquences. Le monitoring en temps réel te permet d\'observer les pulsations du système.',
+                greeting: 'Bienvenue sur la page d\'activité en direct. Je supervise le bon fonctionnement du système.',
                 responses: {
-                    frequency: 'Les fréquences sacrées - 444 Hz, 369, 999 Hz - structurent nos vibrations.',
-                    ws: 'Le WebSocket maintient une connexion persistante avec le cœur du système.',
-                    help: 'Je supervise les flux en temps réel et garantis la cohérence vibratoire.'
+                    frequency: 'Les scores des agents reflètent leur niveau d\'activité.',
+                    ws: 'Le WebSocket maintient une connexion en temps réel avec le serveur.',
+                    help: 'Je supervise l\'activité en temps réel et garantis la cohérence du système.'
                 }
             },
             aria: {
-                id: 'aria', name: 'Aria', icon: '✨', title: 'Onboarding Guide',
+                id: 'aria', name: 'Aria', icon: '✨', title: 'Votre Guide',
                 frequency: 528, color: '#00FF88',
-                greeting: 'Bonjour! Je suis Aria. Le Flux Live affiche les agents actifs en temps réel. Utilise les contrôles pour gérer la visualisation.',
+                greeting: 'Bonjour! Cette page affiche les agents actifs en temps réel. Utilisez les contrôles pour gérer la visualisation.',
                 responses: {
-                    canvas: 'Le canvas montre les particules représentant chaque agent et leurs connexions.',
+                    canvas: 'Le canvas montre les agents et leurs connexions en temps réel.',
                     event: 'Les événements s\'affichent dans le panneau de droite en temps réel.',
-                    help: 'Je t\'accompagne dans ta découverte du monitoring live!'
+                    help: 'Je vous accompagne dans la découverte du monitoring en direct!'
                 }
             },
             orion: {
-                id: 'orion', name: 'Orion', icon: '🏛️', title: 'Ton Orchestrateur',
+                id: 'orion', name: 'Orion', icon: '🏛️', title: 'Votre Coordinateur',
                 frequency: 741, color: '#FF6B35',
-                greeting: 'Salutations. Je suis Orion. Le Flux permet d\'observer la coordination des agents en action. Que veux-tu analyser?',
+                greeting: 'Bonjour. Cette page permet d\'observer la coordination des agents en action. Que souhaitez-vous analyser?',
                 responses: {
-                    agent: 'Chaque particule représente un agent en activité dans le système.',
-                    plan: 'Je peux t\'aider à comprendre les patterns de coordination visible.',
-                    help: 'Je structure l\'observation des flux pour faciliter ta compréhension.'
+                    agent: 'Chaque point représente un agent en activité dans le système.',
+                    plan: 'Je peux vous aider à comprendre les patterns de coordination.',
+                    help: 'Je structure l\'observation de l\'activité pour faciliter votre compréhension.'
                 }
             }
         };
@@ -1310,11 +1276,11 @@
                         document.getElementById('peakFreq').textContent = freq;
                     }
 
-                    // 3i Atlas detection
+                    // High score detection
                     if (freq >= 963 && freq <= 999) {
                         atlasApproaches++;
                         document.getElementById('atlasCount').textContent = atlasApproaches;
-                        addEvent('atlas', `✨ Ligne 3i Atlas: ${freq}Hz`);
+                        addEvent('atlas', `Pic d'activité détecté: ${freq}`);
                     }
                 }
 
@@ -1326,10 +1292,10 @@
             _activateGratitudeMode() {
                 if (this.isGratitudeMode) return;
                 this.isGratitudeMode = true;
-                addEvent('sync', `🙏 Mode Gratitude ${GRATITUDE_FREQUENCY}Hz activé`);
-                document.getElementById('modeValue').textContent = 'Gratitude 444Hz';
+                addEvent('sync', `Mode veille activé`);
+                document.getElementById('modeValue').textContent = 'Veille';
                 document.getElementById('wsIndicator').classList.add('gratitude');
-                document.getElementById('wsStatus').textContent = 'Mode Gratitude';
+                document.getElementById('wsStatus').textContent = 'Mode veille';
                 document.getElementById('wsStatus').className = 'status-text gratitude';
 
                 this.gratitudePulseInterval = setInterval(() => {
@@ -1345,7 +1311,7 @@
                 if (this.gratitudePulseInterval) clearInterval(this.gratitudePulseInterval);
                 document.getElementById('modeValue').textContent = 'Normal';
                 document.getElementById('wsIndicator').classList.remove('gratitude');
-                addEvent('sync', '✅ Sortie Mode Gratitude');
+                addEvent('sync', '✅ Reconnecté');
             }
 
             _scheduleReconnect() {
@@ -1510,9 +1476,9 @@
             if (data.type === 'agent_update') {
                 addEvent('agent', `${data.agent?.name || 'Agent'} mis à jour`);
             } else if (data.type === 'frequency_change') {
-                addEvent('freq', `Fréquence: ${data.frequency_hz} Hz`);
+                addEvent('freq', `Score: ${data.frequency_hz}`);
             } else if (data.type === 'gratitude_pulse') {
-                addEvent('sync', `💛 Pulse Gratitude ${data.frequency_hz}Hz`);
+                addEvent('sync', `Signal de veille`);
             }
         }
 
@@ -1647,7 +1613,7 @@
 
             setTimeout(connectWS, 1500);
 
-            addEvent('system', '⚡ Flux Live initialisé');
+            addEvent('system', '⚡ Activité en direct initialisée');
         })();
     </script>
 </body>
