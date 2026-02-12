@@ -259,47 +259,143 @@
             background: rgba(216, 178, 106, 0.3);
         }
 
-        /* Impact Section */
-        .impact-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2.5rem;
+        /* ═══════════════════════════════════════════════════════════════
+           IMPACT TABS
+        ═══════════════════════════════════════════════════════════════ */
+        .impact-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+            margin-bottom: 2.5rem;
         }
 
-        .impact-card {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 2rem;
+        .impact-tab {
+            padding: 0.65rem 1.25rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            cursor: pointer;
             transition: all 0.3s;
         }
 
-        .impact-card:hover {
+        .impact-tab:hover {
             border-color: var(--sacred-gold);
-            transform: translateY(-4px);
+            color: var(--sacred-gold);
+            background: rgba(216, 178, 106, 0.08);
         }
 
-        .impact-before {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            padding-bottom: 1rem;
-            margin-bottom: 1rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            text-decoration: line-through;
-            text-decoration-color: rgba(255, 107, 107, 0.5);
+        .impact-tab.active {
+            background: rgba(216, 178, 106, 0.15);
+            border-color: var(--sacred-gold);
+            color: var(--sacred-gold);
+            font-weight: 600;
         }
 
-        .impact-after {
+        .impact-panel {
+            display: none;
+        }
+
+        .impact-panel.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .impact-panel-intro {
             font-size: 1rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+            max-width: 700px;
+        }
+
+        /* Impact Table */
+        .impact-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .impact-table thead th {
+            background: rgba(216, 178, 106, 0.12);
+            color: var(--sacred-gold);
+            padding: 1rem 1.25rem;
+            text-align: left;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(216, 178, 106, 0.2);
+        }
+
+        .impact-table tbody td {
+            padding: 1rem 1.25rem;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            vertical-align: top;
+        }
+
+        .impact-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .impact-table tbody tr:hover {
+            background: rgba(216, 178, 106, 0.04);
+        }
+
+        .impact-table .col-problem {
+            color: var(--text-muted);
+            width: 30%;
+        }
+
+        .impact-table .col-solution {
             color: var(--text-primary);
             font-weight: 500;
-            line-height: 1.5;
+            width: 35%;
         }
 
-        .impact-icon {
-            font-size: 1.5rem;
-            margin-bottom: 0.75rem;
+        .impact-table .col-how {
+            color: var(--text-secondary);
+            width: 35%;
+        }
+
+        @media (max-width: 768px) {
+            .impact-table thead { display: none; }
+            .impact-table tbody td {
+                display: block;
+                width: 100%;
+                padding: 0.75rem 1rem;
+            }
+            .impact-table tbody td::before {
+                content: attr(data-label);
+                display: block;
+                font-size: 0.75rem;
+                color: var(--sacred-gold);
+                font-weight: 600;
+                text-transform: uppercase;
+                margin-bottom: 0.25rem;
+            }
+            .impact-table tbody tr {
+                display: block;
+                margin-bottom: 1rem;
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 10px;
+                overflow: hidden;
+            }
+            .impact-table .col-problem,
+            .impact-table .col-solution,
+            .impact-table .col-how { width: 100%; }
         }
 
         /* Stats Band */
@@ -799,7 +895,7 @@
 
         <nav class="nav-tabs">
             <a href="#accueil" class="nav-tab active">Accueil</a>
-            <a href="#domaines" class="nav-tab">Domaines</a>
+            <a href="#impact" class="nav-tab">Secteurs d'impact</a>
             <a href="#fonctionnement" class="nav-tab">Comment ça marche</a>
             <a href="#agents" class="nav-tab">Nos Agents</a>
             <a href="#tarifs" class="nav-tab">Tarifs</a>
@@ -852,110 +948,420 @@
         </section>
 
         <!-- ═══════════════════════════════════════════════════════════════
-             POURQUOI AT·OM CHANGE TOUT
+             SECTEURS D'IMPACT — ONGLETS AVEC TABLEAUX
         ═══════════════════════════════════════════════════════════════ -->
         <section class="section" id="impact" style="background: rgba(255,255,255,0.02);">
             <div class="section-header">
-                <h2 class="section-title">Pourquoi AT·OM change tout</h2>
+                <h2 class="section-title">AT·OM transforme chaque secteur de la société</h2>
                 <p class="section-subtitle">
-                    Ce n'est pas un outil de plus. C'est un système complet qui couvre votre vie entière.
+                    On ne fait pas un outil de plus. On repense chaque domaine de la vie avec l'intelligence collective.
                 </p>
             </div>
 
-            <div class="impact-grid">
-                <div class="impact-card">
-                    <div class="impact-icon">🔍</div>
-                    <div class="impact-before">Vous cherchez seul sur Google, outil par outil</div>
-                    <div class="impact-after">400+ agents spécialisés recherchent, analysent et synthétisent pour vous en parallèle</div>
-                </div>
-
-                <div class="impact-card">
-                    <div class="impact-icon">🧩</div>
-                    <div class="impact-before">Un outil différent pour chaque besoin (compta, design, RH, formation...)</div>
-                    <div class="impact-after">Une seule plateforme qui couvre 9 domaines entiers de la société, de votre carrière à votre bien-être</div>
-                </div>
-
-                <div class="impact-card">
-                    <div class="impact-icon">🤝</div>
-                    <div class="impact-before">Vos outils IA ne se parlent pas entre eux, le contexte est perdu</div>
-                    <div class="impact-after">Nos agents collaborent, partagent le contexte et coordonnent leurs actions pour un résultat cohérent</div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ═══════════════════════════════════════════════════════════════
-             9 DOMAINES D'EXPERTISE
-        ═══════════════════════════════════════════════════════════════ -->
-        <section class="section" id="domaines">
-            <div class="section-header">
-                <h2 class="section-title">9 Domaines, toute votre vie couverte</h2>
-                <p class="section-subtitle">
-                    Chaque domaine dispose de dizaines d'agents spécialisés. Ensemble, ils couvrent tous les aspects de la société moderne.
-                </p>
+            <!-- Onglets -->
+            <div class="impact-tabs" id="impactTabs">
+                <button class="impact-tab active" data-tab="spiritualite">Spiritualité & Bien-être</button>
+                <button class="impact-tab" data-tab="histoire">Histoire & Mémoire</button>
+                <button class="impact-tab" data-tab="politique">Politique & Gouvernance</button>
+                <button class="impact-tab" data-tab="economie">Économie & Finance</button>
+                <button class="impact-tab" data-tab="communication">Communication & Médias</button>
+                <button class="impact-tab" data-tab="education">Éducation & Formation</button>
+                <button class="impact-tab" data-tab="sante">Santé & Sciences</button>
+                <button class="impact-tab" data-tab="environnement">Environnement & Énergie</button>
+                <button class="impact-tab" data-tab="technologie">Technologie & Innovation</button>
+                <button class="impact-tab" data-tab="culture">Culture & Création</button>
+                <button class="impact-tab" data-tab="justice">Justice & Droit</button>
+                <button class="impact-tab" data-tab="structure">Structure AT·OM</button>
             </div>
 
-            <div class="domains-grid">
-                <div class="domain-card" data-domain="personnel">
-                    <div class="domain-icon">👤</div>
-                    <h3 class="domain-name">Développement Personnel</h3>
-                    <p class="domain-description">Un coach IA qui suit vos objectifs, votre bien-être et vous pousse à avancer chaque jour.</p>
-                    <span class="domain-agents">45 agents spécialisés</span>
-                </div>
+            <!-- ═══ SPIRITUALITÉ ═══ -->
+            <div class="impact-panel active" id="panel-spiritualite">
+                <p class="impact-panel-intro">Lien intergénérationnel, connaissances sacrées, lecture énergétique, santé mentale et épanouissement personnel — AT·OM préserve et transmet ce qui compte vraiment.</p>
+                <table class="impact-table">
+                    <thead><tr><th>Problème</th><th>Notre solution</th><th>Comment on le résout</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Les connaissances sacrées et traditions se perdent entre les générations</td>
+                            <td class="col-solution" data-label="Solution">Préservation et transmission structurée du savoir ancestral</td>
+                            <td class="col-how" data-label="Comment">Agents de collecte qui indexent, vérifient et rendent accessible le savoir intergénérationnel dans des formats modernes</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">La santé mentale est traitée en silo, sans vision holistique</td>
+                            <td class="col-solution" data-label="Solution">Accompagnement global : mental, émotionnel, spirituel</td>
+                            <td class="col-how" data-label="Comment">Agents de bien-être qui coordonnent méditation, suivi émotionnel, recommandations personnalisées et coaching adaptatif</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">La lecture énergétique et les pratiques holistiques manquent de cadre fiable</td>
+                            <td class="col-solution" data-label="Solution">Cadre structuré avec traçabilité et sources vérifiées</td>
+                            <td class="col-how" data-label="Comment">Agents spécialisés qui croisent traditions, recherches modernes et retours d'expérience pour un accompagnement rigoureux</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">L'épanouissement personnel est noyé dans des apps superficielles</td>
+                            <td class="col-solution" data-label="Solution">Parcours de croissance personnelle sur mesure, profond et durable</td>
+                            <td class="col-how" data-label="Comment">Agents qui suivent vos objectifs, identifient vos patterns et adaptent leurs recommandations en continu</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                <div class="domain-card" data-domain="business">
-                    <div class="domain-icon">💼</div>
-                    <h3 class="domain-name">Entreprise</h3>
-                    <p class="domain-description">Votre business plan analysé, votre stratégie optimisée, vos décisions éclairées par 62 agents.</p>
-                    <span class="domain-agents">62 agents spécialisés</span>
-                </div>
+            <!-- ═══ HISTOIRE ═══ -->
+            <div class="impact-panel" id="panel-histoire">
+                <p class="impact-panel-intro">Versions vérifiées selon les preuves, mémoire collective, cause et effet, apprentissage à partir de notre histoire — AT·OM rend l'histoire vivante et honnête.</p>
+                <table class="impact-table">
+                    <thead><tr><th>Problème</th><th>Notre solution</th><th>Comment on le résout</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">L'histoire est écrite par les vainqueurs — une seule version domine</td>
+                            <td class="col-solution" data-label="Solution">Présentation multi-perspectives avec preuves sourcées</td>
+                            <td class="col-how" data-label="Comment">Agents qui collectent et croisent différentes versions historiques, identifient les biais et présentent les preuves disponibles</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">La mémoire collective se fragmente — les leçons du passé sont oubliées</td>
+                            <td class="col-solution" data-label="Solution">Index vivant de la mémoire collective, accessible à tous</td>
+                            <td class="col-how" data-label="Comment">Agents de mémoire qui structurent les récits, témoignages et archives en base de connaissances interrogeable</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">On répète les mêmes erreurs parce qu'on ne comprend pas les causes profondes</td>
+                            <td class="col-solution" data-label="Solution">Analyse de causalité historique — cause et effet documentés</td>
+                            <td class="col-how" data-label="Comment">Agents d'analyse qui cartographient les chaînes causales des événements historiques et en tirent des patterns applicables</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">L'éducation historique est passive — on mémorise des dates, pas des leçons</td>
+                            <td class="col-solution" data-label="Solution">Apprentissage actif à partir de scénarios historiques réels</td>
+                            <td class="col-how" data-label="Comment">Agents pédagogiques qui transforment l'histoire en simulations interactives et études de cas concrètes</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                <div class="domain-card" data-domain="gouvernement">
-                    <div class="domain-icon">🏛️</div>
-                    <h3 class="domain-name">Institutions</h3>
-                    <p class="domain-description">Conformité, démarches administratives et relations institutionnelles gérées pour vous.</p>
-                    <span class="domain-agents">38 agents spécialisés</span>
-                </div>
+            <!-- ═══ POLITIQUE ═══ -->
+            <div class="impact-panel" id="panel-politique">
+                <p class="impact-panel-intro">Discussion publique transparente, gestion des fonds sans corruption, gouvernance directe sans intermédiaires inutiles — AT·OM rend le pouvoir aux citoyens.</p>
+                <table class="impact-table">
+                    <thead><tr><th>Problème</th><th>Notre solution</th><th>Comment on le résout</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Les fonds publics sont opaques — corruption et détournement</td>
+                            <td class="col-solution" data-label="Solution">Traçabilité totale des fonds sur blockchain, visible par tous</td>
+                            <td class="col-how" data-label="Comment">Agents de gouvernance qui enregistrent chaque transaction sur Hedera, avec audit automatique et alertes d'anomalies</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Les citoyens n'ont pas de voix réelle entre deux élections</td>
+                            <td class="col-solution" data-label="Solution">Plateforme de discussion publique et de prise de décision continue</td>
+                            <td class="col-how" data-label="Comment">Agents de débat qui structurent les discussions, synthétisent les opinions et organisent des votes vérifiables</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Les politiciens comme intermédiaires ajoutent complexité et biais</td>
+                            <td class="col-solution" data-label="Solution">Gouvernance assistée par IA — décisions informées, exécution directe</td>
+                            <td class="col-how" data-label="Comment">Agents d'analyse de politiques publiques qui simulent les impacts, chiffrent les coûts et présentent les options aux citoyens</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Les consultations publiques sont inaccessibles et biaisées</td>
+                            <td class="col-solution" data-label="Solution">Participation inclusive, 24/7, dans votre langue, à votre rythme</td>
+                            <td class="col-how" data-label="Comment">Agents multilingues qui rendent chaque consultation accessible et synthétisent les contributions de tous les participants</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                <div class="domain-card" data-domain="creatif">
-                    <div class="domain-icon">🎨</div>
-                    <h3 class="domain-name">Création</h3>
-                    <p class="domain-description">De l'idée au prototype, 54 agents créatifs transforment votre vision en réalité.</p>
-                    <span class="domain-agents">54 agents spécialisés</span>
-                </div>
+            <!-- ═══ ÉCONOMIE ═══ -->
+            <div class="impact-panel" id="panel-economie">
+                <p class="impact-panel-intro">Finance personnelle, entrepreneuriat, investissement, gestion budgétaire — AT·OM donne à chacun les outils financiers des experts.</p>
+                <table class="impact-table">
+                    <thead><tr><th>Problème</th><th>Notre solution</th><th>Comment on le résout</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">L'éducation financière est réservée à une élite</td>
+                            <td class="col-solution" data-label="Solution">Coach financier IA accessible à tous, gratuit en bêta</td>
+                            <td class="col-how" data-label="Comment">Agents de finance personnelle qui analysent votre situation, expliquent les concepts et proposent des stratégies adaptées</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Créer une entreprise demande des dizaines de prestataires différents</td>
+                            <td class="col-solution" data-label="Solution">62 agents business coordonnés : du business plan au lancement</td>
+                            <td class="col-how" data-label="Comment">Agents spécialisés en comptabilité, stratégie, marketing, RH, juridique qui travaillent ensemble sur votre projet</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Les marchés financiers sont complexes et manipulés</td>
+                            <td class="col-solution" data-label="Solution">Analyse objective basée sur les données, pas sur les émotions</td>
+                            <td class="col-how" data-label="Comment">Agents de veille économique qui détectent les tendances, analysent les risques et fournissent des rapports sourcés</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Les systèmes économiques actuels creusent les inégalités</td>
+                            <td class="col-solution" data-label="Solution">Outils de modélisation pour des économies plus équitables</td>
+                            <td class="col-how" data-label="Comment">Agents de simulation économique qui testent des modèles alternatifs et mesurent leur impact social</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                <div class="domain-card" data-domain="communaute">
-                    <div class="domain-icon">🤝</div>
-                    <h3 class="domain-name">Communauté</h3>
-                    <p class="domain-description">Mobilisez, organisez et fédérez autour de vos projets locaux et initiatives collectives.</p>
-                    <span class="domain-agents">41 agents spécialisés</span>
-                </div>
+            <!-- ═══ COMMUNICATION ═══ -->
+            <div class="impact-panel" id="panel-communication">
+                <p class="impact-panel-intro">Médias, réseaux sociaux, information, expression — AT·OM combat la désinformation et amplifie les voix qui comptent.</p>
+                <table class="impact-table">
+                    <thead><tr><th>Problème</th><th>Notre solution</th><th>Comment on le résout</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">La désinformation se propage plus vite que la vérité</td>
+                            <td class="col-solution" data-label="Solution">Vérification automatique des faits avec sources traçables</td>
+                            <td class="col-how" data-label="Comment">Agents de fact-checking qui croisent les sources, détectent les manipulations et fournissent des rapports de fiabilité</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Les algorithmes enferment les gens dans des bulles d'information</td>
+                            <td class="col-solution" data-label="Solution">Exposition équilibrée à des perspectives diverses</td>
+                            <td class="col-how" data-label="Comment">Agents de curation qui diversifient les points de vue, identifient les biais et proposent des perspectives complémentaires</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Les créateurs de contenu sont noyés dans la surproduction</td>
+                            <td class="col-solution" data-label="Solution">Amplification intelligente : le bon message au bon public</td>
+                            <td class="col-how" data-label="Comment">Agents de communication qui optimisent le message, ciblent l'audience et mesurent l'impact réel</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Les médias traditionnels perdent en crédibilité</td>
+                            <td class="col-solution" data-label="Solution">Information vérifiée par consensus multi-sources</td>
+                            <td class="col-how" data-label="Comment">Agents d'analyse média qui comparent les couvertures, identifient les angles morts et reconstruisent le contexte complet</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                <div class="domain-card" data-domain="social">
-                    <div class="domain-icon">💬</div>
-                    <h3 class="domain-name">Communication</h3>
-                    <p class="domain-description">Votre présence digitale gérée, vos messages amplifiés, votre audience engagée.</p>
-                    <span class="domain-agents">48 agents spécialisés</span>
-                </div>
+            <!-- ═══ ÉDUCATION ═══ -->
+            <div class="impact-panel" id="panel-education">
+                <p class="impact-panel-intro">Apprentissage personnalisé, transmission de compétences, formation continue — AT·OM réinvente l'éducation pour qu'elle s'adapte à vous, pas l'inverse.</p>
+                <table class="impact-table">
+                    <thead><tr><th>Problème</th><th>Notre solution</th><th>Comment on le résout</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">L'éducation est standardisée — même programme pour tout le monde</td>
+                            <td class="col-solution" data-label="Solution">Parcours 100% adapté à votre rythme, vos forces et vos objectifs</td>
+                            <td class="col-how" data-label="Comment">52 agents de formation qui évaluent votre niveau, adaptent le contenu et ajustent la difficulté en temps réel</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Les compétences pratiques ne sont pas enseignées à l'école</td>
+                            <td class="col-solution" data-label="Solution">Formation par la pratique : projets réels, mentoring IA</td>
+                            <td class="col-how" data-label="Comment">Agents qui créent des exercices pratiques, simulent des situations réelles et guident pas à pas</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">La formation continue est chère et inaccessible</td>
+                            <td class="col-solution" data-label="Solution">Accès gratuit en bêta — formation illimitée dans 9 domaines</td>
+                            <td class="col-how" data-label="Comment">Agents pédagogiques qui génèrent des cours, quiz, études de cas et certifications à votre rythme</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Les diplômes ne reflètent plus les compétences réelles</td>
+                            <td class="col-solution" data-label="Solution">Évaluation par compétences démontrées, pas par diplôme</td>
+                            <td class="col-how" data-label="Comment">Agents d'évaluation qui mesurent les compétences sur des tâches réelles et créent un profil vérifiable</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                <div class="domain-card" data-domain="education">
-                    <div class="domain-icon">📚</div>
-                    <h3 class="domain-name">Formation</h3>
-                    <p class="domain-description">Un programme d'apprentissage adapté à votre rythme, vos forces et vos objectifs.</p>
-                    <span class="domain-agents">52 agents spécialisés</span>
-                </div>
+            <!-- ═══ SANTÉ ═══ -->
+            <div class="impact-panel" id="panel-sante">
+                <p class="impact-panel-intro">Prévention, recherche, accès aux soins, santé publique — AT·OM connecte les connaissances médicales pour une santé proactive.</p>
+                <table class="impact-table">
+                    <thead><tr><th>Problème</th><th>Notre solution</th><th>Comment on le résout</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">La médecine est réactive — on attend d'être malade pour agir</td>
+                            <td class="col-solution" data-label="Solution">Approche préventive basée sur l'analyse de tendances</td>
+                            <td class="col-how" data-label="Comment">Agents de veille santé qui analysent les signaux faibles, proposent des actions préventives et suivent vos habitudes</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">L'information médicale en ligne est contradictoire et dangereuse</td>
+                            <td class="col-solution" data-label="Solution">Synthèses médicales sourcées depuis la littérature scientifique</td>
+                            <td class="col-how" data-label="Comment">Agents de recherche médicale qui compilent les études publiées, évaluent leur fiabilité et vulgarisent les résultats</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">La recherche scientifique est cloisonnée entre disciplines</td>
+                            <td class="col-solution" data-label="Solution">Connexions interdisciplinaires automatiques</td>
+                            <td class="col-how" data-label="Comment">Agents qui croisent les données de disciplines différentes pour identifier des corrélations et pistes de recherche</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">L'accès aux soins est inégal selon les régions et les revenus</td>
+                            <td class="col-solution" data-label="Solution">Accompagnement santé accessible partout, 24/7</td>
+                            <td class="col-how" data-label="Comment">Agents de santé qui orientent, informent et accompagnent indépendamment de la localisation géographique</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                <div class="domain-card" data-domain="transport">
-                    <div class="domain-icon">🚀</div>
-                    <h3 class="domain-name">Logistique</h3>
-                    <p class="domain-description">Vos flux optimisés, vos livraisons planifiées, votre chaîne logistique sous contrôle.</p>
-                    <span class="domain-agents">35 agents spécialisés</span>
-                </div>
+            <!-- ═══ ENVIRONNEMENT ═══ -->
+            <div class="impact-panel" id="panel-environnement">
+                <p class="impact-panel-intro">Climat, énergie, biodiversité, développement durable — AT·OM mesure, optimise et agit pour la planète.</p>
+                <table class="impact-table">
+                    <thead><tr><th>Problème</th><th>Notre solution</th><th>Comment on le résout</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">L'impact environnemental individuel est impossible à mesurer</td>
+                            <td class="col-solution" data-label="Solution">Bilan carbone personnel et suivi d'impact en continu</td>
+                            <td class="col-how" data-label="Comment">Agents de durabilité qui calculent votre empreinte, identifient les leviers d'action et mesurent vos progrès</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Les solutions énergétiques sont complexes et mal comprises</td>
+                            <td class="col-solution" data-label="Solution">Conseil énergétique personnalisé et accessible</td>
+                            <td class="col-how" data-label="Comment">Agents qui analysent votre consommation, comparent les options et recommandent les optimisations les plus efficaces</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Le greenwashing rend impossible de distinguer les vraies actions</td>
+                            <td class="col-solution" data-label="Solution">Vérification des engagements environnementaux avec données réelles</td>
+                            <td class="col-how" data-label="Comment">Agents d'audit qui comparent les promesses aux résultats mesurables et détectent les fausses allégations</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Les initiatives locales manquent de coordination et de visibilité</td>
+                            <td class="col-solution" data-label="Solution">Mise en réseau des initiatives durables à l'échelle communautaire</td>
+                            <td class="col-how" data-label="Comment">Agents communautaires qui connectent les projets verts locaux, partagent les bonnes pratiques et amplifient l'impact</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                <div class="domain-card" data-domain="environnement">
-                    <div class="domain-icon">🌿</div>
-                    <h3 class="domain-name">Durabilité</h3>
-                    <p class="domain-description">Mesurez votre impact, adoptez des pratiques responsables, agissez pour la planète.</p>
-                    <span class="domain-agents">29 agents spécialisés</span>
+            <!-- ═══ TECHNOLOGIE ═══ -->
+            <div class="impact-panel" id="panel-technologie">
+                <p class="impact-panel-intro">XR et semi-XR, environnements adaptés, sécurité quantique, connexions universelles — AT·OM utilise les technologies de pointe pour créer le système informatique le plus complet.</p>
+                <table class="impact-table">
+                    <thead><tr><th>Problème</th><th>Notre solution</th><th>Comment on le résout</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Les interfaces sont limitées à un écran plat — pas d'immersion</td>
+                            <td class="col-solution" data-label="Solution">Expériences XR et semi-XR : environnements générés et adaptatifs</td>
+                            <td class="col-how" data-label="Comment">Moteur de génération d'environnements qui crée des espaces de travail immersifs adaptés à chaque domaine et chaque utilisateur</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Les données personnelles sont vulnérables aux attaques classiques</td>
+                            <td class="col-solution" data-label="Solution">Sécurité quantique — chiffrement résistant aux futurs ordinateurs quantiques</td>
+                            <td class="col-how" data-label="Comment">Couche de sécurité post-quantique intégrée, avec gouvernance décentralisée sur blockchain Hedera</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Les outils IA sont isolés — chaque app a son propre système fermé</td>
+                            <td class="col-solution" data-label="Solution">Connexions universelles : 400+ agents qui communiquent entre eux</td>
+                            <td class="col-how" data-label="Comment">Architecture neuromorphique avec bus de signaux partagé — chaque agent peut collaborer avec n'importe quel autre en temps réel</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Les plateformes ne s'adaptent pas — même interface pour tous les usages</td>
+                            <td class="col-solution" data-label="Solution">Environnements dynamiques qui se reconfigurent selon le contexte</td>
+                            <td class="col-how" data-label="Comment">Système adaptatif qui génère l'interface, les agents et les outils optimaux pour chaque situation spécifique</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ═══ CULTURE ═══ -->
+            <div class="impact-panel" id="panel-culture">
+                <p class="impact-panel-intro">Art, design, musique, patrimoine, innovation créative — AT·OM amplifie la créativité humaine sans la remplacer.</p>
+                <table class="impact-table">
+                    <thead><tr><th>Problème</th><th>Notre solution</th><th>Comment on le résout</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Les outils créatifs IA produisent du contenu générique sans âme</td>
+                            <td class="col-solution" data-label="Solution">54 agents créatifs qui amplifient VOTRE vision, pas la leur</td>
+                            <td class="col-how" data-label="Comment">Agents qui apprennent votre style, vos préférences et vous assistent de l'idée au prototype final</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Le patrimoine culturel se numérise mal et se perd</td>
+                            <td class="col-solution" data-label="Solution">Préservation numérique structurée et accessible</td>
+                            <td class="col-how" data-label="Comment">Agents de patrimoine qui indexent, contextualisent et rendent vivantes les oeuvres et traditions culturelles</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Les artistes indépendants manquent de visibilité et de ressources</td>
+                            <td class="col-solution" data-label="Solution">Écosystème complet : création, promotion, monétisation</td>
+                            <td class="col-how" data-label="Comment">Agents qui gèrent la production, la distribution et la promotion du travail créatif sur les bonnes plateformes</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">La collaboration créative entre disciplines est rare et difficile</td>
+                            <td class="col-solution" data-label="Solution">Connexion entre créateurs de domaines différents</td>
+                            <td class="col-how" data-label="Comment">Agents de mise en relation qui identifient les synergies créatives entre musiciens, designers, développeurs, écrivains</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ═══ JUSTICE ═══ -->
+            <div class="impact-panel" id="panel-justice">
+                <p class="impact-panel-intro">Accès au droit, transparence judiciaire, droits fondamentaux — AT·OM rend la justice compréhensible et accessible à tous.</p>
+                <table class="impact-table">
+                    <thead><tr><th>Problème</th><th>Notre solution</th><th>Comment on le résout</th></tr></thead>
+                    <tbody>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Le système juridique est incompréhensible pour le citoyen moyen</td>
+                            <td class="col-solution" data-label="Solution">Traduction juridique en langage clair et actionnable</td>
+                            <td class="col-how" data-label="Comment">Agents juridiques qui vulgarisent les textes de loi, expliquent vos droits et guident vos démarches</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">L'accès à un avocat est un privilège financier</td>
+                            <td class="col-solution" data-label="Solution">Assistance juridique de première ligne accessible gratuitement</td>
+                            <td class="col-how" data-label="Comment">Agents d'analyse juridique qui évaluent votre situation, identifient les recours et préparent vos dossiers</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">Les contrats sont piégés de clauses abusives que personne ne lit</td>
+                            <td class="col-solution" data-label="Solution">Analyse automatique de contrats avec alertes sur les risques</td>
+                            <td class="col-how" data-label="Comment">Agents de revue contractuelle qui détectent les clauses problématiques et expliquent les implications en clair</td>
+                        </tr>
+                        <tr>
+                            <td class="col-problem" data-label="Problème">La conformité réglementaire est un cauchemar pour les petites structures</td>
+                            <td class="col-solution" data-label="Solution">Veille réglementaire automatisée et mise en conformité guidée</td>
+                            <td class="col-how" data-label="Comment">Agents de conformité qui suivent les évolutions légales et vous alertent quand une action est requise</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ═══ STRUCTURE AT·OM ═══ -->
+            <div class="impact-panel" id="panel-structure">
+                <p class="impact-panel-intro">Voici comment AT·OM est organisé : 9 domaines interconnectés, 400+ agents spécialisés, 3 agents système, et une architecture neuromorphique qui fait tout fonctionner ensemble.</p>
+                <div class="domains-grid" style="margin-top:1rem;">
+                    <div class="domain-card" data-domain="personnel">
+                        <div class="domain-icon">👤</div>
+                        <h3 class="domain-name">Développement Personnel</h3>
+                        <p class="domain-description">Bien-être, objectifs, coaching, croissance personnelle</p>
+                        <span class="domain-agents">45 agents spécialisés</span>
+                    </div>
+                    <div class="domain-card" data-domain="business">
+                        <div class="domain-icon">💼</div>
+                        <h3 class="domain-name">Entreprise</h3>
+                        <p class="domain-description">Stratégie, finance, RH, marketing, opérations</p>
+                        <span class="domain-agents">62 agents spécialisés</span>
+                    </div>
+                    <div class="domain-card" data-domain="gouvernement">
+                        <div class="domain-icon">🏛️</div>
+                        <h3 class="domain-name">Institutions</h3>
+                        <p class="domain-description">Gouvernance, conformité, administration publique</p>
+                        <span class="domain-agents">38 agents spécialisés</span>
+                    </div>
+                    <div class="domain-card" data-domain="creatif">
+                        <div class="domain-icon">🎨</div>
+                        <h3 class="domain-name">Création</h3>
+                        <p class="domain-description">Design, art, musique, innovation créative</p>
+                        <span class="domain-agents">54 agents spécialisés</span>
+                    </div>
+                    <div class="domain-card" data-domain="communaute">
+                        <div class="domain-icon">🤝</div>
+                        <h3 class="domain-name">Communauté</h3>
+                        <p class="domain-description">Projets locaux, mobilisation, initiatives collectives</p>
+                        <span class="domain-agents">41 agents spécialisés</span>
+                    </div>
+                    <div class="domain-card" data-domain="social">
+                        <div class="domain-icon">💬</div>
+                        <h3 class="domain-name">Communication</h3>
+                        <p class="domain-description">Médias, contenu, influence, présence digitale</p>
+                        <span class="domain-agents">48 agents spécialisés</span>
+                    </div>
+                    <div class="domain-card" data-domain="education">
+                        <div class="domain-icon">📚</div>
+                        <h3 class="domain-name">Formation</h3>
+                        <p class="domain-description">Apprentissage adaptatif, compétences, certification</p>
+                        <span class="domain-agents">52 agents spécialisés</span>
+                    </div>
+                    <div class="domain-card" data-domain="transport">
+                        <div class="domain-icon">🚀</div>
+                        <h3 class="domain-name">Logistique</h3>
+                        <p class="domain-description">Flux, planification, chaîne d'approvisionnement</p>
+                        <span class="domain-agents">35 agents spécialisés</span>
+                    </div>
+                    <div class="domain-card" data-domain="environnement">
+                        <div class="domain-icon">🌿</div>
+                        <h3 class="domain-name">Durabilité</h3>
+                        <p class="domain-description">Impact environnemental, énergie, biodiversité</p>
+                        <span class="domain-agents">29 agents spécialisés</span>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1207,7 +1613,7 @@
         <div class="footer-content">
             <div class="footer-section">
                 <h4>Produit</h4>
-                <a href="#domaines">Domaines</a>
+                <a href="#impact">Secteurs d'impact</a>
                 <a href="#fonctionnement">Comment ça marche</a>
                 <a href="#agents">Nos Agents</a>
                 <a href="#tarifs">Tarifs</a>
@@ -1215,7 +1621,7 @@
             <div class="footer-section">
                 <h4>Ressources</h4>
                 <a href="#faq">FAQ</a>
-                <a href="#domaines">Explorer les domaines</a>
+                <a href="#impact">Secteurs d'impact</a>
                 <a href="#fonctionnement">Guide de démarrage</a>
             </div>
             <div class="footer-section">
@@ -1237,6 +1643,18 @@
     </footer>
 
     <script>
+        // Impact Tabs
+        document.querySelectorAll('.impact-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                const targetId = tab.dataset.tab;
+                document.querySelectorAll('.impact-tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.impact-panel').forEach(p => p.classList.remove('active'));
+                tab.classList.add('active');
+                const panel = document.getElementById('panel-' + targetId);
+                if (panel) panel.classList.add('active');
+            });
+        });
+
         // FAQ Accordion
         document.querySelectorAll('.faq-question').forEach(button => {
             button.addEventListener('click', () => {
