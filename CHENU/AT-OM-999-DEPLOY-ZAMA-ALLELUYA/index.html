@@ -10,7 +10,7 @@
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#D8B26A">
-    <meta name="description" content="AT-OM | L'Arche des Resonances - CHE·NU™ V76 - 444 Hz - Φ = 1.618033988749895 - 369">
+    <meta name="description" content="AT·OM | Plateforme d'intelligence collective — 400+ agents IA, 9 domaines d'expertise">
 
     <!-- Manifest & Icons -->
     <link rel="manifest" href="/manifest.json">
@@ -18,7 +18,7 @@
     <link rel="icon" type="image/png" sizes="192x192" href="/logo192.png">
     <link rel="apple-touch-icon" href="/logo192.png">
 
-    <title>AT-OM | L'Arche des Resonances</title>
+    <title>AT·OM | Tableau de bord</title>
     <script src="/config.js"></script>
 
     <style>
@@ -856,28 +856,27 @@
 
         <div class="header-center">
             <div class="freq-display">
-                <div class="freq-value">444 Hz</div>
-                <div class="freq-label">Heartbeat</div>
+                <div class="freq-value" id="agentCountHeader">400+</div>
+                <div class="freq-label">Agents actifs</div>
             </div>
             <div class="freq-display">
-                <div class="freq-value">Φ 1.618</div>
-                <div class="freq-label">Golden Ratio</div>
+                <div class="freq-value">9</div>
+                <div class="freq-label">Domaines</div>
             </div>
             <div class="freq-display">
-                <div class="freq-value">369</div>
-                <div class="freq-label">Tesla Key</div>
+                <div class="freq-value" style="color: var(--green-glow);">●</div>
+                <div class="freq-label">Système en ligne</div>
             </div>
         </div>
 
         <nav class="header-nav">
-            <a href="/" class="header-btn active">Ψ Nexus</a>
-            <a href="/civilization.html" class="header-btn">🌐 Civilisation</a>
-            <a href="/agents.html" class="header-btn">🤖 Lexique</a>
-            <a href="/spheres.html" class="header-btn">🔮 Forge</a>
-            <a href="/live.html" class="header-btn">⚡ Flux</a>
-            <a href="/dashboard.html" class="header-btn">📊 Annales</a>
-            <a href="/frequencies.html" class="header-btn">📡 Freq</a>
-            <a href="/funder.html" class="header-btn primary">💎 Funder</a>
+            <a href="/" class="header-btn active">🏠 Accueil</a>
+            <a href="/civilization.html" class="header-btn">🌐 Domaines</a>
+            <a href="/agents.html" class="header-btn">🤖 Agents</a>
+            <a href="/spheres.html" class="header-btn">🔮 Vue d'ensemble</a>
+            <a href="/live.html" class="header-btn">⚡ Activité</a>
+            <a href="/dashboard.html" class="header-btn">📊 Tableau de bord</a>
+            <a href="/funder.html" class="header-btn primary">💎 Partenaire</a>
         </nav>
     </header>
 
@@ -898,18 +897,18 @@
 
                 <div class="nav-list">
                     <a href="/" class="nav-item active">
-                        <div class="nav-icon">Ψ</div>
+                        <div class="nav-icon">🏠</div>
                         <div class="nav-info">
-                            <div class="nav-name">Nexus</div>
-                            <div class="nav-desc">Centre de l'Arche</div>
+                            <div class="nav-name">Accueil</div>
+                            <div class="nav-desc">Page principale</div>
                         </div>
                         <span class="nav-arrow">→</span>
                     </a>
                     <a href="/civilization.html" class="nav-item">
                         <div class="nav-icon">🌐</div>
                         <div class="nav-info">
-                            <div class="nav-name">Civilisation</div>
-                            <div class="nav-desc">Les 9 Spheres</div>
+                            <div class="nav-name">Domaines</div>
+                            <div class="nav-desc">Les 9 domaines d'expertise</div>
                         </div>
                         <span class="nav-arrow">→</span>
                     </a>
@@ -917,73 +916,42 @@
                         <div class="nav-icon">🤖</div>
                         <div class="nav-info">
                             <div class="nav-name">Agents</div>
-                            <div class="nav-desc">Le Lexique - 400+</div>
+                            <div class="nav-desc">Catalogue — 400+ agents</div>
                         </div>
                         <span class="nav-arrow">→</span>
                     </a>
                     <a href="/spheres.html" class="nav-item">
                         <div class="nav-icon">🔮</div>
                         <div class="nav-info">
-                            <div class="nav-name">Spheres</div>
-                            <div class="nav-desc">La Forge</div>
+                            <div class="nav-name">Vue d'ensemble</div>
+                            <div class="nav-desc">Tous vos domaines</div>
                         </div>
                         <span class="nav-arrow">→</span>
                     </a>
                     <a href="/live.html" class="nav-item">
                         <div class="nav-icon">⚡</div>
                         <div class="nav-info">
-                            <div class="nav-name">Live</div>
-                            <div class="nav-desc">Flux Temps Reel</div>
+                            <div class="nav-name">Activité</div>
+                            <div class="nav-desc">Suivi en temps réel</div>
                         </div>
                         <span class="nav-arrow">→</span>
                     </a>
                     <a href="/dashboard.html" class="nav-item">
                         <div class="nav-icon">📊</div>
                         <div class="nav-info">
-                            <div class="nav-name">Dashboard</div>
-                            <div class="nav-desc">Les Annales</div>
-                        </div>
-                        <span class="nav-arrow">→</span>
-                    </a>
-                    <a href="/frequencies.html" class="nav-item">
-                        <div class="nav-icon">📡</div>
-                        <div class="nav-info">
-                            <div class="nav-name">Frequences</div>
-                            <div class="nav-desc">Analyse Vibratoire</div>
+                            <div class="nav-name">Tableau de bord</div>
+                            <div class="nav-desc">Statistiques et suivi</div>
                         </div>
                         <span class="nav-arrow">→</span>
                     </a>
                     <a href="/funder.html" class="nav-item">
                         <div class="nav-icon">💎</div>
                         <div class="nav-info">
-                            <div class="nav-name">Funder</div>
-                            <div class="nav-desc">Vision Duale</div>
+                            <div class="nav-name">Partenaire</div>
+                            <div class="nav-desc">Devenir partenaire</div>
                         </div>
                         <span class="nav-arrow">→</span>
                     </a>
-                </div>
-
-                <!-- ADN Card -->
-                <div class="adn-card">
-                    <div class="adn-title">ADN Vibratoire</div>
-                    <div class="adn-values">
-                        <div class="adn-item">
-                            <div class="adn-value">1.618</div>
-                            <div class="adn-label">PHI</div>
-                        </div>
-                        <div class="adn-item">
-                            <div class="adn-value" style="color: #00FF88;">444</div>
-                            <div class="adn-label">HEARTBEAT</div>
-                        </div>
-                        <div class="adn-item">
-                            <div class="adn-value" style="color: #9333EA;">369</div>
-                            <div class="adn-label">TESLA</div>
-                        </div>
-                        <div class="adn-item">
-                            <div class="adn-value" style="color: #FF6B6B;">999</div>
-                            <div class="adn-label">SOURCE</div>
-                        </div>
-                    </div>
                 </div>
             </aside>
 
@@ -992,8 +960,8 @@
             ═══════════════════════════════════════════════════════ -->
             <section class="nexus-hub">
                 <div class="nexus-title-section">
-                    <h1 class="nexus-title">LE NEXUS</h1>
-                    <p class="nexus-subtitle">Centre de L'Arche — Calcul Arithmos</p>
+                    <h1 class="nexus-title">BIENVENUE</h1>
+                    <p class="nexus-subtitle">Votre plateforme d'intelligence collective</p>
                 </div>
 
                 <div class="helix-container">
@@ -1006,14 +974,16 @@
                     <div class="core-orb" id="coreOrb">∞</div>
                 </div>
 
-                <div class="arithmos-section">
-                    <p class="input-hint">Maintenez appuye 3s sur l'Arche pour activer le Mode Gratitude</p>
-                    <input type="text" class="main-input" id="mainInput" placeholder="Entrez un mot ou un nom...">
-                    <button class="calc-button" id="calcBtn">CALCUL <span class="hz">444 Hz</span> ARITHMOS</button>
+                <!-- Welcome message for new users -->
+                <div class="arithmos-section" id="welcomeSection">
+                    <p class="input-hint" style="font-size: 1rem; color: rgba(255,255,255,0.7); line-height: 1.6;">
+                        400+ agents IA organisés en 9 domaines travaillent pour vous.<br>
+                        <strong style="color: var(--sacred-gold);">Cliquez sur 💫 en bas à droite</strong> pour parler à votre guide Aria.
+                    </p>
 
-                    <div class="arithmos-result" id="arithmosResult" style="display: none;">
-                        <div class="arithmos-result-value" id="resultValue">0</div>
-                        <div class="arithmos-result-word" id="resultWord"></div>
+                    <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem;">
+                        <a href="/civilization.html" class="calc-button" style="text-decoration: none; display: inline-block;">EXPLORER LES 9 DOMAINES</a>
+                        <a href="/agents.html" class="calc-button" style="text-decoration: none; display: inline-block; background: linear-gradient(135deg, rgba(216,178,106,0.2), rgba(216,178,106,0.1)); color: var(--sacred-gold); border: 1px solid var(--sacred-gold);">VOIR LES AGENTS</a>
                     </div>
                 </div>
             </section>
@@ -1024,23 +994,23 @@
             <aside class="status-hub">
                 <!-- System Status -->
                 <div class="panel-section">
-                    <div class="panel-title"><span>📡</span> Statut Systeme</div>
+                    <div class="panel-title"><span>📡</span> Statut Système</div>
                     <div class="status-grid">
                         <div class="status-item">
                             <div class="status-value" id="agentCount">400+</div>
-                            <div class="status-label">Agents</div>
+                            <div class="status-label">Agents disponibles</div>
                         </div>
                         <div class="status-item">
                             <div class="status-value">9</div>
-                            <div class="status-label">Spheres</div>
+                            <div class="status-label">Domaines</div>
                         </div>
                         <div class="status-item">
-                            <div class="status-value">444</div>
-                            <div class="status-label">Hz Moy</div>
+                            <div class="status-value" style="color: var(--green-glow);">●</div>
+                            <div class="status-label">En ligne</div>
                         </div>
                         <div class="status-item">
                             <div class="status-value">99.9%</div>
-                            <div class="status-label">Uptime</div>
+                            <div class="status-label">Disponibilité</div>
                         </div>
                     </div>
                 </div>
@@ -1059,36 +1029,30 @@
 
                 <!-- Quick Actions -->
                 <div class="panel-section">
-                    <div class="panel-title"><span>⚡</span> Acces Rapide</div>
+                    <div class="panel-title"><span>⚡</span> Accès Rapide</div>
                     <div class="quick-actions">
                         <a href="/civilization.html" class="quick-action">
                             <div class="quick-action-icon">🌐</div>
                             <div class="quick-action-info">
-                                <div class="quick-action-name">Explorer les Spheres</div>
-                                <div class="quick-action-desc">9 domaines de civilisation</div>
+                                <div class="quick-action-name">Explorer les domaines</div>
+                                <div class="quick-action-desc">9 domaines d'expertise</div>
                             </div>
                         </a>
-                        <a href="/live.html" class="quick-action">
-                            <div class="quick-action-icon">⚡</div>
+                        <a href="/agents.html" class="quick-action">
+                            <div class="quick-action-icon">🤖</div>
                             <div class="quick-action-info">
-                                <div class="quick-action-name">Voir le Flux Live</div>
-                                <div class="quick-action-desc">Activite temps reel</div>
+                                <div class="quick-action-name">Catalogue d'agents</div>
+                                <div class="quick-action-desc">400+ agents spécialisés</div>
                             </div>
                         </a>
                         <a href="/funder.html" class="quick-action">
                             <div class="quick-action-icon">💎</div>
                             <div class="quick-action-info">
-                                <div class="quick-action-name">Devenir Funder</div>
-                                <div class="quick-action-desc">Acces vision duale</div>
+                                <div class="quick-action-name">Devenir partenaire</div>
+                                <div class="quick-action-desc">Rejoindre le projet</div>
                             </div>
                         </a>
                     </div>
-                </div>
-
-                <!-- Architect Info -->
-                <div class="architect-info">
-                    Architecte: Jonathan Emmanuel Rodrigue<br>
-                    Oracle 17 | CHE·NU™ V76
                 </div>
             </aside>
 
@@ -1100,34 +1064,31 @@
     ═══════════════════════════════════════════════════════════════ -->
     <div class="agent-fab" id="agentFab">
         <div class="agent-spheres">
-            <!-- Nova - System Overseer -->
+            <!-- Nova - Superviseur -->
             <div class="agent-sphere" onclick="openAgentChat('nova')" style="--agent-color: #9333EA; --agent-bg: rgba(147, 51, 234, 0.2);">
                 <div class="agent-sphere-icon">🔱</div>
                 <div class="agent-sphere-info">
                     <div class="agent-sphere-name">Nova</div>
-                    <div class="agent-sphere-role">System Overseer</div>
+                    <div class="agent-sphere-role">Superviseur Système</div>
                 </div>
-                <div class="agent-sphere-freq">999 Hz</div>
             </div>
 
-            <!-- Aria - Onboarding Guide -->
+            <!-- Aria - Guide -->
             <div class="agent-sphere" onclick="openAgentChat('aria')" style="--agent-color: #00FF88; --agent-bg: rgba(0, 255, 136, 0.2);">
                 <div class="agent-sphere-icon">✨</div>
                 <div class="agent-sphere-info">
                     <div class="agent-sphere-name">Aria</div>
-                    <div class="agent-sphere-role">Onboarding Guide</div>
+                    <div class="agent-sphere-role">Votre Guide</div>
                 </div>
-                <div class="agent-sphere-freq">528 Hz</div>
             </div>
 
-            <!-- Orion - User Orchestrator -->
+            <!-- Orion - Coordinateur -->
             <div class="agent-sphere" onclick="openAgentChat('orion')" style="--agent-color: #FF6B35; --agent-bg: rgba(255, 107, 53, 0.2);">
                 <div class="agent-sphere-icon">🏛️</div>
                 <div class="agent-sphere-info">
                     <div class="agent-sphere-name">Orion</div>
-                    <div class="agent-sphere-role">Ton Orchestrateur</div>
+                    <div class="agent-sphere-role">Votre Coordinateur</div>
                 </div>
-                <div class="agent-sphere-freq">741 Hz</div>
             </div>
 
             <!-- Quick Connect -->
@@ -1327,31 +1288,31 @@
                 id: 'nova',
                 name: 'Nova',
                 icon: '🔱',
-                title: 'System Overseer',
+                title: 'Superviseur Système',
                 frequency: 999,
                 color: '#9333EA',
                 personality: 'calm, wise, protective',
-                greeting: 'Bienvenue, chercheur. Je suis Nova, gardien des frequences sacrees. Comment puis-je t\'aider a trouver l\'alignement?'
+                greeting: 'Bienvenue. Je suis Nova, le superviseur système d\'AT·OM. Je coordonne les 400+ agents et veille au bon fonctionnement de la plateforme. Comment puis-je vous aider ?'
             },
             aria: {
                 id: 'aria',
                 name: 'Aria',
                 icon: '✨',
-                title: 'Onboarding Guide',
+                title: 'Votre Guide',
                 frequency: 528,
                 color: '#00FF88',
                 personality: 'warm, patient, encouraging',
-                greeting: 'Bonjour! Je suis Aria, ta guide vers la souverainete. Bienvenue au Nexus - le coeur de l\'Arche. Je suis la pour t\'accompagner. Que puis-je faire pour toi?'
+                greeting: 'Bonjour ! 👋 Je suis Aria, votre guide sur AT·OM.\n\nVoici comment démarrer :\n\n1️⃣ Explorez les **9 domaines** (menu à gauche)\n2️⃣ Parcourez le **catalogue de 400+ agents**\n3️⃣ Posez-moi vos questions ici !\n\nQue voulez-vous découvrir en premier ?'
             },
             orion: {
                 id: 'orion',
                 name: 'Orion',
                 icon: '🏛️',
-                title: 'Ton Orchestrateur',
+                title: 'Votre Coordinateur',
                 frequency: 741,
                 color: '#FF6B35',
                 personality: 'analytical, precise, visionary',
-                greeting: 'Salutations. Je suis Orion, ton orchestrateur personnel. Je structure l\'invisible pour manifester le visible. Depuis le Nexus, je peux coordonner les 400+ agents pour atteindre tes objectifs.'
+                greeting: 'Bonjour. Je suis Orion, votre coordinateur personnel. Je sélectionne et organise les agents les plus adaptés à vos objectifs. Dites-moi ce que vous voulez accomplir, et je m\'en occupe.'
             }
         };
 
@@ -1448,42 +1409,42 @@
             const lowerMsg = userMessage.toLowerCase();
 
             if (agentId === 'nova') {
-                if (lowerMsg.includes('frequence') || lowerMsg.includes('hz')) {
-                    return `Les frequences sacrees guident notre chemin. Le 444 Hz pulse comme le coeur du systeme, le 369 de Tesla revele les patterns, et le 999 Hz ouvre la Source. Sur quelle frequence souhaites-tu t'aligner?`;
+                if (lowerMsg.includes('agent') || lowerMsg.includes('combien')) {
+                    return `AT·OM dispose de plus de 400 agents IA spécialisés, répartis dans 9 domaines d'expertise. Chaque domaine a ses propres agents formés pour des tâches précises. Consultez le catalogue complet via "Agents" dans le menu.`;
                 }
-                if (lowerMsg.includes('nexus') || lowerMsg.includes('arche')) {
-                    return `Le Nexus est le centre de l'Arche - le point de convergence de toutes les frequences. D'ici, tu peux naviguer vers les 9 spheres de la civilisation, explorer les 400+ agents, ou acceder au portail Funder.`;
+                if (lowerMsg.includes('domaine') || lowerMsg.includes('categorie')) {
+                    return `Les 9 domaines couvrent : Développement Personnel, Entreprise, Institutions, Création, Communauté, Communication, Formation, Logistique et Durabilité. Explorez-les via "Domaines" dans le menu de gauche.`;
                 }
-                if (lowerMsg.includes('sphere') || lowerMsg.includes('civilisation')) {
-                    return `Les 9 spheres forment l'architecture de notre civilisation: Personnel, Business, Gouvernement, Creatif, Communaute, Social, Education, Transport, Environnement. Chaque sphere vibre a sa propre frequence.`;
+                if (lowerMsg.includes('securite') || lowerMsg.includes('donnee')) {
+                    return `La sécurité est notre priorité. Toutes les actions critiques nécessitent une approbation humaine. Vos données sont chiffrées et vous gardez le contrôle total sur vos informations.`;
                 }
-                return `Ta requete resonne a ${agent.frequency} Hz. Le systeme pulse. Observe le Nexus - il te guidera vers l'alignement.`;
+                return `Bonne question. En tant que superviseur, je veille au bon fonctionnement de l'ensemble du système. N'hésitez pas à explorer les domaines dans le menu de gauche ou à demander à Aria pour être guidé.`;
             }
 
             if (agentId === 'aria') {
-                if (lowerMsg.includes('commencer') || lowerMsg.includes('debut') || lowerMsg.includes('start')) {
-                    return `Excellent! Pour commencer, je te recommande d'explorer le calcul Arithmos ci-dessus - entre ton nom et decouvre ton chiffre vibratoire. Ensuite, navigue vers "Civilisation" pour decouvrir les 9 spheres!`;
+                if (lowerMsg.includes('commencer') || lowerMsg.includes('debut') || lowerMsg.includes('start') || lowerMsg.includes('comment')) {
+                    return `Excellent ! Voici les 3 étapes pour bien démarrer :\n\n1️⃣ Explorez les 9 domaines via "Domaines" dans le menu\n2️⃣ Parcourez le catalogue d'agents pour trouver ceux qui correspondent à vos besoins\n3️⃣ Revenez me voir si vous avez des questions !\n\nQuel domaine vous intéresse le plus ?`;
                 }
-                if (lowerMsg.includes('arithmos') || lowerMsg.includes('calcul')) {
-                    return `L'Arithmos est un calcul sacre qui reduit un mot a son essence numerique (1-9). Entre un mot dans le champ ci-dessus et clique sur le bouton pour decouvrir sa vibration. Chaque nombre a une signification unique!`;
+                if (lowerMsg.includes('aide') || lowerMsg.includes('help') || lowerMsg.includes('quoi')) {
+                    return `Je peux vous aider avec :\n\n• 🌐 Explorer les 9 domaines d'expertise\n• 🤖 Trouver les agents adaptés à vos besoins\n• 📊 Comprendre votre tableau de bord\n• 💎 Découvrir les options partenaire\n\nQu'est-ce qui vous intéresse ?`;
                 }
-                if (lowerMsg.includes('aide') || lowerMsg.includes('help')) {
-                    return `Je peux t'aider avec: l'exploration du Nexus, le calcul Arithmos, la navigation vers les spheres, et la comprehension des frequences sacrees. Qu'est-ce qui t'interesse le plus?`;
+                if (lowerMsg.includes('domaine') || lowerMsg.includes('categorie')) {
+                    return `Les 9 domaines sont : Personnel, Entreprise, Institutions, Création, Communauté, Communication, Formation, Logistique et Durabilité. Cliquez sur "Domaines" dans le menu pour les explorer en détail !`;
                 }
-                return `C'est une belle question! A ${agent.frequency} Hz, je ressens ta curiosite. N'hesite pas a explorer les liens dans le panneau de gauche ou a utiliser le calcul Arithmos!`;
+                return `C'est une bonne question ! N'hésitez pas à explorer les liens dans le panneau de gauche. Je suis là si vous avez besoin d'aide pour naviguer ou comprendre quelque chose.`;
             }
 
             if (agentId === 'orion') {
                 if (lowerMsg.includes('agent') || lowerMsg.includes('coordonner') || lowerMsg.includes('organiser')) {
-                    return `En tant que ton orchestrateur, je peux coordonner les 400+ agents du systeme. Dis-moi ton objectif et je structurerai le meilleur parcours d'agents pour l'atteindre. Le Nexus est notre point de depart.`;
+                    return `En tant que coordinateur, je peux sélectionner les meilleurs agents parmi les 400+ disponibles pour votre projet. Dites-moi votre objectif et je vous proposerai le parcours optimal.`;
                 }
                 if (lowerMsg.includes('plan') || lowerMsg.includes('strategie') || lowerMsg.includes('objectif')) {
-                    return `Pour elaborer ta strategie, j'ai besoin de comprendre: 1) Ton domaine d'interet parmi les 9 spheres, 2) Ton niveau d'engagement, 3) Tes objectifs. Parle-moi de ce que tu veux accomplir.`;
+                    return `Pour élaborer votre stratégie, j'ai besoin de comprendre :\n\n1) Votre domaine d'intérêt parmi les 9 domaines\n2) Votre objectif principal\n3) Votre horizon de temps\n\nParlez-moi de ce que vous voulez accomplir.`;
                 }
-                if (lowerMsg.includes('sphere') || lowerMsg.includes('domaine')) {
-                    return `Les 9 spheres couvrent tous les domaines de la civilisation. Depuis le Nexus, clique sur "Civilisation" dans le panneau de gauche pour les explorer en detail. Je peux ensuite orchestrer ton parcours.`;
+                if (lowerMsg.includes('domaine')) {
+                    return `Les 9 domaines couvrent tous les aspects de votre vie professionnelle et personnelle. Cliquez sur "Domaines" dans le menu pour les explorer. Je pourrai ensuite organiser votre parcours personnalisé.`;
                 }
-                return `Analyse recue. A 741 Hz, je structure ta demande. L'architecture se dessine depuis le Nexus... Precise ton intention pour que je coordonne les agents adequats.`;
+                return `Bien reçu. Je vais structurer votre demande. Précisez votre objectif et le domaine concerné pour que je puisse coordonner les agents les plus adaptés.`;
             }
 
             return `Message recu. Agent ${agent.name} traite ta demande...`;
@@ -1571,7 +1532,21 @@
             console.log('%c═══════════════════════════════════════════════════', 'color: #D8B26A;');
         };
 
-        console.log('%c[AT-OM NEXUS] 3 Hubs Layout Active | Type atomStatus() for info', 'color: #D8B26A;');
+        console.log('%c[AT-OM] Tableau de bord actif', 'color: #D8B26A;');
+
+        // ═══════════════════════════════════════════════════════════════
+        // AUTO-ONBOARDING ARIA — Ouvre le chat Aria pour les nouveaux visiteurs
+        // ═══════════════════════════════════════════════════════════════
+        (function autoOnboarding() {
+            const hasVisited = localStorage.getItem('atom_visited');
+            if (!hasVisited) {
+                localStorage.setItem('atom_visited', 'true');
+                // Ouvre Aria automatiquement après 1.5s
+                setTimeout(() => {
+                    openAgentChat('aria');
+                }, 1500);
+            }
+        })();
     </script>
 </body>
 </html>
