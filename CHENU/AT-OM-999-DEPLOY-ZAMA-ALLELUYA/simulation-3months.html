@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AT-OM | Simulation 3 Mois - Analyse Complete</title>
+    <script src="/config.js"></script>
+    <script src="/js/governance-init.js"></script>
+    <style>
+        :root {
+            --sacred-gold: #D4AF37;
+            --dark-bg: #0a0a0f;
+            --green-glow: #00FF88;
+            --purple-glow: #9333EA;
+            --orange-glow: #FF6B35;
+            --red-glow: #FF6B6B;
+            --blue-glow: #4A90D9;
+            --phi: 1.618033988749895;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--dark-bg);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.9);
+            border-bottom: 2px solid var(--sacred-gold);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            text-decoration: none;
+            color: var(--sacred-gold);
+        }
+
+        .logo-icon { font-size: 2rem; }
+        .logo-text { font-size: 1.5rem; font-weight: bold; letter-spacing: 3px; }
+
+        .simulation-status {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .status-badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        .status-badge.running {
+            background: rgba(0, 255, 136, 0.2);
+            border: 1px solid var(--green-glow);
+            color: var(--green-glow);
+            animation: pulse 2s infinite;
+        }
+
+        .status-badge.complete {
+            background: rgba(212, 175, 55, 0.2);
+            border: 1px solid var(--sacred-gold);
+            color: var(--sacred-gold);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .main-container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .simulation-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--sacred-gold);
+            color: var(--dark-bg);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 300px 1fr 350px;
+            gap: 1.5rem;
+        }
+
+        @media (max-width: 1200px) {
+            .grid-layout { grid-template-columns: 1fr; }
+        }
+
+        .panel {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .panel-title {
+            font-size: 1rem;
+            color: var(--sacred-gold);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .panel-content {
+            padding: 1rem;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        /* Spheres List */
+        .sphere-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.3s;
+        }
+
+        .sphere-item:hover {
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .sphere-item.active {
+            border-left: 3px solid var(--green-glow);
+            background: rgba(0, 255, 136, 0.05);
+        }
+
+        .sphere-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .sphere-info { flex: 1; }
+        .sphere-name { font-weight: 500; font-size: 0.9rem; }
+        .sphere-agents { font-size: 0.75rem; color: #888; }
+
+        .sphere-status {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #444;
+        }
+
+        .sphere-status.active {
+            background: var(--green-glow);
+            box-shadow: 0 0 10px var(--green-glow);
+        }
+
+        /* Timeline */
+        .timeline {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 0.5rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: rgba(212, 175, 55, 0.3);
+        }
+
+        .timeline-event {
+            position: relative;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            border-left: 3px solid var(--sacred-gold);
+        }
+
+        .timeline-event::before {
+            content: '';
+            position: absolute;
+            left: -1.75rem;
+            top: 1.25rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--sacred-gold);
+        }
+
+        .timeline-event.workflow::before { background: var(--purple-glow); }
+        .timeline-event.workflow { border-left-color: var(--purple-glow); }
+
+        .timeline-event.alert::before { background: var(--orange-glow); }
+        .timeline-event.alert { border-left-color: var(--orange-glow); }
+
+        .timeline-event.success::before { background: var(--green-glow); }
+        .timeline-event.success { border-left-color: var(--green-glow); }
+
+        .event-time {
+            font-size: 0.75rem;
+            color: #666;
+            margin-bottom: 0.25rem;
+        }
+
+        .event-title {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+        }
+
+        .event-desc {
+            font-size: 0.85rem;
+            color: #aaa;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: var(--sacred-gold);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #888;
+            margin-top: 0.25rem;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            margin-bottom: 2rem;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-label { font-size: 0.9rem; }
+        .progress-value { color: var(--sacred-gold); font-weight: bold; }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--sacred-gold), var(--green-glow));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        /* Workflow Cards */
+        .workflow-card {
+            background: rgba(147, 51, 234, 0.1);
+            border: 1px solid rgba(147, 51, 234, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .workflow-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .workflow-name {
+            font-weight: 500;
+            color: var(--purple-glow);
+        }
+
+        .workflow-status {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .workflow-status.running {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--green-glow);
+        }
+
+        .workflow-status.complete {
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--sacred-gold);
+        }
+
+        .workflow-steps {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .workflow-step {
+            flex: 1;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+        }
+
+        .workflow-step.complete {
+            background: var(--green-glow);
+        }
+
+        .workflow-step.current {
+            background: var(--purple-glow);
+            animation: pulse 1s infinite;
+        }
+
+        /* Chart Container */
+        .chart-container {
+            height: 200px;
+            display: flex;
+            align-items: flex-end;
+            gap: 4px;
+            padding: 1rem 0;
+        }
+
+        .chart-bar {
+            flex: 1;
+            background: linear-gradient(to top, var(--sacred-gold), rgba(212, 175, 55, 0.3));
+            border-radius: 4px 4px 0 0;
+            transition: height 0.5s ease;
+            position: relative;
+        }
+
+        .chart-bar:hover::after {
+            content: attr(data-value);
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark-bg);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: var(--sacred-gold);
+        }
+
+        /* Console Log */
+        .console-log {
+            background: #000;
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: 'Consolas', monospace;
+            font-size: 0.8rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .log-entry {
+            padding: 0.25rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .log-entry.info { color: var(--blue-glow); }
+        .log-entry.success { color: var(--green-glow); }
+        .log-entry.warning { color: var(--orange-glow); }
+        .log-entry.error { color: var(--red-glow); }
+        .log-entry.workflow { color: var(--purple-glow); }
+
+        .log-time {
+            color: #666;
+            margin-right: 0.5rem;
+        }
+
+        /* Results Summary */
+        .results-summary {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .results-summary { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .result-card {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(0, 0, 0, 0.3));
+            border: 1px solid var(--sacred-gold);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .result-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .result-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--sacred-gold);
+        }
+
+        .result-label {
+            font-size: 0.85rem;
+            color: #888;
+            margin-top: 0.25rem;
+        }
+
+        .result-change {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .result-change.positive { color: var(--green-glow); }
+        .result-change.negative { color: var(--red-glow); }
+
+        /* Month tabs */
+        .month-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .month-tab {
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .month-tab:hover {
+            background: rgba(212, 175, 55, 0.1);
+        }
+
+        .month-tab.active {
+            background: var(--sacred-gold);
+            color: var(--dark-bg);
+            border-color: var(--sacred-gold);
+        }
+
+        /* ADN Display */
+        .adn-display {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+        }
+
+        .adn-item {
+            text-align: center;
+        }
+
+        .adn-value {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--sacred-gold);
+        }
+
+        .adn-label {
+            font-size: 0.7rem;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="/" class="logo">
+            <span class="logo-icon">🔬</span>
+            <span class="logo-text">AT-OM SIMULATION</span>
+        </a>
+        <div class="simulation-status">
+            <div class="status-badge" id="simStatus">PRET</div>
+            <span id="simTime">00:00:00</span>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <!-- ADN Vibratoire -->
+        <div class="adn-display">
+            <div class="adn-item">
+                <div class="adn-value">Φ 1.618</div>
+                <div class="adn-label">GOLDEN RATIO</div>
+            </div>
+            <div class="adn-item">
+                <div class="adn-value" style="color: var(--green-glow);">444 Hz</div>
+                <div class="adn-label">HEARTBEAT</div>
+            </div>
+            <div class="adn-item">
+                <div class="adn-value" style="color: var(--purple-glow);">369</div>
+                <div class="adn-label">TESLA KEY</div>
+            </div>
+            <div class="adn-item">
+                <div class="adn-value" style="color: var(--orange-glow);">999 Hz</div>
+                <div class="adn-label">SOURCE</div>
+            </div>
+        </div>
+
+        <!-- Controls -->
+        <div class="simulation-controls">
+            <button class="btn btn-primary" id="startBtn" onclick="startSimulation()">
+                <span>▶</span> Demarrer Simulation 3 Mois
+            </button>
+            <button class="btn btn-secondary" id="pauseBtn" onclick="pauseSimulation()" disabled>
+                <span>⏸</span> Pause
+            </button>
+            <button class="btn btn-secondary" id="resetBtn" onclick="resetSimulation()">
+                <span>↻</span> Reset
+            </button>
+            <button class="btn btn-secondary" onclick="exportResults()">
+                <span>📊</span> Exporter Resultats
+            </button>
+        </div>
+
+        <!-- Progress -->
+        <div class="progress-container">
+            <div class="progress-header">
+                <span class="progress-label">Progression Simulation</span>
+                <span class="progress-value" id="progressValue">0%</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+            </div>
+        </div>
+
+        <!-- Month Tabs -->
+        <div class="month-tabs">
+            <div class="month-tab active" data-month="1" onclick="selectMonth(1)">Mois 1</div>
+            <div class="month-tab" data-month="2" onclick="selectMonth(2)">Mois 2</div>
+            <div class="month-tab" data-month="3" onclick="selectMonth(3)">Mois 3</div>
+            <div class="month-tab" data-month="all" onclick="selectMonth('all')">Vue Globale</div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="grid-layout">
+            <!-- Left Panel: Spheres -->
+            <div class="panel">
+                <div class="panel-header">
+                    <div class="panel-title">🌐 Les 9 Spheres</div>
+                    <span id="activeSpheres">0/9</span>
+                </div>
+                <div class="panel-content" id="spheresList">
+                    <!-- Generated by JS -->
+                </div>
+            </div>
+
+            <!-- Center Panel: Timeline & Stats -->
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <!-- Stats -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">📊 Metriques Temps Reel</div>
+                    </div>
+                    <div class="panel-content">
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div class="stat-value" id="totalAgents">0</div>
+                                <div class="stat-label">Agents Actifs</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="totalWorkflows">0</div>
+                                <div class="stat-label">Workflows Executes</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="totalTasks">0</div>
+                                <div class="stat-label">Taches Completees</div>
+                            </div>
+                            <div class="stat-card">
+                                <div class="stat-value" id="avgFrequency">444</div>
+                                <div class="stat-label">Frequence Moy (Hz)</div>
+                            </div>
+                        </div>
+
+                        <!-- Activity Chart -->
+                        <h4 style="margin: 1.5rem 0 0.5rem; color: var(--sacred-gold);">Activite par Semaine</h4>
+                        <div class="chart-container" id="activityChart">
+                            <!-- Generated by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">📜 Timeline Evenements</div>
+                    </div>
+                    <div class="panel-content">
+                        <div class="timeline" id="eventTimeline">
+                            <!-- Generated by JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Panel: Workflows & Console -->
+            <div style="display: flex; flex-direction: column; gap: 1.5rem;">
+                <!-- Active Workflows -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">⚡ Workflows Actifs</div>
+                    </div>
+                    <div class="panel-content" id="workflowsList">
+                        <!-- Generated by JS -->
+                    </div>
+                </div>
+
+                <!-- Console -->
+                <div class="panel">
+                    <div class="panel-header">
+                        <div class="panel-title">🖥 Console</div>
+                        <button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;" onclick="clearConsole()">Clear</button>
+                    </div>
+                    <div class="panel-content">
+                        <div class="console-log" id="consoleLog">
+                            <div class="log-entry info"><span class="log-time">[00:00]</span> Systeme initialise - AT-OM v76</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Summary -->
+        <div class="results-summary" id="resultsSummary" style="display: none;">
+            <div class="result-card">
+                <div class="result-icon">🤖</div>
+                <div class="result-value" id="finalAgents">0</div>
+                <div class="result-label">Agents Deployes</div>
+                <div class="result-change positive" id="agentsChange">+0%</div>
+            </div>
+            <div class="result-card">
+                <div class="result-icon">⚡</div>
+                <div class="result-value" id="finalWorkflows">0</div>
+                <div class="result-label">Workflows Completes</div>
+                <div class="result-change positive" id="workflowsChange">+0%</div>
+            </div>
+            <div class="result-card">
+                <div class="result-icon">✅</div>
+                <div class="result-value" id="finalTasks">0</div>
+                <div class="result-label">Taches Realisees</div>
+                <div class="result-change positive" id="tasksChange">+0%</div>
+            </div>
+            <div class="result-card">
+                <div class="result-icon">📈</div>
+                <div class="result-value" id="finalEfficiency">0%</div>
+                <div class="result-label">Efficacite Globale</div>
+                <div class="result-change positive" id="efficiencyChange">+0%</div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ═══════════════════════════════════════════════════════════════════
+        // AT-OM 3-MONTH SIMULATION ENGINE
+        // ═══════════════════════════════════════════════════════════════════
+
+        // Les 9 Spheres de la Civilisation - V2 EQUILIBREE (Post-Analyse)
+        // Reequilibrage: de 404 a 437 agents (+8%), distribution optimisee
+        const SPHERES = [
+            { id: 1, name: 'Personnel', icon: '👤', color: '#00FF88', agents: 48, frequency: 528, health: 100 },
+            { id: 2, name: 'Business', icon: '💼', color: '#D4AF37', agents: 55, frequency: 444, health: 100 },
+            { id: 3, name: 'Gouvernement', icon: '🏛', color: '#9333EA', agents: 50, frequency: 639, health: 100 },
+            { id: 4, name: 'Creatif', icon: '🎨', color: '#FF6B35', agents: 52, frequency: 741, health: 100 },
+            { id: 5, name: 'Communaute', icon: '🤝', color: '#4A90D9', agents: 45, frequency: 396, health: 100 },
+            { id: 6, name: 'Social', icon: '💬', color: '#FF6B6B', agents: 42, frequency: 417, health: 100 },
+            { id: 7, name: 'Education', icon: '📚', color: '#00CED1', agents: 50, frequency: 852, health: 100 },
+            { id: 8, name: 'Transport', icon: '🚀', color: '#FFD700', agents: 45, frequency: 963, health: 100 },
+            { id: 9, name: 'Environnement', icon: '🌿', color: '#32CD32', agents: 50, frequency: 432, health: 100 }
+        ];
+        // Total: 437 agents | Ecart max: 13 (vs 33 avant)
+
+        // Workflows Inter-Spheres - V2 OPTIMISES (Post-Analyse)
+        // Ameliorations: durees reduites, nouveaux workflows, Social autonome
+        const WORKFLOWS = [
+            // Workflows existants optimises
+            { id: 'WF001', name: 'Onboarding Utilisateur', spheres: [1, 2], steps: 5, duration: 3, priority: 'high' },
+            { id: 'WF002', name: 'Analyse Marche', spheres: [2, 4, 7], steps: 8, duration: 7, priority: 'high' },
+            { id: 'WF003', name: 'Campagne Sociale', spheres: [5, 6, 4], steps: 6, duration: 5, priority: 'medium' },
+            { id: 'WF004', name: 'Rapport Gouvernemental', spheres: [3, 2, 7], steps: 6, duration: 7, priority: 'medium' }, // Reduit de 14j a 7j
+            { id: 'WF005', name: 'Projet Ecologique', spheres: [9, 5, 8], steps: 7, duration: 7, priority: 'high' }, // Reduit de 10j a 7j
+            { id: 'WF006', name: 'Formation Continue', spheres: [7, 1, 4], steps: 4, duration: 2, priority: 'low' },
+            { id: 'WF007', name: 'Logistique Optimisee', spheres: [8, 2, 9], steps: 6, duration: 4, priority: 'medium' },
+            { id: 'WF008', name: 'Innovation Produit Sprint 1', spheres: [4, 2], steps: 4, duration: 7, priority: 'high' }, // Decoupe en sprints
+            { id: 'WF009', name: 'Engagement Communautaire', spheres: [5, 6, 1], steps: 5, duration: 3, priority: 'medium' },
+            { id: 'WF010', name: 'Conformite Reglementaire', spheres: [3, 2, 9], steps: 6, duration: 7, priority: 'medium' }, // Reduit de 14j a 7j
+            // Nouveaux workflows (identifies dans l'analyse)
+            { id: 'WF011', name: 'Veille Sociale Autonome', spheres: [6], steps: 3, duration: 2, priority: 'high' }, // Social independant!
+            { id: 'WF012', name: 'Innovation Produit Sprint 2', spheres: [4, 7], steps: 4, duration: 7, priority: 'high' },
+            { id: 'WF013', name: 'Innovation Produit Sprint 3', spheres: [2, 7], steps: 4, duration: 7, priority: 'high' },
+            { id: 'WF014', name: 'Veille Competitive', spheres: [2, 4, 6], steps: 5, duration: 5, priority: 'high' }, // Nouveau
+            { id: 'WF015', name: 'Gestion de Crise', spheres: [3, 6, 5], steps: 4, duration: 3, priority: 'critical' }, // Nouveau
+            { id: 'WF016', name: 'R&D Technologique', spheres: [4, 7, 8], steps: 6, duration: 7, priority: 'medium' }, // Nouveau
+            { id: 'WF017', name: 'Rapport ESG', spheres: [9, 3, 2], steps: 5, duration: 5, priority: 'medium' }, // Nouveau
+            { id: 'WF018', name: 'Partenariats Externes', spheres: [5, 2, 1], steps: 6, duration: 7, priority: 'low' } // Nouveau
+        ];
+        // Total: 18 workflows (vs 10 avant, +80%)
+
+        // Simulation State
+        let simState = {
+            running: false,
+            paused: false,
+            day: 0,
+            totalDays: 90, // 3 months
+            activeSpheres: [],
+            activeWorkflows: [],
+            completedWorkflows: [],
+            events: [],
+            stats: {
+                agents: 0,
+                workflows: 0,
+                tasks: 0,
+                frequency: 444
+            },
+            weeklyActivity: new Array(12).fill(0), // 12 weeks
+            monthlyData: {
+                1: { agents: 0, workflows: 0, tasks: 0 },
+                2: { agents: 0, workflows: 0, tasks: 0 },
+                3: { agents: 0, workflows: 0, tasks: 0 }
+            }
+        };
+
+        let simInterval = null;
+        let simSpeed = 100; // ms per day
+
+        // ═══════════════════════════════════════════════════════════════════
+        // INITIALIZATION
+        // ═══════════════════════════════════════════════════════════════════
+
+        function initSimulation() {
+            renderSpheres();
+            renderChart();
+            log('info', 'Simulation prete. Cliquez sur Demarrer pour lancer 3 mois de simulation.');
+            log('info', `9 Spheres disponibles avec ${SPHERES.reduce((a, s) => a + s.agents, 0)} agents au total.`);
+            log('info', `${WORKFLOWS.length} workflows inter-spheres configures.`);
+        }
+
+        function renderSpheres() {
+            const container = document.getElementById('spheresList');
+            container.innerHTML = SPHERES.map(sphere => `
+                <div class="sphere-item" id="sphere-${sphere.id}">
+                    <div class="sphere-icon" style="background: ${sphere.color}20; border: 2px solid ${sphere.color};">
+                        ${sphere.icon}
+                    </div>
+                    <div class="sphere-info">
+                        <div class="sphere-name">${sphere.name}</div>
+                        <div class="sphere-agents">${sphere.agents} agents | ${sphere.frequency} Hz</div>
+                    </div>
+                    <div class="sphere-status" id="sphere-status-${sphere.id}"></div>
+                </div>
+            `).join('');
+        }
+
+        function renderChart() {
+            const container = document.getElementById('activityChart');
+            container.innerHTML = simState.weeklyActivity.map((val, i) =>
+                `<div class="chart-bar" data-value="${val}" style="height: ${Math.max(5, val)}%;"></div>`
+            ).join('');
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // SIMULATION CONTROL
+        // ═══════════════════════════════════════════════════════════════════
+
+        function startSimulation() {
+            if (simState.running && !simState.paused) return;
+
+            simState.running = true;
+            simState.paused = false;
+
+            document.getElementById('startBtn').disabled = true;
+            document.getElementById('pauseBtn').disabled = false;
+            document.getElementById('simStatus').textContent = 'EN COURS';
+            document.getElementById('simStatus').className = 'status-badge running';
+
+            log('success', '=== SIMULATION DEMARREE ===');
+            log('info', 'Activation progressive des spheres...');
+
+            simInterval = setInterval(simulateDay, simSpeed);
+        }
+
+        function pauseSimulation() {
+            simState.paused = !simState.paused;
+
+            if (simState.paused) {
+                clearInterval(simInterval);
+                document.getElementById('pauseBtn').innerHTML = '<span>▶</span> Reprendre';
+                document.getElementById('simStatus').textContent = 'PAUSE';
+                log('warning', 'Simulation en pause.');
+            } else {
+                simInterval = setInterval(simulateDay, simSpeed);
+                document.getElementById('pauseBtn').innerHTML = '<span>⏸</span> Pause';
+                document.getElementById('simStatus').textContent = 'EN COURS';
+                document.getElementById('simStatus').className = 'status-badge running';
+                log('info', 'Simulation reprise.');
+            }
+        }
+
+        function resetSimulation() {
+            clearInterval(simInterval);
+
+            simState = {
+                running: false,
+                paused: false,
+                day: 0,
+                totalDays: 90,
+                activeSpheres: [],
+                activeWorkflows: [],
+                completedWorkflows: [],
+                events: [],
+                stats: { agents: 0, workflows: 0, tasks: 0, frequency: 444 },
+                weeklyActivity: new Array(12).fill(0),
+                monthlyData: {
+                    1: { agents: 0, workflows: 0, tasks: 0 },
+                    2: { agents: 0, workflows: 0, tasks: 0 },
+                    3: { agents: 0, workflows: 0, tasks: 0 }
+                }
+            };
+
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('pauseBtn').disabled = true;
+            document.getElementById('pauseBtn').innerHTML = '<span>⏸</span> Pause';
+            document.getElementById('simStatus').textContent = 'PRET';
+            document.getElementById('simStatus').className = 'status-badge';
+            document.getElementById('progressFill').style.width = '0%';
+            document.getElementById('progressValue').textContent = '0%';
+            document.getElementById('resultsSummary').style.display = 'none';
+
+            // Reset sphere status
+            SPHERES.forEach(s => {
+                document.getElementById(`sphere-${s.id}`).classList.remove('active');
+                document.getElementById(`sphere-status-${s.id}`).classList.remove('active');
+            });
+
+            updateStats();
+            renderChart();
+            document.getElementById('eventTimeline').innerHTML = '';
+            document.getElementById('workflowsList').innerHTML = '<p style="color: #666; text-align: center;">Aucun workflow actif</p>';
+            document.getElementById('consoleLog').innerHTML = '<div class="log-entry info"><span class="log-time">[00:00]</span> Systeme reinitialise.</div>';
+
+            log('info', 'Simulation reinitialisee.');
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // SIMULATION ENGINE
+        // ═══════════════════════════════════════════════════════════════════
+
+        function simulateDay() {
+            simState.day++;
+            const day = simState.day;
+            const month = Math.ceil(day / 30);
+            const week = Math.ceil(day / 7) - 1;
+
+            // Update progress
+            const progress = Math.round((day / simState.totalDays) * 100);
+            document.getElementById('progressFill').style.width = `${progress}%`;
+            document.getElementById('progressValue').textContent = `${progress}%`;
+            document.getElementById('simTime').textContent = `Jour ${day}/90`;
+
+            // Activate spheres progressively (first 10 days)
+            if (day <= 9 && !simState.activeSpheres.includes(day)) {
+                activateSphere(day);
+            }
+
+            // Launch workflows randomly
+            if (day % 3 === 0 && Math.random() > 0.3) {
+                launchRandomWorkflow();
+            }
+
+            // Process active workflows
+            processWorkflows();
+
+            // Generate random tasks
+            const tasksToday = Math.floor(Math.random() * 20) + 10;
+            simState.stats.tasks += tasksToday;
+            simState.monthlyData[month].tasks += tasksToday;
+
+            // Update weekly activity
+            if (week < 12) {
+                simState.weeklyActivity[week] += tasksToday;
+            }
+
+            // Random events
+            if (Math.random() > 0.85) {
+                generateRandomEvent();
+            }
+
+            // Calculate frequency
+            simState.stats.frequency = calculateAverageFrequency();
+
+            // Update UI
+            updateStats();
+            renderChart();
+
+            // Check completion
+            if (day >= simState.totalDays) {
+                completeSimulation();
+            }
+        }
+
+        function activateSphere(sphereId) {
+            const sphere = SPHERES.find(s => s.id === sphereId);
+            if (!sphere) return;
+
+            simState.activeSpheres.push(sphereId);
+            simState.stats.agents += sphere.agents;
+
+            const month = Math.ceil(simState.day / 30);
+            simState.monthlyData[month].agents += sphere.agents;
+
+            document.getElementById(`sphere-${sphereId}`).classList.add('active');
+            document.getElementById(`sphere-status-${sphereId}`).classList.add('active');
+            document.getElementById('activeSpheres').textContent = `${simState.activeSpheres.length}/9`;
+
+            log('success', `Sphere ${sphere.icon} ${sphere.name} activee - ${sphere.agents} agents deployes`);
+
+            addTimelineEvent({
+                type: 'success',
+                title: `Sphere ${sphere.name} Activee`,
+                desc: `${sphere.agents} agents a ${sphere.frequency} Hz`,
+                day: simState.day
+            });
+        }
+
+        function launchRandomWorkflow() {
+            const availableWorkflows = WORKFLOWS.filter(wf =>
+                !simState.activeWorkflows.find(aw => aw.id === wf.id) &&
+                !simState.completedWorkflows.includes(wf.id) &&
+                wf.spheres.every(s => simState.activeSpheres.includes(s))
+            );
+
+            if (availableWorkflows.length === 0) return;
+
+            const workflow = availableWorkflows[Math.floor(Math.random() * availableWorkflows.length)];
+            const activeWf = {
+                ...workflow,
+                currentStep: 0,
+                startDay: simState.day,
+                endDay: simState.day + workflow.duration
+            };
+
+            simState.activeWorkflows.push(activeWf);
+            simState.stats.workflows++;
+
+            const month = Math.ceil(simState.day / 30);
+            simState.monthlyData[month].workflows++;
+
+            log('workflow', `Workflow lance: ${workflow.name} (${workflow.steps} etapes)`);
+
+            addTimelineEvent({
+                type: 'workflow',
+                title: `Workflow: ${workflow.name}`,
+                desc: `Spheres: ${workflow.spheres.map(s => SPHERES[s-1].icon).join(' ')} | ${workflow.duration} jours`,
+                day: simState.day
+            });
+
+            renderWorkflows();
+        }
+
+        function processWorkflows() {
+            simState.activeWorkflows = simState.activeWorkflows.filter(wf => {
+                const progress = simState.day - wf.startDay;
+                wf.currentStep = Math.min(wf.steps, Math.floor((progress / wf.duration) * wf.steps));
+
+                if (simState.day >= wf.endDay) {
+                    simState.completedWorkflows.push(wf.id);
+                    log('success', `Workflow complete: ${wf.name}`);
+
+                    addTimelineEvent({
+                        type: 'success',
+                        title: `Workflow Complete: ${wf.name}`,
+                        desc: `${wf.steps} etapes en ${wf.duration} jours`,
+                        day: simState.day
+                    });
+
+                    return false;
+                }
+                return true;
+            });
+
+            renderWorkflows();
+        }
+
+        function renderWorkflows() {
+            const container = document.getElementById('workflowsList');
+
+            if (simState.activeWorkflows.length === 0) {
+                container.innerHTML = '<p style="color: #666; text-align: center;">Aucun workflow actif</p>';
+                return;
+            }
+
+            container.innerHTML = simState.activeWorkflows.map(wf => `
+                <div class="workflow-card">
+                    <div class="workflow-header">
+                        <span class="workflow-name">${wf.name}</span>
+                        <span class="workflow-status running">En cours</span>
+                    </div>
+                    <div style="font-size: 0.75rem; color: #888;">
+                        Spheres: ${wf.spheres.map(s => SPHERES[s-1].icon).join(' ')}
+                    </div>
+                    <div class="workflow-steps">
+                        ${Array(wf.steps).fill(0).map((_, i) => `
+                            <div class="workflow-step ${i < wf.currentStep ? 'complete' : i === wf.currentStep ? 'current' : ''}"></div>
+                        `).join('')}
+                    </div>
+                    <div style="font-size: 0.7rem; color: #666; margin-top: 0.5rem;">
+                        Etape ${wf.currentStep}/${wf.steps} | Fin: Jour ${wf.endDay}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function generateRandomEvent() {
+            const events = [
+                { type: 'info', title: 'Pic d\'activite', desc: 'Augmentation du trafic detectee' },
+                { type: 'success', title: 'Objectif atteint', desc: 'KPI mensuel depasse' },
+                { type: 'warning', title: 'Maintenance', desc: 'Mise a jour systeme programmee' },
+                { type: 'alert', title: 'Alerte', desc: 'Ressources proches du seuil' }
+            ];
+
+            const event = events[Math.floor(Math.random() * events.length)];
+            addTimelineEvent({ ...event, day: simState.day });
+            log(event.type === 'alert' ? 'warning' : event.type, `${event.title}: ${event.desc}`);
+        }
+
+        function addTimelineEvent(event) {
+            simState.events.unshift(event);
+            if (simState.events.length > 20) simState.events.pop();
+
+            const container = document.getElementById('eventTimeline');
+            container.innerHTML = simState.events.map(e => `
+                <div class="timeline-event ${e.type}">
+                    <div class="event-time">Jour ${e.day}</div>
+                    <div class="event-title">${e.title}</div>
+                    <div class="event-desc">${e.desc}</div>
+                </div>
+            `).join('');
+        }
+
+        function calculateAverageFrequency() {
+            if (simState.activeSpheres.length === 0) return 444;
+            const total = simState.activeSpheres.reduce((sum, id) => {
+                const sphere = SPHERES.find(s => s.id === id);
+                return sum + (sphere ? sphere.frequency : 0);
+            }, 0);
+            return Math.round(total / simState.activeSpheres.length);
+        }
+
+        function updateStats() {
+            document.getElementById('totalAgents').textContent = simState.stats.agents;
+            document.getElementById('totalWorkflows').textContent = simState.stats.workflows;
+            document.getElementById('totalTasks').textContent = simState.stats.tasks;
+            document.getElementById('avgFrequency').textContent = simState.stats.frequency;
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // COMPLETION & RESULTS
+        // ═══════════════════════════════════════════════════════════════════
+
+        function completeSimulation() {
+            clearInterval(simInterval);
+            simState.running = false;
+
+            document.getElementById('simStatus').textContent = 'COMPLETE';
+            document.getElementById('simStatus').className = 'status-badge complete';
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('pauseBtn').disabled = true;
+
+            log('success', '=== SIMULATION TERMINEE ===');
+            log('info', `Duree: 90 jours (3 mois)`);
+            log('info', `Agents actifs: ${simState.stats.agents}`);
+            log('info', `Workflows completes: ${simState.completedWorkflows.length}`);
+            log('info', `Taches realisees: ${simState.stats.tasks}`);
+
+            showResults();
+        }
+
+        function showResults() {
+            const summary = document.getElementById('resultsSummary');
+            summary.style.display = 'grid';
+
+            // Calculate efficiency (based on tasks per agent per day)
+            const efficiency = Math.round((simState.stats.tasks / (simState.stats.agents * 90)) * 100);
+
+            // Calculate growth (comparing month 3 to month 1)
+            const agentGrowth = Math.round(((simState.monthlyData[3].agents || simState.stats.agents) / (simState.monthlyData[1].agents || 1) - 1) * 100);
+            const workflowGrowth = Math.round(((simState.monthlyData[3].workflows || 1) / (simState.monthlyData[1].workflows || 1) - 1) * 100);
+            const taskGrowth = Math.round(((simState.monthlyData[3].tasks || 1) / (simState.monthlyData[1].tasks || 1) - 1) * 100);
+
+            document.getElementById('finalAgents').textContent = simState.stats.agents;
+            document.getElementById('finalWorkflows').textContent = simState.completedWorkflows.length;
+            document.getElementById('finalTasks').textContent = simState.stats.tasks;
+            document.getElementById('finalEfficiency').textContent = efficiency + '%';
+
+            document.getElementById('agentsChange').textContent = `+${agentGrowth}% croissance`;
+            document.getElementById('workflowsChange').textContent = `+${workflowGrowth}% croissance`;
+            document.getElementById('tasksChange').textContent = `+${taskGrowth}% croissance`;
+            document.getElementById('efficiencyChange').textContent = `PHI = ${(efficiency * 0.01618).toFixed(3)}`;
+
+            // Final event
+            addTimelineEvent({
+                type: 'success',
+                title: 'Simulation Complete',
+                desc: `${simState.stats.agents} agents | ${simState.completedWorkflows.length} workflows | ${simState.stats.tasks} taches`,
+                day: 90
+            });
+        }
+
+        function selectMonth(month) {
+            document.querySelectorAll('.month-tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelector(`.month-tab[data-month="${month}"]`).classList.add('active');
+
+            if (month === 'all') {
+                log('info', `Vue globale: ${simState.stats.tasks} taches totales sur 3 mois`);
+            } else {
+                const data = simState.monthlyData[month];
+                log('info', `Mois ${month}: ${data.agents} agents, ${data.workflows} workflows, ${data.tasks} taches`);
+            }
+        }
+
+        function exportResults() {
+            const results = {
+                simulation: {
+                    duration: '90 jours (3 mois)',
+                    version: 'AT-OM CHE-NU V76',
+                    timestamp: new Date().toISOString()
+                },
+                spheres: SPHERES.map(s => ({
+                    ...s,
+                    active: simState.activeSpheres.includes(s.id)
+                })),
+                stats: simState.stats,
+                monthlyData: simState.monthlyData,
+                completedWorkflows: simState.completedWorkflows,
+                weeklyActivity: simState.weeklyActivity
+            };
+
+            const blob = new Blob([JSON.stringify(results, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `atom-simulation-${Date.now()}.json`;
+            a.click();
+
+            log('success', 'Resultats exportes en JSON');
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // CONSOLE LOG
+        // ═══════════════════════════════════════════════════════════════════
+
+        function log(type, message) {
+            const container = document.getElementById('consoleLog');
+            const time = simState.day > 0 ? `J${simState.day}` : '00:00';
+            const entry = document.createElement('div');
+            entry.className = `log-entry ${type}`;
+            entry.innerHTML = `<span class="log-time">[${time}]</span> ${message}`;
+            container.appendChild(entry);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function clearConsole() {
+            document.getElementById('consoleLog').innerHTML = '<div class="log-entry info"><span class="log-time">[--:--]</span> Console videe.</div>';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', initSimulation);
+    </script>
+</body>
+</html>

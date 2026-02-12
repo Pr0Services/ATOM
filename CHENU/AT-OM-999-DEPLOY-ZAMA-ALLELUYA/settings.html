@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AT-OM | Paramètres</title>
+    <script src="/config.js"></script>
+    <script src="/js/governance-init.js"></script>
+    <style>
+        :root { --sacred-gold: #D8B26A; --dark-slate: #1A1A1A; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: linear-gradient(135deg, #1a1a2e, #4a1942, #1A1A1A); min-height: 100vh; color: white; }
+        .header { text-align: center; padding: 1.5rem; background: rgba(0,0,0,0.3); border-bottom: 2px solid var(--sacred-gold); }
+        .header h1 { font-size: 2rem; color: var(--sacred-gold); }
+        .nav { display: flex; justify-content: center; gap: 0.5rem; padding: 1rem; flex-wrap: wrap; }
+        .nav a { padding: 0.5rem 1rem; background: rgba(216, 178, 106, 0.2); border: 1px solid var(--sacred-gold); color: var(--sacred-gold); text-decoration: none; border-radius: 6px; }
+        .nav a:hover, .nav a.active { background: var(--sacred-gold); color: var(--dark-slate); }
+        .settings { max-width: 800px; margin: 0 auto; padding: 2rem; }
+        .section { background: rgba(255,255,255,0.05); border: 1px solid rgba(216, 178, 106, 0.3); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; }
+        .section-title { font-size: 1.2rem; color: var(--sacred-gold); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .setting-row { display: flex; justify-content: space-between; align-items: center; padding: 1rem 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .setting-row:last-child { border-bottom: none; }
+        .setting-info { flex: 1; }
+        .setting-label { font-weight: 500; margin-bottom: 0.25rem; }
+        .setting-desc { font-size: 0.85rem; color: #aaa; }
+        .toggle { position: relative; width: 50px; height: 26px; }
+        .toggle input { opacity: 0; width: 0; height: 0; }
+        .toggle-slider { position: absolute; inset: 0; background: rgba(255,255,255,0.2); border-radius: 26px; cursor: pointer; transition: 0.3s; }
+        .toggle-slider::before { content: ''; position: absolute; width: 20px; height: 20px; left: 3px; bottom: 3px; background: white; border-radius: 50%; transition: 0.3s; }
+        .toggle input:checked + .toggle-slider { background: var(--sacred-gold); }
+        .toggle input:checked + .toggle-slider::before { transform: translateX(24px); }
+        .select-input, .text-input { padding: 0.5rem 1rem; border: 1px solid var(--sacred-gold); background: rgba(0,0,0,0.3); color: white; border-radius: 6px; min-width: 150px; }
+        .btn { padding: 0.75rem 1.5rem; background: var(--sacred-gold); border: none; color: var(--dark-slate); border-radius: 8px; cursor: pointer; font-weight: 500; transition: all 0.3s; }
+        .btn:hover { background: #f0c674; transform: translateY(-2px); }
+        .btn-outline { background: transparent; border: 1px solid var(--sacred-gold); color: var(--sacred-gold); }
+        .btn-outline:hover { background: var(--sacred-gold); color: var(--dark-slate); }
+        .btn-danger { background: #ff6b6b; }
+        .btn-danger:hover { background: #ff4757; }
+        .connection-status { display: flex; align-items: center; gap: 0.5rem; }
+        .status-dot { width: 10px; height: 10px; border-radius: 50%; }
+        .status-dot.ok { background: #00ff88; }
+        .status-dot.error { background: #ff6b6b; }
+        .url-display { font-family: monospace; font-size: 0.85rem; background: rgba(0,0,0,0.3); padding: 0.5rem 1rem; border-radius: 6px; word-break: break-all; }
+        .actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
+        .toast { position: fixed; bottom: 2rem; right: 2rem; padding: 1rem 1.5rem; background: var(--sacred-gold); color: var(--dark-slate); border-radius: 8px; transform: translateY(100px); opacity: 0; transition: all 0.3s; z-index: 1000; }
+        .toast.show { transform: translateY(0); opacity: 1; }
+    </style>
+</head>
+<body>
+    <header class="header"><h1>⚙️ Paramètres</h1></header>
+    <nav class="nav">
+        <a href="/">Ψ Nexus</a>
+        <a href="/civilization.html">🌐 Civilisation</a>
+        <a href="/agents.html">🤖 Lexique</a>
+        <a href="/spheres.html">🔮 Forge</a>
+        <a href="/live.html">⚡ Flux</a>
+        <a href="/dashboard.html">📊 Annales</a>
+        <a href="/frequencies.html">📡 Freq</a>
+        <a href="/funder.html">💎 Funder</a>
+        <a href="/settings.html" class="active">⚙️ Settings</a>
+    </nav>
+
+    <div class="settings">
+        <div class="section">
+            <div class="section-title">🔌 Connexion Backend</div>
+            
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="setting-label">API Endpoint</div>
+                    <div class="url-display" id="apiUrl">https://atom-2autu.ondigitalocean.app/agents</div>
+                </div>
+                <div class="connection-status">
+                    <div class="status-dot" id="apiDot"></div>
+                    <span id="apiStatusText">Vérification...</span>
+                </div>
+            </div>
+
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="setting-label">WebSocket</div>
+                    <div class="url-display" id="wsUrl">wss://atom-2autu.ondigitalocean.app/ws</div>
+                </div>
+                <div class="connection-status">
+                    <div class="status-dot" id="wsDot"></div>
+                    <span id="wsStatusText">Vérification...</span>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn" onclick="testConnections()">🔄 Tester les connexions</button>
+                <button class="btn btn-outline" onclick="copyConfig()">📋 Copier la config</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">🎨 Affichage</div>
+            
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="setting-label">Thème</div>
+                    <div class="setting-desc">Apparence de l'interface</div>
+                </div>
+                <select class="select-input" id="theme" onchange="saveSettings()">
+                    <option value="dark">🌙 Sombre (Cosmique)</option>
+                    <option value="light">☀️ Clair</option>
+                    <option value="gold">✨ Doré</option>
+                </select>
+            </div>
+
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="setting-label">Animations</div>
+                    <div class="setting-desc">Effets visuels et transitions</div>
+                </div>
+                <label class="toggle">
+                    <input type="checkbox" id="animations" checked onchange="saveSettings()">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="setting-label">Agents par page</div>
+                    <div class="setting-desc">Nombre d'agents affichés</div>
+                </div>
+                <select class="select-input" id="perPage" onchange="saveSettings()">
+                    <option value="25">25</option>
+                    <option value="50" selected>50</option>
+                    <option value="100">100</option>
+                    <option value="200">200</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">🔔 Notifications</div>
+            
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="setting-label">Notifications en temps réel</div>
+                    <div class="setting-desc">Recevoir les mises à jour WebSocket</div>
+                </div>
+                <label class="toggle">
+                    <input type="checkbox" id="notifications" checked onchange="saveSettings()">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="setting-label">Sons</div>
+                    <div class="setting-desc">Effets sonores lors des événements</div>
+                </div>
+                <label class="toggle">
+                    <input type="checkbox" id="sounds" onchange="saveSettings()">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">📊 Données</div>
+            
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="setting-label">Rafraîchissement auto</div>
+                    <div class="setting-desc">Intervalle de mise à jour des données</div>
+                </div>
+                <select class="select-input" id="refreshInterval" onchange="saveSettings()">
+                    <option value="0">Désactivé</option>
+                    <option value="10">10 secondes</option>
+                    <option value="30" selected>30 secondes</option>
+                    <option value="60">1 minute</option>
+                    <option value="300">5 minutes</option>
+                </select>
+            </div>
+
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="setting-label">Cache local</div>
+                    <div class="setting-desc">Stocker les données localement</div>
+                </div>
+                <label class="toggle">
+                    <input type="checkbox" id="cache" checked onchange="saveSettings()">
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-outline" onclick="exportData()">📤 Exporter les données</button>
+                <button class="btn btn-danger" onclick="clearCache()">🗑️ Vider le cache</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <div class="section-title">ℹ️ Informations</div>
+            
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="setting-label">Version</div>
+                </div>
+                <span>ZAMA-999 v1.0.0</span>
+            </div>
+
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="setting-label">Backend</div>
+                </div>
+                <span>CHE·NU™ V76</span>
+            </div>
+
+            <div class="setting-row">
+                <div class="setting-info">
+                    <div class="setting-label">Hébergement</div>
+                </div>
+                <span>DigitalOcean + Vercel</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script>
+        // Use centralized config if available
+        const API_BASE = (typeof ATOM_CONFIG !== 'undefined') ? ATOM_CONFIG.API_BASE : 'https://atom-2autu.ondigitalocean.app';
+        const WS_URL = (typeof ATOM_CONFIG !== 'undefined') ? ATOM_CONFIG.WS_URL : 'wss://atom-2autu.ondigitalocean.app/ws';
+
+        // Update displayed URLs from config
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('apiUrl').textContent = API_BASE + '/agents';
+            document.getElementById('wsUrl').textContent = WS_URL;
+        });
+
+        // Test connections
+        async function testConnections() {
+            // Test API
+            try {
+                const response = await fetch(`${API_BASE}/agents`);
+                const data = await response.json();
+                document.getElementById('apiDot').className = 'status-dot ok';
+                document.getElementById('apiStatusText').textContent = `OK (${data.length} agents)`;
+            } catch (error) {
+                document.getElementById('apiDot').className = 'status-dot error';
+                document.getElementById('apiStatusText').textContent = 'Erreur';
+            }
+
+            // Test WebSocket
+            const ws = new WebSocket(WS_URL);
+            ws.onopen = () => {
+                document.getElementById('wsDot').className = 'status-dot ok';
+                document.getElementById('wsStatusText').textContent = 'Connecté';
+                ws.close();
+            };
+            ws.onerror = () => {
+                document.getElementById('wsDot').className = 'status-dot error';
+                document.getElementById('wsStatusText').textContent = 'Erreur';
+            };
+
+            showToast('Connexions testées!');
+        }
+
+        // Save settings to localStorage
+        function saveSettings() {
+            const settings = {
+                theme: document.getElementById('theme').value,
+                animations: document.getElementById('animations').checked,
+                perPage: document.getElementById('perPage').value,
+                notifications: document.getElementById('notifications').checked,
+                sounds: document.getElementById('sounds').checked,
+                refreshInterval: document.getElementById('refreshInterval').value,
+                cache: document.getElementById('cache').checked
+            };
+            localStorage.setItem('zama999_settings', JSON.stringify(settings));
+            showToast('Paramètres sauvegardés!');
+        }
+
+        // Load settings from localStorage
+        function loadSettings() {
+            const saved = localStorage.getItem('zama999_settings');
+            if (saved) {
+                const settings = JSON.parse(saved);
+                document.getElementById('theme').value = settings.theme || 'dark';
+                document.getElementById('animations').checked = settings.animations !== false;
+                document.getElementById('perPage').value = settings.perPage || '50';
+                document.getElementById('notifications').checked = settings.notifications !== false;
+                document.getElementById('sounds').checked = settings.sounds || false;
+                document.getElementById('refreshInterval').value = settings.refreshInterval || '30';
+                document.getElementById('cache').checked = settings.cache !== false;
+            }
+        }
+
+        // Copy config
+        function copyConfig() {
+            const config = {
+                api: API_BASE + '/agents',
+                websocket: WS_URL,
+                version: 'ZAMA-999 v1.0.0',
+                backend: 'CHE·NU™ V76'
+            };
+            navigator.clipboard.writeText(JSON.stringify(config, null, 2));
+            showToast('Configuration copiée!');
+        }
+
+        // Export data
+        async function exportData() {
+            try {
+                const response = await fetch(`${API_BASE}/agents`);
+                const data = await response.json();
+                const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'zama-999-agents.json';
+                a.click();
+                showToast('Données exportées!');
+            } catch (error) {
+                showToast('Erreur lors de l\'export');
+            }
+        }
+
+        // Clear cache
+        function clearCache() {
+            localStorage.removeItem('zama999_agents');
+            localStorage.removeItem('zama999_cache');
+            showToast('Cache vidé!');
+        }
+
+        // Toast notification
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3000);
+        }
+
+        // Init
+        loadSettings();
+        testConnections();
+    </script>
+</body>
+</html>

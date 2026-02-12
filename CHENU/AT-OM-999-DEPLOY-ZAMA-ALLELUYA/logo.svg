@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#D8B26A"/>
+      <stop offset="50%" style="stop-color:#F0C674"/>
+      <stop offset="100%" style="stop-color:#D8B26A"/>
+    </linearGradient>
+    <radialGradient id="coreGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" style="stop-color:#00FF88;stop-opacity:1"/>
+      <stop offset="70%" style="stop-color:#00FF88;stop-opacity:0.3"/>
+      <stop offset="100%" style="stop-color:#00FF88;stop-opacity:0"/>
+    </radialGradient>
+  </defs>
+  
+  <!-- Background -->
+  <rect width="512" height="512" fill="#1A1A1A"/>
+  
+  <!-- Outer ring -->
+  <circle cx="256" cy="256" r="220" fill="none" stroke="url(#goldGrad)" stroke-width="8"/>
+  
+  <!-- Inner rings -->
+  <circle cx="256" cy="256" r="180" fill="none" stroke="#D8B26A" stroke-width="2" opacity="0.5"/>
+  <circle cx="256" cy="256" r="140" fill="none" stroke="#D8B26A" stroke-width="2" opacity="0.3"/>
+  
+  <!-- Core glow -->
+  <circle cx="256" cy="256" r="80" fill="url(#coreGlow)"/>
+  
+  <!-- Core -->
+  <circle cx="256" cy="256" r="40" fill="#00FF88"/>
+  
+  <!-- Infinity symbol -->
+  <text x="256" y="270" text-anchor="middle" font-family="Arial" font-size="48" fill="#1A1A1A" font-weight="bold">∞</text>
+  
+  <!-- AT-OM text -->
+  <text x="256" y="380" text-anchor="middle" font-family="Arial" font-size="56" fill="url(#goldGrad)" font-weight="bold">AT·OM</text>
+  
+  <!-- 444 Hz -->
+  <text x="256" y="420" text-anchor="middle" font-family="Arial" font-size="24" fill="#D8B26A" opacity="0.8">444 Hz</text>
+  
+  <!-- Orbital dots -->
+  <circle cx="256" cy="76" r="8" fill="#D8B26A"/>
+  <circle cx="436" cy="256" r="8" fill="#D8B26A"/>
+  <circle cx="256" cy="436" r="8" fill="#D8B26A"/>
+  <circle cx="76" cy="256" r="8" fill="#D8B26A"/>
+</svg>

@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#D8B26A">
+    <meta name="description" content="AT-OM - L'intelligence collective au service de votre reussite. 400+ agents IA, 9 domaines d'expertise.">
+
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/logo192.png">
+
+    <title>AT-OM | Plateforme d'Intelligence Collective</title>
+
+    <style>
+        :root {
+            --sacred-gold: #D8B26A;
+            --dark-bg: #0a0a0f;
+            --dark-surface: #1A1A1A;
+            --green-glow: #00FF88;
+            --purple-glow: #9333EA;
+            --orange-glow: #FF6B35;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-muted: rgba(255, 255, 255, 0.5);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--dark-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           TOP BAR - PERSISTANTE (Landing + App)
+        ═══════════════════════════════════════════════════════════════ */
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 2rem;
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(216, 178, 106, 0.3);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--sacred-gold), #c9a55a);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            color: var(--dark-bg);
+            font-weight: bold;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--sacred-gold);
+            letter-spacing: 3px;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-tab {
+            padding: 0.6rem 1.25rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+
+        .nav-tab:hover {
+            color: var(--sacred-gold);
+            background: rgba(216, 178, 106, 0.1);
+        }
+
+        .nav-tab.active {
+            color: var(--sacred-gold);
+            background: rgba(216, 178, 106, 0.15);
+        }
+
+        /* Auth Buttons */
+        .auth-buttons {
+            display: flex;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .btn {
+            padding: 0.6rem 1.5rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            border: 1px solid transparent;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border-color: rgba(255, 255, 255, 0.3);
+            color: var(--text-primary);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--sacred-gold);
+            color: var(--sacred-gold);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--sacred-gold), #c9a55a);
+            color: var(--dark-bg);
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(216, 178, 106, 0.4);
+        }
+
+        @media (max-width: 900px) {
+            .nav-tabs { display: none; }
+            .top-bar { padding: 0.75rem 1rem; }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           MAIN CONTENT
+        ═══════════════════════════════════════════════════════════════ */
+        .main-content {
+            padding-top: 70px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           HERO SECTION
+        ═══════════════════════════════════════════════════════════════ */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 50% 30%, rgba(216, 178, 106, 0.08) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(216, 178, 106, 0.1);
+            border: 1px solid rgba(216, 178, 106, 0.3);
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: var(--sacred-gold);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, var(--sacred-gold) 50%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        /* Video Container */
+        .video-container {
+            width: 100%;
+            max-width: 800px;
+            aspect-ratio: 16 / 9;
+            background: var(--dark-surface);
+            border-radius: 16px;
+            margin: 2.5rem auto;
+            border: 1px solid rgba(216, 178, 106, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-placeholder {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-muted);
+        }
+
+        .video-play-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(216, 178, 106, 0.2);
+            border: 2px solid var(--sacred-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--sacred-gold);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .video-play-btn:hover {
+            transform: scale(1.1);
+            background: rgba(216, 178, 106, 0.3);
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 2rem;
+        }
+
+        .btn-large {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           TAB SECTIONS
+        ═══════════════════════════════════════════════════════════════ */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           9 DOMAINES GRID
+        ═══════════════════════════════════════════════════════════════ */
+        .domains-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .domain-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .domain-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--domain-color, var(--sacred-gold));
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .domain-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.75rem;
+            margin-bottom: 1.25rem;
+            background: rgba(var(--domain-color-rgb, 216, 178, 106), 0.15);
+        }
+
+        .domain-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .domain-description {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .domain-agents {
+            margin-top: 1rem;
+            font-size: 0.85rem;
+            color: var(--sacred-gold);
+        }
+
+        /* Domain Colors */
+        .domain-card[data-domain="personnel"] { --domain-color: #00BFFF; --domain-color-rgb: 0, 191, 255; }
+        .domain-card[data-domain="business"] { --domain-color: #FFD700; --domain-color-rgb: 255, 215, 0; }
+        .domain-card[data-domain="gouvernement"] { --domain-color: #FF6B6B; --domain-color-rgb: 255, 107, 107; }
+        .domain-card[data-domain="creatif"] { --domain-color: #FF00FF; --domain-color-rgb: 255, 0, 255; }
+        .domain-card[data-domain="communaute"] { --domain-color: #00FF88; --domain-color-rgb: 0, 255, 136; }
+        .domain-card[data-domain="social"] { --domain-color: #00CED1; --domain-color-rgb: 0, 206, 209; }
+        .domain-card[data-domain="education"] { --domain-color: #9370DB; --domain-color-rgb: 147, 112, 219; }
+        .domain-card[data-domain="transport"] { --domain-color: #FF8C00; --domain-color-rgb: 255, 140, 0; }
+        .domain-card[data-domain="environnement"] { --domain-color: #32CD32; --domain-color-rgb: 50, 205, 50; }
+
+        /* ═══════════════════════════════════════════════════════════════
+           COMMENT CA MARCHE
+        ═══════════════════════════════════════════════════════════════ */
+        .steps-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .step-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--sacred-gold), #c9a55a);
+            color: var(--dark-bg);
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .step-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .step-description {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           AGENTS SECTION
+        ═══════════════════════════════════════════════════════════════ */
+        .agents-showcase {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        .agent-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            min-width: 200px;
+            max-width: 280px;
+            transition: all 0.3s;
+        }
+
+        .agent-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--agent-color);
+        }
+
+        .agent-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(var(--agent-color-rgb), 0.2);
+            border: 2px solid var(--agent-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1.25rem;
+        }
+
+        .agent-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--agent-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .agent-role {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .agent-description {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        .agent-card[data-agent="nova"] { --agent-color: #9333EA; --agent-color-rgb: 147, 51, 234; }
+        .agent-card[data-agent="aria"] { --agent-color: #00FF88; --agent-color-rgb: 0, 255, 136; }
+        .agent-card[data-agent="orion"] { --agent-color: #FF6B35; --agent-color-rgb: 255, 107, 53; }
+
+        /* ═══════════════════════════════════════════════════════════════
+           TARIFS SECTION
+        ═══════════════════════════════════════════════════════════════ */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .pricing-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(216, 178, 106, 0.3);
+        }
+
+        .pricing-card.featured {
+            border-color: var(--sacred-gold);
+            background: rgba(216, 178, 106, 0.05);
+        }
+
+        .pricing-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.4rem 1rem;
+            background: var(--sacred-gold);
+            color: var(--dark-bg);
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-radius: 20px;
+            text-transform: uppercase;
+        }
+
+        .pricing-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-price {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--sacred-gold);
+            margin: 1rem 0;
+        }
+
+        .pricing-price span {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin: 2rem 0;
+            text-align: left;
+        }
+
+        .pricing-features li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .pricing-features li::before {
+            content: '✓';
+            color: var(--green-glow);
+            font-weight: bold;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           FAQ SECTION
+        ═══════════════════════════════════════════════════════════════ */
+        .faq-list {
+            max-width: 800px;
+            margin: 3rem auto 0;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.25rem 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .faq-icon {
+            font-size: 1.25rem;
+            color: var(--sacred-gold);
+            transition: transform 0.3s;
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.25rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           FOOTER
+        ═══════════════════════════════════════════════════════════════ */
+        .footer {
+            background: rgba(0, 0, 0, 0.5);
+            border-top: 1px solid rgba(216, 178, 106, 0.2);
+            padding: 3rem 2rem;
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .footer-section h4 {
+            color: var(--sacred-gold);
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .footer-section a {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 0.4rem 0;
+            transition: color 0.2s;
+        }
+
+        .footer-section a:hover {
+            color: var(--sacred-gold);
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 2rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════════════════════════════════════ */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 3rem 1.5rem;
+                min-height: auto;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .section {
+                padding: 3rem 1.5rem;
+            }
+
+            .pricing-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .auth-buttons .btn-outline {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ═══════════════════════════════════════════════════════════════
+         TOP BAR (Persistante - identique dans l'app)
+    ═══════════════════════════════════════════════════════════════ -->
+    <header class="top-bar">
+        <a href="/landing.html" class="logo">
+            <div class="logo-icon">A</div>
+            <span class="logo-text">AT-OM</span>
+        </a>
+
+        <nav class="nav-tabs">
+            <a href="#accueil" class="nav-tab active">Accueil</a>
+            <a href="#domaines" class="nav-tab">Domaines</a>
+            <a href="#fonctionnement" class="nav-tab">Comment ca marche</a>
+            <a href="#agents" class="nav-tab">Nos Agents</a>
+            <a href="#tarifs" class="nav-tab">Tarifs</a>
+            <a href="#faq" class="nav-tab">FAQ</a>
+        </nav>
+
+        <div class="auth-buttons">
+            <a href="/auth.html" class="btn btn-primary">Connexion</a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- ═══════════════════════════════════════════════════════════════
+             HERO SECTION
+        ═══════════════════════════════════════════════════════════════ -->
+        <section class="hero" id="accueil">
+            <div class="hero-content">
+                <span class="hero-badge">400+ Agents IA disponibles</span>
+                <h1 class="hero-title">L'intelligence collective au service de votre reussite</h1>
+                <p class="hero-subtitle">
+                    Une plateforme revolutionnaire qui coordonne des centaines d'agents specialises
+                    pour vous accompagner dans tous les domaines de votre vie.
+                </p>
+
+                <!-- Video Placeholder -->
+                <div class="video-container">
+                    <div class="video-placeholder">
+                        <div class="video-play-btn">▶</div>
+                        <span>Decouvrez AT-OM en video</span>
+                    </div>
+                </div>
+
+                <div class="hero-cta">
+                    <a href="/auth.html?tab=signup" class="btn btn-primary btn-large">Commencer gratuitement</a>
+                    <a href="#fonctionnement" class="btn btn-outline btn-large">Voir la demo</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════════
+             9 DOMAINES D'EXPERTISE
+        ═══════════════════════════════════════════════════════════════ -->
+        <section class="section" id="domaines">
+            <div class="section-header">
+                <h2 class="section-title">9 Domaines d'Expertise</h2>
+                <p class="section-subtitle">
+                    Nos agents couvrent tous les aspects de la societe moderne pour vous accompagner efficacement.
+                </p>
+            </div>
+
+            <div class="domains-grid">
+                <div class="domain-card" data-domain="personnel">
+                    <div class="domain-icon">👤</div>
+                    <h3 class="domain-name">Developpement Personnel</h3>
+                    <p class="domain-description">Croissance personnelle, bien-etre et equilibre de vie.</p>
+                    <span class="domain-agents">45 agents specialises</span>
+                </div>
+
+                <div class="domain-card" data-domain="business">
+                    <div class="domain-icon">💼</div>
+                    <h3 class="domain-name">Entreprise</h3>
+                    <p class="domain-description">Gestion d'entreprise, commerce et strategies business.</p>
+                    <span class="domain-agents">62 agents specialises</span>
+                </div>
+
+                <div class="domain-card" data-domain="gouvernement">
+                    <div class="domain-icon">🏛️</div>
+                    <h3 class="domain-name">Institutions</h3>
+                    <p class="domain-description">Administration, conformite et relations gouvernementales.</p>
+                    <span class="domain-agents">38 agents specialises</span>
+                </div>
+
+                <div class="domain-card" data-domain="creatif">
+                    <div class="domain-icon">🎨</div>
+                    <h3 class="domain-name">Creation</h3>
+                    <p class="domain-description">Design, innovation et projets creatifs.</p>
+                    <span class="domain-agents">54 agents specialises</span>
+                </div>
+
+                <div class="domain-card" data-domain="communaute">
+                    <div class="domain-icon">🤝</div>
+                    <h3 class="domain-name">Communaute</h3>
+                    <p class="domain-description">Projets locaux et initiatives communautaires.</p>
+                    <span class="domain-agents">41 agents specialises</span>
+                </div>
+
+                <div class="domain-card" data-domain="social">
+                    <div class="domain-icon">💬</div>
+                    <h3 class="domain-name">Communication</h3>
+                    <p class="domain-description">Reseaux, engagement et presence digitale.</p>
+                    <span class="domain-agents">48 agents specialises</span>
+                </div>
+
+                <div class="domain-card" data-domain="education">
+                    <div class="domain-icon">📚</div>
+                    <h3 class="domain-name">Formation</h3>
+                    <p class="domain-description">Apprentissage continu et developpement des competences.</p>
+                    <span class="domain-agents">52 agents specialises</span>
+                </div>
+
+                <div class="domain-card" data-domain="transport">
+                    <div class="domain-icon">🚀</div>
+                    <h3 class="domain-name">Logistique</h3>
+                    <p class="domain-description">Mouvement, livraison et optimisation des flux.</p>
+                    <span class="domain-agents">35 agents specialises</span>
+                </div>
+
+                <div class="domain-card" data-domain="environnement">
+                    <div class="domain-icon">🌿</div>
+                    <h3 class="domain-name">Durabilite</h3>
+                    <p class="domain-description">Impact ecologique et pratiques responsables.</p>
+                    <span class="domain-agents">29 agents specialises</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════════
+             COMMENT CA MARCHE
+        ═══════════════════════════════════════════════════════════════ -->
+        <section class="section" id="fonctionnement" style="background: rgba(255,255,255,0.02);">
+            <div class="section-header">
+                <h2 class="section-title">Comment ca marche</h2>
+                <p class="section-subtitle">
+                    Un processus simple et efficace pour atteindre vos objectifs.
+                </p>
+            </div>
+
+            <div class="steps-container">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3 class="step-title">Creez votre compte</h3>
+                    <p class="step-description">
+                        Inscrivez-vous gratuitement et accedez immediatement a la plateforme.
+                    </p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3 class="step-title">Choisissez vos domaines</h3>
+                    <p class="step-description">
+                        Selectionnez les domaines qui correspondent a vos besoins et objectifs.
+                    </p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3 class="step-title">Nos agents travaillent</h3>
+                    <p class="step-description">
+                        Les agents collaborent pour vous fournir des recommandations personnalisees.
+                    </p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3 class="step-title">Suivez vos resultats</h3>
+                    <p class="step-description">
+                        Visualisez vos progres et ajustez votre strategie en temps reel.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════════
+             NOS AGENTS SYSTEME
+        ═══════════════════════════════════════════════════════════════ -->
+        <section class="section" id="agents">
+            <div class="section-header">
+                <h2 class="section-title">Vos Agents Principaux</h2>
+                <p class="section-subtitle">
+                    Trois agents systeme vous accompagnent en permanence pour une experience optimale.
+                </p>
+            </div>
+
+            <div class="agents-showcase">
+                <div class="agent-card" data-agent="nova">
+                    <div class="agent-avatar">🔱</div>
+                    <h3 class="agent-name">Nova</h3>
+                    <p class="agent-role">Superviseur Systeme</p>
+                    <p class="agent-description">
+                        Veille a la coherence globale et coordonne l'ensemble des operations.
+                    </p>
+                </div>
+
+                <div class="agent-card" data-agent="aria">
+                    <div class="agent-avatar">✨</div>
+                    <h3 class="agent-name">Aria</h3>
+                    <p class="agent-role">Guide d'Accueil</p>
+                    <p class="agent-description">
+                        Vous accompagne pas a pas et celebre chacun de vos progres.
+                    </p>
+                </div>
+
+                <div class="agent-card" data-agent="orion">
+                    <div class="agent-avatar">🏛️</div>
+                    <h3 class="agent-name">Orion</h3>
+                    <p class="agent-role">Coordinateur Personnel</p>
+                    <p class="agent-description">
+                        Organise votre parcours et coordonne les agents selon vos besoins.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════════
+             TARIFS
+        ═══════════════════════════════════════════════════════════════ -->
+        <section class="section" id="tarifs" style="background: rgba(255,255,255,0.02);">
+            <div class="section-header">
+                <h2 class="section-title">Choisissez votre formule</h2>
+                <p class="section-subtitle">
+                    Des offres adaptees a tous les besoins, de l'utilisateur occasionnel au professionnel.
+                </p>
+            </div>
+
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <h3 class="pricing-name">Gratuit</h3>
+                    <div class="pricing-price">$0<span>/mois</span></div>
+                    <ul class="pricing-features">
+                        <li>Acces aux 9 domaines</li>
+                        <li>3 agents de base</li>
+                        <li>Recommandations limitees</li>
+                        <li>Support communautaire</li>
+                    </ul>
+                    <a href="/auth.html?tab=signup" class="btn btn-outline" style="width: 100%;">Commencer</a>
+                </div>
+
+                <div class="pricing-card featured">
+                    <span class="pricing-badge">Populaire</span>
+                    <h3 class="pricing-name">Pro</h3>
+                    <div class="pricing-price">$44<span>/mois</span></div>
+                    <ul class="pricing-features">
+                        <li>Tout du plan Gratuit</li>
+                        <li>Agents specialises</li>
+                        <li>Recommandations illimitees</li>
+                        <li>Analyses approfondies</li>
+                        <li>Support prioritaire</li>
+                    </ul>
+                    <a href="/auth.html?tab=signup" class="btn btn-primary" style="width: 100%;">Choisir Pro</a>
+                </div>
+
+                <div class="pricing-card">
+                    <h3 class="pricing-name">Business</h3>
+                    <div class="pricing-price">$99<span>/mois</span></div>
+                    <ul class="pricing-features">
+                        <li>Tout du plan Pro</li>
+                        <li>Acces complet aux agents</li>
+                        <li>Rapports personnalises</li>
+                        <li>API access</li>
+                        <li>Support dedie</li>
+                    </ul>
+                    <a href="/auth.html?tab=signup" class="btn btn-outline" style="width: 100%;">Choisir Business</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════════════════════════════════════════════════════════════
+             FAQ
+        ═══════════════════════════════════════════════════════════════ -->
+        <section class="section" id="faq">
+            <div class="section-header">
+                <h2 class="section-title">Questions Frequentes</h2>
+                <p class="section-subtitle">
+                    Tout ce que vous devez savoir sur AT-OM.
+                </p>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Qu'est-ce qu'AT-OM exactement ?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p class="faq-answer-content">
+                            AT-OM est une plateforme d'intelligence collective qui regroupe plus de 400 agents IA specialises
+                            dans 9 domaines de la societe. Ces agents collaborent pour vous fournir des recommandations
+                            personnalisees et vous accompagner dans vos projets.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Comment fonctionnent les agents ?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p class="faq-answer-content">
+                            Les agents sont organises en hierarchie : les agents Systeme (Nova, Aria, Orion) coordonnent
+                            l'ensemble, tandis que les agents specialises dans chaque domaine executent les taches specifiques.
+                            Ils communiquent entre eux pour vous offrir une experience coherente.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Puis-je essayer gratuitement ?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p class="faq-answer-content">
+                            Oui ! Le plan Gratuit vous donne acces aux fonctionnalites de base sans engagement.
+                            Vous pouvez explorer les 9 domaines et interagir avec les agents principaux.
+                            Passez a un plan superieur quand vous etes pret.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Mes donnees sont-elles securisees ?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p class="faq-answer-content">
+                            Absolument. Nous utilisons un systeme de gouvernance avec approbation humaine (HITL) pour
+                            toutes les actions critiques. Vos donnees sont chiffrees et stockees de maniere securisee.
+                            Vous gardez le controle total sur vos informations.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        <span>Que sont les 9 domaines ?</span>
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p class="faq-answer-content">
+                            Les 9 domaines couvrent tous les aspects de la societe : Developpement Personnel, Entreprise,
+                            Institutions, Creation, Communaute, Communication, Formation, Logistique et Durabilite.
+                            Chaque domaine dispose d'agents specialises pour repondre a vos besoins specifiques.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         FOOTER
+    ═══════════════════════════════════════════════════════════════ -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Produit</h4>
+                <a href="#domaines">Domaines</a>
+                <a href="#fonctionnement">Comment ca marche</a>
+                <a href="#agents">Nos Agents</a>
+                <a href="#tarifs">Tarifs</a>
+            </div>
+            <div class="footer-section">
+                <h4>Ressources</h4>
+                <a href="#faq">FAQ</a>
+                <a href="#">Documentation</a>
+                <a href="#">Tutoriels</a>
+                <a href="#">Blog</a>
+            </div>
+            <div class="footer-section">
+                <h4>Entreprise</h4>
+                <a href="#">A propos</a>
+                <a href="#">Contact</a>
+                <a href="#">Carrieres</a>
+            </div>
+            <div class="footer-section">
+                <h4>Legal</h4>
+                <a href="#">Conditions d'utilisation</a>
+                <a href="#">Politique de confidentialite</a>
+                <a href="#">Mentions legales</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 AT-OM. Tous droits reserves.</p>
+        </div>
+    </footer>
+
+    <script>
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const wasOpen = item.classList.contains('open');
+
+                // Close all items
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+
+                // Open clicked item if it wasn't open
+                if (!wasOpen) {
+                    item.classList.add('open');
+                }
+            });
+        });
+
+        // Smooth scroll for navigation
+        document.querySelectorAll('.nav-tab[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+
+                // Update active tab
+                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Update active tab on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const scrollPos = window.scrollY + 100;
+
+            sections.forEach(section => {
+                const top = section.offsetTop;
+                const height = section.offsetHeight;
+                const id = section.getAttribute('id');
+
+                if (scrollPos >= top && scrollPos < top + height) {
+                    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                    const activeTab = document.querySelector(`.nav-tab[href="#${id}"]`);
+                    if (activeTab) activeTab.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

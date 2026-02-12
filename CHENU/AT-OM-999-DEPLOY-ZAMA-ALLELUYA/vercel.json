@@ -1,0 +1,116 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "version": 2,
+  "name": "at-om-arche",
+  "framework": null,
+  "buildCommand": null,
+  "outputDirectory": ".",
+  "installCommand": null,
+  "devCommand": null,
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        }
+      ]
+    },
+    {
+      "source": "/service-worker.js",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/javascript; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, no-store, must-revalidate"
+        },
+        {
+          "key": "Service-Worker-Allowed",
+          "value": "/"
+        }
+      ]
+    },
+    {
+      "source": "/manifest.json",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/manifest+json"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/(.*).js",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/javascript; charset=utf-8"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/nexus",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/annales",
+      "destination": "/dashboard.html"
+    },
+    {
+      "source": "/lexique",
+      "destination": "/agents.html"
+    },
+    {
+      "source": "/flux",
+      "destination": "/live.html"
+    },
+    {
+      "source": "/forge",
+      "destination": "/spheres.html"
+    },
+    {
+      "source": "/civilization",
+      "destination": "/civilization.html"
+    },
+    {
+      "source": "/civil",
+      "destination": "/civilization.html"
+    },
+    {
+      "source": "/funder",
+      "destination": "/funder.html"
+    },
+    {
+      "source": "/portal",
+      "destination": "/funder.html"
+    },
+    {
+      "source": "/vision",
+      "destination": "/funder.html"
+    }
+  ]
+}

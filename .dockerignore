@@ -1,0 +1,68 @@
+# ===========================================
+# AT·OM Docker Ignore
+# ===========================================
+
+# Dependencies
+node_modules
+*/node_modules
+
+# Environment files (use container env vars instead)
+.env
+.env.local
+.env.*.local
+
+# Git
+.git
+.gitignore
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Test files
+__tests__
+*.test.js
+*.spec.js
+coverage
+
+# Documentation
+*.md
+!README.md
+
+# Build artifacts
+build
+dist
+.next
+.vercel
+
+# Frontend (not needed for sync engine)
+ATOM/Vzwwviru70560-d4e/hardcore-joliot/atom/app/node_modules
+ATOM/Vzwwviru70560-d4e/hardcore-joliot/atom/app/build
+
+# Python backend (separate container)
+Vzwwviru70560-d4e/hardcore-joliot/backend
+__pycache__
+*.pyc
+.venv
+venv
+
+# Temp files
+tmp
+temp
+*.tmp
+
+# Claude/AI files
+.claude
+automation/*.md

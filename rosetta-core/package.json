@@ -1,0 +1,36 @@
+{
+  "name": "@atom/rosetta-core",
+  "version": "1.0.0",
+  "description": "AT·OM Rosetta Core — Architecture tri-dimensionnelle basée sur 4 reliques antiques",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "scripts": {
+    "seed": "npx tsx seed/seed.ts",
+    "seed:sql": "npx tsx -e \"import { generateSeedSQL } from './seed/seed'; console.log(generateSeedSQL())\"",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "atom",
+    "rosetta",
+    "hedera",
+    "sovereign",
+    "frequency",
+    "blockchain"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "tsx": "^4.7.0",
+    "vitest": "^1.6.0"
+  }
+}

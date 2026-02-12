@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AT-OM | Annales - Analytics Dashboard</title>
+    <meta name="description" content="Annales AT-OM - Tableau de bord analytics des agents et fréquences">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <script src="/config.js"></script>
+    <script src="/js/governance-init.js"></script>
+    <style>
+        /* ═══════════════════════════════════════════════════════════════════
+           AT-OM ANNALES - CANONICAL 3 HUBS LAYOUT
+           Hub 1: KPIs & Filtres (280px)
+           Hub 2: Charts & Tables (1fr)
+           Hub 3: Détails & Insights (320px)
+           ═══════════════════════════════════════════════════════════════════ */
+
+        :root {
+            /* ADN Vibratoire */
+            --phi: 1.618033988749895;
+            --heartbeat: 444;
+            --tesla: 369;
+            --source: 999;
+
+            /* Couleurs Sacrées */
+            --sacred-gold: #D4AF37;
+            --sacred-gold-dim: rgba(212, 175, 55, 0.3);
+            --dark-bg: #0a0a0f;
+            --darker-bg: #050508;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(212, 175, 55, 0.2);
+
+            /* Agents L0 */
+            --nova-color: #9333EA;
+            --aria-color: #00FF88;
+            --orion-color: #FF6B35;
+
+            /* Chart Colors */
+            --chart-1: #FF6B6B;
+            --chart-2: #4ECDC4;
+            --chart-3: #45B7D1;
+            --chart-4: #96CEB4;
+            --chart-5: #FFEAA7;
+            --chart-6: #DDA0DD;
+
+            /* Layout Canonique */
+            --hub1-width: 280px;
+            --hub3-width: 320px;
+            --max-width: 1600px;
+            --gap: 1.5rem;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--dark-bg);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           HEADER
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .global-header {
+            background: linear-gradient(180deg, rgba(10, 10, 15, 0.98), rgba(10, 10, 15, 0.95));
+            border-bottom: 1px solid var(--card-border);
+            padding: 0.75rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+        }
+
+        .header-content {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--sacred-gold), #F4E4BC);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .page-title {
+            font-size: 0.9rem;
+            color: #888;
+            padding-left: 1rem;
+            border-left: 1px solid var(--card-border);
+        }
+
+        .global-nav {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .nav-link {
+            padding: 0.5rem 0.75rem;
+            color: #888;
+            text-decoration: none;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--sacred-gold);
+            background: var(--sacred-gold-dim);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           LAYOUT CANONIQUE 3 HUBS
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .main-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: var(--gap);
+            min-height: calc(100vh - 60px);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--gap);
+            min-height: calc(100vh - 120px);
+        }
+
+        @media (min-width: 768px) {
+            .grid-container {
+                grid-template-columns: var(--hub1-width) 1fr;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .grid-container {
+                grid-template-columns: var(--hub1-width) 1fr var(--hub3-width);
+            }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           HUB CARDS
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .hub-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .hub-card-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hub-card-header h3 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--sacred-gold);
+        }
+
+        .hub-card-content {
+            padding: 1rem;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           HUB 1 - KPIs & Filtres (280px)
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .kpi-hub {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .kpi-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .kpi-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .kpi-item:hover {
+            background: var(--sacred-gold-dim);
+        }
+
+        .kpi-icon {
+            font-size: 1.5rem;
+        }
+
+        .kpi-info {
+            flex: 1;
+        }
+
+        .kpi-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--sacred-gold);
+        }
+
+        .kpi-label {
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        .kpi-change {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+        }
+
+        .kpi-change.up {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--aria-color);
+        }
+
+        .kpi-change.down {
+            background: rgba(255, 107, 107, 0.2);
+            color: #FF6B6B;
+        }
+
+        /* Filter Card */
+        .filter-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid transparent;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .filter-item:hover {
+            border-color: var(--card-border);
+        }
+
+        .filter-item.active {
+            border-color: var(--sacred-gold);
+            background: var(--sacred-gold-dim);
+        }
+
+        .filter-checkbox {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--sacred-gold);
+        }
+
+        /* ADN Card */
+        .adn-grid {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .adn-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        .adn-label { color: #888; }
+        .adn-value { font-family: 'Courier New', monospace; color: var(--sacred-gold); }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           HUB 2 - Charts & Tables (1fr)
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .analytics-hub {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .charts-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 900px) {
+            .charts-row { grid-template-columns: 1fr; }
+        }
+
+        /* Pie Chart */
+        .pie-chart-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .pie-chart {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            position: relative;
+        }
+
+        .pie-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            font-size: 0.75rem;
+            color: #aaa;
+        }
+
+        .legend-color {
+            width: 10px;
+            height: 10px;
+            border-radius: 2px;
+        }
+
+        /* Bar Chart */
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 180px;
+            padding-top: 1.5rem;
+        }
+
+        .bar-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .bar {
+            width: 32px;
+            border-radius: 4px 4px 0 0;
+            transition: height 0.5s ease;
+            position: relative;
+        }
+
+        .bar-value {
+            font-size: 0.7rem;
+            color: var(--sacred-gold);
+            white-space: nowrap;
+        }
+
+        .bar-label {
+            font-size: 0.65rem;
+            color: #888;
+            white-space: nowrap;
+            max-width: 50px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Table */
+        .table-card {
+            flex: 1;
+            overflow: hidden;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 0.6rem 0.75rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.85rem;
+        }
+
+        th {
+            color: var(--sacred-gold);
+            font-weight: 500;
+            position: sticky;
+            top: 0;
+            background: var(--dark-bg);
+        }
+
+        tr:hover { background: rgba(255, 255, 255, 0.03); }
+
+        /* Loading */
+        .loading-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            color: #888;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--card-border);
+            border-top-color: var(--sacred-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           HUB 3 - Détails & Insights (320px)
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .insights-hub {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        /* Top Performers */
+        .performers-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .performer-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        .performer-rank {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--sacred-gold);
+            min-width: 20px;
+        }
+
+        .performer-info {
+            flex: 1;
+        }
+
+        .performer-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: white;
+        }
+
+        .performer-sphere {
+            font-size: 0.7rem;
+            color: #888;
+        }
+
+        .performer-freq {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--sacred-gold);
+        }
+
+        /* Insights */
+        .insight-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .insight-item {
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-left: 3px solid var(--sacred-gold);
+            border-radius: 0 6px 6px 0;
+        }
+
+        .insight-title {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 0.25rem;
+        }
+
+        .insight-value {
+            font-size: 0.75rem;
+            color: #aaa;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           FLOATING AGENT FAB
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .agent-fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .fab-main {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--sacred-gold), #B8860B);
+            border: none;
+            color: var(--dark-bg);
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fab-main:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(212, 175, 55, 0.6);
+        }
+
+        .agent-fab.open .fab-main { transform: rotate(45deg); }
+
+        .agent-spheres {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .agent-fab.open .agent-spheres {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .agent-sphere {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: rgba(10, 10, 15, 0.95);
+            border: 1px solid var(--agent-color);
+            border-radius: 28px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .agent-sphere:hover { transform: translateX(-5px); }
+        .agent-sphere-icon { font-size: 1.2rem; }
+        .agent-sphere-info { display: flex; flex-direction: column; }
+        .agent-sphere-name { font-size: 0.85rem; font-weight: 600; color: var(--agent-color); }
+        .agent-sphere-freq { font-size: 0.7rem; color: #888; }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           AGENT CHAT PANEL
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .agent-chat-panel {
+            position: fixed;
+            bottom: 100px;
+            right: 2rem;
+            width: 380px;
+            max-height: 500px;
+            background: rgba(10, 10, 15, 0.98);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+        }
+
+        .agent-chat-panel.open { display: flex; }
+
+        .chat-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .chat-agent-icon { font-size: 1.5rem; }
+        .chat-agent-info { flex: 1; }
+        .chat-agent-name { font-weight: 600; }
+        .chat-agent-title { font-size: 0.75rem; color: #888; }
+        .chat-close { background: none; border: none; color: #666; font-size: 1.2rem; cursor: pointer; }
+        .chat-close:hover { color: white; }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-height: 300px;
+        }
+
+        .chat-message {
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            max-width: 90%;
+        }
+
+        .chat-message.agent {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            align-self: flex-start;
+        }
+
+        .chat-message.user {
+            background: var(--sacred-gold-dim);
+            border: 1px solid var(--sacred-gold);
+            align-self: flex-end;
+        }
+
+        .chat-input-area {
+            padding: 1rem;
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .chat-input:focus { outline: none; border-color: var(--sacred-gold); }
+
+        .chat-send {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--sacred-gold);
+            border: none;
+            color: var(--dark-bg);
+            cursor: pointer;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           RESPONSIVE
+           ═══════════════════════════════════════════════════════════════════ */
+
+        @media (max-width: 767px) {
+            .global-nav { display: none; }
+            .agent-chat-panel { left: 1rem; right: 1rem; width: auto; }
+            .agent-fab { bottom: 1rem; right: 1rem; }
+        }
+
+        @media (max-width: 1199px) {
+            .insights-hub { display: none; }
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="global-header">
+        <div class="header-content">
+            <div class="logo-section">
+                <a href="/" class="logo">AT-OM</a>
+                <span class="page-title">Annales Analytics</span>
+            </div>
+            <nav class="global-nav">
+                <a href="/" class="nav-link">Ψ Nexus</a>
+                <a href="/civilization.html" class="nav-link">🌐 Civilisation</a>
+                <a href="/agents.html" class="nav-link">🤖 Lexique</a>
+                <a href="/spheres.html" class="nav-link">🔮 Forge</a>
+                <a href="/live.html" class="nav-link">⚡ Flux</a>
+                <a href="/dashboard.html" class="nav-link active">📊 Annales</a>
+                <a href="/frequencies.html" class="nav-link">📡 Freq</a>
+                <a href="/funder.html" class="nav-link">💎 Funder</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN - 3 HUBS -->
+    <main class="main-container">
+        <div class="grid-container">
+
+            <!-- HUB 1 - KPIs & Filtres -->
+            <aside class="kpi-hub">
+                <div class="hub-card">
+                    <div class="hub-card-header">
+                        <span>📊</span>
+                        <h3>Métriques Clés</h3>
+                    </div>
+                    <div class="hub-card-content">
+                        <div class="kpi-grid" id="kpiGrid">
+                            <!-- Dynamic -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hub-card">
+                    <div class="hub-card-header">
+                        <span>🔮</span>
+                        <h3>Filtrer par Sphère</h3>
+                    </div>
+                    <div class="hub-card-content">
+                        <div class="filter-list" id="filterList">
+                            <!-- Dynamic -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hub-card">
+                    <div class="hub-card-header">
+                        <span>🧬</span>
+                        <h3>ADN Vibratoire</h3>
+                    </div>
+                    <div class="hub-card-content">
+                        <div class="adn-grid">
+                            <div class="adn-item"><span class="adn-label">PHI</span><span class="adn-value">1.618033...</span></div>
+                            <div class="adn-item"><span class="adn-label">Heartbeat</span><span class="adn-value">444 Hz</span></div>
+                            <div class="adn-item"><span class="adn-label">Tesla</span><span class="adn-value">369</span></div>
+                            <div class="adn-item"><span class="adn-label">Source</span><span class="adn-value">999 Hz</span></div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- HUB 2 - Charts -->
+            <section class="analytics-hub">
+                <div id="loadingState" class="loading-state">
+                    <div class="spinner"></div>
+                    <p>Chargement des annales...</p>
+                </div>
+
+                <div id="chartsContainer" style="display: none;">
+                    <div class="charts-row">
+                        <div class="hub-card">
+                            <div class="hub-card-header">
+                                <span>🔮</span>
+                                <h3>Distribution par Sphère</h3>
+                            </div>
+                            <div class="hub-card-content">
+                                <div class="pie-chart-container" id="pieChartContainer"></div>
+                            </div>
+                        </div>
+
+                        <div class="hub-card">
+                            <div class="hub-card-header">
+                                <span>📈</span>
+                                <h3>Top Fréquences</h3>
+                            </div>
+                            <div class="hub-card-content">
+                                <div class="bar-chart" id="barChart"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hub-card table-card">
+                        <div class="hub-card-header">
+                            <span>📋</span>
+                            <h3>Détails par Sphère</h3>
+                        </div>
+                        <div class="table-container" id="tableContainer"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HUB 3 - Insights -->
+            <aside class="insights-hub">
+                <div class="hub-card">
+                    <div class="hub-card-header">
+                        <span>🏆</span>
+                        <h3>Top Performers</h3>
+                    </div>
+                    <div class="hub-card-content">
+                        <div class="performers-list" id="performersList"></div>
+                    </div>
+                </div>
+
+                <div class="hub-card">
+                    <div class="hub-card-header">
+                        <span>💡</span>
+                        <h3>Insights</h3>
+                    </div>
+                    <div class="hub-card-content">
+                        <div class="insight-list" id="insightList"></div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- FLOATING FAB -->
+    <div class="agent-fab" id="agentFab">
+        <div class="agent-spheres">
+            <div class="agent-sphere" onclick="openAgentChat('nova')" style="--agent-color: #9333EA;">
+                <span class="agent-sphere-icon">🔱</span>
+                <div class="agent-sphere-info">
+                    <span class="agent-sphere-name">Nova</span>
+                    <span class="agent-sphere-freq">999 Hz • Overseer</span>
+                </div>
+            </div>
+            <div class="agent-sphere" onclick="openAgentChat('aria')" style="--agent-color: #00FF88;">
+                <span class="agent-sphere-icon">✨</span>
+                <div class="agent-sphere-info">
+                    <span class="agent-sphere-name">Aria</span>
+                    <span class="agent-sphere-freq">528 Hz • Guide</span>
+                </div>
+            </div>
+            <div class="agent-sphere" onclick="openAgentChat('orion')" style="--agent-color: #FF6B35;">
+                <span class="agent-sphere-icon">🏛️</span>
+                <div class="agent-sphere-info">
+                    <span class="agent-sphere-name">Orion</span>
+                    <span class="agent-sphere-freq">741 Hz • Orchestrateur</span>
+                </div>
+            </div>
+        </div>
+        <button class="fab-main" onclick="toggleAgentFab()">💫</button>
+    </div>
+
+    <!-- CHAT PANEL -->
+    <div class="agent-chat-panel" id="agentChatPanel">
+        <div class="chat-header">
+            <span class="chat-agent-icon" id="chatAgentIcon">🔱</span>
+            <div class="chat-agent-info">
+                <div class="chat-agent-name" id="chatAgentName">Nova</div>
+                <div class="chat-agent-title" id="chatAgentTitle">System Overseer</div>
+            </div>
+            <button class="chat-close" onclick="closeAgentChat()">&times;</button>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Posez votre question...">
+            <button class="chat-send" onclick="sendChatMessage()">→</button>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = (typeof ATOM_CONFIG !== 'undefined') ? ATOM_CONFIG.API_BASE : 'https://atom-2autu.ondigitalocean.app';
+        const FETCH_TIMEOUT = 5000;
+        const COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F'];
+
+        let agents = [];
+        let selectedSpheres = new Set();
+
+        const FALLBACK_AGENTS = [
+            { id: 1, name: "Nova", sphere: "Intelligence", frequency_hz: 999 },
+            { id: 2, name: "Aria", sphere: "Communication", frequency_hz: 528 },
+            { id: 3, name: "Orion", sphere: "Integration", frequency_hz: 741 },
+            { id: 4, name: "Atlas", sphere: "Construction", frequency_hz: 528 },
+            { id: 5, name: "Phoenix", sphere: "Analytics", frequency_hz: 639 },
+        ];
+
+        const CORE_AGENTS = {
+            nova: {
+                name: 'Nova', icon: '🔱', title: 'System Overseer', color: '#9333EA',
+                greeting: 'Bienvenue dans les Annales. Je supervise les métriques du système.',
+                responses: { help: 'Les Annales révèlent les patterns de fréquences dans le système.' }
+            },
+            aria: {
+                name: 'Aria', icon: '✨', title: 'Onboarding Guide', color: '#00FF88',
+                greeting: 'Bonjour! Les Annales te permettent d\'analyser les performances des agents.',
+                responses: { help: 'Je t\'accompagne dans l\'exploration des données analytiques!' }
+            },
+            orion: {
+                name: 'Orion', icon: '🏛️', title: 'Ton Orchestrateur', color: '#FF6B35',
+                greeting: 'Salutations. Les Annales permettent d\'identifier les patterns d\'optimisation.',
+                responses: { help: 'Je peux t\'aider à structurer ton analyse des données.' }
+            }
+        };
+
+        async function fetchWithTimeout(url, timeout = FETCH_TIMEOUT) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), timeout);
+            try {
+                const response = await fetch(url, { signal: controller.signal });
+                clearTimeout(timeoutId);
+                return response;
+            } catch (error) {
+                clearTimeout(timeoutId);
+                throw error;
+            }
+        }
+
+        async function fetchAgents() {
+            try {
+                const response = await fetchWithTimeout(`${API_BASE}/agents`);
+                agents = await response.json();
+                if (!Array.isArray(agents)) throw new Error('Invalid');
+            } catch (error) {
+                const cached = localStorage.getItem('atom_agents_cache');
+                agents = cached ? JSON.parse(cached) : FALLBACK_AGENTS;
+            }
+
+            document.getElementById('loadingState').style.display = 'none';
+            document.getElementById('chartsContainer').style.display = 'block';
+            renderDashboard();
+        }
+
+        function renderDashboard() {
+            renderKPIs();
+            renderFilters();
+            renderPieChart();
+            renderBarChart();
+            renderTable();
+            renderPerformers();
+            renderInsights();
+        }
+
+        function getFilteredAgents() {
+            if (selectedSpheres.size === 0) return agents;
+            return agents.filter(a => selectedSpheres.has(a.sphere));
+        }
+
+        function renderKPIs() {
+            const data = getFilteredAgents();
+            const freqs = data.map(a => a.frequency_hz || 0);
+            const spheres = [...new Set(data.map(a => a.sphere))];
+            const avgFreq = freqs.length ? freqs.reduce((a, b) => a + b, 0) / freqs.length : 0;
+            const maxFreq = freqs.length ? Math.max(...freqs) : 0;
+
+            const kpis = [
+                { icon: '🤖', value: data.length, label: 'Agents', change: '+12%', up: true },
+                { icon: '🔮', value: spheres.length, label: 'Sphères', change: '+2', up: true },
+                { icon: '📡', value: avgFreq.toFixed(0), label: 'Moy. Hz', change: '+5%', up: true },
+                { icon: '⚡', value: maxFreq, label: 'Max Hz', change: '+15%', up: true },
+            ];
+
+            document.getElementById('kpiGrid').innerHTML = kpis.map(k => `
+                <div class="kpi-item">
+                    <span class="kpi-icon">${k.icon}</span>
+                    <div class="kpi-info">
+                        <div class="kpi-value">${k.value}</div>
+                        <div class="kpi-label">${k.label}</div>
+                    </div>
+                    <span class="kpi-change ${k.up ? 'up' : 'down'}">↑${k.change}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderFilters() {
+            const spheres = [...new Set(agents.map(a => a.sphere))].sort();
+
+            document.getElementById('filterList').innerHTML = `
+                <div class="filter-item ${selectedSpheres.size === 0 ? 'active' : ''}" onclick="clearFilters()">
+                    <input type="checkbox" class="filter-checkbox" ${selectedSpheres.size === 0 ? 'checked' : ''}>
+                    <span>Toutes (${agents.length})</span>
+                </div>
+                ${spheres.map(s => {
+                    const count = agents.filter(a => a.sphere === s).length;
+                    const checked = selectedSpheres.has(s);
+                    return `
+                        <div class="filter-item ${checked ? 'active' : ''}" onclick="toggleFilter('${s}')">
+                            <input type="checkbox" class="filter-checkbox" ${checked ? 'checked' : ''}>
+                            <span>${s} (${count})</span>
+                        </div>
+                    `;
+                }).join('')}
+            `;
+        }
+
+        function toggleFilter(sphere) {
+            if (selectedSpheres.has(sphere)) {
+                selectedSpheres.delete(sphere);
+            } else {
+                selectedSpheres.add(sphere);
+            }
+            renderDashboard();
+        }
+
+        function clearFilters() {
+            selectedSpheres.clear();
+            renderDashboard();
+        }
+
+        function renderPieChart() {
+            const data = getFilteredAgents();
+            const sphereMap = {};
+            data.forEach(a => {
+                const s = a.sphere || 'Unknown';
+                sphereMap[s] = (sphereMap[s] || 0) + 1;
+            });
+
+            const entries = Object.entries(sphereMap).sort((a, b) => b[1] - a[1]);
+            let cumulative = 0;
+            const segments = entries.map(([sphere, count], i) => {
+                const percent = (count / data.length) * 100;
+                const start = cumulative;
+                cumulative += percent;
+                return { sphere, count, percent, start, color: COLORS[i % COLORS.length] };
+            });
+
+            const gradient = segments.map(s => `${s.color} ${s.start}% ${s.start + s.percent}%`).join(', ');
+
+            document.getElementById('pieChartContainer').innerHTML = `
+                <div class="pie-chart" style="background: conic-gradient(${gradient});"></div>
+                <div class="pie-legend">
+                    ${segments.slice(0, 5).map(s => `
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: ${s.color}"></div>
+                            <span>${s.sphere} (${s.count})</span>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderBarChart() {
+            const data = getFilteredAgents();
+            const top7 = [...data].sort((a, b) => (b.frequency_hz || 0) - (a.frequency_hz || 0)).slice(0, 7);
+            const maxVal = Math.max(...top7.map(a => a.frequency_hz || 0));
+
+            document.getElementById('barChart').innerHTML = top7.map((a, i) => {
+                const height = ((a.frequency_hz || 0) / maxVal) * 150;
+                return `
+                    <div class="bar-wrapper">
+                        <span class="bar-value">${a.frequency_hz || 0}</span>
+                        <div class="bar" style="height: ${height}px; background: ${COLORS[i % COLORS.length]};"></div>
+                        <span class="bar-label">${a.name.substring(0, 6)}</span>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function renderTable() {
+            const data = getFilteredAgents();
+            const sphereMap = {};
+            data.forEach(a => {
+                const s = a.sphere || 'Unknown';
+                if (!sphereMap[s]) sphereMap[s] = [];
+                sphereMap[s].push(a);
+            });
+
+            const entries = Object.entries(sphereMap).sort((a, b) => b[1].length - a[1].length);
+
+            document.getElementById('tableContainer').innerHTML = `
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Sphère</th>
+                            <th>Agents</th>
+                            <th>% Total</th>
+                            <th>Fréq. Moy.</th>
+                            <th>Fréq. Max</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${entries.map(([sphere, agentList], i) => {
+                            const freqs = agentList.map(a => a.frequency_hz || 0);
+                            const avg = freqs.reduce((a, b) => a + b, 0) / freqs.length;
+                            const max = Math.max(...freqs);
+                            return `
+                                <tr>
+                                    <td><span style="color: ${COLORS[i % COLORS.length]}">●</span> ${sphere}</td>
+                                    <td>${agentList.length}</td>
+                                    <td>${((agentList.length / data.length) * 100).toFixed(1)}%</td>
+                                    <td>${avg.toFixed(0)} Hz</td>
+                                    <td>${max} Hz</td>
+                                </tr>
+                            `;
+                        }).join('')}
+                    </tbody>
+                </table>
+            `;
+        }
+
+        function renderPerformers() {
+            const top5 = [...agents].sort((a, b) => (b.frequency_hz || 0) - (a.frequency_hz || 0)).slice(0, 5);
+
+            document.getElementById('performersList').innerHTML = top5.map((a, i) => `
+                <div class="performer-item">
+                    <span class="performer-rank">#${i + 1}</span>
+                    <div class="performer-info">
+                        <div class="performer-name">${a.name}</div>
+                        <div class="performer-sphere">${a.sphere || 'Unknown'}</div>
+                    </div>
+                    <span class="performer-freq">${a.frequency_hz || 0} Hz</span>
+                </div>
+            `).join('');
+        }
+
+        function renderInsights() {
+            const freqs = agents.map(a => a.frequency_hz || 0);
+            const avg = freqs.reduce((a, b) => a + b, 0) / freqs.length;
+            const above444 = freqs.filter(f => f >= 444).length;
+            const above741 = freqs.filter(f => f >= 741).length;
+
+            const insights = [
+                { title: 'Moyenne système', value: `${avg.toFixed(0)} Hz - ${avg >= 528 ? 'Optimal' : 'À améliorer'}` },
+                { title: 'Au-dessus du Heartbeat', value: `${above444} agents (${((above444 / agents.length) * 100).toFixed(0)}%)` },
+                { title: 'Zone Awakening (741+)', value: `${above741} agents en haute fréquence` },
+                { title: 'Tendance', value: 'Stabilité vibratoire ↑' }
+            ];
+
+            document.getElementById('insightList').innerHTML = insights.map(i => `
+                <div class="insight-item">
+                    <div class="insight-title">${i.title}</div>
+                    <div class="insight-value">${i.value}</div>
+                </div>
+            `).join('');
+        }
+
+        // Agent FAB & Chat
+        let currentChatAgent = 'nova';
+
+        function toggleAgentFab() {
+            document.getElementById('agentFab').classList.toggle('open');
+        }
+
+        function openAgentChat(agentId) {
+            currentChatAgent = agentId;
+            const agent = CORE_AGENTS[agentId];
+            document.getElementById('chatAgentIcon').textContent = agent.icon;
+            document.getElementById('chatAgentName').textContent = agent.name;
+            document.getElementById('chatAgentName').style.color = agent.color;
+            document.getElementById('chatAgentTitle').textContent = agent.title;
+            document.getElementById('chatMessages').innerHTML = '';
+            addChatMessage(agent.greeting, 'agent');
+            document.getElementById('agentChatPanel').classList.add('open');
+            document.getElementById('agentFab').classList.remove('open');
+        }
+
+        function closeAgentChat() {
+            document.getElementById('agentChatPanel').classList.remove('open');
+        }
+
+        function addChatMessage(text, type) {
+            const msg = document.createElement('div');
+            msg.className = `chat-message ${type}`;
+            msg.textContent = text;
+            document.getElementById('chatMessages').appendChild(msg);
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+            addChatMessage(text, 'user');
+            input.value = '';
+            setTimeout(() => {
+                addChatMessage(CORE_AGENTS[currentChatAgent].responses.help, 'agent');
+            }, 500);
+        }
+
+        document.getElementById('chatInput').addEventListener('keypress', e => {
+            if (e.key === 'Enter') sendChatMessage();
+        });
+
+        document.addEventListener('click', e => {
+            if (!document.getElementById('agentFab').contains(e.target)) {
+                document.getElementById('agentFab').classList.remove('open');
+            }
+        });
+
+        fetchAgents();
+    </script>
+</body>
+</html>

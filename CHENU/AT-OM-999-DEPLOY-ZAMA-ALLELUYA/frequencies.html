@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#D4AF37">
+    <meta name="description" content="AT-OM | Analyse des Frequences Vibratoires - CHE-NU V76">
+
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/logo192.png">
+
+    <title>AT-OM | Frequences Vibratoires</title>
+    <script src="/config.js"></script>
+    <script src="/js/governance-init.js"></script>
+
+    <style>
+        /* ═══════════════════════════════════════════════════════════════════
+           AT-OM FREQUENCIES - CANONICAL 3 HUBS LAYOUT
+           Hub 1: Stats & Filtres (280px)
+           Hub 2: Visualisations (1fr)
+           Hub 3: Top Frequences (320px)
+           ═══════════════════════════════════════════════════════════════════ */
+
+        :root {
+            /* ADN Vibratoire */
+            --phi: 1.618033988749895;
+            --heartbeat: 444;
+            --tesla: 369;
+            --source: 999;
+
+            /* Couleurs Sacrees */
+            --sacred-gold: #D4AF37;
+            --sacred-gold-dim: rgba(212, 175, 55, 0.3);
+            --dark-bg: #0a0a0f;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(212, 175, 55, 0.2);
+
+            /* Agents L0 */
+            --nova-color: #9333EA;
+            --aria-color: #00FF88;
+            --orion-color: #FF6B35;
+
+            /* Layout Canonique */
+            --hub1-width: 280px;
+            --hub3-width: 320px;
+            --max-width: 1600px;
+            --gap: 1.5rem;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--dark-bg);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           HEADER
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .global-header {
+            background: linear-gradient(180deg, rgba(10, 10, 15, 0.98), rgba(10, 10, 15, 0.95));
+            border-bottom: 1px solid var(--card-border);
+            padding: 0.75rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+        }
+
+        .header-content {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .logo-section { display: flex; align-items: center; gap: 1rem; }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--sacred-gold), #F4E4BC);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .page-title {
+            font-size: 0.9rem;
+            color: #888;
+            padding-left: 1rem;
+            border-left: 1px solid var(--card-border);
+        }
+
+        .global-nav { display: flex; gap: 0.25rem; flex-wrap: wrap; }
+
+        .nav-link {
+            padding: 0.5rem 0.75rem;
+            color: #888;
+            text-decoration: none;
+            font-size: 0.8rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--sacred-gold);
+            background: var(--sacred-gold-dim);
+        }
+
+        @media (max-width: 900px) {
+            .global-nav { display: none; }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           3 HUBS LAYOUT
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .main-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: var(--gap);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--gap);
+        }
+
+        @media (min-width: 768px) {
+            .grid-container {
+                grid-template-columns: var(--hub1-width) 1fr;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .grid-container {
+                grid-template-columns: var(--hub1-width) 1fr var(--hub3-width);
+            }
+        }
+
+        /* Hub Cards */
+        .hub-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .hub-card-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hub-card-header h3 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--sacred-gold);
+        }
+
+        .hub-card-content { padding: 1rem; }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           HUB 1 - Stats & Filtres
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .stats-hub {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--sacred-gold);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        /* ADN Card */
+        .adn-grid { display: grid; gap: 0.5rem; }
+
+        .adn-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        .adn-label { color: #888; }
+        .adn-value { font-family: 'Courier New', monospace; color: var(--sacred-gold); }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           HUB 2 - Visualisations
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .viz-hub {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .wave-container {
+            height: 200px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 2px;
+            padding: 1rem;
+        }
+
+        .wave-bar {
+            width: 4px;
+            background: linear-gradient(to top, var(--sacred-gold), #FFD700);
+            border-radius: 2px 2px 0 0;
+            animation: wave 1s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { transform: scaleY(0.3); }
+            50% { transform: scaleY(1); }
+        }
+
+        .bar-chart { display: flex; flex-direction: column; gap: 0.75rem; }
+
+        .bar-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .bar-label {
+            width: 100px;
+            text-align: right;
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .bar-track {
+            flex: 1;
+            height: 28px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--sacred-gold), #FFD700);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--dark-bg);
+            transition: width 1s ease;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           HUB 3 - Top Frequences
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .top-hub {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .freq-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .freq-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            border-left: 3px solid var(--sacred-gold);
+            transition: all 0.2s;
+        }
+
+        .freq-item:hover {
+            background: rgba(212, 175, 55, 0.1);
+            transform: translateX(3px);
+        }
+
+        .freq-rank {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--sacred-gold);
+            color: var(--dark-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-right: 0.75rem;
+        }
+
+        .freq-info { flex: 1; }
+        .freq-name { font-weight: 500; font-size: 0.9rem; }
+        .freq-sphere { font-size: 0.75rem; color: #888; }
+
+        .freq-hz {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--sacred-gold);
+        }
+
+        /* Loading */
+        .loading-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            color: #888;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--card-border);
+            border-top-color: var(--sacred-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           FLOATING AGENT FAB
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .agent-fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .fab-main {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--sacred-gold), #B8860B);
+            border: none;
+            color: var(--dark-bg);
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fab-main:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(212, 175, 55, 0.6);
+        }
+
+        .agent-fab.open .fab-main { transform: rotate(45deg); }
+
+        .agent-spheres {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .agent-fab.open .agent-spheres {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .agent-sphere {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: rgba(10, 10, 15, 0.95);
+            border: 1px solid var(--agent-color);
+            border-radius: 28px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .agent-sphere:hover { transform: translateX(-5px); }
+        .agent-sphere-icon { font-size: 1.2rem; }
+        .agent-sphere-info { display: flex; flex-direction: column; }
+        .agent-sphere-name { font-size: 0.85rem; font-weight: 600; color: var(--agent-color); }
+        .agent-sphere-freq { font-size: 0.7rem; color: #888; }
+
+        /* Chat Panel */
+        .agent-chat-panel {
+            position: fixed;
+            bottom: 100px;
+            right: 2rem;
+            width: 350px;
+            max-height: 450px;
+            background: rgba(10, 10, 15, 0.98);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+        }
+
+        .agent-chat-panel.open { display: flex; }
+
+        .chat-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .chat-agent-icon { font-size: 1.5rem; }
+        .chat-agent-info { flex: 1; }
+        .chat-agent-name { font-weight: 600; }
+        .chat-agent-title { font-size: 0.75rem; color: #888; }
+        .chat-close { background: none; border: none; color: #666; font-size: 1.2rem; cursor: pointer; }
+        .chat-close:hover { color: white; }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-height: 250px;
+        }
+
+        .chat-message {
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            max-width: 90%;
+        }
+
+        .chat-message.agent {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            align-self: flex-start;
+        }
+
+        .chat-message.user {
+            background: var(--sacred-gold-dim);
+            border: 1px solid var(--sacred-gold);
+            align-self: flex-end;
+        }
+
+        .chat-input-area {
+            padding: 1rem;
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.6rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            color: white;
+            font-size: 0.85rem;
+        }
+
+        .chat-input:focus { outline: none; border-color: var(--sacred-gold); }
+
+        .chat-send {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: var(--sacred-gold);
+            border: none;
+            color: var(--dark-bg);
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 767px) {
+            .agent-chat-panel { left: 1rem; right: 1rem; width: auto; }
+            .agent-fab { bottom: 1rem; right: 1rem; }
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="global-header">
+        <div class="header-content">
+            <div class="logo-section">
+                <a href="/" class="logo">AT-OM</a>
+                <span class="page-title">Frequences Vibratoires</span>
+            </div>
+            <nav class="global-nav">
+                <a href="/" class="nav-link">Ψ Nexus</a>
+                <a href="/civilization.html" class="nav-link">🌐 Civilisation</a>
+                <a href="/agents.html" class="nav-link">🤖 Lexique</a>
+                <a href="/spheres.html" class="nav-link">🔮 Forge</a>
+                <a href="/live.html" class="nav-link">⚡ Flux</a>
+                <a href="/dashboard.html" class="nav-link">📊 Annales</a>
+                <a href="/frequencies.html" class="nav-link active">📡 Freq</a>
+                <a href="/funder.html" class="nav-link">💎 Funder</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN - 3 HUBS -->
+    <main class="main-container">
+        <div class="grid-container">
+
+            <!-- HUB 1 - Stats & Filtres -->
+            <aside class="stats-hub">
+                <div class="hub-card">
+                    <div class="hub-card-header">
+                        <span>📊</span>
+                        <h3>Statistiques</h3>
+                    </div>
+                    <div class="hub-card-content">
+                        <div class="stats-grid" id="statsGrid">
+                            <div class="stat-item">
+                                <div class="stat-value" id="statMin">--</div>
+                                <div class="stat-label">Min Hz</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="statMax">--</div>
+                                <div class="stat-label">Max Hz</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="statAvg">--</div>
+                                <div class="stat-label">Moyenne</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="statMedian">--</div>
+                                <div class="stat-label">Mediane</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="statCount">--</div>
+                                <div class="stat-label">Agents</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="statSpheres">--</div>
+                                <div class="stat-label">Spheres</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hub-card">
+                    <div class="hub-card-header">
+                        <span>🧬</span>
+                        <h3>ADN Vibratoire</h3>
+                    </div>
+                    <div class="hub-card-content">
+                        <div class="adn-grid">
+                            <div class="adn-item"><span class="adn-label">PHI</span><span class="adn-value">1.618033...</span></div>
+                            <div class="adn-item"><span class="adn-label">Heartbeat</span><span class="adn-value">444 Hz</span></div>
+                            <div class="adn-item"><span class="adn-label">Tesla</span><span class="adn-value">369</span></div>
+                            <div class="adn-item"><span class="adn-label">Source</span><span class="adn-value">999 Hz</span></div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- HUB 2 - Visualisations -->
+            <section class="viz-hub">
+                <div class="hub-card">
+                    <div class="hub-card-header">
+                        <span>🌊</span>
+                        <h3>Visualisation Ondulatoire</h3>
+                    </div>
+                    <div class="hub-card-content">
+                        <div class="wave-container" id="waveViz"></div>
+                    </div>
+                </div>
+
+                <div class="hub-card">
+                    <div class="hub-card-header">
+                        <span>📊</span>
+                        <h3>Distribution par Plage de Frequence</h3>
+                    </div>
+                    <div class="hub-card-content">
+                        <div id="loadingChart" class="loading-state">
+                            <div class="spinner"></div>
+                            <p>Analyse des frequences...</p>
+                        </div>
+                        <div class="bar-chart" id="barChart" style="display: none;"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- HUB 3 - Top Frequences -->
+            <aside class="top-hub">
+                <div class="hub-card" style="height: 100%;">
+                    <div class="hub-card-header">
+                        <span>🏆</span>
+                        <h3>Top 20 Frequences</h3>
+                    </div>
+                    <div class="hub-card-content">
+                        <div id="loadingTop" class="loading-state">
+                            <div class="spinner"></div>
+                            <p>Chargement...</p>
+                        </div>
+                        <div class="freq-list" id="topFreq" style="display: none;"></div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- FLOATING FAB -->
+    <div class="agent-fab" id="agentFab">
+        <div class="agent-spheres">
+            <div class="agent-sphere" onclick="openAgentChat('nova')" style="--agent-color: #9333EA;">
+                <span class="agent-sphere-icon">🔱</span>
+                <div class="agent-sphere-info">
+                    <span class="agent-sphere-name">Nova</span>
+                    <span class="agent-sphere-freq">999 Hz - Overseer</span>
+                </div>
+            </div>
+            <div class="agent-sphere" onclick="openAgentChat('aria')" style="--agent-color: #00FF88;">
+                <span class="agent-sphere-icon">✨</span>
+                <div class="agent-sphere-info">
+                    <span class="agent-sphere-name">Aria</span>
+                    <span class="agent-sphere-freq">528 Hz - Guide</span>
+                </div>
+            </div>
+            <div class="agent-sphere" onclick="openAgentChat('orion')" style="--agent-color: #FF6B35;">
+                <span class="agent-sphere-icon">🏛️</span>
+                <div class="agent-sphere-info">
+                    <span class="agent-sphere-name">Orion</span>
+                    <span class="agent-sphere-freq">741 Hz - Orchestrateur</span>
+                </div>
+            </div>
+        </div>
+        <button class="fab-main" onclick="toggleAgentFab()">💫</button>
+    </div>
+
+    <!-- CHAT PANEL -->
+    <div class="agent-chat-panel" id="agentChatPanel">
+        <div class="chat-header">
+            <span class="chat-agent-icon" id="chatAgentIcon">🔱</span>
+            <div class="chat-agent-info">
+                <div class="chat-agent-name" id="chatAgentName">Nova</div>
+                <div class="chat-agent-title" id="chatAgentTitle">System Overseer</div>
+            </div>
+            <button class="chat-close" onclick="closeAgentChat()">&times;</button>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Posez votre question...">
+            <button class="chat-send" onclick="sendChatMessage()">→</button>
+        </div>
+    </div>
+
+    <script>
+        // Configuration
+        const API_BASE = (typeof ATOM_CONFIG !== 'undefined') ? ATOM_CONFIG.API_BASE : 'https://atom-2autu.ondigitalocean.app';
+        const FETCH_TIMEOUT = 5000;
+        let agents = [];
+
+        const FALLBACK_AGENTS = [
+            { id: 1, name: "Nova", sphere: "Intelligence", frequency_hz: 999 },
+            { id: 2, name: "Aria", sphere: "Communication", frequency_hz: 528 },
+            { id: 3, name: "Orion", sphere: "Integration", frequency_hz: 741 },
+            { id: 4, name: "Atlas", sphere: "Construction", frequency_hz: 528 },
+            { id: 5, name: "Phoenix", sphere: "Analytics", frequency_hz: 639 },
+            { id: 6, name: "Guardian", sphere: "Security", frequency_hz: 741 },
+            { id: 7, name: "Harmony", sphere: "Communication", frequency_hz: 396 },
+        ];
+
+        const CORE_AGENTS = {
+            nova: { name: 'Nova', icon: '🔱', title: 'System Overseer', color: '#9333EA',
+                greeting: 'Bienvenue dans l\'analyse des frequences. Les frequences sacrees guident notre chemin.',
+                responses: { help: 'Le 444 Hz pulse comme le coeur du systeme, le 369 de Tesla revele les patterns, et le 999 Hz ouvre la Source.' }
+            },
+            aria: { name: 'Aria', icon: '✨', title: 'Onboarding Guide', color: '#00FF88',
+                greeting: 'Bonjour! Cette page te montre la distribution des frequences de tous les agents.',
+                responses: { help: 'Chaque agent vibre a sa propre frequence. Les frequences sacrees (444, 528, 741, 999 Hz) ont des proprietes speciales!' }
+            },
+            orion: { name: 'Orion', icon: '🏛️', title: 'Ton Orchestrateur', color: '#FF6B35',
+                greeting: 'Salutations. L\'analyse frequentielle revele la structure vibratoire de la civilisation.',
+                responses: { help: 'Je peux coordonner les agents selon leurs frequences pour atteindre l\'harmonie de ton projet.' }
+            }
+        };
+
+        async function fetchWithTimeout(url, timeout = FETCH_TIMEOUT) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), timeout);
+            try {
+                const response = await fetch(url, { signal: controller.signal });
+                clearTimeout(timeoutId);
+                return response;
+            } catch (error) {
+                clearTimeout(timeoutId);
+                throw error;
+            }
+        }
+
+        async function fetchAgents() {
+            try {
+                const response = await fetchWithTimeout(`${API_BASE}/agents`);
+                agents = await response.json();
+                if (!Array.isArray(agents)) throw new Error('Invalid');
+            } catch (error) {
+                console.warn('Using fallback:', error.message);
+                const cached = localStorage.getItem('zama_agents');
+                agents = cached ? JSON.parse(cached) : FALLBACK_AGENTS;
+            }
+            analyze();
+        }
+
+        function analyze() {
+            const freqs = agents.map(a => a.frequency_hz || 0).filter(f => f > 0);
+            const min = Math.min(...freqs);
+            const max = Math.max(...freqs);
+            const avg = freqs.reduce((a, b) => a + b, 0) / freqs.length;
+            const sortedFreqs = [...freqs].sort((a, b) => a - b);
+            const median = sortedFreqs[Math.floor(sortedFreqs.length / 2)];
+
+            // Unique spheres
+            const spheres = new Set(agents.map(a => a.sphere).filter(Boolean));
+
+            // Stats
+            document.getElementById('statMin').textContent = min;
+            document.getElementById('statMax').textContent = max;
+            document.getElementById('statAvg').textContent = avg.toFixed(0);
+            document.getElementById('statMedian').textContent = median;
+            document.getElementById('statCount').textContent = freqs.length;
+            document.getElementById('statSpheres').textContent = spheres.size;
+
+            // Wave visualization
+            const waveViz = document.getElementById('waveViz');
+            waveViz.innerHTML = '';
+            for (let i = 0; i < 60; i++) {
+                const bar = document.createElement('div');
+                bar.className = 'wave-bar';
+                const height = 20 + Math.random() * 150;
+                bar.style.height = height + 'px';
+                bar.style.animationDelay = (i * 0.05) + 's';
+                bar.style.opacity = 0.4 + (height / 200) * 0.6;
+                waveViz.appendChild(bar);
+            }
+
+            // Frequency ranges distribution
+            const ranges = [
+                { label: '0-100 Hz', min: 0, max: 100 },
+                { label: '100-500 Hz', min: 100, max: 500 },
+                { label: '500-1000 Hz', min: 500, max: 1000 },
+                { label: '1000-5000 Hz', min: 1000, max: 5000 },
+                { label: '5000+ Hz', min: 5000, max: Infinity }
+            ];
+
+            const maxCount = Math.max(...ranges.map(r => freqs.filter(f => f >= r.min && f < r.max).length), 1);
+
+            document.getElementById('loadingChart').style.display = 'none';
+            const barChart = document.getElementById('barChart');
+            barChart.style.display = 'flex';
+            barChart.innerHTML = ranges.map(r => {
+                const count = freqs.filter(f => f >= r.min && f < r.max).length;
+                const percent = Math.max((count / maxCount * 100), 5).toFixed(0);
+                return `
+                    <div class="bar-row">
+                        <div class="bar-label">${r.label}</div>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: ${percent}%">${count}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Top 20 frequencies
+            document.getElementById('loadingTop').style.display = 'none';
+            const topFreq = document.getElementById('topFreq');
+            topFreq.style.display = 'flex';
+            const sorted = [...agents].sort((a, b) => (b.frequency_hz || 0) - (a.frequency_hz || 0)).slice(0, 20);
+            topFreq.innerHTML = sorted.map((a, i) => `
+                <div class="freq-item">
+                    <span class="freq-rank">${i + 1}</span>
+                    <div class="freq-info">
+                        <div class="freq-name">${a.name}</div>
+                        <div class="freq-sphere">${a.sphere || 'Unknown'}</div>
+                    </div>
+                    <span class="freq-hz">${a.frequency_hz || 0} Hz</span>
+                </div>
+            `).join('');
+        }
+
+        // Agent Chat
+        let currentChatAgent = 'nova';
+
+        function toggleAgentFab() {
+            document.getElementById('agentFab').classList.toggle('open');
+        }
+
+        function openAgentChat(agentId) {
+            currentChatAgent = agentId;
+            const agent = CORE_AGENTS[agentId];
+            document.getElementById('chatAgentIcon').textContent = agent.icon;
+            document.getElementById('chatAgentName').textContent = agent.name;
+            document.getElementById('chatAgentName').style.color = agent.color;
+            document.getElementById('chatAgentTitle').textContent = agent.title;
+            document.getElementById('chatMessages').innerHTML = '';
+            addChatMessage(agent.greeting, 'agent');
+            document.getElementById('agentChatPanel').classList.add('open');
+            document.getElementById('agentFab').classList.remove('open');
+        }
+
+        function closeAgentChat() {
+            document.getElementById('agentChatPanel').classList.remove('open');
+        }
+
+        function addChatMessage(text, type) {
+            const msg = document.createElement('div');
+            msg.className = `chat-message ${type}`;
+            msg.textContent = text;
+            document.getElementById('chatMessages').appendChild(msg);
+            document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+            addChatMessage(text, 'user');
+            input.value = '';
+            setTimeout(() => {
+                addChatMessage(CORE_AGENTS[currentChatAgent].responses.help, 'agent');
+            }, 500);
+        }
+
+        document.getElementById('chatInput').addEventListener('keypress', e => {
+            if (e.key === 'Enter') sendChatMessage();
+        });
+
+        document.addEventListener('click', e => {
+            if (!document.getElementById('agentFab').contains(e.target)) {
+                document.getElementById('agentFab').classList.remove('open');
+            }
+        });
+
+        // Init
+        fetchAgents();
+
+        console.log('%c[AT-OM FREQUENCIES] 3 Hubs Canonical Layout', 'color: #D4AF37; font-size: 14px;');
+    </script>
+</body>
+</html>

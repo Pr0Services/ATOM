@@ -1,0 +1,1577 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- PWA Meta Tags - CHE·NU™ V76 -->
+    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#D8B26A">
+    <meta name="description" content="AT-OM | L'Arche des Resonances - CHE·NU™ V76 - 444 Hz - Φ = 1.618033988749895 - 369">
+
+    <!-- Manifest & Icons -->
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/logo192.png">
+    <link rel="apple-touch-icon" href="/logo192.png">
+
+    <title>AT-OM | L'Arche des Resonances</title>
+    <script src="/config.js"></script>
+
+    <style>
+        :root {
+            --sacred-gold: #D8B26A;
+            --dark-bg: #0a0a0f;
+            --dark-surface: #1A1A1A;
+            --green-glow: #00FF88;
+            --purple-glow: #9333EA;
+            --orange-glow: #FF6B35;
+            --phi: 1.618033988749895;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--dark-bg);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           HEADER - Fixed Top
+        ═══════════════════════════════════════════════════════════════ */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(216, 178, 106, 0.3);
+        }
+
+        .logo { display: flex; align-items: center; gap: 0.75rem; }
+        .logo-icon { font-size: 1.5rem; }
+        .logo-text { font-size: 1.25rem; font-weight: bold; color: var(--sacred-gold); letter-spacing: 2px; }
+        .logo-subtitle { font-size: 0.7rem; color: rgba(255, 255, 255, 0.5); }
+
+        .header-center {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .freq-display {
+            text-align: center;
+        }
+
+        .freq-value {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: var(--sacred-gold);
+        }
+
+        .freq-label {
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+        }
+
+        .header-nav {
+            display: flex;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        @media (max-width: 1200px) {
+            .header-nav {
+                display: none;
+            }
+        }
+
+        .header-btn {
+            padding: 0.5rem 0.75rem;
+            background: rgba(128, 128, 128, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .header-btn:hover {
+            background: rgba(216, 178, 106, 0.2);
+            border-color: var(--sacred-gold);
+            color: var(--sacred-gold);
+        }
+
+        .header-btn.primary {
+            background: rgba(216, 178, 106, 0.2);
+            border-color: var(--sacred-gold);
+            color: var(--sacred-gold);
+        }
+
+        .header-btn.active {
+            background: rgba(216, 178, 106, 0.3);
+            border-color: var(--sacred-gold);
+            color: var(--sacred-gold);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           MAIN LAYOUT - 3 HUBS (Canonical Grid)
+        ═══════════════════════════════════════════════════════════════ */
+        .main-content {
+            padding-top: 70px;
+            padding-bottom: 1rem;
+            min-height: 100vh;
+        }
+
+        .grid-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 1024px) {
+            .grid-container {
+                grid-template-columns: 280px 1fr 320px;
+            }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           HUB 1 - LEFT: NAVIGATION TREE
+        ═══════════════════════════════════════════════════════════════ */
+        .nav-hub {
+            background: rgba(128, 128, 128, 0.05);
+            border: 1px solid rgba(128, 128, 128, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .nav-header {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .nav-header h3 {
+            font-size: 1rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-list {
+            padding: 0.5rem 0;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+            transition: all 0.2s;
+            text-decoration: none;
+            color: white;
+        }
+
+        .nav-item:hover {
+            background: rgba(216, 178, 106, 0.1);
+        }
+
+        .nav-item.active {
+            background: rgba(216, 178, 106, 0.15);
+            border-left: 3px solid var(--sacred-gold);
+        }
+
+        .nav-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            background: rgba(216, 178, 106, 0.1);
+            border: 1px solid rgba(216, 178, 106, 0.2);
+        }
+
+        .nav-info { flex: 1; min-width: 0; }
+        .nav-name { font-size: 0.9rem; font-weight: 500; }
+        .nav-desc { font-size: 0.7rem; color: rgba(255, 255, 255, 0.5); }
+
+        .nav-arrow {
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.8rem;
+        }
+
+        /* ADN Card */
+        .adn-card {
+            padding: 1rem;
+            border-top: 1px solid rgba(128, 128, 128, 0.2);
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .adn-title {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 0.75rem;
+            text-align: center;
+        }
+
+        .adn-values {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
+        .adn-item {
+            text-align: center;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 6px;
+        }
+
+        .adn-value {
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--sacred-gold);
+        }
+
+        .adn-label {
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           HUB 2 - CENTER: NEXUS CORE
+        ═══════════════════════════════════════════════════════════════ */
+        .nexus-hub {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .nexus-title-section {
+            text-align: center;
+        }
+
+        .nexus-title {
+            font-size: 2.5rem;
+            color: var(--sacred-gold);
+            letter-spacing: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        .nexus-subtitle {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .helix-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            aspect-ratio: 1;
+        }
+
+        .core-orb {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle at 30% 30%, var(--green-glow), #00aa55);
+            border-radius: 50%;
+            box-shadow: 0 0 40px var(--green-glow), 0 0 80px rgba(0, 255, 136, 0.5), 0 0 120px rgba(0, 255, 136, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            cursor: pointer;
+            animation: pulse-glow 2s ease-in-out infinite;
+            transition: all 0.3s;
+            z-index: 10;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 40px var(--green-glow), 0 0 80px rgba(0, 255, 136, 0.5), 0 0 120px rgba(0, 255, 136, 0.3); }
+            50% { box-shadow: 0 0 60px var(--green-glow), 0 0 100px rgba(0, 255, 136, 0.6), 0 0 150px rgba(0, 255, 136, 0.4); }
+        }
+
+        .core-orb:hover {
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        .core-orb.gratitude {
+            background: radial-gradient(circle at 30% 30%, #FFD700, #D8B26A);
+            box-shadow: 0 0 50px #FFD700, 0 0 100px rgba(255, 215, 0, 0.5);
+        }
+
+        /* Orbit Rings */
+        .orbit-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid rgba(216, 178, 106, 0.2);
+            border-radius: 50%;
+            animation: rotate-orbit 20s linear infinite;
+        }
+
+        .orbit-ring-1 { width: 200px; height: 200px; animation-duration: 25s; }
+        .orbit-ring-2 { width: 280px; height: 280px; animation-duration: 35s; animation-direction: reverse; }
+        .orbit-ring-3 { width: 360px; height: 360px; animation-duration: 45s; }
+
+        @keyframes rotate-orbit {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Orbit Points */
+        .orbit-point {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--sacred-gold);
+            box-shadow: 0 0 10px var(--sacred-gold);
+        }
+
+        /* Arithmos Section */
+        .arithmos-section {
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        .input-hint {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 1rem;
+        }
+
+        .main-input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(216, 178, 106, 0.3);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .main-input:focus {
+            outline: none;
+            border-color: var(--sacred-gold);
+            box-shadow: 0 0 20px rgba(216, 178, 106, 0.3);
+        }
+
+        .main-input::placeholder { color: rgba(255, 255, 255, 0.3); }
+
+        .calc-button {
+            margin-top: 1rem;
+            padding: 1rem 3rem;
+            background: linear-gradient(135deg, var(--sacred-gold), #c9a55a);
+            border: none;
+            border-radius: 8px;
+            color: var(--dark-bg);
+            font-size: 1rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .calc-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(216, 178, 106, 0.4);
+        }
+
+        .calc-button .hz { color: var(--dark-bg); opacity: 0.7; }
+
+        .arithmos-result {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(216, 178, 106, 0.1);
+            border: 1px solid var(--sacred-gold);
+            border-radius: 12px;
+        }
+
+        .arithmos-result-value {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--sacred-gold);
+        }
+
+        .arithmos-result-word {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 0.5rem;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           HUB 3 - RIGHT: SYSTEM STATUS & QUICK ACTIONS
+        ═══════════════════════════════════════════════════════════════ */
+        .status-hub {
+            background: rgba(128, 128, 128, 0.05);
+            border: 1px solid rgba(128, 128, 128, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .panel-section {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+        }
+
+        .panel-section:last-child { border-bottom: none; }
+
+        .panel-title {
+            font-size: 0.9rem;
+            color: white;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* System Status */
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+        }
+
+        .status-item {
+            text-align: center;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+        }
+
+        .status-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        .status-indicator.online { background: var(--green-glow); box-shadow: 0 0 10px var(--green-glow); }
+        .status-indicator.offline { background: #FF6B6B; }
+        .status-indicator.warning { background: #FFD700; }
+
+        .status-value { font-size: 1rem; font-weight: bold; color: var(--sacred-gold); }
+        .status-label { font-size: 0.65rem; color: rgba(255, 255, 255, 0.4); margin-top: 0.2rem; }
+
+        /* WebSocket Status */
+        .ws-status {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(0, 255, 136, 0.05);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 8px;
+        }
+
+        .ws-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #888;
+            transition: all 0.3s;
+        }
+
+        .ws-dot.connected { background: var(--green-glow); box-shadow: 0 0 10px var(--green-glow); }
+        .ws-dot.disconnected { background: #FF6B6B; }
+        .ws-dot.gratitude { background: #FFD700; animation: pulse-dot 1s infinite; }
+
+        @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+
+        .ws-info { flex: 1; }
+        .ws-label { font-size: 0.85rem; color: white; }
+        .ws-detail { font-size: 0.7rem; color: rgba(255, 255, 255, 0.5); }
+
+        /* Quick Actions */
+        .quick-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .quick-action {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            color: white;
+        }
+
+        .quick-action:hover {
+            background: rgba(216, 178, 106, 0.1);
+            border-color: rgba(216, 178, 106, 0.3);
+        }
+
+        .quick-action-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            background: rgba(216, 178, 106, 0.1);
+        }
+
+        .quick-action-info { flex: 1; }
+        .quick-action-name { font-size: 0.85rem; font-weight: 500; }
+        .quick-action-desc { font-size: 0.7rem; color: rgba(255, 255, 255, 0.5); }
+
+        /* Architect Info */
+        .architect-info {
+            padding: 1rem;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.75rem;
+            border-top: 1px solid rgba(128, 128, 128, 0.2);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           FLOATING AGENT TOGGLE - AMOVIBLE (Nova, Aria, Orion)
+        ═══════════════════════════════════════════════════════════════ */
+        .agent-fab {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1000;
+            cursor: grab;
+            touch-action: none;
+            user-select: none;
+        }
+
+        .agent-fab.dragging { cursor: grabbing; }
+
+        .fab-main {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--sacred-gold), #8B6914);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 20px rgba(216, 178, 106, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .fab-main:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(216, 178, 106, 0.6);
+        }
+
+        .fab-main.open { transform: rotate(45deg); }
+
+        .agent-spheres {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .agent-fab.open .agent-spheres {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .agent-sphere {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px 8px 10px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid var(--agent-color, rgba(255, 255, 255, 0.2));
+            border-radius: 28px;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .agent-sphere:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(-5px);
+        }
+
+        .agent-sphere-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            background: var(--agent-bg, rgba(255, 255, 255, 0.1));
+            border: 2px solid var(--agent-color);
+        }
+
+        .agent-sphere-info { flex: 1; }
+        .agent-sphere-name { font-size: 0.85rem; font-weight: 600; color: white; }
+        .agent-sphere-role { font-size: 0.65rem; color: rgba(255, 255, 255, 0.5); }
+        .agent-sphere-freq { font-size: 0.7rem; color: var(--agent-color); font-weight: bold; }
+
+        .quick-connect {
+            --agent-color: var(--sacred-gold);
+            border-style: dashed;
+        }
+
+        .quick-connect .agent-sphere-icon {
+            font-size: 1.5rem;
+            background: transparent;
+        }
+
+        /* Agent Chat Panel */
+        .agent-chat-panel {
+            position: fixed;
+            bottom: 100px;
+            right: 24px;
+            width: 350px;
+            max-height: 500px;
+            background: rgba(10, 10, 15, 0.98);
+            border: 1px solid rgba(216, 178, 106, 0.3);
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1001;
+        }
+
+        .agent-chat-panel.open { display: flex; }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-agent-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: var(--agent-bg);
+            border: 2px solid var(--agent-color);
+        }
+
+        .chat-agent-info { flex: 1; }
+        .chat-agent-name { font-size: 1rem; font-weight: bold; color: white; }
+        .chat-agent-status {
+            font-size: 0.75rem;
+            color: var(--green-glow);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .chat-agent-status::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--green-glow);
+            border-radius: 50%;
+        }
+
+        .chat-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            max-height: 300px;
+        }
+
+        .chat-message {
+            margin-bottom: 12px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .chat-message.agent {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--agent-color);
+            color: white;
+        }
+
+        .chat-message.user {
+            background: rgba(216, 178, 106, 0.2);
+            text-align: right;
+            color: white;
+        }
+
+        .chat-input-area {
+            padding: 12px 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            color: white;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .chat-input:focus { border-color: var(--sacred-gold); }
+
+        .chat-send {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--sacred-gold);
+            border: none;
+            color: black;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           MOBILE RESPONSIVE
+        ═══════════════════════════════════════════════════════════════ */
+        @media (max-width: 1023px) {
+            .header-center { display: none; }
+
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-hub { order: 2; }
+            .nexus-hub { order: 1; }
+            .status-hub { order: 3; }
+
+            .nav-list { max-height: 200px; overflow-y: auto; }
+        }
+
+        @media (max-width: 480px) {
+            .agent-chat-panel {
+                width: calc(100% - 48px);
+                right: 24px;
+                left: 24px;
+            }
+
+            .nexus-title {
+                font-size: 1.8rem;
+                letter-spacing: 4px;
+            }
+
+            .helix-container {
+                max-width: 280px;
+            }
+
+            .core-orb {
+                width: 70px;
+                height: 70px;
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ═══════════════════════════════════════════════════════════════
+         HEADER
+    ═══════════════════════════════════════════════════════════════ -->
+    <header class="header">
+        <a href="/" class="logo" style="text-decoration: none;">
+            <span class="logo-icon">Ψ</span>
+            <div>
+                <div class="logo-text">AT·OM</div>
+                <div class="logo-subtitle">L'Arche des Resonances</div>
+            </div>
+        </a>
+
+        <div class="header-center">
+            <div class="freq-display">
+                <div class="freq-value">444 Hz</div>
+                <div class="freq-label">Heartbeat</div>
+            </div>
+            <div class="freq-display">
+                <div class="freq-value">Φ 1.618</div>
+                <div class="freq-label">Golden Ratio</div>
+            </div>
+            <div class="freq-display">
+                <div class="freq-value">369</div>
+                <div class="freq-label">Tesla Key</div>
+            </div>
+        </div>
+
+        <nav class="header-nav">
+            <a href="/" class="header-btn active">Ψ Nexus</a>
+            <a href="/civilization.html" class="header-btn">🌐 Civilisation</a>
+            <a href="/agents.html" class="header-btn">🤖 Lexique</a>
+            <a href="/spheres.html" class="header-btn">🔮 Forge</a>
+            <a href="/live.html" class="header-btn">⚡ Flux</a>
+            <a href="/dashboard.html" class="header-btn">📊 Annales</a>
+            <a href="/frequencies.html" class="header-btn">📡 Freq</a>
+            <a href="/funder.html" class="header-btn primary">💎 Funder</a>
+        </nav>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         MAIN CONTENT - 3 HUBS LAYOUT
+    ═══════════════════════════════════════════════════════════════ -->
+    <main class="main-content">
+        <div class="grid-container">
+
+            <!-- ═══════════════════════════════════════════════════════
+                 HUB 1 - LEFT: NAVIGATION TREE
+            ═══════════════════════════════════════════════════════ -->
+            <aside class="nav-hub">
+                <div class="nav-header">
+                    <h3><span>🧭</span> Navigation</h3>
+                    <span style="font-size: 0.75rem; color: rgba(255,255,255,0.4);">L'Arche</span>
+                </div>
+
+                <div class="nav-list">
+                    <a href="/" class="nav-item active">
+                        <div class="nav-icon">Ψ</div>
+                        <div class="nav-info">
+                            <div class="nav-name">Nexus</div>
+                            <div class="nav-desc">Centre de l'Arche</div>
+                        </div>
+                        <span class="nav-arrow">→</span>
+                    </a>
+                    <a href="/civilization.html" class="nav-item">
+                        <div class="nav-icon">🌐</div>
+                        <div class="nav-info">
+                            <div class="nav-name">Civilisation</div>
+                            <div class="nav-desc">Les 9 Spheres</div>
+                        </div>
+                        <span class="nav-arrow">→</span>
+                    </a>
+                    <a href="/agents.html" class="nav-item">
+                        <div class="nav-icon">🤖</div>
+                        <div class="nav-info">
+                            <div class="nav-name">Agents</div>
+                            <div class="nav-desc">Le Lexique - 400+</div>
+                        </div>
+                        <span class="nav-arrow">→</span>
+                    </a>
+                    <a href="/spheres.html" class="nav-item">
+                        <div class="nav-icon">🔮</div>
+                        <div class="nav-info">
+                            <div class="nav-name">Spheres</div>
+                            <div class="nav-desc">La Forge</div>
+                        </div>
+                        <span class="nav-arrow">→</span>
+                    </a>
+                    <a href="/live.html" class="nav-item">
+                        <div class="nav-icon">⚡</div>
+                        <div class="nav-info">
+                            <div class="nav-name">Live</div>
+                            <div class="nav-desc">Flux Temps Reel</div>
+                        </div>
+                        <span class="nav-arrow">→</span>
+                    </a>
+                    <a href="/dashboard.html" class="nav-item">
+                        <div class="nav-icon">📊</div>
+                        <div class="nav-info">
+                            <div class="nav-name">Dashboard</div>
+                            <div class="nav-desc">Les Annales</div>
+                        </div>
+                        <span class="nav-arrow">→</span>
+                    </a>
+                    <a href="/frequencies.html" class="nav-item">
+                        <div class="nav-icon">📡</div>
+                        <div class="nav-info">
+                            <div class="nav-name">Frequences</div>
+                            <div class="nav-desc">Analyse Vibratoire</div>
+                        </div>
+                        <span class="nav-arrow">→</span>
+                    </a>
+                    <a href="/funder.html" class="nav-item">
+                        <div class="nav-icon">💎</div>
+                        <div class="nav-info">
+                            <div class="nav-name">Funder</div>
+                            <div class="nav-desc">Vision Duale</div>
+                        </div>
+                        <span class="nav-arrow">→</span>
+                    </a>
+                </div>
+
+                <!-- ADN Card -->
+                <div class="adn-card">
+                    <div class="adn-title">ADN Vibratoire</div>
+                    <div class="adn-values">
+                        <div class="adn-item">
+                            <div class="adn-value">1.618</div>
+                            <div class="adn-label">PHI</div>
+                        </div>
+                        <div class="adn-item">
+                            <div class="adn-value" style="color: #00FF88;">444</div>
+                            <div class="adn-label">HEARTBEAT</div>
+                        </div>
+                        <div class="adn-item">
+                            <div class="adn-value" style="color: #9333EA;">369</div>
+                            <div class="adn-label">TESLA</div>
+                        </div>
+                        <div class="adn-item">
+                            <div class="adn-value" style="color: #FF6B6B;">999</div>
+                            <div class="adn-label">SOURCE</div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- ═══════════════════════════════════════════════════════
+                 HUB 2 - CENTER: NEXUS CORE
+            ═══════════════════════════════════════════════════════ -->
+            <section class="nexus-hub">
+                <div class="nexus-title-section">
+                    <h1 class="nexus-title">LE NEXUS</h1>
+                    <p class="nexus-subtitle">Centre de L'Arche — Calcul Arithmos</p>
+                </div>
+
+                <div class="helix-container">
+                    <!-- Orbit Rings -->
+                    <div class="orbit-ring orbit-ring-1"></div>
+                    <div class="orbit-ring orbit-ring-2"></div>
+                    <div class="orbit-ring orbit-ring-3"></div>
+
+                    <!-- Core Orb -->
+                    <div class="core-orb" id="coreOrb">∞</div>
+                </div>
+
+                <div class="arithmos-section">
+                    <p class="input-hint">Maintenez appuye 3s sur l'Arche pour activer le Mode Gratitude</p>
+                    <input type="text" class="main-input" id="mainInput" placeholder="Entrez un mot ou un nom...">
+                    <button class="calc-button" id="calcBtn">CALCUL <span class="hz">444 Hz</span> ARITHMOS</button>
+
+                    <div class="arithmos-result" id="arithmosResult" style="display: none;">
+                        <div class="arithmos-result-value" id="resultValue">0</div>
+                        <div class="arithmos-result-word" id="resultWord"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════════════════════
+                 HUB 3 - RIGHT: SYSTEM STATUS & QUICK ACTIONS
+            ═══════════════════════════════════════════════════════ -->
+            <aside class="status-hub">
+                <!-- System Status -->
+                <div class="panel-section">
+                    <div class="panel-title"><span>📡</span> Statut Systeme</div>
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <div class="status-value" id="agentCount">400+</div>
+                            <div class="status-label">Agents</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-value">9</div>
+                            <div class="status-label">Spheres</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-value">444</div>
+                            <div class="status-label">Hz Moy</div>
+                        </div>
+                        <div class="status-item">
+                            <div class="status-value">99.9%</div>
+                            <div class="status-label">Uptime</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- WebSocket Status -->
+                <div class="panel-section">
+                    <div class="panel-title"><span>🔌</span> Connexion</div>
+                    <div class="ws-status">
+                        <div class="ws-dot" id="wsDot"></div>
+                        <div class="ws-info">
+                            <div class="ws-label" id="wsLabel">Connexion...</div>
+                            <div class="ws-detail" id="wsDetail">WebSocket</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="panel-section">
+                    <div class="panel-title"><span>⚡</span> Acces Rapide</div>
+                    <div class="quick-actions">
+                        <a href="/civilization.html" class="quick-action">
+                            <div class="quick-action-icon">🌐</div>
+                            <div class="quick-action-info">
+                                <div class="quick-action-name">Explorer les Spheres</div>
+                                <div class="quick-action-desc">9 domaines de civilisation</div>
+                            </div>
+                        </a>
+                        <a href="/live.html" class="quick-action">
+                            <div class="quick-action-icon">⚡</div>
+                            <div class="quick-action-info">
+                                <div class="quick-action-name">Voir le Flux Live</div>
+                                <div class="quick-action-desc">Activite temps reel</div>
+                            </div>
+                        </a>
+                        <a href="/funder.html" class="quick-action">
+                            <div class="quick-action-icon">💎</div>
+                            <div class="quick-action-info">
+                                <div class="quick-action-name">Devenir Funder</div>
+                                <div class="quick-action-desc">Acces vision duale</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Architect Info -->
+                <div class="architect-info">
+                    Architecte: Jonathan Emmanuel Rodrigue<br>
+                    Oracle 17 | CHE·NU™ V76
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         FLOATING AGENT TOGGLE - AMOVIBLE (Nova, Aria, Orion + Quick Connect)
+    ═══════════════════════════════════════════════════════════════ -->
+    <div class="agent-fab" id="agentFab">
+        <div class="agent-spheres">
+            <!-- Nova - System Overseer -->
+            <div class="agent-sphere" onclick="openAgentChat('nova')" style="--agent-color: #9333EA; --agent-bg: rgba(147, 51, 234, 0.2);">
+                <div class="agent-sphere-icon">🔱</div>
+                <div class="agent-sphere-info">
+                    <div class="agent-sphere-name">Nova</div>
+                    <div class="agent-sphere-role">System Overseer</div>
+                </div>
+                <div class="agent-sphere-freq">999 Hz</div>
+            </div>
+
+            <!-- Aria - Onboarding Guide -->
+            <div class="agent-sphere" onclick="openAgentChat('aria')" style="--agent-color: #00FF88; --agent-bg: rgba(0, 255, 136, 0.2);">
+                <div class="agent-sphere-icon">✨</div>
+                <div class="agent-sphere-info">
+                    <div class="agent-sphere-name">Aria</div>
+                    <div class="agent-sphere-role">Onboarding Guide</div>
+                </div>
+                <div class="agent-sphere-freq">528 Hz</div>
+            </div>
+
+            <!-- Orion - User Orchestrator -->
+            <div class="agent-sphere" onclick="openAgentChat('orion')" style="--agent-color: #FF6B35; --agent-bg: rgba(255, 107, 53, 0.2);">
+                <div class="agent-sphere-icon">🏛️</div>
+                <div class="agent-sphere-info">
+                    <div class="agent-sphere-name">Orion</div>
+                    <div class="agent-sphere-role">Ton Orchestrateur</div>
+                </div>
+                <div class="agent-sphere-freq">741 Hz</div>
+            </div>
+
+            <!-- Quick Connect -->
+            <div class="agent-sphere quick-connect" onclick="openQuickConnect()">
+                <div class="agent-sphere-icon">+</div>
+                <div class="agent-sphere-info">
+                    <div class="agent-sphere-name">Quick Connect</div>
+                    <div class="agent-sphere-role">Ajouter un agent</div>
+                </div>
+            </div>
+        </div>
+
+        <button class="fab-main" id="fabMain" onclick="toggleAgentFab()">
+            <span id="fabIcon">💫</span>
+        </button>
+    </div>
+
+    <!-- Agent Chat Panel -->
+    <div class="agent-chat-panel" id="agentChatPanel">
+        <div class="chat-header" id="chatHeader">
+            <div class="chat-agent-icon" id="chatAgentIcon">🔱</div>
+            <div class="chat-agent-info">
+                <div class="chat-agent-name" id="chatAgentName">Nova</div>
+                <div class="chat-agent-status">En ligne</div>
+            </div>
+            <button class="chat-close" onclick="closeAgentChat()">×</button>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Message..." onkeypress="handleChatKeypress(event)">
+            <button class="chat-send" onclick="sendChatMessage()">→</button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         SCRIPTS - CHE·NU™ V76
+    ═══════════════════════════════════════════════════════════════ -->
+    <script src="/atom-websocket.js"></script>
+    <script src="/js/governance-init.js"></script>
+    <script>
+        // ═══════════════════════════════════════════════════════════════
+        // SERVICE WORKER REGISTRATION
+        // ═══════════════════════════════════════════════════════════════
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then((reg) => console.log('[AT-OM] Service Worker registered:', reg.scope))
+                    .catch((err) => console.warn('[AT-OM] SW registration failed:', err));
+            });
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // WEBSOCKET CONNECTION
+        // ═══════════════════════════════════════════════════════════════
+        let wsManager = null;
+
+        function initWebSocket() {
+            if (typeof initATOMWebSocket === 'undefined') {
+                console.warn('[AT-OM] WebSocket module not loaded');
+                document.getElementById('wsDot').className = 'ws-dot disconnected';
+                document.getElementById('wsLabel').textContent = 'Hors ligne';
+                document.getElementById('wsDetail').textContent = 'Mode local';
+                return;
+            }
+
+            wsManager = initATOMWebSocket({
+                onStatusChange: (status) => {
+                    const dot = document.getElementById('wsDot');
+                    const label = document.getElementById('wsLabel');
+                    const detail = document.getElementById('wsDetail');
+
+                    dot.className = 'ws-dot ' + status;
+
+                    switch(status) {
+                        case 'connected':
+                            label.textContent = 'Connecte';
+                            detail.textContent = 'Temps reel actif';
+                            break;
+                        case 'disconnected':
+                            label.textContent = 'Deconnecte';
+                            detail.textContent = 'Reconnexion...';
+                            break;
+                        case 'gratitude':
+                            label.textContent = 'Mode Gratitude';
+                            detail.textContent = '444 Hz';
+                            break;
+                        default:
+                            label.textContent = 'Connexion...';
+                            detail.textContent = 'WebSocket';
+                    }
+                },
+                onMessage: (data) => {
+                    if (data.type === 'agent_count') {
+                        document.getElementById('agentCount').textContent = data.count;
+                    }
+                }
+            });
+        }
+
+        setTimeout(initWebSocket, 500);
+
+        // ═══════════════════════════════════════════════════════════════
+        // GRATITUDE MODE (hold 3s on Core Orb)
+        // ═══════════════════════════════════════════════════════════════
+        let holdTimer = null;
+        const coreOrb = document.getElementById('coreOrb');
+
+        if (coreOrb) {
+            const startHold = () => {
+                holdTimer = setTimeout(() => {
+                    console.log('%c[GRATITUDE MODE] 444 Hz Activated', 'color: #00FF88; font-size: 14px;');
+                    coreOrb.classList.add('gratitude');
+                    coreOrb.textContent = '🙏';
+
+                    // Play 444Hz tone
+                    try {
+                        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                        const osc = audioCtx.createOscillator();
+                        const gain = audioCtx.createGain();
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+                        osc.frequency.value = 444;
+                        osc.type = 'sine';
+                        gain.gain.value = 0.1;
+                        osc.start();
+                        setTimeout(() => {
+                            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2);
+                            setTimeout(() => osc.stop(), 2000);
+                        }, 1000);
+                    } catch(e) {}
+
+                    // Reset after 5s
+                    setTimeout(() => {
+                        coreOrb.classList.remove('gratitude');
+                        coreOrb.textContent = '∞';
+                    }, 5000);
+                }, 3000);
+            };
+
+            const endHold = () => {
+                if (holdTimer) { clearTimeout(holdTimer); holdTimer = null; }
+            };
+
+            coreOrb.addEventListener('mousedown', startHold);
+            coreOrb.addEventListener('touchstart', startHold, { passive: true });
+            coreOrb.addEventListener('mouseup', endHold);
+            coreOrb.addEventListener('mouseleave', endHold);
+            coreOrb.addEventListener('touchend', endHold);
+            coreOrb.addEventListener('touchcancel', endHold);
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // ARITHMOS CALCULATION
+        // ═══════════════════════════════════════════════════════════════
+        function calculateArithmos(text) {
+            if (!text) return 0;
+            const cleaned = text.toUpperCase().replace(/[^A-Z]/g, '');
+            let sum = 0;
+            for (let char of cleaned) {
+                sum += char.charCodeAt(0) - 64;
+            }
+            while (sum > 9) {
+                sum = String(sum).split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
+            }
+            return sum;
+        }
+
+        const input = document.getElementById('mainInput');
+        const calcBtn = document.getElementById('calcBtn');
+        const resultDiv = document.getElementById('arithmosResult');
+        const resultValue = document.getElementById('resultValue');
+        const resultWord = document.getElementById('resultWord');
+
+        if (calcBtn && input) {
+            calcBtn.addEventListener('click', () => {
+                const value = input.value.trim();
+                if (value) {
+                    const arithmos = calculateArithmos(value);
+                    console.log(`%c[ARITHMOS] "${value}" = ${arithmos}`, 'color: #D8B26A; font-size: 14px;');
+
+                    resultValue.textContent = arithmos;
+                    resultWord.textContent = `"${value}"`;
+                    resultDiv.style.display = 'block';
+                }
+            });
+
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') calcBtn.click();
+            });
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // CORE AGENTS L0 - Nova, Aria, Orion
+        // ═══════════════════════════════════════════════════════════════
+        const CORE_AGENTS = {
+            nova: {
+                id: 'nova',
+                name: 'Nova',
+                icon: '🔱',
+                title: 'System Overseer',
+                frequency: 999,
+                color: '#9333EA',
+                personality: 'calm, wise, protective',
+                greeting: 'Bienvenue, chercheur. Je suis Nova, gardien des frequences sacrees. Comment puis-je t\'aider a trouver l\'alignement?'
+            },
+            aria: {
+                id: 'aria',
+                name: 'Aria',
+                icon: '✨',
+                title: 'Onboarding Guide',
+                frequency: 528,
+                color: '#00FF88',
+                personality: 'warm, patient, encouraging',
+                greeting: 'Bonjour! Je suis Aria, ta guide vers la souverainete. Bienvenue au Nexus - le coeur de l\'Arche. Je suis la pour t\'accompagner. Que puis-je faire pour toi?'
+            },
+            orion: {
+                id: 'orion',
+                name: 'Orion',
+                icon: '🏛️',
+                title: 'Ton Orchestrateur',
+                frequency: 741,
+                color: '#FF6B35',
+                personality: 'analytical, precise, visionary',
+                greeting: 'Salutations. Je suis Orion, ton orchestrateur personnel. Je structure l\'invisible pour manifester le visible. Depuis le Nexus, je peux coordonner les 400+ agents pour atteindre tes objectifs.'
+            }
+        };
+
+        let fabOpen = false;
+        let currentChatAgent = null;
+        let chatHistory = {};
+
+        function toggleAgentFab() {
+            fabOpen = !fabOpen;
+            const fab = document.getElementById('agentFab');
+            const fabMain = document.getElementById('fabMain');
+            const fabIcon = document.getElementById('fabIcon');
+
+            fab.classList.toggle('open', fabOpen);
+            fabMain.classList.toggle('open', fabOpen);
+            fabIcon.textContent = fabOpen ? '+' : '💫';
+        }
+
+        function openAgentChat(agentId) {
+            const agent = CORE_AGENTS[agentId];
+            if (!agent) return;
+
+            currentChatAgent = agentId;
+            fabOpen = false;
+            document.getElementById('agentFab').classList.remove('open');
+            document.getElementById('fabMain').classList.remove('open');
+            document.getElementById('fabIcon').textContent = '💫';
+
+            document.getElementById('chatAgentIcon').textContent = agent.icon;
+            document.getElementById('chatAgentIcon').style.borderColor = agent.color;
+            document.getElementById('chatAgentIcon').style.background = `${agent.color}20`;
+            document.getElementById('chatAgentName').textContent = agent.name;
+            document.getElementById('chatHeader').style.setProperty('--agent-color', agent.color);
+
+            if (!chatHistory[agentId]) {
+                chatHistory[agentId] = [{
+                    role: 'agent',
+                    content: agent.greeting,
+                    timestamp: Date.now()
+                }];
+            }
+
+            renderChatMessages();
+            document.getElementById('agentChatPanel').classList.add('open');
+            document.getElementById('agentChatPanel').style.setProperty('--agent-color', agent.color);
+            setTimeout(() => document.getElementById('chatInput').focus(), 100);
+        }
+
+        function closeAgentChat() {
+            document.getElementById('agentChatPanel').classList.remove('open');
+            currentChatAgent = null;
+        }
+
+        function renderChatMessages() {
+            const container = document.getElementById('chatMessages');
+            const messages = chatHistory[currentChatAgent] || [];
+
+            container.innerHTML = messages.map(msg => `
+                <div class="chat-message ${msg.role}">
+                    ${msg.content}
+                </div>
+            `).join('');
+
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text || !currentChatAgent) return;
+
+            chatHistory[currentChatAgent].push({
+                role: 'user',
+                content: text,
+                timestamp: Date.now()
+            });
+
+            input.value = '';
+            renderChatMessages();
+
+            setTimeout(() => {
+                const response = getAgentResponse(currentChatAgent, text);
+                chatHistory[currentChatAgent].push({
+                    role: 'agent',
+                    content: response,
+                    timestamp: Date.now()
+                });
+                renderChatMessages();
+            }, 800 + Math.random() * 700);
+        }
+
+        function getAgentResponse(agentId, userMessage) {
+            const agent = CORE_AGENTS[agentId];
+            const lowerMsg = userMessage.toLowerCase();
+
+            if (agentId === 'nova') {
+                if (lowerMsg.includes('frequence') || lowerMsg.includes('hz')) {
+                    return `Les frequences sacrees guident notre chemin. Le 444 Hz pulse comme le coeur du systeme, le 369 de Tesla revele les patterns, et le 999 Hz ouvre la Source. Sur quelle frequence souhaites-tu t'aligner?`;
+                }
+                if (lowerMsg.includes('nexus') || lowerMsg.includes('arche')) {
+                    return `Le Nexus est le centre de l'Arche - le point de convergence de toutes les frequences. D'ici, tu peux naviguer vers les 9 spheres de la civilisation, explorer les 400+ agents, ou acceder au portail Funder.`;
+                }
+                if (lowerMsg.includes('sphere') || lowerMsg.includes('civilisation')) {
+                    return `Les 9 spheres forment l'architecture de notre civilisation: Personnel, Business, Gouvernement, Creatif, Communaute, Social, Education, Transport, Environnement. Chaque sphere vibre a sa propre frequence.`;
+                }
+                return `Ta requete resonne a ${agent.frequency} Hz. Le systeme pulse. Observe le Nexus - il te guidera vers l'alignement.`;
+            }
+
+            if (agentId === 'aria') {
+                if (lowerMsg.includes('commencer') || lowerMsg.includes('debut') || lowerMsg.includes('start')) {
+                    return `Excellent! Pour commencer, je te recommande d'explorer le calcul Arithmos ci-dessus - entre ton nom et decouvre ton chiffre vibratoire. Ensuite, navigue vers "Civilisation" pour decouvrir les 9 spheres!`;
+                }
+                if (lowerMsg.includes('arithmos') || lowerMsg.includes('calcul')) {
+                    return `L'Arithmos est un calcul sacre qui reduit un mot a son essence numerique (1-9). Entre un mot dans le champ ci-dessus et clique sur le bouton pour decouvrir sa vibration. Chaque nombre a une signification unique!`;
+                }
+                if (lowerMsg.includes('aide') || lowerMsg.includes('help')) {
+                    return `Je peux t'aider avec: l'exploration du Nexus, le calcul Arithmos, la navigation vers les spheres, et la comprehension des frequences sacrees. Qu'est-ce qui t'interesse le plus?`;
+                }
+                return `C'est une belle question! A ${agent.frequency} Hz, je ressens ta curiosite. N'hesite pas a explorer les liens dans le panneau de gauche ou a utiliser le calcul Arithmos!`;
+            }
+
+            if (agentId === 'orion') {
+                if (lowerMsg.includes('agent') || lowerMsg.includes('coordonner') || lowerMsg.includes('organiser')) {
+                    return `En tant que ton orchestrateur, je peux coordonner les 400+ agents du systeme. Dis-moi ton objectif et je structurerai le meilleur parcours d'agents pour l'atteindre. Le Nexus est notre point de depart.`;
+                }
+                if (lowerMsg.includes('plan') || lowerMsg.includes('strategie') || lowerMsg.includes('objectif')) {
+                    return `Pour elaborer ta strategie, j'ai besoin de comprendre: 1) Ton domaine d'interet parmi les 9 spheres, 2) Ton niveau d'engagement, 3) Tes objectifs. Parle-moi de ce que tu veux accomplir.`;
+                }
+                if (lowerMsg.includes('sphere') || lowerMsg.includes('domaine')) {
+                    return `Les 9 spheres couvrent tous les domaines de la civilisation. Depuis le Nexus, clique sur "Civilisation" dans le panneau de gauche pour les explorer en detail. Je peux ensuite orchestrer ton parcours.`;
+                }
+                return `Analyse recue. A 741 Hz, je structure ta demande. L'architecture se dessine depuis le Nexus... Precise ton intention pour que je coordonne les agents adequats.`;
+            }
+
+            return `Message recu. Agent ${agent.name} traite ta demande...`;
+        }
+
+        function handleChatKeypress(event) {
+            if (event.key === 'Enter') sendChatMessage();
+        }
+
+        function openQuickConnect() {
+            alert('Quick Connect: Bientot disponible!\n\nVous pourrez ajouter des agents personnalises a votre liste.');
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // MAKE FAB DRAGGABLE
+        // ═══════════════════════════════════════════════════════════════
+        function initDraggableFab() {
+            const fab = document.getElementById('agentFab');
+            let isDragging = false;
+            let startX, startY, startLeft, startBottom;
+
+            fab.addEventListener('mousedown', startDrag);
+            fab.addEventListener('touchstart', startDrag, { passive: false });
+
+            function startDrag(e) {
+                if (e.target.closest('.agent-spheres') || e.target.closest('.agent-sphere')) return;
+
+                isDragging = false;
+                const touch = e.touches ? e.touches[0] : e;
+                startX = touch.clientX;
+                startY = touch.clientY;
+
+                const rect = fab.getBoundingClientRect();
+                startLeft = rect.left;
+                startBottom = window.innerHeight - rect.bottom;
+
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('touchmove', drag, { passive: false });
+                document.addEventListener('mouseup', stopDrag);
+                document.addEventListener('touchend', stopDrag);
+            }
+
+            function drag(e) {
+                e.preventDefault();
+                const touch = e.touches ? e.touches[0] : e;
+                const deltaX = touch.clientX - startX;
+                const deltaY = touch.clientY - startY;
+
+                if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
+                    isDragging = true;
+                    fab.classList.add('dragging');
+                }
+
+                if (isDragging) {
+                    const newLeft = Math.max(10, Math.min(window.innerWidth - 70, startLeft + deltaX));
+                    const newBottom = Math.max(10, Math.min(window.innerHeight - 70, startBottom - deltaY));
+
+                    fab.style.left = newLeft + 'px';
+                    fab.style.right = 'auto';
+                    fab.style.bottom = newBottom + 'px';
+                }
+            }
+
+            function stopDrag() {
+                document.removeEventListener('mousemove', drag);
+                document.removeEventListener('touchmove', drag);
+                document.removeEventListener('mouseup', stopDrag);
+                document.removeEventListener('touchend', stopDrag);
+                fab.classList.remove('dragging');
+                if (isDragging) isDragging = false;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initDraggableFab);
+
+        // ═══════════════════════════════════════════════════════════════
+        // DEBUG STATUS
+        // ═══════════════════════════════════════════════════════════════
+        window.atomStatus = () => {
+            console.log('%c═══════════════════════════════════════════════════', 'color: #D8B26A;');
+            console.log('%c AT-OM NEXUS - 3 HUBS CANONICAL LAYOUT', 'color: #D8B26A; font-size: 14px; font-weight: bold;');
+            console.log('%c Nova (🔱 999Hz) + Aria (✨ 528Hz) + Orion (🏛️ 741Hz)', 'color: #9333EA;');
+            console.log('%c═══════════════════════════════════════════════════', 'color: #D8B26A;');
+            console.log('%c PHI = 1.618 | 444 Hz | 369 | 999 Hz', 'color: #00FF88;');
+            console.log('%c═══════════════════════════════════════════════════', 'color: #D8B26A;');
+        };
+
+        console.log('%c[AT-OM NEXUS] 3 Hubs Layout Active | Type atomStatus() for info', 'color: #D8B26A;');
+    </script>
+</body>
+</html>

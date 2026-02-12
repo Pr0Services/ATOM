@@ -1,0 +1,78 @@
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- MODIFICATIONS À APPLIQUER À TON INDEX.HTML EXISTANT                        -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- 1. DANS LE <head> - REMPLACER la ligne apple-mobile-web-app-capable        -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
+<!-- SUPPRIMER cette ligne (déprécié) : -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+
+<!-- AJOUTER ces lignes à la place : -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#D8B26A">
+
+<!-- AJOUTER/VÉRIFIER les liens vers les icônes : -->
+<link rel="manifest" href="/manifest.json">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="/logo192.png">
+<link rel="apple-touch-icon" href="/logo192.png">
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- 2. À LA FIN DU <body> - REMPLACER l'enregistrement du Service Worker       -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
+<!-- CHERCHER et REMPLACER le code d'enregistrement du Service Worker existant -->
+<!-- par ce code corrigé qui ne bloque pas en cas d'erreur : -->
+
+<script>
+    // ═══════════════════════════════════════════════════════════════
+    // SERVICE WORKER REGISTRATION - CORRIGÉ (ne bloque pas si erreur)
+    // ═══════════════════════════════════════════════════════════════
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then((registration) => {
+                    console.log('[AT-OM] ✅ Service Worker registered:', registration.scope);
+                })
+                .catch((error) => {
+                    // Log l'erreur mais ne bloque pas l'application
+                    console.warn('[AT-OM] Service Worker registration skipped:', error.message);
+                });
+        });
+    }
+</script>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- 3. FICHIERS À AJOUTER À LA RACINE DU REPO                                  -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
+<!--
+Les fichiers suivants doivent être présents à la racine:
+
+/service-worker.js  ← Télécharge depuis atom-fixes/
+/manifest.json      ← Télécharge depuis atom-fixes/
+/logo192.png        ← Télécharge depuis atom-fixes/
+/logo512.png        ← Télécharge depuis atom-fixes/
+/favicon.png        ← Télécharge depuis atom-fixes/
+-->
+
+
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+<!-- RÉSUMÉ DES CHANGEMENTS                                                      -->
+<!-- ═══════════════════════════════════════════════════════════════════════════ -->
+
+<!--
+ERREUR 1: "Service Worker non enregistré: SecurityError"
+→ FIX: Ajouter service-worker.js à la racine
+
+ERREUR 2: "apple-mobile-web-app-capable is deprecated"
+→ FIX: Remplacer par mobile-web-app-capable
+
+ERREUR 3: "logo192.png Download error"
+→ FIX: Ajouter logo192.png et logo512.png à la racine
+-->

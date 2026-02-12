@@ -1,2 +1,117 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# AT·OM — .gitignore Principal
+# ═══════════════════════════════════════════════════════════════════════════
+
+# ═══════════════════════════════════════════════════════════════════════════
+# 🔐 SECRETS & ENVIRONMENT — CRITICAL SECURITY
+# ═══════════════════════════════════════════════════════════════════════════
+# ⚠️ 2026-02-05: RENFORCÉ après compromission ZAMA (0.0.7730446)
+# ⚠️ Ne JAMAIS supprimer ces lignes
+.env
+.env.*
+.env.local
+.env.*.local
+.env.production
+.env.staging
+.env.development
+!.env.example
+!.env.hedera.example
+!.env.template
+
+# 🔑 KEY FILES & CERTIFICATES
+*.key
+*.pem
+*.secret
+*.p12
+*.pfx
+*.jks
+*.keystore
+*.cer
+*.crt
+*.der
+*.pub
+id_rsa*
+id_ed25519*
+*.ppk
+
+# 🔒 WALLET & CRYPTO
+*.wallet
+*.seed
+*.mnemonic
+keystore/
+wallets/
+
+# 📋 SENSITIVE DOCUMENTATION (contain key locations/patterns)
+KEYS_LOCATIONS.md
+PLAN-CONNEXIONS-COMPLET.md
+*_SECRETS_*
+*_CREDENTIALS_*
+
+# ═══════════════════════════════════════════════════════════════════════════
+# 📦 NODE.JS
+# ═══════════════════════════════════════════════════════════════════════════
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.npm
+.yarn
+
+# ═══════════════════════════════════════════════════════════════════════════
+# 🐍 PYTHON
+# ═══════════════════════════════════════════════════════════════════════════
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+.venv/
+ENV/
+env/
+.eggs/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# ═══════════════════════════════════════════════════════════════════════════
+# 🚀 DEPLOYMENT
+# ═══════════════════════════════════════════════════════════════════════════
 .vercel
-.env*.local
+.netlify
+.serverless
+
+# ═══════════════════════════════════════════════════════════════════════════
+# 🧹 TEMPORARY & CACHE
+# ═══════════════════════════════════════════════════════════════════════════
+tmpclaude-*
+*.tmp
+*.temp
+*.log
+*.cache
+.cache/
+tmp/
+temp/
+
+# ═══════════════════════════════════════════════════════════════════════════
+# 💻 IDE & EDITORS
+# ═══════════════════════════════════════════════════════════════════════════
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ═══════════════════════════════════════════════════════════════════════════
+# 📁 OS SPECIFIC
+# ═══════════════════════════════════════════════════════════════════════════
+.DS_Store
+.AppleDouble
+.LSOverride
+ehthumbs.db
+Desktop.ini

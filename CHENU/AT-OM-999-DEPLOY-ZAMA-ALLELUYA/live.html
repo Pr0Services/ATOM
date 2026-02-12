@@ -1,0 +1,1654 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AT-OM | Flux - Live Monitoring</title>
+    <meta name="description" content="Flux en temps réel des agents AT-OM - Monitoring WebSocket et visualisation des fréquences">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <script src="/config.js"></script>
+    <script src="/js/governance-init.js"></script>
+    <style>
+        /* ═══════════════════════════════════════════════════════════════════
+           AT-OM FLUX - CANONICAL 3 HUBS LAYOUT
+           Hub 1: Statut & Contrôles (280px)
+           Hub 2: Visualisation Canvas (1fr)
+           Hub 3: Événements & Agents (320px)
+           ═══════════════════════════════════════════════════════════════════ */
+
+        :root {
+            /* ADN Vibratoire */
+            --phi: 1.618033988749895;
+            --heartbeat: 444;
+            --tesla: 369;
+            --source: 999;
+
+            /* Couleurs Sacrées */
+            --sacred-gold: #D4AF37;
+            --sacred-gold-dim: rgba(212, 175, 55, 0.3);
+            --dark-bg: #0a0a0f;
+            --darker-bg: #050508;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(212, 175, 55, 0.2);
+
+            /* Agents L0 */
+            --nova-color: #9333EA;
+            --aria-color: #00FF88;
+            --orion-color: #FF6B35;
+
+            /* Status Colors */
+            --status-connected: #00FF88;
+            --status-disconnected: #FF6B6B;
+            --status-warning: #FFD700;
+
+            /* Layout Canonique */
+            --hub1-width: 280px;
+            --hub3-width: 320px;
+            --max-width: 1600px;
+            --gap: 1.5rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--dark-bg);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           HEADER - Navigation Globale
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .global-header {
+            background: linear-gradient(180deg, rgba(10, 10, 15, 0.98), rgba(10, 10, 15, 0.95));
+            border-bottom: 1px solid var(--card-border);
+            padding: 0.75rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+        }
+
+        .header-content {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--sacred-gold), #F4E4BC);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .page-title {
+            font-size: 0.9rem;
+            color: #888;
+            padding-left: 1rem;
+            border-left: 1px solid var(--card-border);
+        }
+
+        .global-nav {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        .nav-link {
+            padding: 0.5rem 0.75rem;
+            color: #888;
+            text-decoration: none;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: var(--sacred-gold);
+            background: var(--sacred-gold-dim);
+        }
+
+        .nav-link.active {
+            color: var(--sacred-gold);
+            background: var(--sacred-gold-dim);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           LAYOUT CANONIQUE 3 HUBS
+           Grid: 280px | 1fr | 320px
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .main-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: var(--gap);
+            min-height: calc(100vh - 60px);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--gap);
+            height: calc(100vh - 120px);
+        }
+
+        @media (min-width: 768px) {
+            .grid-container {
+                grid-template-columns: var(--hub1-width) 1fr;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .grid-container {
+                grid-template-columns: var(--hub1-width) 1fr var(--hub3-width);
+            }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           HUB 1 - Statut & Contrôles (280px)
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .status-hub {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            height: 100%;
+            overflow-y: auto;
+        }
+
+        .hub-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .hub-card-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hub-card-header h3 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--sacred-gold);
+        }
+
+        .hub-card-content {
+            padding: 1rem;
+        }
+
+        /* Connection Status Card */
+        .connection-status {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .pulse {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--status-connected);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .pulse.disconnected {
+            background: var(--status-disconnected);
+            animation: none;
+        }
+
+        .pulse.gratitude {
+            background: var(--status-warning);
+            animation: pulse-gratitude 4.44s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(0, 255, 136, 0.5); }
+            50% { opacity: 0.8; box-shadow: 0 0 0 8px rgba(0, 255, 136, 0); }
+        }
+
+        @keyframes pulse-gratitude {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255, 215, 0, 0.5); }
+            50% { opacity: 0.8; box-shadow: 0 0 0 12px rgba(255, 215, 0, 0); }
+        }
+
+        .status-text {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .status-text.connected { color: var(--status-connected); }
+        .status-text.disconnected { color: var(--status-disconnected); }
+        .status-text.gratitude { color: var(--status-warning); }
+
+        .status-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+        }
+
+        .status-label { color: #888; }
+        .status-value { color: #ccc; }
+
+        /* Controls Card */
+        .controls-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+        }
+
+        .control-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--card-border);
+            border-radius: 8px;
+            color: #ccc;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+        }
+
+        .control-btn:hover {
+            border-color: var(--sacred-gold);
+            color: var(--sacred-gold);
+        }
+
+        .control-btn.active {
+            background: var(--sacred-gold-dim);
+            border-color: var(--sacred-gold);
+            color: var(--sacred-gold);
+        }
+
+        .control-btn.full-width {
+            grid-column: 1 / -1;
+        }
+
+        /* Stats Card */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--sacred-gold);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ADN Card */
+        .adn-grid {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .adn-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        .adn-label { color: #888; }
+        .adn-value {
+            font-family: 'Courier New', monospace;
+            color: var(--sacred-gold);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           HUB 2 - Visualisation Canvas (1fr)
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .canvas-hub {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .canvas-container {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            min-height: 300px;
+        }
+
+        #agentCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .canvas-overlay {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .overlay-badge {
+            padding: 0.4rem 0.75rem;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            color: #aaa;
+            backdrop-filter: blur(10px);
+        }
+
+        .overlay-badge.live {
+            border-color: var(--status-connected);
+            color: var(--status-connected);
+        }
+
+        .overlay-badge.live::before {
+            content: '●';
+            margin-right: 0.3rem;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* Frequency Bar */
+        .frequency-bar {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+        }
+
+        .freq-label {
+            font-size: 0.8rem;
+            color: #888;
+            white-space: nowrap;
+        }
+
+        .freq-meter {
+            flex: 1;
+            height: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .freq-meter-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--aria-color), var(--sacred-gold), var(--nova-color));
+            border-radius: 4px;
+            transition: width 0.3s ease;
+        }
+
+        .freq-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--sacred-gold);
+            min-width: 80px;
+            text-align: right;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           HUB 3 - Événements & Agents (320px)
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .events-hub {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* Event Log */
+        .event-log-card {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .event-log {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+
+        .event {
+            display: flex;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.8rem;
+        }
+
+        .event:last-child {
+            border-bottom: none;
+        }
+
+        .event-time {
+            color: #666;
+            font-family: 'Courier New', monospace;
+            font-size: 0.7rem;
+            white-space: nowrap;
+        }
+
+        .event-type {
+            color: var(--sacred-gold);
+            font-weight: 500;
+            text-transform: uppercase;
+            font-size: 0.65rem;
+            padding: 0.1rem 0.3rem;
+            background: var(--sacred-gold-dim);
+            border-radius: 3px;
+        }
+
+        .event-type.ws { background: rgba(0, 255, 136, 0.2); color: #00FF88; }
+        .event-type.error { background: rgba(255, 107, 107, 0.2); color: #FF6B6B; }
+        .event-type.sync { background: rgba(147, 51, 234, 0.2); color: #9333EA; }
+        .event-type.atlas { background: rgba(255, 215, 0, 0.2); color: #FFD700; }
+
+        .event-message {
+            color: #ccc;
+            flex: 1;
+        }
+
+        /* Active Agents */
+        .agents-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .active-agent {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
+
+        .agent-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .agent-name {
+            font-weight: 500;
+            color: white;
+        }
+
+        .agent-sphere {
+            font-size: 0.7rem;
+            color: #888;
+        }
+
+        .agent-freq {
+            font-weight: 700;
+            color: var(--sacred-gold);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           FLOATING AGENT FAB (Nova, Aria, Orion)
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .agent-fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .fab-main {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--sacred-gold), #B8860B);
+            border: none;
+            color: var(--dark-bg);
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fab-main:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(212, 175, 55, 0.6);
+        }
+
+        .agent-fab.open .fab-main {
+            transform: rotate(45deg);
+        }
+
+        .agent-spheres {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .agent-fab.open .agent-spheres {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .agent-sphere {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: rgba(10, 10, 15, 0.95);
+            border: 1px solid var(--agent-color);
+            border-radius: 28px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .agent-sphere:hover {
+            transform: translateX(-5px);
+        }
+
+        .agent-sphere-icon { font-size: 1.2rem; }
+
+        .agent-sphere-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .agent-sphere-name {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--agent-color);
+        }
+
+        .agent-sphere-freq {
+            font-size: 0.7rem;
+            color: #888;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           AGENT CHAT PANEL
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .agent-chat-panel {
+            position: fixed;
+            bottom: 100px;
+            right: 2rem;
+            width: 380px;
+            max-height: 500px;
+            background: rgba(10, 10, 15, 0.98);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+        }
+
+        .agent-chat-panel.open { display: flex; }
+
+        .chat-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(180deg, rgba(255,255,255,0.05), transparent);
+        }
+
+        .chat-agent-icon { font-size: 1.5rem; }
+        .chat-agent-info { flex: 1; }
+        .chat-agent-name { font-weight: 600; font-size: 1rem; }
+        .chat-agent-title { font-size: 0.75rem; color: #888; }
+
+        .chat-close {
+            background: none;
+            border: none;
+            color: #666;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        .chat-close:hover { color: white; }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-height: 300px;
+        }
+
+        .chat-message {
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            max-width: 90%;
+        }
+
+        .chat-message.agent {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            align-self: flex-start;
+        }
+
+        .chat-message.user {
+            background: var(--sacred-gold-dim);
+            border: 1px solid var(--sacred-gold);
+            align-self: flex-end;
+        }
+
+        .chat-input-area {
+            padding: 1rem;
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--sacred-gold);
+        }
+
+        .chat-send {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--sacred-gold);
+            border: none;
+            color: var(--dark-bg);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-send:hover { background: #F4E4BC; }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           LOW ENERGY MODE
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .low-energy-mode .canvas-container {
+            filter: contrast(0.9);
+        }
+
+        .low-energy-mode .freq-meter-fill {
+            animation: none !important;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           MOBILE RESPONSIVE
+           ═══════════════════════════════════════════════════════════════════ */
+
+        @media (max-width: 767px) {
+            .global-nav { display: none; }
+
+            .grid-container {
+                height: auto;
+                min-height: calc(100vh - 120px);
+            }
+
+            .status-hub, .events-hub {
+                height: auto;
+            }
+
+            .canvas-container {
+                min-height: 250px;
+            }
+
+            .agent-chat-panel {
+                left: 1rem;
+                right: 1rem;
+                width: auto;
+                bottom: 80px;
+            }
+
+            .agent-fab {
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+
+        @media (max-width: 1199px) {
+            .events-hub {
+                max-height: 400px;
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--sacred-gold-dim); }
+    </style>
+</head>
+<body>
+    <!-- ═══════════════════════════════════════════════════════════════════
+         GLOBAL HEADER
+         ═══════════════════════════════════════════════════════════════════ -->
+    <header class="global-header">
+        <div class="header-content">
+            <div class="logo-section">
+                <a href="/" class="logo">AT-OM</a>
+                <span class="page-title">Flux Live</span>
+            </div>
+            <nav class="global-nav">
+                <a href="/" class="nav-link">Ψ Nexus</a>
+                <a href="/civilization.html" class="nav-link">🌐 Civilisation</a>
+                <a href="/agents.html" class="nav-link">🤖 Lexique</a>
+                <a href="/spheres.html" class="nav-link">🔮 Forge</a>
+                <a href="/live.html" class="nav-link active">⚡ Flux</a>
+                <a href="/dashboard.html" class="nav-link">📊 Annales</a>
+                <a href="/frequencies.html" class="nav-link">📡 Freq</a>
+                <a href="/funder.html" class="nav-link">💎 Funder</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         MAIN CONTAINER - 3 HUBS LAYOUT
+         ═══════════════════════════════════════════════════════════════════ -->
+    <main class="main-container">
+        <div class="grid-container">
+
+            <!-- ═══════════════════════════════════════════════════════════
+                 HUB 1 - Statut & Contrôles (280px)
+                 ═══════════════════════════════════════════════════════════ -->
+            <aside class="status-hub">
+                <!-- Connection Status -->
+                <div class="hub-card">
+                    <div class="hub-card-header">
+                        <span>📡</span>
+                        <h3>Connexion WebSocket</h3>
+                    </div>
+                    <div class="hub-card-content">
+                        <div class="connection-status">
+                            <div class="status-indicator">
+                                <div class="pulse" id="wsIndicator"></div>
+                                <span class="status-text connected" id="wsStatus">Connexion...</span>
+                            </div>
+                            <div class="status-details">
+                                <div class="status-row">
+                                    <span class="status-label">Latence</span>
+                                    <span class="status-value" id="latencyValue">--ms</span>
+                                </div>
+                                <div class="status-row">
+                                    <span class="status-label">Mode</span>
+                                    <span class="status-value" id="modeValue">Normal</span>
+                                </div>
+                                <div class="status-row">
+                                    <span class="status-label">Reconnexions</span>
+                                    <span class="status-value" id="reconnectValue">0</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="hub-card">
+                    <div class="hub-card-header">
+                        <span>🎮</span>
+                        <h3>Contrôles</h3>
+                    </div>
+                    <div class="hub-card-content">
+                        <div class="controls-grid">
+                            <button class="control-btn active" id="btnPlay">▶️ Play</button>
+                            <button class="control-btn" id="btnPause">⏸️ Pause</button>
+                            <button class="control-btn" id="btnReset">🔄 Reset</button>
+                            <button class="control-btn" id="btnReport">📊 Report</button>
+                            <button class="control-btn full-width" id="btnReconnect">🔌 Reconnecter</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Live Stats -->
+                <div class="hub-card">
+                    <div class="hub-card-header">
+                        <span>📊</span>
+                        <h3>Statistiques Live</h3>
+                    </div>
+                    <div class="hub-card-content">
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-value" id="agentCount">--</div>
+                                <div class="stat-label">Agents</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="eventCount">0</div>
+                                <div class="stat-label">Events</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="peakFreq">--</div>
+                                <div class="stat-label">Peak Hz</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="atlasCount">0</div>
+                                <div class="stat-label">3i Atlas</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ADN Vibratoire -->
+                <div class="hub-card">
+                    <div class="hub-card-header">
+                        <span>🧬</span>
+                        <h3>ADN Vibratoire</h3>
+                    </div>
+                    <div class="hub-card-content">
+                        <div class="adn-grid">
+                            <div class="adn-item">
+                                <span class="adn-label">PHI</span>
+                                <span class="adn-value">1.618033...</span>
+                            </div>
+                            <div class="adn-item">
+                                <span class="adn-label">Heartbeat</span>
+                                <span class="adn-value">444 Hz</span>
+                            </div>
+                            <div class="adn-item">
+                                <span class="adn-label">Tesla</span>
+                                <span class="adn-value">369</span>
+                            </div>
+                            <div class="adn-item">
+                                <span class="adn-label">Source</span>
+                                <span class="adn-value">999 Hz</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- ═══════════════════════════════════════════════════════════
+                 HUB 2 - Visualisation Canvas (1fr)
+                 ═══════════════════════════════════════════════════════════ -->
+            <section class="canvas-hub">
+                <div class="canvas-container">
+                    <canvas id="agentCanvas"></canvas>
+                    <div class="canvas-overlay">
+                        <span class="overlay-badge live" id="liveIndicator">LIVE</span>
+                        <span class="overlay-badge" id="particleCount">0 particules</span>
+                    </div>
+                </div>
+
+                <div class="frequency-bar">
+                    <span class="freq-label">Fréquence moyenne</span>
+                    <div class="freq-meter">
+                        <div class="freq-meter-fill" id="freqMeterFill" style="width: 0%;"></div>
+                    </div>
+                    <span class="freq-value" id="avgFreqDisplay">-- Hz</span>
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════════════════════════
+                 HUB 3 - Événements & Agents (320px)
+                 ═══════════════════════════════════════════════════════════ -->
+            <aside class="events-hub">
+                <!-- Event Log -->
+                <div class="hub-card event-log-card" style="flex: 1;">
+                    <div class="hub-card-header">
+                        <span>📋</span>
+                        <h3>Événements Récents</h3>
+                    </div>
+                    <div class="event-log" id="eventLog">
+                        <!-- Events dynamically added -->
+                    </div>
+                </div>
+
+                <!-- Active Agents -->
+                <div class="hub-card">
+                    <div class="hub-card-header">
+                        <span>🤖</span>
+                        <h3>Agents les Plus Actifs</h3>
+                    </div>
+                    <div class="hub-card-content">
+                        <div class="agents-list" id="activeAgents">
+                            <!-- Agents dynamically added -->
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         FLOATING AGENT FAB (Nova, Aria, Orion)
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div class="agent-fab" id="agentFab">
+        <div class="agent-spheres">
+            <div class="agent-sphere" onclick="openAgentChat('nova')" style="--agent-color: #9333EA;">
+                <span class="agent-sphere-icon">🔱</span>
+                <div class="agent-sphere-info">
+                    <span class="agent-sphere-name">Nova</span>
+                    <span class="agent-sphere-freq">999 Hz • Overseer</span>
+                </div>
+            </div>
+            <div class="agent-sphere" onclick="openAgentChat('aria')" style="--agent-color: #00FF88;">
+                <span class="agent-sphere-icon">✨</span>
+                <div class="agent-sphere-info">
+                    <span class="agent-sphere-name">Aria</span>
+                    <span class="agent-sphere-freq">528 Hz • Guide</span>
+                </div>
+            </div>
+            <div class="agent-sphere" onclick="openAgentChat('orion')" style="--agent-color: #FF6B35;">
+                <span class="agent-sphere-icon">🏛️</span>
+                <div class="agent-sphere-info">
+                    <span class="agent-sphere-name">Orion</span>
+                    <span class="agent-sphere-freq">741 Hz • Orchestrateur</span>
+                </div>
+            </div>
+        </div>
+        <button class="fab-main" onclick="toggleAgentFab()">💫</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         AGENT CHAT PANEL
+         ═══════════════════════════════════════════════════════════════════ -->
+    <div class="agent-chat-panel" id="agentChatPanel">
+        <div class="chat-header">
+            <span class="chat-agent-icon" id="chatAgentIcon">🔱</span>
+            <div class="chat-agent-info">
+                <div class="chat-agent-name" id="chatAgentName">Nova</div>
+                <div class="chat-agent-title" id="chatAgentTitle">System Overseer</div>
+            </div>
+            <button class="chat-close" onclick="closeAgentChat()">&times;</button>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Posez votre question...">
+            <button class="chat-send" onclick="sendChatMessage()">→</button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════════════
+         JAVASCRIPT
+         ═══════════════════════════════════════════════════════════════════ -->
+    <script>
+        // ═══════════════════════════════════════════════════════════════════
+        // CONFIGURATION
+        // ═══════════════════════════════════════════════════════════════════
+
+        const API_BASE = (typeof ATOM_CONFIG !== 'undefined') ? ATOM_CONFIG.API_BASE : 'https://atom-2autu.ondigitalocean.app';
+        const WS_URL = (typeof ATOM_CONFIG !== 'undefined') ? ATOM_CONFIG.WS_URL : 'wss://atom-2autu.ondigitalocean.app/ws';
+        const FETCH_TIMEOUT = 5000;
+
+        let agents = [];
+        let ws = null;
+        let wsManager = null;
+        let isPlaying = true;
+        let animationId = null;
+        let eventCounter = 0;
+        let peakFrequency = 0;
+        let atlasApproaches = 0;
+
+        const FALLBACK_AGENTS = [
+            { id: 1, name: "Nova", sphere: "Intelligence", frequency_hz: 999 },
+            { id: 2, name: "Aria", sphere: "Communication", frequency_hz: 528 },
+            { id: 3, name: "Orion", sphere: "Integration", frequency_hz: 741 },
+            { id: 4, name: "Atlas", sphere: "Construction", frequency_hz: 528 },
+            { id: 5, name: "Phoenix", sphere: "Analytics", frequency_hz: 639 },
+            { id: 6, name: "Guardian", sphere: "Security", frequency_hz: 741 },
+        ];
+
+        // Canvas
+        const canvas = document.getElementById('agentCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        // ═══════════════════════════════════════════════════════════════════
+        // CORE AGENTS L0
+        // ═══════════════════════════════════════════════════════════════════
+
+        const CORE_AGENTS = {
+            nova: {
+                id: 'nova', name: 'Nova', icon: '🔱', title: 'System Overseer',
+                frequency: 999, color: '#9333EA',
+                greeting: 'Bienvenue dans le Flux Live. Je suis Nova, gardien des fréquences. Le monitoring en temps réel te permet d\'observer les pulsations du système.',
+                responses: {
+                    frequency: 'Les fréquences sacrées - 444 Hz, 369, 999 Hz - structurent nos vibrations.',
+                    ws: 'Le WebSocket maintient une connexion persistante avec le cœur du système.',
+                    help: 'Je supervise les flux en temps réel et garantis la cohérence vibratoire.'
+                }
+            },
+            aria: {
+                id: 'aria', name: 'Aria', icon: '✨', title: 'Onboarding Guide',
+                frequency: 528, color: '#00FF88',
+                greeting: 'Bonjour! Je suis Aria. Le Flux Live affiche les agents actifs en temps réel. Utilise les contrôles pour gérer la visualisation.',
+                responses: {
+                    canvas: 'Le canvas montre les particules représentant chaque agent et leurs connexions.',
+                    event: 'Les événements s\'affichent dans le panneau de droite en temps réel.',
+                    help: 'Je t\'accompagne dans ta découverte du monitoring live!'
+                }
+            },
+            orion: {
+                id: 'orion', name: 'Orion', icon: '🏛️', title: 'Ton Orchestrateur',
+                frequency: 741, color: '#FF6B35',
+                greeting: 'Salutations. Je suis Orion. Le Flux permet d\'observer la coordination des agents en action. Que veux-tu analyser?',
+                responses: {
+                    agent: 'Chaque particule représente un agent en activité dans le système.',
+                    plan: 'Je peux t\'aider à comprendre les patterns de coordination visible.',
+                    help: 'Je structure l\'observation des flux pour faciliter ta compréhension.'
+                }
+            }
+        };
+
+        // ═══════════════════════════════════════════════════════════════════
+        // CANVAS
+        // ═══════════════════════════════════════════════════════════════════
+
+        function resizeCanvas() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        function initParticles() {
+            particles = agents.slice(0, 100).map(a => ({
+                id: a.id,
+                name: a.name,
+                sphere: a.sphere,
+                freq: a.frequency_hz || 100,
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 2,
+                vy: (Math.random() - 0.5) * 2,
+                radius: 3 + Math.min(a.frequency_hz || 0, 1000) / 200,
+                color: getColorForSphere(a.sphere)
+            }));
+            document.getElementById('particleCount').textContent = `${particles.length} particules`;
+        }
+
+        function getColorForSphere(sphere) {
+            const colors = {
+                'Intelligence': '#9333EA',
+                'Communication': '#00FF88',
+                'Integration': '#FF6B35',
+                'Construction': '#FF6B6B',
+                'Finance': '#4ECDC4',
+                'Analytics': '#96CEB4',
+                'Security': '#FFEAA7'
+            };
+            return colors[sphere] || '#D4AF37';
+        }
+
+        function animate() {
+            if (!isPlaying) return;
+
+            ctx.fillStyle = 'rgba(10, 10, 15, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                p.x += p.vx * (p.freq / 500);
+                p.y += p.vy * (p.freq / 500);
+
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                // Glow
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius * 2.5, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + '22';
+                ctx.fill();
+
+                // Core
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+            });
+
+            // Connections
+            ctx.strokeStyle = 'rgba(212, 175, 55, 0.08)';
+            ctx.lineWidth = 0.5;
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    const dx = particles[i].x - particles[j].x;
+                    const dy = particles[i].y - particles[j].y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(particles[i].x, particles[i].y);
+                        ctx.lineTo(particles[j].x, particles[j].y);
+                        ctx.stroke();
+                    }
+                }
+            }
+
+            animationId = requestAnimationFrame(animate);
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // WEBSOCKET MANAGER
+        // ═══════════════════════════════════════════════════════════════════
+
+        const GRATITUDE_FREQUENCY = 444;
+        const GRATITUDE_FALLBACK_DELAY = 15000;
+
+        class ATOMWebSocketManager {
+            constructor(config = {}) {
+                this.wsUrl = config.wsUrl || WS_URL;
+                this.maxReconnectAttempts = 10;
+                this.reconnectInterval = 2000;
+                this.heartbeatInterval = 30000;
+
+                this.ws = null;
+                this.reconnectAttempts = 0;
+                this.reconnectTimer = null;
+                this.heartbeatTimer = null;
+                this.gratitudeFallbackTimer = null;
+                this.isIntentionallyClosed = false;
+                this.isGratitudeMode = false;
+                this.lastPingTime = null;
+                this.currentLatency = 0;
+
+                this.onMessage = config.onMessage || null;
+                this.onStatusChange = config.onStatusChange || null;
+
+                document.addEventListener('visibilitychange', () => this.handleVisibilityChange());
+            }
+
+            connect() {
+                if (this.ws && this.ws.readyState === WebSocket.OPEN) return;
+
+                this.isIntentionallyClosed = false;
+                addEvent('ws', 'Connexion en cours...');
+
+                if (this.gratitudeFallbackTimer) clearTimeout(this.gratitudeFallbackTimer);
+
+                try {
+                    this.ws = new WebSocket(this.wsUrl);
+                    this._setupHandlers();
+                } catch (error) {
+                    addEvent('error', 'Échec connexion WebSocket');
+                    this._scheduleReconnect();
+                }
+            }
+
+            _setupHandlers() {
+                this.ws.onopen = () => {
+                    this.reconnectAttempts = 0;
+                    this._startHeartbeat();
+                    addEvent('ws', '✅ WebSocket connecté!');
+                    if (this.onStatusChange) this.onStatusChange('connected');
+                    this._deactivateGratitudeMode();
+                    document.getElementById('reconnectValue').textContent = this.reconnectAttempts;
+                };
+
+                this.ws.onmessage = (event) => {
+                    if (this.lastPingTime) {
+                        this.currentLatency = Date.now() - this.lastPingTime;
+                        document.getElementById('latencyValue').textContent = this.currentLatency + 'ms';
+                    }
+
+                    try {
+                        const data = JSON.parse(event.data);
+                        this._processMessage(data);
+                        if (this.onMessage) this.onMessage(data);
+                    } catch (e) {}
+                };
+
+                this.ws.onclose = () => {
+                    this._stopHeartbeat();
+                    addEvent('ws', '❌ WebSocket déconnecté');
+                    if (this.onStatusChange) this.onStatusChange('disconnected');
+
+                    this.gratitudeFallbackTimer = setTimeout(() => {
+                        this._activateGratitudeMode();
+                    }, GRATITUDE_FALLBACK_DELAY);
+
+                    if (!this.isIntentionallyClosed) this._scheduleReconnect();
+                };
+
+                this.ws.onerror = () => {
+                    addEvent('error', 'Erreur WebSocket');
+                };
+            }
+
+            _processMessage(data) {
+                const freq = data.frequency_hz || data.agent?.frequency_hz;
+                if (freq) {
+                    if (freq > peakFrequency) {
+                        peakFrequency = freq;
+                        document.getElementById('peakFreq').textContent = freq;
+                    }
+
+                    // 3i Atlas detection
+                    if (freq >= 963 && freq <= 999) {
+                        atlasApproaches++;
+                        document.getElementById('atlasCount').textContent = atlasApproaches;
+                        addEvent('atlas', `✨ Ligne 3i Atlas: ${freq}Hz`);
+                    }
+                }
+
+                if (data.agent?.name) {
+                    addEvent('sync', `${data.agent.name} → ${data.agent.frequency_hz || 0}Hz`);
+                }
+            }
+
+            _activateGratitudeMode() {
+                if (this.isGratitudeMode) return;
+                this.isGratitudeMode = true;
+                addEvent('sync', `🙏 Mode Gratitude ${GRATITUDE_FREQUENCY}Hz activé`);
+                document.getElementById('modeValue').textContent = 'Gratitude 444Hz';
+                document.getElementById('wsIndicator').classList.add('gratitude');
+                document.getElementById('wsStatus').textContent = 'Mode Gratitude';
+                document.getElementById('wsStatus').className = 'status-text gratitude';
+
+                this.gratitudePulseInterval = setInterval(() => {
+                    if (this.onMessage) {
+                        this.onMessage({ type: 'gratitude_pulse', frequency_hz: GRATITUDE_FREQUENCY });
+                    }
+                }, 4440);
+            }
+
+            _deactivateGratitudeMode() {
+                if (!this.isGratitudeMode) return;
+                this.isGratitudeMode = false;
+                if (this.gratitudePulseInterval) clearInterval(this.gratitudePulseInterval);
+                document.getElementById('modeValue').textContent = 'Normal';
+                document.getElementById('wsIndicator').classList.remove('gratitude');
+                addEvent('sync', '✅ Sortie Mode Gratitude');
+            }
+
+            _scheduleReconnect() {
+                if (this.isIntentionallyClosed || this.reconnectAttempts >= this.maxReconnectAttempts) return;
+
+                this.reconnectAttempts++;
+                document.getElementById('reconnectValue').textContent = this.reconnectAttempts;
+                const delay = this.reconnectInterval * Math.min(this.reconnectAttempts, 5);
+                addEvent('ws', `🔄 Reconnexion ${this.reconnectAttempts}/${this.maxReconnectAttempts}...`);
+                this.reconnectTimer = setTimeout(() => this.connect(), delay);
+            }
+
+            handleVisibilityChange() {
+                if (document.visibilityState === 'visible' && !this.isConnected()) {
+                    this.reconnectAttempts = 0;
+                    this.connect();
+                }
+            }
+
+            _startHeartbeat() {
+                this._stopHeartbeat();
+                this.heartbeatTimer = setInterval(() => this._sendPing(), this.heartbeatInterval);
+            }
+
+            _stopHeartbeat() {
+                if (this.heartbeatTimer) clearInterval(this.heartbeatTimer);
+            }
+
+            _sendPing() {
+                if (this.isConnected()) {
+                    try {
+                        this.lastPingTime = Date.now();
+                        this.ws.send(JSON.stringify({ type: 'ping', timestamp: this.lastPingTime }));
+                    } catch (e) {}
+                }
+            }
+
+            isConnected() {
+                return this.ws && this.ws.readyState === WebSocket.OPEN;
+            }
+
+            disconnect() {
+                this.isIntentionallyClosed = true;
+                this._stopHeartbeat();
+                if (this.gratitudePulseInterval) clearInterval(this.gratitudePulseInterval);
+                if (this.reconnectTimer) clearTimeout(this.reconnectTimer);
+                if (this.gratitudeFallbackTimer) clearTimeout(this.gratitudeFallbackTimer);
+                if (this.ws) this.ws.close();
+            }
+
+            getStatus() {
+                return {
+                    connected: this.isConnected(),
+                    isGratitudeMode: this.isGratitudeMode,
+                    currentLatency: this.currentLatency,
+                    reconnectAttempts: this.reconnectAttempts
+                };
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // DATA & EVENTS
+        // ═══════════════════════════════════════════════════════════════════
+
+        async function fetchWithTimeout(url, timeout = FETCH_TIMEOUT) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), timeout);
+            try {
+                const response = await fetch(url, { signal: controller.signal });
+                clearTimeout(timeoutId);
+                return response;
+            } catch (error) {
+                clearTimeout(timeoutId);
+                throw error;
+            }
+        }
+
+        async function fetchAgents() {
+            try {
+                const response = await fetchWithTimeout(`${API_BASE}/agents`);
+                agents = await response.json();
+                if (!Array.isArray(agents)) throw new Error('Invalid');
+                addEvent('system', `${agents.length} agents chargés`);
+            } catch (error) {
+                const cached = localStorage.getItem('atom_agents_cache');
+                agents = cached ? JSON.parse(cached) : FALLBACK_AGENTS;
+                addEvent('system', `${agents.length} agents (fallback)`);
+            }
+
+            document.getElementById('agentCount').textContent = agents.length;
+            initParticles();
+            renderActiveAgents();
+            updateFrequencyMeter();
+        }
+
+        function addEvent(type, message) {
+            eventCounter++;
+            document.getElementById('eventCount').textContent = eventCounter;
+
+            const log = document.getElementById('eventLog');
+            const time = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+
+            const event = document.createElement('div');
+            event.className = 'event';
+            event.innerHTML = `
+                <span class="event-time">${time}</span>
+                <span class="event-type ${type}">${type}</span>
+                <span class="event-message">${message}</span>
+            `;
+            log.insertBefore(event, log.firstChild);
+            if (log.children.length > 50) log.removeChild(log.lastChild);
+        }
+
+        function renderActiveAgents() {
+            const container = document.getElementById('activeAgents');
+            const top8 = [...agents].sort((a, b) => (b.frequency_hz || 0) - (a.frequency_hz || 0)).slice(0, 8);
+
+            container.innerHTML = top8.map(a => `
+                <div class="active-agent">
+                    <div class="agent-info">
+                        <span class="agent-name">${a.name}</span>
+                        <span class="agent-sphere">${a.sphere || 'Unknown'}</span>
+                    </div>
+                    <span class="agent-freq">${a.frequency_hz || 0} Hz</span>
+                </div>
+            `).join('');
+        }
+
+        function updateFrequencyMeter() {
+            const avgFreq = agents.reduce((sum, a) => sum + (a.frequency_hz || 0), 0) / agents.length;
+            const percent = Math.min(100, (avgFreq / 1000) * 100);
+            document.getElementById('freqMeterFill').style.width = percent + '%';
+            document.getElementById('avgFreqDisplay').textContent = Math.round(avgFreq) + ' Hz';
+        }
+
+        function connectWS() {
+            wsManager = new ATOMWebSocketManager({
+                wsUrl: WS_URL,
+                onMessage: handleMessage,
+                onStatusChange: (status) => {
+                    const indicator = document.getElementById('wsIndicator');
+                    const statusText = document.getElementById('wsStatus');
+                    const liveIndicator = document.getElementById('liveIndicator');
+
+                    if (status === 'connected') {
+                        indicator.classList.remove('disconnected', 'gratitude');
+                        statusText.textContent = 'Connecté';
+                        statusText.className = 'status-text connected';
+                        liveIndicator.classList.add('live');
+                    } else {
+                        indicator.classList.add('disconnected');
+                        statusText.textContent = 'Déconnecté';
+                        statusText.className = 'status-text disconnected';
+                        liveIndicator.classList.remove('live');
+                    }
+                }
+            });
+            wsManager.connect();
+        }
+
+        function handleMessage(data) {
+            if (data.type === 'agent_update') {
+                addEvent('agent', `${data.agent?.name || 'Agent'} mis à jour`);
+            } else if (data.type === 'frequency_change') {
+                addEvent('freq', `Fréquence: ${data.frequency_hz} Hz`);
+            } else if (data.type === 'gratitude_pulse') {
+                addEvent('sync', `💛 Pulse Gratitude ${data.frequency_hz}Hz`);
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════════
+        // CONTROLS
+        // ═══════════════════════════════════════════════════════════════════
+
+        document.getElementById('btnPlay').onclick = () => {
+            isPlaying = true;
+            document.getElementById('btnPlay').classList.add('active');
+            document.getElementById('btnPause').classList.remove('active');
+            animate();
+        };
+
+        document.getElementById('btnPause').onclick = () => {
+            isPlaying = false;
+            document.getElementById('btnPause').classList.add('active');
+            document.getElementById('btnPlay').classList.remove('active');
+            cancelAnimationFrame(animationId);
+        };
+
+        document.getElementById('btnReset').onclick = () => {
+            initParticles();
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            eventCounter = 0;
+            peakFrequency = 0;
+            atlasApproaches = 0;
+            document.getElementById('eventCount').textContent = '0';
+            document.getElementById('peakFreq').textContent = '--';
+            document.getElementById('atlasCount').textContent = '0';
+            document.getElementById('eventLog').innerHTML = '';
+            addEvent('system', '🔄 Reset effectué');
+        };
+
+        document.getElementById('btnReport').onclick = () => {
+            const status = wsManager ? wsManager.getStatus() : { connected: false };
+            alert(`📊 Rapport Live\n\nAgents: ${agents.length}\nÉvénements: ${eventCounter}\nPeak: ${peakFrequency}Hz\n3i Atlas: ${atlasApproaches}\nConnexion: ${status.connected ? 'OK' : 'KO'}\nLatence: ${status.currentLatency}ms`);
+        };
+
+        document.getElementById('btnReconnect').onclick = () => {
+            if (wsManager) {
+                wsManager.disconnect();
+                setTimeout(() => wsManager.connect(), 500);
+            }
+        };
+
+        // ═══════════════════════════════════════════════════════════════════
+        // AGENT CHAT
+        // ═══════════════════════════════════════════════════════════════════
+
+        let currentChatAgent = 'nova';
+
+        function toggleAgentFab() {
+            document.getElementById('agentFab').classList.toggle('open');
+        }
+
+        function openAgentChat(agentId) {
+            currentChatAgent = agentId;
+            const agent = CORE_AGENTS[agentId];
+            if (!agent) return;
+
+            document.getElementById('chatAgentIcon').textContent = agent.icon;
+            document.getElementById('chatAgentName').textContent = agent.name;
+            document.getElementById('chatAgentName').style.color = agent.color;
+            document.getElementById('chatAgentTitle').textContent = agent.title;
+
+            document.getElementById('chatMessages').innerHTML = '';
+            addChatMessage(agent.greeting, 'agent');
+
+            document.getElementById('agentChatPanel').classList.add('open');
+            document.getElementById('agentFab').classList.remove('open');
+            setTimeout(() => document.getElementById('chatInput').focus(), 100);
+        }
+
+        function closeAgentChat() {
+            document.getElementById('agentChatPanel').classList.remove('open');
+        }
+
+        function addChatMessage(text, type) {
+            const messagesDiv = document.getElementById('chatMessages');
+            const msg = document.createElement('div');
+            msg.className = `chat-message ${type}`;
+            msg.textContent = text;
+            messagesDiv.appendChild(msg);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            addChatMessage(text, 'user');
+            input.value = '';
+
+            setTimeout(() => {
+                const agent = CORE_AGENTS[currentChatAgent];
+                let response = agent.responses.help;
+                const lower = text.toLowerCase();
+
+                if (lower.includes('fréquence') || lower.includes('hz')) response = agent.responses.frequency || agent.responses.help;
+                else if (lower.includes('websocket') || lower.includes('connexion')) response = agent.responses.ws || agent.responses.help;
+                else if (lower.includes('canvas') || lower.includes('particule')) response = agent.responses.canvas || agent.responses.help;
+                else if (lower.includes('event') || lower.includes('événement')) response = agent.responses.event || agent.responses.help;
+                else if (lower.includes('agent')) response = agent.responses.agent || agent.responses.help;
+
+                addChatMessage(response, 'agent');
+            }, 500);
+        }
+
+        document.getElementById('chatInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendChatMessage();
+        });
+
+        document.addEventListener('click', (e) => {
+            const fab = document.getElementById('agentFab');
+            if (!fab.contains(e.target)) fab.classList.remove('open');
+        });
+
+        // ═══════════════════════════════════════════════════════════════════
+        // INITIALIZATION
+        // ═══════════════════════════════════════════════════════════════════
+
+        (function init() {
+            agents = FALLBACK_AGENTS;
+            initParticles();
+            animate();
+
+            fetchAgents().then(() => {
+                initParticles();
+            });
+
+            setTimeout(connectWS, 1500);
+
+            addEvent('system', '⚡ Flux Live initialisé');
+        })();
+    </script>
+</body>
+</html>

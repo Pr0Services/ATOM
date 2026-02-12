@@ -1,0 +1,46 @@
+{
+  "version": 2,
+  "name": "atom-sovereign",
+  "buildCommand": "cd Vzwwviru70560-d4e/hardcore-joliot/atom/app && npm install && npm run build",
+  "outputDirectory": "Vzwwviru70560-d4e/hardcore-joliot/atom/app/build",
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "https://sea-turtle-app-n4vsa.ondigitalocean.app/api/$1",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Content-Type, Authorization"
+      }
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
+    {
+      "src": "/manifest.json",
+      "dest": "/manifest.json"
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "/favicon.ico"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ],
+  "env": {
+    "REACT_APP_API_URL": "",
+    "REACT_APP_SUPABASE_URL": "https://vzbrhovthpihrhdbbjud.supabase.co",
+    "REACT_APP_SUPABASE_ANON_KEY": "@supabase_anon_key",
+    "REACT_APP_HEDERA_TOKEN_ID": "0.0.7780104",
+    "REACT_APP_NFT_COLLECTION_ID": "0.0.7780274",
+    "REACT_APP_HEDERA_NETWORK": "testnet",
+    "REACT_APP_ATOM_M": "44.4",
+    "REACT_APP_ATOM_P": "161.8",
+    "REACT_APP_ATOM_I": "369",
+    "REACT_APP_ATOM_PO": "1728"
+  },
+  "regions": ["iad1"]
+}

@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc:*)",
+      "Bash(dir \"C:\\\\Users\\\\admin\\\\Github\\\\ATOM\\\\CHENU\" /b)",
+      "Bash(findstr:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(gh api:*)",
+      "Bash(gh repo view:*)",
+      "WebFetch(domain:api.github.com)",
+      "Bash(ls:*)",
+      "Bash(grep:*)"
+    ]
+  }
+}

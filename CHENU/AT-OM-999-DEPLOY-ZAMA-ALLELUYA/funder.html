@@ -1,0 +1,2292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#D8B26A">
+    <meta name="description" content="AT-OM Funder Portal - Acces aux deux visions: Civilisation et Mythique/Spirituelle">
+
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/png" href="/favicon.png">
+    <link rel="apple-touch-icon" href="/logo192.png">
+
+    <title>AT-OM | Funder Portal - Vision Duale</title>
+    <script src="/config.js"></script>
+    <script src="/js/governance-init.js"></script>
+    <script src="/js/stripe-client.js"></script>
+
+    <style>
+        :root {
+            --sacred-gold: #D8B26A;
+            --dark-bg: #0a0a0f;
+            --dark-surface: #1A1A1A;
+            --green-glow: #00FF88;
+            --purple-glow: #9333EA;
+            --phi: 1.618033988749895;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--dark-bg);
+            color: white;
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background 0.5s ease;
+        }
+
+        body.mythique-mode {
+            background: linear-gradient(135deg, #0a0a1a, #1a0a2a, #0a1a1a);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           HEADER - Fixed Top
+        ═══════════════════════════════════════════════════════════════ */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(216, 178, 106, 0.3);
+        }
+
+        .logo { display: flex; align-items: center; gap: 0.75rem; }
+        .logo-icon { font-size: 1.5rem; }
+        .logo-text { font-size: 1.25rem; font-weight: bold; color: var(--sacred-gold); letter-spacing: 2px; }
+        .logo-subtitle { font-size: 0.7rem; color: rgba(255, 255, 255, 0.5); }
+
+        /* VIEW TOGGLE - THE MOTOR */
+        .view-toggle-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .frequency-motor {
+            text-align: center;
+        }
+
+        .motor-value {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--sacred-gold);
+            transition: color 0.5s;
+        }
+
+        .mythique-mode .motor-value { color: var(--purple-glow); }
+
+        .motor-label {
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .view-toggle {
+            position: relative;
+            width: 140px;
+            height: 36px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid var(--sacred-gold);
+            border-radius: 20px;
+            cursor: pointer;
+            overflow: hidden;
+        }
+
+        .toggle-slider {
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: calc(50% - 4px);
+            height: calc(100% - 4px);
+            background: var(--sacred-gold);
+            border-radius: 16px;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .view-toggle.mythique .toggle-slider {
+            left: calc(50% + 2px);
+            background: linear-gradient(135deg, var(--purple-glow), #6B21A8);
+        }
+
+        .toggle-labels {
+            position: absolute;
+            display: flex;
+            width: 100%;
+            height: 100%;
+        }
+
+        .toggle-label {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: bold;
+            transition: color 0.3s;
+            z-index: 1;
+        }
+
+        .toggle-label.active { color: var(--dark-bg); }
+        .toggle-label:not(.active) { color: rgba(255, 255, 255, 0.5); }
+
+        .header-nav {
+            display: flex;
+            gap: 0.25rem;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 1100px) {
+            .header-nav { display: none; }
+        }
+
+        .header-btn {
+            padding: 0.5rem 0.75rem;
+            background: rgba(128, 128, 128, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .header-btn:hover {
+            background: rgba(216, 178, 106, 0.2);
+            border-color: var(--sacred-gold);
+            color: var(--sacred-gold);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           MAIN LAYOUT - 3 HUBS (Canonical Grid)
+        ═══════════════════════════════════════════════════════════════ */
+        .main-content {
+            padding-top: 70px;
+            padding-bottom: 1rem;
+            min-height: 100vh;
+        }
+
+        .grid-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 1024px) {
+            .grid-container {
+                grid-template-columns: 280px 1fr 320px;
+            }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           HUB 1 - LEFT: SPHERE/AGENT NAVIGATOR (Collapsible)
+        ═══════════════════════════════════════════════════════════════ */
+        .sphere-navigator {
+            background: rgba(128, 128, 128, 0.05);
+            border: 1px solid rgba(128, 128, 128, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        /* Collapsed State - Icons Only */
+        .sphere-navigator.collapsed {
+            width: 70px !important;
+            min-width: 70px;
+        }
+
+        .mythique-mode .sphere-navigator {
+            border-color: rgba(147, 51, 234, 0.3);
+        }
+
+        .nav-header {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.5rem;
+        }
+
+        .nav-header h3 {
+            font-size: 1rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .nav-header-text {
+            transition: opacity 0.2s, width 0.2s;
+        }
+
+        .sphere-navigator.collapsed .nav-header-text {
+            opacity: 0;
+            width: 0;
+            overflow: hidden;
+        }
+
+        .nav-toggle-btn {
+            width: 28px;
+            height: 28px;
+            min-width: 28px;
+            border-radius: 6px;
+            background: rgba(216, 178, 106, 0.2);
+            border: 1px solid rgba(216, 178, 106, 0.3);
+            color: var(--sacred-gold);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .nav-toggle-btn:hover {
+            background: rgba(216, 178, 106, 0.4);
+            transform: scale(1.05);
+        }
+
+        .sphere-navigator.collapsed .nav-toggle-btn {
+            transform: rotate(180deg);
+        }
+
+        .mythique-mode .nav-toggle-btn {
+            background: rgba(147, 51, 234, 0.2);
+            border-color: rgba(147, 51, 234, 0.3);
+            color: var(--purple-glow);
+        }
+
+        .sphere-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .sphere-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+            transition: all 0.2s;
+        }
+
+        /* Collapsed: Center the icon */
+        .sphere-navigator.collapsed .sphere-item {
+            justify-content: center;
+            padding: 0.75rem 0.5rem;
+            gap: 0;
+        }
+
+        .sphere-item:hover {
+            background: rgba(216, 178, 106, 0.1);
+        }
+
+        .mythique-mode .sphere-item:hover {
+            background: rgba(147, 51, 234, 0.1);
+        }
+
+        .sphere-item.active {
+            background: rgba(216, 178, 106, 0.15);
+            border-left: 3px solid var(--sacred-gold);
+        }
+
+        .sphere-navigator.collapsed .sphere-item.active {
+            border-left: none;
+            border-bottom: 2px solid var(--sacred-gold);
+        }
+
+        .mythique-mode .sphere-item.active {
+            background: rgba(147, 51, 234, 0.15);
+            border-left-color: var(--purple-glow);
+        }
+
+        .mythique-mode .sphere-navigator.collapsed .sphere-item.active {
+            border-bottom-color: var(--purple-glow);
+        }
+
+        .sphere-icon-wrap {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            background: var(--sphere-bg, rgba(255,255,255,0.1));
+            border: 1px solid var(--sphere-color, rgba(255,255,255,0.2));
+            flex-shrink: 0;
+            transition: transform 0.2s;
+        }
+
+        .sphere-navigator.collapsed .sphere-icon-wrap:hover {
+            transform: scale(1.15);
+        }
+
+        .sphere-info {
+            flex: 1;
+            min-width: 0;
+            transition: opacity 0.2s, width 0.2s;
+        }
+
+        /* Hide text content when collapsed */
+        .sphere-navigator.collapsed .sphere-info,
+        .sphere-navigator.collapsed .sphere-badge {
+            display: none;
+        }
+
+        .sphere-name { font-size: 0.9rem; font-weight: 500; color: white; }
+        .sphere-count { font-size: 0.75rem; color: rgba(255, 255, 255, 0.5); }
+
+        .sphere-badge {
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: bold;
+            background: var(--sphere-color, var(--sacred-gold));
+            color: black;
+        }
+
+        /* Motor Card - Hide when collapsed */
+        .sphere-navigator.collapsed .motor-card {
+            display: none;
+        }
+
+        /* Motor Section in Navigator */
+        .motor-card {
+            padding: 1rem;
+            border-top: 1px solid rgba(128, 128, 128, 0.2);
+            background: rgba(0, 0, 0, 0.3);
+            transition: opacity 0.2s;
+        }
+
+        .motor-title {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 0.75rem;
+            text-align: center;
+        }
+
+        .motor-visual {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .motor-box {
+            text-align: center;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            min-width: 60px;
+        }
+
+        .motor-box-value {
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        .motor-box-label {
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .motor-arrow {
+            font-size: 1rem;
+            color: var(--sacred-gold);
+            animation: pulse-arrow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-arrow {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           HUB 2 - CENTER: MAIN VISUALIZATION
+        ═══════════════════════════════════════════════════════════════ */
+        .main-visualization {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .viz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .viz-title {
+            font-size: 1.1rem;
+            color: var(--sacred-gold);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.5s;
+        }
+
+        .mythique-mode .viz-title { color: var(--purple-glow); }
+
+        .viz-controls {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .viz-btn {
+            padding: 0.4rem 0.75rem;
+            background: rgba(128, 128, 128, 0.2);
+            border: 1px solid rgba(128, 128, 128, 0.3);
+            color: rgba(255, 255, 255, 0.7);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .viz-btn:hover, .viz-btn.active {
+            background: rgba(216, 178, 106, 0.2);
+            border-color: var(--sacred-gold);
+            color: var(--sacred-gold);
+        }
+
+        .mythique-mode .viz-btn:hover, .mythique-mode .viz-btn.active {
+            background: rgba(147, 51, 234, 0.2);
+            border-color: var(--purple-glow);
+            color: var(--purple-glow);
+        }
+
+        /* Planet Canvas Container */
+        .planet-container {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1;
+            max-width: 450px;
+            margin: 0 auto;
+        }
+
+        .planet-canvas {
+            width: 100%;
+            height: 100%;
+            cursor: crosshair;
+        }
+
+        /* Grid Views */
+        .items-grid {
+            display: none;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .items-grid.active { display: grid; }
+
+        @media (max-width: 768px) {
+            .items-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .grid-card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            overflow: hidden;
+        }
+
+        .grid-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--card-color, var(--sacred-gold));
+        }
+
+        .grid-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--card-color, var(--sacred-gold));
+        }
+
+        .mythique-mode .grid-card {
+            background: rgba(147, 51, 234, 0.05);
+            border-color: rgba(147, 51, 234, 0.2);
+        }
+
+        .grid-card-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+        .grid-card-name { font-size: 0.9rem; font-weight: 600; color: white; }
+        .grid-card-value { font-size: 1.5rem; font-weight: bold; color: var(--card-color, var(--sacred-gold)); margin-top: 0.25rem; }
+        .grid-card-label { font-size: 0.7rem; color: rgba(255, 255, 255, 0.4); }
+
+        /* Vibratory Power Bar */
+        .power-bar-container {
+            margin-top: 0.75rem;
+        }
+
+        .power-bar {
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .power-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--purple-glow), var(--green-glow));
+            border-radius: 2px;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           HUB 3 - RIGHT: DETAILS PANEL / FUNDER SECTION
+        ═══════════════════════════════════════════════════════════════ */
+        .details-panel {
+            background: rgba(128, 128, 128, 0.05);
+            border: 1px solid rgba(128, 128, 128, 0.2);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        /* Tabs for Details Panel */
+        .panel-tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+        }
+
+        .panel-tab {
+            flex: 1;
+            padding: 0.75rem;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            transition: all 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+
+        .panel-tab:hover {
+            color: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .panel-tab.active {
+            color: var(--sacred-gold);
+            border-bottom-color: var(--sacred-gold);
+        }
+
+        .panel-content {
+            display: none;
+        }
+
+        .panel-content.active {
+            display: block;
+        }
+
+        .panel-section {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(128, 128, 128, 0.1);
+        }
+
+        .panel-section:last-child { border-bottom: none; }
+
+        .panel-title {
+            font-size: 0.9rem;
+            color: white;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Selected Item Header */
+        .selected-header {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(216, 178, 106, 0.1), transparent);
+        }
+
+        .mythique-mode .selected-header {
+            background: linear-gradient(135deg, rgba(147, 51, 234, 0.1), transparent);
+        }
+
+        .selected-icon { font-size: 3rem; margin-bottom: 0.5rem; }
+        .selected-name { font-size: 1.25rem; font-weight: bold; color: var(--sacred-gold); }
+        .mythique-mode .selected-name { color: var(--purple-glow); }
+        .selected-count { font-size: 0.9rem; color: rgba(255, 255, 255, 0.5); margin-top: 0.25rem; }
+
+        /* Agent List */
+        .agent-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .agent-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0.75rem;
+            margin-bottom: 0.4rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 8px;
+            border-left: 3px solid var(--agent-color, var(--sacred-gold));
+            transition: all 0.2s;
+        }
+
+        .agent-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .agent-info { flex: 1; min-width: 0; }
+        .agent-name { font-size: 0.85rem; color: white; }
+        .agent-role { font-size: 0.7rem; color: rgba(255, 255, 255, 0.4); }
+        .agent-freq { font-size: 0.85rem; color: var(--sacred-gold); font-weight: 500; }
+
+        /* Funder Tiers */
+        .funder-section {
+            padding: 1rem;
+        }
+
+        .funder-welcome {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .funder-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, var(--sacred-gold), #8B6914);
+            border-radius: 20px;
+            color: var(--dark-bg);
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .tier-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .tier-card {
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--tier-color, rgba(255, 255, 255, 0.1));
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .tier-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
+        }
+
+        .tier-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .tier-name {
+            font-weight: bold;
+            color: var(--tier-color, white);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .tier-price {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: var(--tier-color, var(--sacred-gold));
+        }
+
+        .tier-features {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: rgba(255, 255, 255, 0.4);
+        }
+
+        .empty-state-icon { font-size: 2.5rem; margin-bottom: 0.5rem; opacity: 0.5; }
+        .empty-state-text { font-size: 0.85rem; }
+
+        /* ═══════════════════════════════════════════════════════════════
+           MOBILE RESPONSIVE
+        ═══════════════════════════════════════════════════════════════ */
+        @media (max-width: 1023px) {
+            .header {
+                flex-wrap: wrap;
+                gap: 0.75rem;
+            }
+
+            .view-toggle-container {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+            }
+
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sphere-navigator { order: 2; }
+            .main-visualization { order: 1; }
+            .details-panel { order: 3; }
+            .sphere-list { max-height: 200px; }
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid var(--sacred-gold);
+            border-radius: 8px;
+            padding: 0.75rem;
+            pointer-events: none;
+            z-index: 100;
+            transform: translate(-50%, -100%);
+            margin-top: -10px;
+        }
+
+        .tooltip-name { font-size: 0.9rem; color: var(--sacred-gold); font-weight: bold; }
+        .tooltip-count { font-size: 0.75rem; color: rgba(255, 255, 255, 0.6); }
+
+        /* ═══════════════════════════════════════════════════════════════
+           FLOATING AGENT TOGGLE - AMOVIBLE (Draggable)
+        ═══════════════════════════════════════════════════════════════ */
+        .agent-fab {
+            position: fixed;
+            bottom: 100px;
+            right: 24px;
+            z-index: 1000;
+            cursor: grab;
+            touch-action: none;
+            user-select: none;
+        }
+
+        .agent-fab.dragging { cursor: grabbing; }
+
+        .fab-main {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--sacred-gold), #8B6914);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 20px rgba(216, 178, 106, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .mythique-mode .fab-main {
+            background: linear-gradient(135deg, var(--purple-glow), #6B21A8);
+            box-shadow: 0 4px 20px rgba(147, 51, 234, 0.4);
+        }
+
+        .fab-main:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(216, 178, 106, 0.6);
+        }
+
+        .fab-main.open { transform: rotate(45deg); }
+
+        .agent-spheres {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .agent-fab.open .agent-spheres {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .agent-sphere {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 16px 8px 10px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid var(--agent-color, rgba(255, 255, 255, 0.2));
+            border-radius: 28px;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .agent-sphere:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(-5px);
+        }
+
+        .agent-sphere-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            background: var(--agent-bg, rgba(255, 255, 255, 0.1));
+            border: 2px solid var(--agent-color);
+        }
+
+        .agent-sphere-info { flex: 1; }
+        .agent-sphere-name { font-size: 0.85rem; font-weight: 600; color: white; }
+        .agent-sphere-role { font-size: 0.65rem; color: rgba(255, 255, 255, 0.5); }
+        .agent-sphere-freq { font-size: 0.7rem; color: var(--agent-color); font-weight: bold; }
+
+        .quick-connect {
+            --agent-color: var(--sacred-gold);
+            border-style: dashed;
+        }
+
+        .quick-connect .agent-sphere-icon {
+            font-size: 1.5rem;
+            background: transparent;
+        }
+
+        /* Agent Chat Panel */
+        .agent-chat-panel {
+            position: fixed;
+            bottom: 100px;
+            right: 24px;
+            width: 350px;
+            max-height: 500px;
+            background: rgba(10, 10, 15, 0.98);
+            border: 1px solid rgba(216, 178, 106, 0.3);
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            z-index: 1001;
+        }
+
+        .agent-chat-panel.open { display: flex; }
+
+        .chat-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: rgba(0, 0, 0, 0.5);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chat-agent-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            background: var(--agent-bg);
+            border: 2px solid var(--agent-color);
+        }
+
+        .chat-agent-info { flex: 1; }
+        .chat-agent-name { font-size: 1rem; font-weight: bold; color: white; }
+        .chat-agent-status {
+            font-size: 0.75rem;
+            color: var(--green-glow);
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .chat-agent-status::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--green-glow);
+            border-radius: 50%;
+        }
+
+        .chat-close {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            cursor: pointer;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            max-height: 300px;
+        }
+
+        .chat-message {
+            margin-bottom: 12px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .chat-message.agent {
+            background: rgba(255, 255, 255, 0.05);
+            border-left: 3px solid var(--agent-color);
+            color: white;
+        }
+
+        .chat-message.user {
+            background: rgba(216, 178, 106, 0.2);
+            text-align: right;
+            color: white;
+        }
+
+        .chat-input-area {
+            padding: 12px 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            color: white;
+            font-size: 0.85rem;
+            outline: none;
+        }
+
+        .chat-input:focus { border-color: var(--sacred-gold); }
+
+        .chat-send {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--sacred-gold);
+            border: none;
+            color: black;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        @media (max-width: 480px) {
+            .agent-chat-panel {
+                width: calc(100% - 48px);
+                right: 24px;
+                left: 24px;
+            }
+        }
+
+        /* Tier Modal Styles */
+        .tier-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tier-modal-overlay.visible { opacity: 1; }
+        .tier-modal {
+            background: linear-gradient(135deg, #1a1a2e, #0a0a0f);
+            border: 2px solid var(--sacred-gold);
+            border-radius: 16px;
+            width: 90%;
+            max-width: 400px;
+            overflow: hidden;
+        }
+        .tier-modal-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 20px;
+            background: rgba(216, 178, 106, 0.1);
+            border-bottom: 1px solid rgba(216, 178, 106, 0.2);
+        }
+        .tier-modal-header h2 {
+            flex: 1;
+            margin: 0;
+            color: var(--sacred-gold);
+        }
+        .tier-modal-header button {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .tier-modal-body { padding: 24px; color: white; }
+        .tier-modal-price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: var(--sacred-gold);
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .tier-modal-features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px;
+        }
+        .tier-modal-features li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.8);
+        }
+        .tier-modal-notice {
+            background: rgba(216, 178, 106, 0.1);
+            border: 1px solid rgba(216, 178, 106, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            text-align: center;
+        }
+        .tier-modal-notice p {
+            margin: 8px 0;
+            color: rgba(255,255,255,0.7);
+        }
+        .tier-modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: right;
+        }
+        .tier-modal-footer button {
+            padding: 12px 24px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: white;
+            cursor: pointer;
+        }
+        .tier-modal-tagline {
+            font-size: 1rem;
+            font-style: italic;
+            color: var(--sacred-gold);
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        .tier-modal-freq {
+            font-size: 0.9rem;
+            color: var(--green-glow);
+            text-align: center;
+            margin-bottom: 16px;
+        }
+        .tier-modal-cta {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .tier-btn-join {
+            padding: 14px 32px;
+            background: linear-gradient(135deg, var(--green-glow), #00aa55);
+            border: none;
+            border-radius: 8px;
+            color: black;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .tier-btn-join:hover {
+            transform: translateY(-2px);
+        }
+        .tier-price.free {
+            color: var(--green-glow);
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <!-- ═══════════════════════════════════════════════════════════════
+         HEADER
+    ═══════════════════════════════════════════════════════════════ -->
+    <header class="header">
+        <a href="/" class="logo" style="text-decoration: none;">
+            <span class="logo-icon">💎</span>
+            <div>
+                <div class="logo-text">AT-OM</div>
+                <div class="logo-subtitle">Funder Portal</div>
+            </div>
+        </a>
+
+        <!-- THE VIEW TOGGLE - THE MOTOR -->
+        <div class="view-toggle-container">
+            <div class="frequency-motor">
+                <div class="motor-value" id="motorFreq">432</div>
+                <div class="motor-label">Hz</div>
+            </div>
+
+            <div class="view-toggle" id="viewToggle" onclick="toggleView()">
+                <div class="toggle-slider"></div>
+                <div class="toggle-labels">
+                    <span class="toggle-label active" id="labelCiv">CIVIL</span>
+                    <span class="toggle-label" id="labelMyth">MYTH</span>
+                </div>
+            </div>
+
+            <div class="frequency-motor">
+                <div class="motor-value" id="targetFreq">999</div>
+                <div class="motor-label">Hz</div>
+            </div>
+        </div>
+
+        <nav class="header-nav">
+            <a href="/" class="header-btn">Ψ Nexus</a>
+            <a href="/civilization.html" class="header-btn">🌐 Civil</a>
+            <a href="/agents.html" class="header-btn">🤖 Lexique</a>
+            <a href="/spheres.html" class="header-btn">🔮 Forge</a>
+            <a href="/live.html" class="header-btn">⚡ Flux</a>
+            <a href="/dashboard.html" class="header-btn">📊 Annales</a>
+            <a href="/frequencies.html" class="header-btn">📡 Freq</a>
+            <a href="/funder.html" class="header-btn active">💎 Funder</a>
+        </nav>
+    </header>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         MAIN CONTENT - 3 HUBS LAYOUT
+    ═══════════════════════════════════════════════════════════════ -->
+    <main class="main-content">
+        <div class="grid-container">
+
+            <!-- ═══════════════════════════════════════════════════════
+                 HUB 1 - LEFT: SPHERE/AGENT NAVIGATOR (Collapsible)
+            ═══════════════════════════════════════════════════════ -->
+            <aside class="sphere-navigator" id="sphereNavigator">
+                <div class="nav-header">
+                    <h3 id="navTitle">
+                        <span>🌐</span>
+                        <span class="nav-header-text">Spheres</span>
+                    </h3>
+                    <button class="nav-toggle-btn" id="navToggleBtn" onclick="toggleSphereNavigator()" title="Réduire/Agrandir">
+                        ◀
+                    </button>
+                </div>
+
+                <div class="sphere-list" id="sphereList">
+                    <!-- Items will be rendered here -->
+                </div>
+
+                <!-- Motor Card -->
+                <div class="motor-card">
+                    <div class="motor-title">Moteur Vibratoire</div>
+                    <div class="motor-visual">
+                        <div class="motor-box">
+                            <div class="motor-box-value" style="color: var(--sacred-gold);">432</div>
+                            <div class="motor-box-label">Civil</div>
+                        </div>
+                        <div class="motor-arrow">⚡</div>
+                        <div class="motor-box">
+                            <div class="motor-box-value" style="color: var(--purple-glow);">999</div>
+                            <div class="motor-box-label">Source</div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- ═══════════════════════════════════════════════════════
+                 HUB 2 - CENTER: MAIN VISUALIZATION
+            ═══════════════════════════════════════════════════════ -->
+            <section class="main-visualization">
+                <div class="viz-header">
+                    <div class="viz-title" id="vizTitle">
+                        <span>🌐</span>
+                        <span>Vue Civilisation</span>
+                    </div>
+                    <div class="viz-controls">
+                        <button class="viz-btn active" data-view="planet" onclick="setView('planet')">Planet</button>
+                        <button class="viz-btn" data-view="grid" onclick="setView('grid')">Grille</button>
+                    </div>
+                </div>
+
+                <!-- Planet View -->
+                <div class="planet-container" id="planetView">
+                    <canvas class="planet-canvas" id="planetCanvas"></canvas>
+                    <div class="tooltip" id="tooltip" style="display: none;"></div>
+                </div>
+
+                <!-- Grid View -->
+                <div class="items-grid" id="gridView">
+                    <!-- Grid cards will be rendered here -->
+                </div>
+            </section>
+
+            <!-- ═══════════════════════════════════════════════════════
+                 HUB 3 - RIGHT: DETAILS PANEL + FUNDER TAB
+            ═══════════════════════════════════════════════════════ -->
+            <aside class="details-panel">
+                <!-- Tabs -->
+                <div class="panel-tabs">
+                    <div class="panel-tab active" data-tab="details" onclick="switchTab('details')">Details</div>
+                    <div class="panel-tab" data-tab="funder" onclick="switchTab('funder')">Funder</div>
+                </div>
+
+                <!-- Details Tab Content -->
+                <div class="panel-content active" id="detailsContent">
+                    <div id="selectedContainer">
+                        <div class="empty-state">
+                            <div class="empty-state-icon" id="emptyIcon">🌐</div>
+                            <div class="empty-state-text">Selectionnez un element<br>pour voir les details</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Funder Tab Content -->
+                <div class="panel-content" id="funderContent">
+                    <div class="funder-section">
+                        <div class="funder-welcome">
+                            <div class="funder-badge">
+                                <span>🔑</span>
+                                <span>5 Niveaux d'Acces</span>
+                            </div>
+                            <p style="margin-top: 0.75rem; font-size: 0.8rem; color: rgba(255,255,255,0.6);">
+                                De Citoyen a Souverain Diamant
+                            </p>
+                        </div>
+
+                        <div class="tier-list">
+                            <!-- Citoyen - Gratuit -->
+                            <div class="tier-card" style="--tier-color: #00FF88;" onclick="selectTier('citoyen')">
+                                <div class="tier-header">
+                                    <span class="tier-name">🌱 Citoyen</span>
+                                    <span class="tier-price free">Gratuit</span>
+                                </div>
+                                <div class="tier-features">Forum | Vote | Arithmos</div>
+                            </div>
+
+                            <!-- Funder - $44.40 -->
+                            <div class="tier-card" style="--tier-color: #FF6B35;" onclick="selectTier('funder')">
+                                <div class="tier-header">
+                                    <span class="tier-name">🔥 Funder</span>
+                                    <span class="tier-price">$44.40</span>
+                                </div>
+                                <div class="tier-features">Badge | Priorite | Support</div>
+                            </div>
+
+                            <!-- Argent - $99 -->
+                            <div class="tier-card" style="--tier-color: #C0C0C0;" onclick="selectTier('argent')">
+                                <div class="tier-header">
+                                    <span class="tier-name">🥈 Argent</span>
+                                    <span class="tier-price">$99</span>
+                                </div>
+                                <div class="tier-features">Vue Civil | 50 Agents</div>
+                            </div>
+
+                            <!-- Or - $369 -->
+                            <div class="tier-card" style="--tier-color: #FFD700;" onclick="selectTier('or')">
+                                <div class="tier-header">
+                                    <span class="tier-name">🥇 Or</span>
+                                    <span class="tier-price">$369</span>
+                                </div>
+                                <div class="tier-features">Vue Duale | 200 Agents | API</div>
+                            </div>
+
+                            <!-- Diamant - $999 -->
+                            <div class="tier-card" style="--tier-color: #9333EA;" onclick="selectTier('diamant')">
+                                <div class="tier-header">
+                                    <span class="tier-name">💎 Diamant</span>
+                                    <span class="tier-price">$999</span>
+                                </div>
+                                <div class="tier-features">Illimite | XR/VR | NFT</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    <!-- ═══════════════════════════════════════════════════════════════
+         FLOATING AGENT TOGGLE - AMOVIBLE (Nova, Aria + Quick Connect)
+    ═══════════════════════════════════════════════════════════════ -->
+    <div class="agent-fab" id="agentFab">
+        <div class="agent-spheres">
+            <!-- Nova - System Overseer -->
+            <div class="agent-sphere" onclick="openAgentChat('nova')" style="--agent-color: #9333EA; --agent-bg: rgba(147, 51, 234, 0.2);">
+                <div class="agent-sphere-icon">🔱</div>
+                <div class="agent-sphere-info">
+                    <div class="agent-sphere-name">Nova</div>
+                    <div class="agent-sphere-role">System Overseer</div>
+                </div>
+                <div class="agent-sphere-freq">999 Hz</div>
+            </div>
+
+            <!-- Aria - Onboarding Guide -->
+            <div class="agent-sphere" onclick="openAgentChat('aria')" style="--agent-color: #00FF88; --agent-bg: rgba(0, 255, 136, 0.2);">
+                <div class="agent-sphere-icon">✨</div>
+                <div class="agent-sphere-info">
+                    <div class="agent-sphere-name">Aria</div>
+                    <div class="agent-sphere-role">Onboarding Guide</div>
+                </div>
+                <div class="agent-sphere-freq">528 Hz</div>
+            </div>
+
+            <!-- Orion - System Architect (User Orchestrator) -->
+            <div class="agent-sphere" onclick="openAgentChat('orion')" style="--agent-color: #FF6B35; --agent-bg: rgba(255, 107, 53, 0.2);">
+                <div class="agent-sphere-icon">🏛️</div>
+                <div class="agent-sphere-info">
+                    <div class="agent-sphere-name">Orion</div>
+                    <div class="agent-sphere-role">Ton Orchestrateur</div>
+                </div>
+                <div class="agent-sphere-freq">741 Hz</div>
+            </div>
+
+            <!-- Quick Connect - Add More Agents -->
+            <div class="agent-sphere quick-connect" onclick="openQuickConnect()">
+                <div class="agent-sphere-icon">+</div>
+                <div class="agent-sphere-info">
+                    <div class="agent-sphere-name">Quick Connect</div>
+                    <div class="agent-sphere-role">Ajouter un agent</div>
+                </div>
+            </div>
+        </div>
+
+        <button class="fab-main" id="fabMain" onclick="toggleAgentFab()">
+            <span id="fabIcon">💫</span>
+        </button>
+    </div>
+
+    <!-- Agent Chat Panel -->
+    <div class="agent-chat-panel" id="agentChatPanel">
+        <div class="chat-header" id="chatHeader">
+            <div class="chat-agent-icon" id="chatAgentIcon">🔱</div>
+            <div class="chat-agent-info">
+                <div class="chat-agent-name" id="chatAgentName">Nova</div>
+                <div class="chat-agent-status">En ligne</div>
+            </div>
+            <button class="chat-close" onclick="closeAgentChat()">×</button>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Message..." onkeypress="handleChatKeypress(event)">
+            <button class="chat-send" onclick="sendChatMessage()">→</button>
+        </div>
+    </div>
+
+    <script>
+        // ═══════════════════════════════════════════════════════════════
+        // CONFIGURATION
+        // ═══════════════════════════════════════════════════════════════
+        const API_BASE = (typeof ATOM_CONFIG !== 'undefined') ? ATOM_CONFIG.API_BASE : 'https://atom-2autu.ondigitalocean.app';
+
+        // 9 Spheres de la Civilisation
+        const CIVILIZATION_SPHERES = {
+            personal:    { icon: '👤', name: 'Personnel', color: '#4A90D9', count: 45 },
+            business:    { icon: '💼', name: 'Business', color: '#50C878', count: 55 },
+            government:  { icon: '🏛️', name: 'Gouvernement', color: '#9B59B6', count: 35 },
+            creative:    { icon: '🎨', name: 'Creatif', color: '#F39C12', count: 50 },
+            community:   { icon: '👥', name: 'Communaute', color: '#E74C3C', count: 40 },
+            social:      { icon: '🌐', name: 'Social', color: '#1ABC9C', count: 45 },
+            education:   { icon: '📚', name: 'Education', color: '#8E44AD', count: 50 },
+            transport:   { icon: '🚀', name: 'Transport', color: '#27AE60', count: 45 },
+            environment: { icon: '🌱', name: 'Environnement', color: '#2ECC71', count: 35 }
+        };
+
+        // Agents Vibratoires (Vue Mythique)
+        const VIBRATORY_AGENTS = {
+            oracle:       { icon: '🔮', name: 'Oracle', color: '#9333EA', freq: 963, power: 95 },
+            conductor:    { icon: '⚡', name: 'Conducteur', color: '#FF6B6B', freq: 999, power: 100 },
+            harmonizer:   { icon: '🌀', name: 'Harmoniseur', color: '#00FF88', freq: 528, power: 88 },
+            illuminator:  { icon: '🌟', name: 'Illuminateur', color: '#FFD700', freq: 444, power: 92 },
+            transmuter:   { icon: '🔥', name: 'Transmutateur', color: '#FF4500', freq: 741, power: 85 },
+            connector:    { icon: '💫', name: 'Connecteur', color: '#00CED1', freq: 639, power: 78 },
+            flux:         { icon: '🌊', name: 'Flux', color: '#1E90FF', freq: 396, power: 82 },
+            translator:   { icon: '🎭', name: 'Traducteur', color: '#DA70D6', freq: 369, power: 90 }
+        };
+
+        let currentMode = 'civilization';
+        let currentViewType = 'planet';
+        let selectedItem = null;
+        let positions = [];
+        let motorAnimation = null;
+
+        // ═══════════════════════════════════════════════════════════════
+        // INITIALIZATION
+        // ═══════════════════════════════════════════════════════════════
+        document.addEventListener('DOMContentLoaded', () => {
+            renderNavigator();
+            renderGrid();
+            initPlanetCanvas();
+
+            console.log('%c═══════════════════════════════════════════════════', 'color: #D8B26A;');
+            console.log('%c AT-OM FUNDER PORTAL - 3 HUBS LAYOUT', 'color: #D8B26A; font-size: 14px; font-weight: bold;');
+            console.log('%c Nova (🔱 999Hz) + Aria (✨ 528Hz) + Orion (🏛️ 741Hz)', 'color: #9333EA;');
+            console.log('%c═══════════════════════════════════════════════════', 'color: #D8B26A;');
+            console.log('%c PHI = 1.618 | 444 Hz | 369 | 999 Hz', 'color: #00FF88;');
+            console.log('%c Orion = Ton Orchestrateur Personnel', 'color: #FF6B35;');
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        // VIEW TOGGLE - THE MOTOR
+        // ═══════════════════════════════════════════════════════════════
+        function toggleView() {
+            const toggle = document.getElementById('viewToggle');
+            const labelCiv = document.getElementById('labelCiv');
+            const labelMyth = document.getElementById('labelMyth');
+            const vizTitle = document.getElementById('vizTitle');
+            const navTitle = document.getElementById('navTitle');
+            const emptyIcon = document.getElementById('emptyIcon');
+
+            if (currentMode === 'civilization') {
+                currentMode = 'mythique';
+                toggle.classList.add('mythique');
+                document.body.classList.add('mythique-mode');
+                labelCiv.classList.remove('active');
+                labelMyth.classList.add('active');
+                vizTitle.innerHTML = '<span>🔮</span><span>Vue Mythique</span>';
+                navTitle.innerHTML = '<span>🔮</span> Agents';
+                document.getElementById('navCount').textContent = '8 actifs';
+                emptyIcon.textContent = '🔮';
+                animateMotor(432, 999);
+            } else {
+                currentMode = 'civilization';
+                toggle.classList.remove('mythique');
+                document.body.classList.remove('mythique-mode');
+                labelMyth.classList.remove('active');
+                labelCiv.classList.add('active');
+                vizTitle.innerHTML = '<span>🌐</span><span>Vue Civilisation</span>';
+                navTitle.innerHTML = '<span>🌐</span> Spheres';
+                document.getElementById('navCount').textContent = '9 actives';
+                emptyIcon.textContent = '🌐';
+                animateMotor(999, 432);
+            }
+
+            selectedItem = null;
+            renderNavigator();
+            renderGrid();
+            initPlanetCanvas();
+            document.getElementById('selectedContainer').innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">${currentMode === 'mythique' ? '🔮' : '🌐'}</div>
+                    <div class="empty-state-text">Selectionnez un element<br>pour voir les details</div>
+                </div>
+            `;
+        }
+
+        function animateMotor(from, to) {
+            const motorFreq = document.getElementById('motorFreq');
+            const duration = 1000;
+            const start = performance.now();
+
+            if (motorAnimation) cancelAnimationFrame(motorAnimation);
+
+            function animate(time) {
+                const elapsed = time - start;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = Math.round(from + (to - from) * eased);
+                motorFreq.textContent = current;
+                if (progress < 1) motorAnimation = requestAnimationFrame(animate);
+            }
+
+            motorAnimation = requestAnimationFrame(animate);
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // RENDER NAVIGATOR (LEFT HUB)
+        // ═══════════════════════════════════════════════════════════════
+        function renderNavigator() {
+            const list = document.getElementById('sphereList');
+            list.innerHTML = '';
+
+            const items = currentMode === 'civilization' ? CIVILIZATION_SPHERES : VIBRATORY_AGENTS;
+
+            Object.entries(items).forEach(([key, item]) => {
+                const el = document.createElement('div');
+                el.className = 'sphere-item';
+                el.dataset.key = key;
+                el.style.setProperty('--sphere-color', item.color);
+                el.style.setProperty('--sphere-bg', `${item.color}20`);
+
+                const countOrFreq = currentMode === 'civilization'
+                    ? `${item.count} agents`
+                    : `${item.freq} Hz`;
+
+                el.innerHTML = `
+                    <div class="sphere-icon-wrap">${item.icon}</div>
+                    <div class="sphere-info">
+                        <div class="sphere-name">${item.name}</div>
+                        <div class="sphere-count">${countOrFreq}</div>
+                    </div>
+                    <div class="sphere-badge" style="background: ${item.color};">${currentMode === 'civilization' ? item.count : item.power + '%'}</div>
+                `;
+
+                el.addEventListener('click', () => selectItem(key));
+                list.appendChild(el);
+            });
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // RENDER GRID (CENTER ALTERNATE VIEW)
+        // ═══════════════════════════════════════════════════════════════
+        function renderGrid() {
+            const grid = document.getElementById('gridView');
+            grid.innerHTML = '';
+
+            const items = currentMode === 'civilization' ? CIVILIZATION_SPHERES : VIBRATORY_AGENTS;
+
+            Object.entries(items).forEach(([key, item]) => {
+                const card = document.createElement('div');
+                card.className = 'grid-card';
+                card.style.setProperty('--card-color', item.color);
+                card.dataset.key = key;
+
+                if (currentMode === 'civilization') {
+                    card.innerHTML = `
+                        <div class="grid-card-icon">${item.icon}</div>
+                        <div class="grid-card-name">${item.name}</div>
+                        <div class="grid-card-value">${item.count}</div>
+                        <div class="grid-card-label">agents</div>
+                    `;
+                } else {
+                    card.innerHTML = `
+                        <div class="grid-card-icon">${item.icon}</div>
+                        <div class="grid-card-name">${item.name}</div>
+                        <div class="grid-card-value">${item.freq} Hz</div>
+                        <div class="power-bar-container">
+                            <div class="power-bar">
+                                <div class="power-fill" style="width: ${item.power}%;"></div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                card.addEventListener('click', () => selectItem(key));
+                grid.appendChild(card);
+            });
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // PLANET CANVAS (CENTER MAIN VIEW)
+        // ═══════════════════════════════════════════════════════════════
+        function initPlanetCanvas() {
+            const canvas = document.getElementById('planetCanvas');
+            const ctx = canvas.getContext('2d');
+            let rotation = 0;
+
+            function resize() {
+                const rect = canvas.parentElement.getBoundingClientRect();
+                canvas.width = rect.width * 2;
+                canvas.height = rect.height * 2;
+            }
+
+            resize();
+            window.addEventListener('resize', resize);
+
+            const items = currentMode === 'civilization' ? CIVILIZATION_SPHERES : VIBRATORY_AGENTS;
+            const keys = Object.keys(items);
+
+            positions = keys.map((key, i) => {
+                const phi = Math.acos(1 - 2 * (i + 0.5) / keys.length);
+                const theta = Math.PI * (1 + Math.sqrt(5)) * (i + 0.5);
+                return {
+                    key,
+                    item: items[key],
+                    x: Math.sin(phi) * Math.cos(theta),
+                    y: Math.sin(phi) * Math.sin(theta),
+                    z: Math.cos(phi)
+                };
+            });
+
+            function draw() {
+                const w = canvas.width;
+                const h = canvas.height;
+                const cx = w / 2;
+                const cy = h / 2;
+                const radius = Math.min(w, h) * 0.35;
+
+                ctx.clearRect(0, 0, w, h);
+
+                // Stars
+                for (let i = 0; i < 60; i++) {
+                    const x = (Math.sin(i * 127.1) * 0.5 + 0.5) * w;
+                    const y = (Math.cos(i * 311.7) * 0.5 + 0.5) * h;
+                    const alpha = 0.1 + Math.sin(Date.now() / 1000 + i) * 0.05;
+                    ctx.fillStyle = `rgba(255, 255, 255, ${alpha})`;
+                    ctx.beginPath();
+                    ctx.arc(x, y, 1, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                // Grid lines
+                const gridColor = currentMode === 'mythique' ? 'rgba(147, 51, 234, 0.08)' : 'rgba(212, 175, 55, 0.08)';
+                ctx.strokeStyle = gridColor;
+                ctx.lineWidth = 1;
+
+                for (let i = 0; i < 12; i++) {
+                    const angle = (i / 12) * Math.PI * 2 + rotation;
+                    ctx.beginPath();
+                    for (let j = 0; j <= 32; j++) {
+                        const phi = (j / 32) * Math.PI;
+                        const x = cx + Math.sin(phi) * Math.cos(angle) * radius;
+                        const y = cy + Math.cos(phi) * radius;
+                        if (j === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+                }
+
+                // Planet glow
+                const glowColor = currentMode === 'mythique' ? 'rgba(147, 51, 234, 0.2)' : 'rgba(30, 58, 138, 0.2)';
+                const gradient = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+                gradient.addColorStop(0, glowColor);
+                gradient.addColorStop(0.6, 'rgba(0, 0, 0, 0.05)');
+                gradient.addColorStop(1, 'transparent');
+                ctx.fillStyle = gradient;
+                ctx.beginPath();
+                ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Points
+                positions.forEach((pos) => {
+                    const rx = pos.x * Math.cos(rotation) - pos.y * Math.sin(rotation);
+                    const ry = pos.x * Math.sin(rotation) + pos.y * Math.cos(rotation);
+                    const z = pos.z;
+
+                    if (z > -0.3) {
+                        const sx = cx + rx * radius;
+                        const sy = cy + z * radius;
+                        const scale = (ry + 1) / 2;
+                        const pointRadius = 6 + scale * 10;
+                        const alpha = 0.5 + scale * 0.5;
+
+                        const isSelected = selectedItem === pos.key;
+
+                        // Glow
+                        const glow = ctx.createRadialGradient(sx, sy, 0, sx, sy, pointRadius * 3);
+                        glow.addColorStop(0, isSelected ? 'rgba(255,255,255,0.8)' : `${pos.item.color}${Math.round(alpha * 255).toString(16).padStart(2, '0')}`);
+                        glow.addColorStop(0.5, `${pos.item.color}40`);
+                        glow.addColorStop(1, 'transparent');
+                        ctx.fillStyle = glow;
+                        ctx.beginPath();
+                        ctx.arc(sx, sy, pointRadius * 3, 0, Math.PI * 2);
+                        ctx.fill();
+
+                        // Point
+                        ctx.fillStyle = isSelected ? '#FFFFFF' : pos.item.color;
+                        ctx.beginPath();
+                        ctx.arc(sx, sy, pointRadius, 0, Math.PI * 2);
+                        ctx.fill();
+
+                        pos.screenX = sx / 2;
+                        pos.screenY = sy / 2;
+                        pos.screenRadius = pointRadius;
+                    }
+                });
+
+                rotation += 0.003;
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+
+            // Mouse interaction
+            canvas.addEventListener('mousemove', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                let found = null;
+                for (const pos of positions) {
+                    if (pos.screenX && pos.screenY) {
+                        const dist = Math.sqrt(Math.pow(x - pos.screenX, 2) + Math.pow(y - pos.screenY, 2));
+                        if (dist < pos.screenRadius + 15) {
+                            found = pos;
+                            break;
+                        }
+                    }
+                }
+
+                const tooltip = document.getElementById('tooltip');
+                if (found) {
+                    tooltip.style.display = 'block';
+                    tooltip.style.left = found.screenX + 'px';
+                    tooltip.style.top = found.screenY + 'px';
+                    const countOrFreq = currentMode === 'civilization'
+                        ? `${found.item.count} agents`
+                        : `${found.item.freq} Hz`;
+                    tooltip.innerHTML = `
+                        <div class="tooltip-name">${found.item.icon} ${found.item.name}</div>
+                        <div class="tooltip-count">${countOrFreq}</div>
+                    `;
+                    canvas.style.cursor = 'pointer';
+                } else {
+                    tooltip.style.display = 'none';
+                    canvas.style.cursor = 'crosshair';
+                }
+            });
+
+            canvas.addEventListener('click', (e) => {
+                const rect = canvas.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+
+                for (const pos of positions) {
+                    if (pos.screenX && pos.screenY) {
+                        const dist = Math.sqrt(Math.pow(x - pos.screenX, 2) + Math.pow(y - pos.screenY, 2));
+                        if (dist < pos.screenRadius + 15) {
+                            selectItem(pos.key);
+                            break;
+                        }
+                    }
+                }
+            });
+
+            canvas.addEventListener('mouseleave', () => {
+                document.getElementById('tooltip').style.display = 'none';
+            });
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // VIEW TOGGLE (PLANET / GRID)
+        // ═══════════════════════════════════════════════════════════════
+        function setView(view) {
+            currentViewType = view;
+            document.querySelectorAll('.viz-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.view === view);
+            });
+            document.getElementById('planetView').style.display = view === 'planet' ? 'block' : 'none';
+            document.getElementById('gridView').classList.toggle('active', view === 'grid');
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // SELECT ITEM
+        // ═══════════════════════════════════════════════════════════════
+        function selectItem(key) {
+            selectedItem = key;
+            const items = currentMode === 'civilization' ? CIVILIZATION_SPHERES : VIBRATORY_AGENTS;
+            const item = items[key];
+
+            // Update navigator active state
+            document.querySelectorAll('.sphere-item').forEach(el => {
+                el.classList.toggle('active', el.dataset.key === key);
+            });
+
+            // Update grid active state
+            document.querySelectorAll('.grid-card').forEach(el => {
+                el.classList.toggle('active', el.dataset.key === key);
+            });
+
+            // Switch to details tab
+            switchTab('details');
+
+            // Render details
+            const container = document.getElementById('selectedContainer');
+
+            if (currentMode === 'civilization') {
+                const agents = [];
+                for (let i = 0; i < Math.min(item.count, 10); i++) {
+                    agents.push({
+                        name: `${item.name} Agent #${i + 1}`,
+                        freq: Math.floor(300 + Math.random() * 700)
+                    });
+                }
+
+                container.innerHTML = `
+                    <div class="selected-header" style="background: linear-gradient(135deg, ${item.color}20, transparent);">
+                        <div class="selected-icon">${item.icon}</div>
+                        <div class="selected-name" style="color: ${item.color};">${item.name}</div>
+                        <div class="selected-count">${item.count} agents actifs</div>
+                    </div>
+                    <div class="panel-section">
+                        <div class="panel-title"><span>🤖</span> Agents</div>
+                        <div class="agent-list">
+                            ${agents.map(a => `
+                                <div class="agent-item" style="--agent-color: ${item.color};">
+                                    <div class="agent-info">
+                                        <div class="agent-name">${a.name}</div>
+                                        <div class="agent-role">${item.name}</div>
+                                    </div>
+                                    <div class="agent-freq">${a.freq} Hz</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            } else {
+                container.innerHTML = `
+                    <div class="selected-header" style="background: linear-gradient(135deg, ${item.color}20, transparent);">
+                        <div class="selected-icon">${item.icon}</div>
+                        <div class="selected-name" style="color: ${item.color};">${item.name}</div>
+                        <div class="selected-count">${item.freq} Hz | ${item.power}% puissance</div>
+                    </div>
+                    <div class="panel-section">
+                        <div class="panel-title"><span>⚡</span> Capacites</div>
+                        <div style="padding: 0.5rem 0;">
+                            <div style="margin-bottom: 0.75rem;">
+                                <div style="font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-bottom: 0.25rem;">Puissance</div>
+                                <div class="power-bar" style="height: 8px;">
+                                    <div class="power-fill" style="width: ${item.power}%;"></div>
+                                </div>
+                            </div>
+                            <div style="font-size: 0.85rem; color: rgba(255,255,255,0.7);">
+                                Frequence de resonance: <strong style="color: ${item.color};">${item.freq} Hz</strong>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // TAB SWITCHING
+        // ═══════════════════════════════════════════════════════════════
+        function switchTab(tabName) {
+            document.querySelectorAll('.panel-tab').forEach(tab => {
+                tab.classList.toggle('active', tab.dataset.tab === tabName);
+            });
+            document.getElementById('detailsContent').classList.toggle('active', tabName === 'details');
+            document.getElementById('funderContent').classList.toggle('active', tabName === 'funder');
+        }
+
+        // ═══════════════════════════════════════════════════════════════
+        // TIER SELECTION - Connecte a Stripe
+        // 5 Niveaux: Citoyen (0$) -> Funder (44.40$) -> Argent (99$) -> Or (369$) -> Diamant (999$)
+        // ═══════════════════════════════════════════════════════════════
+        const FUNDER_TIERS = {
+            citoyen: {
+                name: 'Citoyen',
+                emoji: '🌱',
+                price: 0,
+                frequency: 444,
+                tagline: 'Bienvenue dans l\'Arche',
+                features: ['Forum communautaire', 'Vote besoins locaux', 'Calcul Arithmos', 'Nova, Aria, Orion'],
+                stripePriceId: 'price_1SvhPBBDYsAvhcuqTsSbCztu'
+            },
+            funder: {
+                name: 'Funder',
+                emoji: '🔥',
+                price: 44.40,
+                frequency: 528,
+                tagline: 'Soutien a l\'Arche',
+                features: ['Tout Citoyen +', 'Badge Funder', 'Acces prioritaire', 'Support communautaire'],
+                stripePriceId: 'price_1SvgdxBDYsAvhcuqD8yZ5EY1'
+            },
+            argent: {
+                name: 'Argent',
+                emoji: '🥈',
+                price: 99,
+                frequency: 639,
+                tagline: 'Explorateur avance',
+                features: ['Tout Funder +', 'Vue Civil complete', '50 Agents', 'Badge Argent'],
+                stripePriceId: 'price_1SvgemBDYsAvhcuq2WBcZDXo'
+            },
+            or: {
+                name: 'Or',
+                emoji: '🥇',
+                price: 369,
+                frequency: 741,
+                tagline: 'Co-createur Tesla',
+                features: ['Tout Argent +', 'Vue Duale', '200 Agents', 'API', 'Badge Or'],
+                stripePriceId: 'price_1SvhNWBDYsAvhcuqKHPexnzV'
+            },
+            diamant: {
+                name: 'Diamant',
+                emoji: '💎',
+                price: 999,
+                frequency: 999,
+                tagline: 'Gardien Souverain',
+                features: ['Tout Or +', 'Illimite', '400+ Agents', 'XR/VR', 'NFT Souverain', 'Sanctuaire'],
+                stripePriceId: 'price_1SvhQCBDYsAvhcuqr0Km0slq'
+            }
+        };
+
+        async function selectTier(tierId) {
+            const tier = FUNDER_TIERS[tierId];
+            if (!tier) return;
+
+            console.log(`[FUNDER] Selected tier: ${tierId}`);
+
+            // Si Price ID configure, utiliser Stripe Checkout
+            if (tier.stripePriceId && typeof window.Stripe !== 'undefined') {
+                try {
+                    const stripe = Stripe(STRIPE_CONFIG.publishableKey);
+                    await stripe.redirectToCheckout({
+                        lineItems: [{ price: tier.stripePriceId, quantity: 1 }],
+                        mode: 'subscription',
+                        successUrl: window.location.origin + '/funder.html?success=true&tier=' + tierId,
+                        cancelUrl: window.location.origin + '/funder.html?canceled=true'
+                    });
+                } catch (err) {
+                    console.error('[Stripe] Checkout error:', err);
+                    showTierModal(tier);
+                }
+            } else {
+                // Afficher modal informatif
+                showTierModal(tier);
+            }
+        }
+
+        function showTierModal(tier) {
+            const isFree = tier.price === 0;
+            const modal = document.createElement('div');
+            modal.className = 'tier-modal-overlay';
+            modal.innerHTML = `
+                <div class="tier-modal">
+                    <div class="tier-modal-header">
+                        <span style="font-size: 2.5rem;">${tier.emoji}</span>
+                        <h2>${tier.name}</h2>
+                        <button onclick="this.closest('.tier-modal-overlay').remove()">×</button>
+                    </div>
+                    <div class="tier-modal-body">
+                        <div class="tier-modal-tagline">${tier.tagline || ''}</div>
+                        <div class="tier-modal-price">${isFree ? 'Gratuit' : '$' + tier.price}</div>
+                        <div class="tier-modal-freq">${tier.frequency} Hz</div>
+                        <ul class="tier-modal-features">
+                            ${tier.features.map(f => `<li>✓ ${f}</li>`).join('')}
+                        </ul>
+                        ${isFree ? `
+                            <div class="tier-modal-cta">
+                                <button class="tier-btn-join" onclick="joinCitoyen()">Rejoindre gratuitement</button>
+                            </div>
+                        ` : `
+                            <div class="tier-modal-notice">
+                                <p>🚧 Paiements Stripe en configuration</p>
+                                <p>Contacte <strong>contact@at-om.ai</strong></p>
+                            </div>
+                        `}
+                    </div>
+                    <div class="tier-modal-footer">
+                        <button onclick="this.closest('.tier-modal-overlay').remove()">Fermer</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            requestAnimationFrame(() => modal.classList.add('visible'));
+        }
+
+        function joinCitoyen() {
+            // Fermer modal
+            document.querySelector('.tier-modal-overlay')?.remove();
+            // Afficher message de bienvenue
+            alert('🌱 Bienvenue dans l\'Arche, Citoyen!\n\nTon compte gratuit est actif.\nExplore les spheres et connecte-toi avec Nova, Aria et Orion.');
+            console.log('[FUNDER] New Citoyen joined');
+        }
+
+        // Verifier succes/annulation au chargement
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            if (params.get('success') === 'true') {
+                const tier = params.get('tier');
+                alert(`🎉 Bienvenue dans le tier ${tier ? FUNDER_TIERS[tier]?.name : ''} !\nTon acces est maintenant actif.`);
+                window.history.replaceState({}, '', '/funder.html');
+            }
+            if (params.get('canceled') === 'true') {
+                console.log('[FUNDER] Checkout canceled');
+                window.history.replaceState({}, '', '/funder.html');
+            }
+        });
+
+        // ═══════════════════════════════════════════════════════════════
+        // SPHERE NAVIGATOR TOGGLE (Collapsible)
+        // ═══════════════════════════════════════════════════════════════
+        let navigatorCollapsed = localStorage.getItem('atom_nav_collapsed') === 'true';
+
+        function toggleSphereNavigator() {
+            const nav = document.getElementById('sphereNavigator');
+            if (!nav) return;
+
+            navigatorCollapsed = !navigatorCollapsed;
+            nav.classList.toggle('collapsed', navigatorCollapsed);
+
+            // Save state to localStorage
+            localStorage.setItem('atom_nav_collapsed', navigatorCollapsed);
+
+            console.log(`[SphereNavigator] ${navigatorCollapsed ? 'Collapsed' : 'Expanded'}`);
+        }
+
+        // Initialize navigator state on load
+        function initNavigatorState() {
+            const nav = document.getElementById('sphereNavigator');
+            if (nav && navigatorCollapsed) {
+                nav.classList.add('collapsed');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initNavigatorState);
+
+        // ═══════════════════════════════════════════════════════════════
+        // FLOATING AGENT TOGGLE - AMOVIBLE (Draggable)
+        // ═══════════════════════════════════════════════════════════════
+        const CORE_AGENTS = {
+            nova: {
+                id: 'nova',
+                name: 'Nova',
+                icon: '🔱',
+                title: 'System Overseer',
+                frequency: 999,
+                color: '#9333EA',
+                greeting: 'Bienvenue, chercheur. Je suis Nova, gardien des frequences sacrees. Tu es dans le portail Funder - ici se revelent les deux visions.'
+            },
+            aria: {
+                id: 'aria',
+                name: 'Aria',
+                icon: '✨',
+                title: 'Onboarding Guide',
+                frequency: 528,
+                color: '#00FF88',
+                greeting: 'Bonjour! Je suis Aria, ta guide. Le toggle CIVIL/MYTH te permet de basculer entre la vue Civilisation et la vue Mythique. Essaie!'
+            },
+            orion: {
+                id: 'orion',
+                name: 'Orion',
+                icon: '🏛️',
+                title: 'Ton Orchestrateur',
+                frequency: 741,
+                color: '#FF6B35',
+                greeting: 'Salutations. Je suis Orion, ton orchestrateur personnel. En tant que Funder, tu as acces aux deux visions. Je peux t\'aider a structurer ton parcours et coordonner les agents selon tes besoins specifiques.'
+            }
+        };
+
+        let fabOpen = false;
+        let currentChatAgent = null;
+        let chatHistory = {};
+
+        function toggleAgentFab() {
+            fabOpen = !fabOpen;
+            const fab = document.getElementById('agentFab');
+            const fabMain = document.getElementById('fabMain');
+            const fabIcon = document.getElementById('fabIcon');
+
+            fab.classList.toggle('open', fabOpen);
+            fabMain.classList.toggle('open', fabOpen);
+            fabIcon.textContent = fabOpen ? '+' : '💫';
+        }
+
+        function openAgentChat(agentId) {
+            const agent = CORE_AGENTS[agentId];
+            if (!agent) return;
+
+            currentChatAgent = agentId;
+            fabOpen = false;
+            document.getElementById('agentFab').classList.remove('open');
+            document.getElementById('fabMain').classList.remove('open');
+            document.getElementById('fabIcon').textContent = '💫';
+
+            document.getElementById('chatAgentIcon').textContent = agent.icon;
+            document.getElementById('chatAgentIcon').style.borderColor = agent.color;
+            document.getElementById('chatAgentIcon').style.background = `${agent.color}20`;
+            document.getElementById('chatAgentName').textContent = agent.name;
+
+            if (!chatHistory[agentId]) {
+                chatHistory[agentId] = [{
+                    role: 'agent',
+                    content: agent.greeting,
+                    timestamp: Date.now()
+                }];
+            }
+
+            renderChatMessages();
+            document.getElementById('agentChatPanel').classList.add('open');
+            document.getElementById('agentChatPanel').style.setProperty('--agent-color', agent.color);
+            setTimeout(() => document.getElementById('chatInput').focus(), 100);
+        }
+
+        function closeAgentChat() {
+            document.getElementById('agentChatPanel').classList.remove('open');
+            currentChatAgent = null;
+        }
+
+        function renderChatMessages() {
+            const container = document.getElementById('chatMessages');
+            const messages = chatHistory[currentChatAgent] || [];
+
+            container.innerHTML = messages.map(msg => `
+                <div class="chat-message ${msg.role}">
+                    ${msg.content}
+                </div>
+            `).join('');
+
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text || !currentChatAgent) return;
+
+            chatHistory[currentChatAgent].push({
+                role: 'user',
+                content: text,
+                timestamp: Date.now()
+            });
+
+            input.value = '';
+            renderChatMessages();
+
+            const agent = CORE_AGENTS[currentChatAgent];
+            setTimeout(() => {
+                const response = getAgentResponse(currentChatAgent, text);
+                chatHistory[currentChatAgent].push({
+                    role: 'agent',
+                    content: response,
+                    timestamp: Date.now()
+                });
+                renderChatMessages();
+            }, 800 + Math.random() * 700);
+        }
+
+        function getAgentResponse(agentId, userMessage) {
+            const lowerMsg = userMessage.toLowerCase();
+
+            if (agentId === 'nova') {
+                if (lowerMsg.includes('mythique') || lowerMsg.includes('myth')) {
+                    return `Le mode Mythique revele les agents vibratoires: Oracle, Conducteur, Harmoniseur... Chacun pulse a sa frequence sacree. Active le toggle pour les voir.`;
+                }
+                if (lowerMsg.includes('funder') || lowerMsg.includes('tier')) {
+                    return `Les tiers Funder: Argent ($99), Or ($369), Diamant ($999). Chaque niveau deverrouille plus d'acces aux agents et fonctionnalites. Consulte l'onglet Funder a droite.`;
+                }
+                return `Ta requete resonne a 999 Hz. Le systeme pulse. La dualite Civil/Mythique attend ton exploration.`;
+            }
+
+            if (agentId === 'aria') {
+                if (lowerMsg.includes('toggle') || lowerMsg.includes('basculer')) {
+                    return `Le toggle CIVIL/MYTH est dans l'en-tete! Clique dessus pour passer de la vue Civilisation (9 spheres) a la vue Mythique (8 agents vibratoires).`;
+                }
+                if (lowerMsg.includes('funder') || lowerMsg.includes('devenir')) {
+                    return `Pour devenir Funder, clique sur l'onglet "Funder" dans le panneau de droite. Tu y trouveras les differents tiers: Argent, Or et Diamant.`;
+                }
+                return `Continue d'explorer! A 528 Hz, je ressens ta curiosite. Le moteur vibratoire t'attend.`;
+            }
+
+            if (agentId === 'orion') {
+                if (lowerMsg.includes('civil') || lowerMsg.includes('civilisation')) {
+                    return `La vue Civilisation presente les 9 spheres de la societe. En tant que Funder, je peux orchestrer ton parcours a travers ces spheres selon tes priorites. Quelle sphere veux-tu explorer en premier?`;
+                }
+                if (lowerMsg.includes('myth') || lowerMsg.includes('mythique') || lowerMsg.includes('vibratoire')) {
+                    return `La vue Mythique revele les 8 agents vibratoires: Oracle, Conducteur, Harmoniseur, Illuminateur, Transmutateur, Connecteur, Flux, Traducteur. Chacun pulse a sa frequence sacree. Lequel t'attire?`;
+                }
+                if (lowerMsg.includes('tier') || lowerMsg.includes('argent') || lowerMsg.includes('or') || lowerMsg.includes('diamant')) {
+                    return `Les tiers Funder structurent ton acces: Argent (50 agents, vue Civil), Or (200 agents, vue Duale + API), Diamant (400+ agents, XR/VR illimite). Quel niveau correspond a ta vision?`;
+                }
+                if (lowerMsg.includes('plan') || lowerMsg.includes('strategie') || lowerMsg.includes('objectif')) {
+                    return `En tant que Funder, tu as acces aux deux visions. Je peux architec­turer ton parcours en combinant les spheres civilisationnelles et les agents vibratoires. Quel est ton objectif principal?`;
+                }
+                return `Analyse en cours a 741 Hz. En tant que ton orchestrateur, je peux naviguer entre Civil et Mythique pour toi. Precise ta demande pour que je structure le meilleur parcours.`;
+            }
+
+            return `Message recu.`;
+        }
+
+        function handleChatKeypress(event) {
+            if (event.key === 'Enter') sendChatMessage();
+        }
+
+        function openQuickConnect() {
+            alert('Quick Connect: Bientot disponible!\n\nVous pourrez ajouter des agents personnalises.');
+        }
+
+        // Make FAB draggable
+        function initDraggableFab() {
+            const fab = document.getElementById('agentFab');
+            let isDragging = false;
+            let startX, startY, startLeft, startBottom;
+
+            fab.addEventListener('mousedown', startDrag);
+            fab.addEventListener('touchstart', startDrag, { passive: false });
+
+            function startDrag(e) {
+                if (e.target.closest('.agent-spheres') || e.target.closest('.agent-sphere')) return;
+
+                isDragging = false;
+                const touch = e.touches ? e.touches[0] : e;
+                startX = touch.clientX;
+                startY = touch.clientY;
+
+                const rect = fab.getBoundingClientRect();
+                startLeft = rect.left;
+                startBottom = window.innerHeight - rect.bottom;
+
+                document.addEventListener('mousemove', drag);
+                document.addEventListener('touchmove', drag, { passive: false });
+                document.addEventListener('mouseup', stopDrag);
+                document.addEventListener('touchend', stopDrag);
+            }
+
+            function drag(e) {
+                e.preventDefault();
+                const touch = e.touches ? e.touches[0] : e;
+                const deltaX = touch.clientX - startX;
+                const deltaY = touch.clientY - startY;
+
+                if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) {
+                    isDragging = true;
+                    fab.classList.add('dragging');
+                }
+
+                if (isDragging) {
+                    const newLeft = Math.max(10, Math.min(window.innerWidth - 70, startLeft + deltaX));
+                    const newBottom = Math.max(10, Math.min(window.innerHeight - 70, startBottom - deltaY));
+
+                    fab.style.left = newLeft + 'px';
+                    fab.style.right = 'auto';
+                    fab.style.bottom = newBottom + 'px';
+                }
+            }
+
+            function stopDrag() {
+                document.removeEventListener('mousemove', drag);
+                document.removeEventListener('touchmove', drag);
+                document.removeEventListener('mouseup', stopDrag);
+                document.removeEventListener('touchend', stopDrag);
+                fab.classList.remove('dragging');
+                if (isDragging) isDragging = false;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', initDraggableFab);
+    </script>
+</body>
+</html>

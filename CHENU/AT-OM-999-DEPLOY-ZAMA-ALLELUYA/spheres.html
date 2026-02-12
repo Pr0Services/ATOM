@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AT-OM | Forge - Les 9 Sphères</title>
+    <meta name="description" content="Forge des Sphères AT-OM - Les 9 domaines de la civilisation souveraine">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <script src="/config.js"></script>
+    <script src="/js/governance-init.js"></script>
+    <style>
+        /* ═══════════════════════════════════════════════════════════════════
+           AT-OM FORGE - CANONICAL 3 HUBS LAYOUT
+           Hub 1: Liste des Sphères (280px)
+           Hub 2: Visualisation Centrale (1fr)
+           Hub 3: Détails Sphère (320px)
+           ═══════════════════════════════════════════════════════════════════ */
+
+        :root {
+            /* ADN Vibratoire */
+            --phi: 1.618033988749895;
+            --heartbeat: 444;
+            --tesla: 369;
+            --source: 999;
+
+            /* Couleurs Sacrées */
+            --sacred-gold: #D4AF37;
+            --sacred-gold-dim: rgba(212, 175, 55, 0.3);
+            --dark-bg: #0a0a0f;
+            --darker-bg: #050508;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --card-border: rgba(212, 175, 55, 0.2);
+
+            /* Agents L0 */
+            --nova-color: #9333EA;
+            --aria-color: #00FF88;
+            --orion-color: #FF6B35;
+
+            /* Layout Canonique */
+            --hub1-width: 280px;
+            --hub3-width: 320px;
+            --max-width: 1600px;
+            --gap: 1.5rem;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--dark-bg);
+            color: #e0e0e0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           HEADER
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .global-header {
+            background: linear-gradient(180deg, rgba(10, 10, 15, 0.98), rgba(10, 10, 15, 0.95));
+            border-bottom: 1px solid var(--card-border);
+            padding: 0.75rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+        }
+
+        .header-content {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section { display: flex; align-items: center; gap: 1rem; }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--sacred-gold), #F4E4BC);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .page-title {
+            font-size: 0.9rem;
+            color: #888;
+            padding-left: 1rem;
+            border-left: 1px solid var(--card-border);
+        }
+
+        .global-nav { display: flex; gap: 0.25rem; }
+
+        .nav-link {
+            padding: 0.5rem 0.75rem;
+            color: #888;
+            text-decoration: none;
+            font-size: 0.85rem;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover, .nav-link.active {
+            color: var(--sacred-gold);
+            background: var(--sacred-gold-dim);
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           3 HUBS LAYOUT
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .main-container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: var(--gap);
+            min-height: calc(100vh - 60px);
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: var(--gap);
+            height: calc(100vh - 120px);
+        }
+
+        @media (min-width: 768px) {
+            .grid-container {
+                grid-template-columns: var(--hub1-width) 1fr;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .grid-container {
+                grid-template-columns: var(--hub1-width) 1fr var(--hub3-width);
+            }
+        }
+
+        /* Hub Cards */
+        .hub-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .hub-card-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .hub-card-header h3 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--sacred-gold);
+        }
+
+        .hub-card-content { padding: 1rem; }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           HUB 1 - Liste des Sphères
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .spheres-hub {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .spheres-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+
+        .sphere-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid transparent;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .sphere-item:hover {
+            border-color: var(--card-border);
+            transform: translateX(3px);
+        }
+
+        .sphere-item.active {
+            border-color: var(--sphere-color);
+            background: rgba(var(--sphere-color-rgb), 0.15);
+        }
+
+        .sphere-orb {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            background: radial-gradient(circle at 30% 30%, var(--sphere-color), transparent);
+            box-shadow: 0 0 15px var(--sphere-color);
+        }
+
+        .sphere-info { flex: 1; }
+
+        .sphere-name {
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: white;
+        }
+
+        .sphere-agents {
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        .sphere-percent {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--sphere-color);
+        }
+
+        /* Stats Card */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--sacred-gold);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: #888;
+            text-transform: uppercase;
+        }
+
+        /* ADN Card */
+        .adn-grid { display: grid; gap: 0.5rem; }
+
+        .adn-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0.75rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            font-size: 0.8rem;
+        }
+
+        .adn-label { color: #888; }
+        .adn-value { font-family: 'Courier New', monospace; color: var(--sacred-gold); }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           HUB 2 - Visualisation Centrale
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .visualization-hub {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .canvas-container {
+            flex: 1;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            min-height: 400px;
+        }
+
+        #sphereCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .canvas-legend {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            max-width: 80%;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            padding: 0.3rem 0.6rem;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 4px;
+            font-size: 0.7rem;
+            color: #aaa;
+            backdrop-filter: blur(5px);
+        }
+
+        .legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        /* Loading */
+        .loading-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            color: #888;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--card-border);
+            border-top-color: var(--sacred-gold);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           HUB 3 - Détails Sphère
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .details-hub {
+            display: none;
+            flex-direction: column;
+            gap: 1rem;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        @media (min-width: 1200px) {
+            .details-hub { display: flex; }
+        }
+
+        .details-hub.has-selection { display: flex; }
+
+        .sphere-portrait {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(180deg, rgba(var(--sphere-color-rgb), 0.2), transparent);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .portrait-orb {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            background: radial-gradient(circle at 30% 30%, var(--sphere-color), transparent);
+            box-shadow: 0 0 40px var(--sphere-color);
+            animation: pulse-orb 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-orb {
+            0%, 100% { box-shadow: 0 0 30px var(--sphere-color); }
+            50% { box-shadow: 0 0 50px var(--sphere-color), 0 0 80px var(--sphere-color); }
+        }
+
+        .portrait-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--sphere-color);
+        }
+
+        .portrait-count {
+            font-size: 0.9rem;
+            color: #888;
+        }
+
+        .detail-section {
+            padding: 1rem;
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        .detail-section:last-child { border-bottom: none; }
+
+        .section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #666;
+            margin-bottom: 0.75rem;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.4rem 0;
+            font-size: 0.85rem;
+        }
+
+        .detail-label { color: #888; }
+        .detail-value { color: white; font-weight: 500; }
+
+        /* Agents List */
+        .agents-list-scroll {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .agent-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 6px;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .agent-row:last-child { margin-bottom: 0; }
+
+        .agent-name { color: white; }
+
+        .agent-freq {
+            font-weight: 600;
+            color: var(--sphere-color);
+        }
+
+        /* Empty State */
+        .details-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            text-align: center;
+            color: #666;
+            padding: 2rem;
+        }
+
+        .details-empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        /* Mobile Overlay */
+        @media (max-width: 1199px) {
+            .details-hub.has-selection {
+                position: fixed;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: rgba(0, 0, 0, 0.95);
+                z-index: 200;
+                padding: 1rem;
+                backdrop-filter: blur(10px);
+            }
+
+            .mobile-close {
+                display: block;
+                position: absolute;
+                top: 1rem;
+                right: 1rem;
+                background: none;
+                border: none;
+                color: white;
+                font-size: 1.5rem;
+                cursor: pointer;
+            }
+        }
+
+        @media (min-width: 1200px) {
+            .mobile-close { display: none; }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════════
+           FLOATING AGENT FAB
+           ═══════════════════════════════════════════════════════════════════ */
+
+        .agent-fab {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 1000;
+        }
+
+        .fab-main {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--sacred-gold), #B8860B);
+            border: none;
+            color: var(--dark-bg);
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .fab-main:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 30px rgba(212, 175, 55, 0.6);
+        }
+
+        .agent-fab.open .fab-main { transform: rotate(45deg); }
+
+        .agent-spheres {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .agent-fab.open .agent-spheres {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .agent-sphere {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: rgba(10, 10, 15, 0.95);
+            border: 1px solid var(--agent-color);
+            border-radius: 28px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .agent-sphere:hover { transform: translateX(-5px); }
+        .agent-sphere-icon { font-size: 1.2rem; }
+        .agent-sphere-info { display: flex; flex-direction: column; }
+        .agent-sphere-name { font-size: 0.85rem; font-weight: 600; color: var(--agent-color); }
+        .agent-sphere-freq { font-size: 0.7rem; color: #888; }
+
+        /* Chat Panel */
+        .agent-chat-panel {
+            position: fixed;
+            bottom: 100px;
+            right: 2rem;
+            width: 380px;
+            max-height: 500px;
+            background: rgba(10, 10, 15, 0.98);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+        }
+
+        .agent-chat-panel.open { display: flex; }
+
+        .chat-header {
+            padding: 1rem;
+            border-bottom: 1px solid var(--card-border);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .chat-agent-icon { font-size: 1.5rem; }
+        .chat-agent-info { flex: 1; }
+        .chat-agent-name { font-weight: 600; }
+        .chat-agent-title { font-size: 0.75rem; color: #888; }
+        .chat-close { background: none; border: none; color: #666; font-size: 1.2rem; cursor: pointer; }
+        .chat-close:hover { color: white; }
+
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-height: 300px;
+        }
+
+        .chat-message {
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            max-width: 90%;
+        }
+
+        .chat-message.agent {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            align-self: flex-start;
+        }
+
+        .chat-message.user {
+            background: var(--sacred-gold-dim);
+            border: 1px solid var(--sacred-gold);
+            align-self: flex-end;
+        }
+
+        .chat-input-area {
+            padding: 1rem;
+            border-top: 1px solid var(--card-border);
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .chat-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .chat-input:focus { outline: none; border-color: var(--sacred-gold); }
+
+        .chat-send {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--sacred-gold);
+            border: none;
+            color: var(--dark-bg);
+            cursor: pointer;
+        }
+
+        /* Responsive */
+        @media (max-width: 767px) {
+            .global-nav { display: none; }
+            .agent-chat-panel { left: 1rem; right: 1rem; width: auto; }
+            .agent-fab { bottom: 1rem; right: 1rem; }
+            .grid-container { height: auto; min-height: calc(100vh - 120px); }
+            .canvas-container { min-height: 300px; }
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--card-border); border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="global-header">
+        <div class="header-content">
+            <div class="logo-section">
+                <a href="/" class="logo">AT-OM</a>
+                <span class="page-title">Forge des Sphères</span>
+            </div>
+            <nav class="global-nav">
+                <a href="/" class="nav-link">Ψ Nexus</a>
+                <a href="/civilization.html" class="nav-link">🌐 Civilisation</a>
+                <a href="/agents.html" class="nav-link">🤖 Lexique</a>
+                <a href="/spheres.html" class="nav-link active">🔮 Forge</a>
+                <a href="/live.html" class="nav-link">⚡ Flux</a>
+                <a href="/dashboard.html" class="nav-link">📊 Annales</a>
+                <a href="/frequencies.html" class="nav-link">📡 Freq</a>
+                <a href="/funder.html" class="nav-link">💎 Funder</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN - 3 HUBS -->
+    <main class="main-container">
+        <div class="grid-container">
+
+            <!-- HUB 1 - Liste des Sphères -->
+            <aside class="spheres-hub">
+                <div class="hub-card">
+                    <div class="hub-card-header">
+                        <span>📊</span>
+                        <h3>Vue d'ensemble</h3>
+                    </div>
+                    <div class="hub-card-content">
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <div class="stat-value" id="totalAgents">--</div>
+                                <div class="stat-label">Agents</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="totalSpheres">9</div>
+                                <div class="stat-label">Sphères</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="hub-card" style="flex: 1; overflow: hidden;">
+                    <div class="hub-card-header">
+                        <span>🔮</span>
+                        <h3>Les 9 Sphères</h3>
+                    </div>
+                    <div class="hub-card-content" style="height: calc(100% - 50px); overflow-y: auto;">
+                        <div id="loadingList" class="loading-state">
+                            <div class="spinner"></div>
+                            <p>Chargement...</p>
+                        </div>
+                        <div class="spheres-list" id="spheresList"></div>
+                    </div>
+                </div>
+
+                <div class="hub-card">
+                    <div class="hub-card-header">
+                        <span>🧬</span>
+                        <h3>ADN Vibratoire</h3>
+                    </div>
+                    <div class="hub-card-content">
+                        <div class="adn-grid">
+                            <div class="adn-item"><span class="adn-label">PHI</span><span class="adn-value">1.618033...</span></div>
+                            <div class="adn-item"><span class="adn-label">Heartbeat</span><span class="adn-value">444 Hz</span></div>
+                            <div class="adn-item"><span class="adn-label">Tesla</span><span class="adn-value">369</span></div>
+                            <div class="adn-item"><span class="adn-label">Source</span><span class="adn-value">999 Hz</span></div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- HUB 2 - Visualisation -->
+            <section class="visualization-hub">
+                <div class="canvas-container">
+                    <canvas id="sphereCanvas"></canvas>
+                    <div class="canvas-legend" id="canvasLegend"></div>
+                </div>
+            </section>
+
+            <!-- HUB 3 - Détails -->
+            <aside class="details-hub" id="detailsHub">
+                <button class="mobile-close" onclick="closeDetails()">&times;</button>
+
+                <div class="hub-card" style="flex: 1; overflow: hidden;">
+                    <div class="details-empty" id="detailsEmpty">
+                        <div class="details-empty-icon">🔮</div>
+                        <p>Sélectionnez une sphère pour voir ses détails</p>
+                    </div>
+
+                    <div id="detailsContent" style="display: none;">
+                        <div class="sphere-portrait" id="spherePortrait" style="--sphere-color: #D4AF37;">
+                            <div class="portrait-orb" id="portraitOrb">🔮</div>
+                            <div class="portrait-name" id="portraitName">--</div>
+                            <div class="portrait-count" id="portraitCount">-- agents</div>
+                        </div>
+
+                        <div class="detail-section">
+                            <div class="section-title">Statistiques</div>
+                            <div class="detail-row">
+                                <span class="detail-label">Part du système</span>
+                                <span class="detail-value" id="detailPercent">--%</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Fréquence moyenne</span>
+                                <span class="detail-value" id="detailAvgFreq">-- Hz</span>
+                            </div>
+                            <div class="detail-row">
+                                <span class="detail-label">Fréquence max</span>
+                                <span class="detail-value" id="detailMaxFreq">-- Hz</span>
+                            </div>
+                        </div>
+
+                        <div class="detail-section">
+                            <div class="section-title">Agents de cette sphère</div>
+                            <div class="agents-list-scroll" id="agentsList"></div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <!-- FLOATING FAB -->
+    <div class="agent-fab" id="agentFab">
+        <div class="agent-spheres">
+            <div class="agent-sphere" onclick="openAgentChat('nova')" style="--agent-color: #9333EA;">
+                <span class="agent-sphere-icon">🔱</span>
+                <div class="agent-sphere-info">
+                    <span class="agent-sphere-name">Nova</span>
+                    <span class="agent-sphere-freq">999 Hz • Overseer</span>
+                </div>
+            </div>
+            <div class="agent-sphere" onclick="openAgentChat('aria')" style="--agent-color: #00FF88;">
+                <span class="agent-sphere-icon">✨</span>
+                <div class="agent-sphere-info">
+                    <span class="agent-sphere-name">Aria</span>
+                    <span class="agent-sphere-freq">528 Hz • Guide</span>
+                </div>
+            </div>
+            <div class="agent-sphere" onclick="openAgentChat('orion')" style="--agent-color: #FF6B35;">
+                <span class="agent-sphere-icon">🏛️</span>
+                <div class="agent-sphere-info">
+                    <span class="agent-sphere-name">Orion</span>
+                    <span class="agent-sphere-freq">741 Hz • Orchestrateur</span>
+                </div>
+            </div>
+        </div>
+        <button class="fab-main" onclick="toggleAgentFab()">💫</button>
+    </div>
+
+    <!-- CHAT PANEL -->
+    <div class="agent-chat-panel" id="agentChatPanel">
+        <div class="chat-header">
+            <span class="chat-agent-icon" id="chatAgentIcon">🔱</span>
+            <div class="chat-agent-info">
+                <div class="chat-agent-name" id="chatAgentName">Nova</div>
+                <div class="chat-agent-title" id="chatAgentTitle">System Overseer</div>
+            </div>
+            <button class="chat-close" onclick="closeAgentChat()">&times;</button>
+        </div>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-input-area">
+            <input type="text" class="chat-input" id="chatInput" placeholder="Posez votre question...">
+            <button class="chat-send" onclick="sendChatMessage()">→</button>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = (typeof ATOM_CONFIG !== 'undefined') ? ATOM_CONFIG.API_BASE : 'https://atom-2autu.ondigitalocean.app';
+        const FETCH_TIMEOUT = 5000;
+
+        const SPHERE_ICONS = {
+            'Personnel': '👤', 'Business': '💼', 'Gouvernement': '🏛️',
+            'Créatif': '🎨', 'Communauté': '🤝', 'Social': '💬',
+            'Éducation': '📚', 'Transport': '🚀', 'Environnement': '🌍',
+            'Intelligence': '🧠', 'Communication': '📡', 'Construction': '🔨',
+            'Analytics': '📊', 'Security': '🛡️', 'Integration': '🔗'
+        };
+
+        const COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9'];
+
+        const FALLBACK_AGENTS = [
+            { id: 1, name: "Nova", sphere: "Intelligence", frequency_hz: 999 },
+            { id: 2, name: "Aria", sphere: "Communication", frequency_hz: 528 },
+            { id: 3, name: "Orion", sphere: "Integration", frequency_hz: 741 },
+            { id: 4, name: "Atlas", sphere: "Construction", frequency_hz: 528 },
+            { id: 5, name: "Phoenix", sphere: "Analytics", frequency_hz: 639 },
+        ];
+
+        const CORE_AGENTS = {
+            nova: { name: 'Nova', icon: '🔱', title: 'System Overseer', color: '#9333EA',
+                greeting: 'Bienvenue dans la Forge. Je supervise l\'harmonie des 9 sphères.',
+                responses: { help: 'Les sphères organisent les agents par domaine de compétence.' }
+            },
+            aria: { name: 'Aria', icon: '✨', title: 'Onboarding Guide', color: '#00FF88',
+                greeting: 'Bonjour! La Forge te permet d\'explorer les 9 sphères de la civilisation.',
+                responses: { help: 'Clique sur une sphère pour découvrir ses agents!' }
+            },
+            orion: { name: 'Orion', icon: '🏛️', title: 'Ton Orchestrateur', color: '#FF6B35',
+                greeting: 'Salutations. Les sphères structurent les domaines d\'expertise des agents.',
+                responses: { help: 'Je peux coordonner les agents de plusieurs sphères pour ton objectif.' }
+            }
+        };
+
+        let agents = [];
+        let sphereData = {};
+        let selectedSphere = null;
+
+        const canvas = document.getElementById('sphereCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            canvas.width = rect.width;
+            canvas.height = rect.height;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', () => { resizeCanvas(); initParticles(); });
+
+        async function fetchWithTimeout(url, timeout = FETCH_TIMEOUT) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), timeout);
+            try {
+                const response = await fetch(url, { signal: controller.signal });
+                clearTimeout(timeoutId);
+                return response;
+            } catch (error) {
+                clearTimeout(timeoutId);
+                throw error;
+            }
+        }
+
+        async function fetchAgents() {
+            try {
+                const response = await fetchWithTimeout(`${API_BASE}/agents`);
+                agents = await response.json();
+                if (!Array.isArray(agents)) throw new Error('Invalid');
+            } catch (error) {
+                const cached = localStorage.getItem('atom_agents_cache');
+                agents = cached ? JSON.parse(cached) : FALLBACK_AGENTS;
+            }
+
+            processSpheres();
+            document.getElementById('loadingList').style.display = 'none';
+            renderSpheresList();
+            initParticles();
+            animate();
+        }
+
+        function processSpheres() {
+            sphereData = {};
+            agents.forEach(a => {
+                const s = a.sphere || 'Unknown';
+                if (!sphereData[s]) sphereData[s] = [];
+                sphereData[s].push(a);
+            });
+
+            document.getElementById('totalAgents').textContent = agents.length;
+            document.getElementById('totalSpheres').textContent = Object.keys(sphereData).length;
+        }
+
+        function renderSpheresList() {
+            const list = document.getElementById('spheresList');
+            const total = agents.length;
+
+            const sorted = Object.entries(sphereData).sort((a, b) => b[1].length - a[1].length);
+
+            list.innerHTML = sorted.map(([sphere, agentList], i) => {
+                const percent = ((agentList.length / total) * 100).toFixed(1);
+                const color = COLORS[i % COLORS.length];
+                const icon = SPHERE_ICONS[sphere] || '🔮';
+                const isActive = selectedSphere === sphere;
+
+                return `
+                    <div class="sphere-item ${isActive ? 'active' : ''}"
+                         style="--sphere-color: ${color};"
+                         onclick="selectSphere('${sphere}')">
+                        <div class="sphere-orb" style="--sphere-color: ${color};">${icon}</div>
+                        <div class="sphere-info">
+                            <div class="sphere-name">${sphere}</div>
+                            <div class="sphere-agents">${agentList.length} agents</div>
+                        </div>
+                        <span class="sphere-percent" style="color: ${color};">${percent}%</span>
+                    </div>
+                `;
+            }).join('');
+
+            // Legend
+            const legend = document.getElementById('canvasLegend');
+            legend.innerHTML = sorted.slice(0, 6).map(([sphere, _], i) => `
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: ${COLORS[i % COLORS.length]};"></div>
+                    <span>${sphere}</span>
+                </div>
+            `).join('');
+        }
+
+        function selectSphere(sphere) {
+            selectedSphere = sphere;
+            const agentList = sphereData[sphere] || [];
+            const total = agents.length;
+            const colorIndex = Object.keys(sphereData).sort((a, b) => sphereData[b].length - sphereData[a].length).indexOf(sphere);
+            const color = COLORS[colorIndex % COLORS.length];
+            const icon = SPHERE_ICONS[sphere] || '🔮';
+
+            // Update list
+            document.querySelectorAll('.sphere-item').forEach(item => {
+                item.classList.toggle('active', item.querySelector('.sphere-name').textContent === sphere);
+            });
+
+            // Show details
+            document.getElementById('detailsHub').classList.add('has-selection');
+            document.getElementById('detailsEmpty').style.display = 'none';
+            document.getElementById('detailsContent').style.display = 'block';
+
+            // Populate details
+            const portrait = document.getElementById('spherePortrait');
+            portrait.style.setProperty('--sphere-color', color);
+
+            document.getElementById('portraitOrb').textContent = icon;
+            document.getElementById('portraitOrb').style.setProperty('--sphere-color', color);
+            document.getElementById('portraitName').textContent = sphere;
+            document.getElementById('portraitName').style.color = color;
+            document.getElementById('portraitCount').textContent = `${agentList.length} agents`;
+
+            const percent = ((agentList.length / total) * 100).toFixed(1);
+            const freqs = agentList.map(a => a.frequency_hz || 0);
+            const avgFreq = freqs.length ? (freqs.reduce((a, b) => a + b, 0) / freqs.length).toFixed(0) : 0;
+            const maxFreq = freqs.length ? Math.max(...freqs) : 0;
+
+            document.getElementById('detailPercent').textContent = percent + '%';
+            document.getElementById('detailAvgFreq').textContent = avgFreq + ' Hz';
+            document.getElementById('detailMaxFreq').textContent = maxFreq + ' Hz';
+
+            // Agents list
+            const sortedAgents = [...agentList].sort((a, b) => (b.frequency_hz || 0) - (a.frequency_hz || 0));
+            document.getElementById('agentsList').innerHTML = sortedAgents.map(a => `
+                <div class="agent-row">
+                    <span class="agent-name">${a.name}</span>
+                    <span class="agent-freq" style="color: ${color};">${a.frequency_hz || 0} Hz</span>
+                </div>
+            `).join('');
+        }
+
+        function closeDetails() {
+            selectedSphere = null;
+            document.getElementById('detailsHub').classList.remove('has-selection');
+            document.getElementById('detailsEmpty').style.display = 'flex';
+            document.getElementById('detailsContent').style.display = 'none';
+            document.querySelectorAll('.sphere-item').forEach(i => i.classList.remove('active'));
+        }
+
+        // Canvas Animation
+        function initParticles() {
+            particles = [];
+            const sorted = Object.entries(sphereData).sort((a, b) => b[1].length - a[1].length);
+
+            sorted.forEach(([sphere, agentList], i) => {
+                const color = COLORS[i % COLORS.length];
+                const count = Math.min(agentList.length, 20);
+
+                for (let j = 0; j < count; j++) {
+                    particles.push({
+                        sphere,
+                        x: Math.random() * canvas.width,
+                        y: Math.random() * canvas.height,
+                        vx: (Math.random() - 0.5) * 1.5,
+                        vy: (Math.random() - 0.5) * 1.5,
+                        radius: 4 + Math.random() * 4,
+                        color
+                    });
+                }
+            });
+        }
+
+        function animate() {
+            ctx.fillStyle = 'rgba(10, 10, 15, 0.15)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                const speed = selectedSphere === p.sphere ? 2 : 1;
+                p.x += p.vx * speed;
+                p.y += p.vy * speed;
+
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                const alpha = selectedSphere && selectedSphere !== p.sphere ? 0.3 : 1;
+
+                // Glow
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius * 2, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + Math.round(alpha * 40).toString(16).padStart(2, '0');
+                ctx.fill();
+
+                // Core
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + Math.round(alpha * 255).toString(16).padStart(2, '0');
+                ctx.fill();
+            });
+
+            // Connections
+            ctx.strokeStyle = 'rgba(212, 175, 55, 0.05)';
+            ctx.lineWidth = 0.5;
+            for (let i = 0; i < particles.length; i++) {
+                for (let j = i + 1; j < particles.length; j++) {
+                    if (particles[i].sphere === particles[j].sphere) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 100) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // Agent Chat
+        let currentChatAgent = 'nova';
+
+        function toggleAgentFab() {
+            document.getElementById('agentFab').classList.toggle('open');
+        }
+
+        function openAgentChat(agentId) {
+            currentChatAgent = agentId;
+            const agent = CORE_AGENTS[agentId];
+            document.getElementById('chatAgentIcon').textContent = agent.icon;
+            document.getElementById('chatAgentName').textContent = agent.name;
+            document.getElementById('chatAgentName').style.color = agent.color;
+            document.getElementById('chatAgentTitle').textContent = agent.title;
+            document.getElementById('chatMessages').innerHTML = '';
+            addChatMessage(agent.greeting, 'agent');
+            document.getElementById('agentChatPanel').classList.add('open');
+            document.getElementById('agentFab').classList.remove('open');
+        }
+
+        function closeAgentChat() {
+            document.getElementById('agentChatPanel').classList.remove('open');
+        }
+
+        function addChatMessage(text, type) {
+            const msg = document.createElement('div');
+            msg.className = `chat-message ${type}`;
+            msg.textContent = text;
+            document.getElementById('chatMessages').appendChild(msg);
+        }
+
+        function sendChatMessage() {
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+            addChatMessage(text, 'user');
+            input.value = '';
+            setTimeout(() => {
+                addChatMessage(CORE_AGENTS[currentChatAgent].responses.help, 'agent');
+            }, 500);
+        }
+
+        document.getElementById('chatInput').addEventListener('keypress', e => {
+            if (e.key === 'Enter') sendChatMessage();
+        });
+
+        document.addEventListener('click', e => {
+            if (!document.getElementById('agentFab').contains(e.target)) {
+                document.getElementById('agentFab').classList.remove('open');
+            }
+        });
+
+        fetchAgents();
+    </script>
+</body>
+</html>
