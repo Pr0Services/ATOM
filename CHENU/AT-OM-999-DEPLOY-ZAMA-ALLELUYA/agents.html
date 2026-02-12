@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AT·OM | Catalogue d'agents</title>
-    <meta name="description" content="Catalogue des 287+ Agents de la plateforme AT·OM - Navigation par domaines">
+    <meta name="description" content="Catalogue des 400+ Agents de la plateforme AT·OM - Navigation par domaines">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <script src="/config.js"></script>
     <script src="/js/governance-init.js"></script>
@@ -1121,7 +1121,7 @@
                             </div>
                             <div class="stat-item">
                                 <div class="stat-value" id="avgFreq">--</div>
-                                <div class="stat-label">Fréq. Moy.</div>
+                                <div class="stat-label">Niveau Moy.</div>
                             </div>
                             <div class="stat-item">
                                 <div class="stat-value" id="filteredCount">--</div>
@@ -1164,8 +1164,8 @@
                     <select class="sort-select" id="sortSelect">
                         <option value="name">Trier par Nom</option>
                         <option value="sphere">Trier par Domaine</option>
-                        <option value="frequency">Trier par Fréquence ↓</option>
-                        <option value="frequency-asc">Trier par Fréquence ↑</option>
+                        <option value="frequency">Trier par Niveau ↓</option>
+                        <option value="frequency-asc">Trier par Niveau ↑</option>
                         <option value="id">Trier par ID</option>
                     </select>
                 </div>
@@ -1207,10 +1207,9 @@
                         </div>
 
                         <div class="agent-detail-section">
-                            <div class="section-title">Fréquence</div>
+                            <div class="section-title">Niveau</div>
                             <div class="freq-display">
                                 <span class="freq-badge" id="detailFreqValue">--</span>
-                                <span style="color: #888;">Hz</span>
                             </div>
                             <div class="freq-bar" style="margin-top: 0.5rem;">
                                 <div class="freq-bar-fill" id="detailFreqBar" style="width: 0%;"></div>
@@ -1226,10 +1225,6 @@
                             <div class="detail-row">
                                 <span class="detail-label">Domaine</span>
                                 <span class="detail-value" id="detailSphere">--</span>
-                            </div>
-                            <div class="detail-row">
-                                <span class="detail-label">Niveau</span>
-                                <span class="detail-value" id="detailLevel">L2</span>
                             </div>
                             <div class="detail-row">
                                 <span class="detail-label">Statut</span>
@@ -1402,11 +1397,11 @@
                 title: 'Superviseur Système',
                 frequency: 999,
                 color: '#9333EA',
-                greeting: 'Bienvenue dans le catalogue des agents. Je suis Nova, superviseur du système. Comment puis-je vous aider à naviguer parmi les 287 agents de la plateforme?',
+                greeting: 'Bienvenue dans le catalogue des agents. Je suis Nova, superviseur du système. Comment puis-je vous aider à naviguer parmi les 400+ agents de la plateforme?',
                 responses: {
                     agent: 'Chaque agent possède des capacités spécifiques qui définissent son rôle dans le système.',
                     frequency: 'Les agents sont organisés par niveaux et domaines de compétence au sein de la plateforme.',
-                    sphere: 'Les 9 domaines organisent les agents par domaine de compétence.',
+                    sphere: 'Les domaines organisent les agents par champ de compétence.',
                     help: 'Je peux vous aider à comprendre le rôle des agents et leur organisation dans la plateforme.'
                 }
             },
@@ -1432,7 +1427,7 @@
                 title: 'Votre Coordinateur',
                 frequency: 741,
                 color: '#FF6B35',
-                greeting: 'Bonjour. Je suis Orion, votre coordinateur. Le catalogue vous permet d\'explorer et de coordonner les 287 agents selon vos objectifs. Que souhaitez-vous accomplir?',
+                greeting: 'Bonjour. Je suis Orion, votre coordinateur. Le catalogue vous permet d\'explorer et de coordonner les 400+ agents selon vos objectifs. Que souhaitez-vous accomplir?',
                 responses: {
                     agent: 'Je peux coordonner plusieurs agents pour accomplir des tâches complexes.',
                     plan: 'Indiquez-moi votre objectif, et je structurerai un parcours optimal à travers les agents disponibles.',
@@ -1587,7 +1582,6 @@
                          onclick="selectAgent(${agent.id})">
                         <div class="agent-header">
                             <span class="agent-id">#${agent.id}</span>
-                            <span class="agent-level">L2</span>
                         </div>
                         <div class="agent-name">${agent.name}</div>
                         <div class="agent-sphere-tag">
@@ -1596,7 +1590,6 @@
                         </div>
                         <div class="agent-freq">
                             <span class="agent-freq-value">${agent.frequency_hz || 0}</span>
-                            <span class="agent-freq-unit">Hz</span>
                         </div>
                     </div>
                 `;

@@ -778,12 +778,8 @@
                                 <span class="detail-value" id="detailPercent">--%</span>
                             </div>
                             <div class="detail-row">
-                                <span class="detail-label">Score moyen</span>
-                                <span class="detail-value" id="detailAvgFreq">--</span>
-                            </div>
-                            <div class="detail-row">
-                                <span class="detail-label">Score max</span>
-                                <span class="detail-value" id="detailMaxFreq">--</span>
+                                <span class="detail-label">Agents actifs</span>
+                                <span class="detail-value" id="detailAgentCount">--</span>
                             </div>
                         </div>
 
@@ -1002,20 +998,14 @@
             document.getElementById('portraitCount').textContent = `${agentList.length} agents`;
 
             const percent = ((agentList.length / total) * 100).toFixed(1);
-            const freqs = agentList.map(a => a.frequency_hz || 0);
-            const avgFreq = freqs.length ? (freqs.reduce((a, b) => a + b, 0) / freqs.length).toFixed(0) : 0;
-            const maxFreq = freqs.length ? Math.max(...freqs) : 0;
-
             document.getElementById('detailPercent').textContent = percent + '%';
-            document.getElementById('detailAvgFreq').textContent = avgFreq;
-            document.getElementById('detailMaxFreq').textContent = maxFreq;
+            document.getElementById('detailAgentCount').textContent = agentList.length;
 
             // Agents list
-            const sortedAgents = [...agentList].sort((a, b) => (b.frequency_hz || 0) - (a.frequency_hz || 0));
+            const sortedAgents = [...agentList].sort((a, b) => (a.name || '').localeCompare(b.name || ''));
             document.getElementById('agentsList').innerHTML = sortedAgents.map(a => `
                 <div class="agent-row">
                     <span class="agent-name">${a.name}</span>
-                    <span class="agent-freq" style="color: ${color};">${a.frequency_hz || 0}</span>
                 </div>
             `).join('');
         }

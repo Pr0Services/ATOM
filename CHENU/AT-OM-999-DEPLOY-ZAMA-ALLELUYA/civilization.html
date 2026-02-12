@@ -1288,28 +1288,12 @@
                 <div class="stat-value">9</div>
                 <div class="stat-label">Domaines</div>
             </div>
-            <!-- Public Mode: Status -->
-            <div class="stat-box public-only">
+            <div class="stat-box">
                 <div class="stat-value" style="color: #00FF88;">Actif</div>
-                <div class="stat-label">Status</div>
-            </div>
-            <!-- Advanced Mode: Frequency -->
-            <div class="stat-box advanced-only">
-                <div class="stat-value" id="avgFreq">--</div>
-                <div class="stat-label">Score Moy</div>
+                <div class="stat-label">Statut</div>
             </div>
         </div>
 
-        <!-- MODE SWITCH: PUBLIC / AVANCE -->
-        <div class="mode-switch-container">
-            <div class="mode-switch" id="modeSwitch" onclick="toggleViewMode()">
-                <div class="mode-switch-slider"></div>
-                <div class="mode-switch-labels">
-                    <span class="mode-switch-label active" id="labelPublic">Public</span>
-                    <span class="mode-switch-label" id="labelAdvanced">Avance</span>
-                </div>
-            </div>
-        </div>
 
         <nav class="header-nav">
             <a href="/" class="header-btn">🏠 Accueil</a>
@@ -1335,7 +1319,7 @@
                 <div class="nav-header">
                     <h3>
                         <span>🌐</span>
-                        <span class="nav-header-text">Spheres</span>
+                        <span class="nav-header-text">Domaines</span>
                     </h3>
                     <button class="nav-toggle-btn" id="navToggleBtn" onclick="toggleSphereNavigator()" title="Réduire/Agrandir">
                         ◀
@@ -1346,32 +1330,9 @@
                     <!-- Spheres will be rendered here -->
                 </div>
 
-                <!-- PUBLIC MODE: System Stats Card -->
-                <div class="adn-card public-only">
-                    <div class="adn-title">Statut Systeme</div>
-                    <div class="adn-values">
-                        <div class="adn-item">
-                            <div class="adn-value" style="color: #00FF88;">Actif</div>
-                            <div class="adn-label">CONNEXION</div>
-                        </div>
-                        <div class="adn-item">
-                            <div class="adn-value">9</div>
-                            <div class="adn-label">SPHERES</div>
-                        </div>
-                        <div class="adn-item">
-                            <div class="adn-value" style="color: #9333EA;">3</div>
-                            <div class="adn-label">ASSISTANTS</div>
-                        </div>
-                        <div class="adn-item">
-                            <div class="adn-value" style="color: #FF6B6B;">400+</div>
-                            <div class="adn-label">AGENTS</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Advanced Mode: Infos système -->
-                <div class="adn-card advanced-only">
-                    <div class="adn-title">Infos Système</div>
+                <!-- System Stats Card -->
+                <div class="adn-card">
+                    <div class="adn-title">Vue rapide</div>
                     <div class="adn-values">
                         <div class="adn-item">
                             <div class="adn-value">9</div>
@@ -1382,11 +1343,11 @@
                             <div class="adn-label">AGENTS</div>
                         </div>
                         <div class="adn-item">
-                            <div class="adn-value" style="color: #9333EA;">v1.0</div>
-                            <div class="adn-label">VERSION</div>
+                            <div class="adn-value" style="color: #9333EA;">3</div>
+                            <div class="adn-label">ASSISTANTS</div>
                         </div>
                         <div class="adn-item">
-                            <div class="adn-value" style="color: #FF6B6B;">●</div>
+                            <div class="adn-value" style="color: #00FF88;">●</div>
                             <div class="adn-label">EN LIGNE</div>
                         </div>
                     </div>
@@ -1508,7 +1469,7 @@
                  MODE AVANCE - Vibrationnel/Spirituel
             ══════════════════════════════════════════════════════════ -->
             <!-- Nova - AVANCE -->
-            <div class="agent-sphere advanced-only" onclick="openAgentChat('nova')" style="--agent-color: #9333EA; --agent-bg: rgba(147, 51, 234, 0.2);">
+            <div class="agent-sphere" onclick="openAgentChat('nova')" style="--agent-color: #9333EA; --agent-bg: rgba(147, 51, 234, 0.2);">
                 <div class="agent-sphere-icon">🔱</div>
                 <div class="agent-sphere-info">
                     <div class="agent-sphere-name">Nova</div>
@@ -1517,7 +1478,7 @@
             </div>
 
             <!-- Aria - AVANCE -->
-            <div class="agent-sphere advanced-only" onclick="openAgentChat('aria')" style="--agent-color: #00FF88; --agent-bg: rgba(0, 255, 136, 0.2);">
+            <div class="agent-sphere" onclick="openAgentChat('aria')" style="--agent-color: #00FF88; --agent-bg: rgba(0, 255, 136, 0.2);">
                 <div class="agent-sphere-icon">✨</div>
                 <div class="agent-sphere-info">
                     <div class="agent-sphere-name">Aria</div>
@@ -1526,7 +1487,7 @@
             </div>
 
             <!-- Orion - AVANCE -->
-            <div class="agent-sphere advanced-only" onclick="openAgentChat('orion')" style="--agent-color: #FF6B35; --agent-bg: rgba(255, 107, 53, 0.2);">
+            <div class="agent-sphere" onclick="openAgentChat('orion')" style="--agent-color: #FF6B35; --agent-bg: rgba(255, 107, 53, 0.2);">
                 <div class="agent-sphere-icon">🏛️</div>
                 <div class="agent-sphere-info">
                     <div class="agent-sphere-name">Orion</div>
@@ -2541,46 +2502,15 @@
         // ═══════════════════════════════════════════════════════════════
         // VIEW MODE SWITCH - PUBLIC / AVANCE
         // ═══════════════════════════════════════════════════════════════
-        let isAdvancedMode = localStorage.getItem('atom_view_mode') === 'advanced';
-
-        function toggleViewMode() {
-            isAdvancedMode = !isAdvancedMode;
-            applyViewMode();
-            localStorage.setItem('atom_view_mode', isAdvancedMode ? 'advanced' : 'public');
-            console.log(`[ViewMode] Switched to: ${isAdvancedMode ? 'AVANCE (Vibrationnel)' : 'PUBLIC (Executif)'}`);
-        }
-
+        // View mode (always public — advanced toggle removed)
+        let isAdvancedMode = false;
+        function toggleViewMode() {} // No-op, toggle removed
         function applyViewMode() {
-            const modeSwitch = document.getElementById('modeSwitch');
-            const labelPublic = document.getElementById('labelPublic');
-            const labelAdvanced = document.getElementById('labelAdvanced');
-
-            if (isAdvancedMode) {
-                document.body.classList.add('advanced-mode');
-                modeSwitch?.classList.add('advanced');
-                labelPublic?.classList.remove('active');
-                labelAdvanced?.classList.add('active');
-            } else {
-                document.body.classList.remove('advanced-mode');
-                modeSwitch?.classList.remove('advanced');
-                labelPublic?.classList.add('active');
-                labelAdvanced?.classList.remove('active');
-            }
+            document.body.classList.remove('advanced-mode');
         }
-
-        // Initialize view mode on load
         document.addEventListener('DOMContentLoaded', applyViewMode);
 
-        // ═══════════════════════════════════════════════════════════════
-        // LOG SYSTEME
-        // ═══════════════════════════════════════════════════════════════
-        console.log('%c═══════════════════════════════════════════════════', 'color: #D8B26A;');
-        console.log('%c AT·OM — 9 Domaines', 'color: #D8B26A; font-size: 14px; font-weight: bold;');
-        console.log('%c Mode Public: Executif/Operationnel', 'color: #00FF88;');
-        console.log('%c Mode Avance: Vibrationnel/Spirituel', 'color: #9333EA;');
-        console.log('%c═══════════════════════════════════════════════════', 'color: #D8B26A;');
-        console.log('%c 400+ Agents | 9 Spheres | 2 Frontends', 'color: #00FF88;');
-        console.log('%c═══════════════════════════════════════════════════', 'color: #D8B26A;');
+        console.log('%c[AT-OM] 9 Domaines — 400+ Agents', 'color: #D8B26A;');
     </script>
 </body>
 </html>

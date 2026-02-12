@@ -226,43 +226,6 @@
             font-size: 0.8rem;
         }
 
-        /* ADN Card */
-        .adn-card {
-            padding: 1rem;
-            border-top: 1px solid rgba(128, 128, 128, 0.2);
-            background: rgba(0, 0, 0, 0.3);
-        }
-
-        .adn-title {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.5);
-            margin-bottom: 0.75rem;
-            text-align: center;
-        }
-
-        .adn-values {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;
-        }
-
-        .adn-item {
-            text-align: center;
-            padding: 0.5rem;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 6px;
-        }
-
-        .adn-value {
-            font-size: 1rem;
-            font-weight: bold;
-            color: var(--sacred-gold);
-        }
-
-        .adn-label {
-            font-size: 0.6rem;
-            color: rgba(255, 255, 255, 0.4);
-        }
 
         /* ═══════════════════════════════════════════════════════════════
            HUB 2 - CENTER: NEXUS CORE
@@ -290,78 +253,7 @@
             color: rgba(255, 255, 255, 0.5);
         }
 
-        .helix-container {
-            position: relative;
-            width: 100%;
-            max-width: 400px;
-            aspect-ratio: 1;
-        }
-
-        .core-orb {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 100px;
-            height: 100px;
-            background: radial-gradient(circle at 30% 30%, var(--green-glow), #00aa55);
-            border-radius: 50%;
-            box-shadow: 0 0 40px var(--green-glow), 0 0 80px rgba(0, 255, 136, 0.5), 0 0 120px rgba(0, 255, 136, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
-            cursor: pointer;
-            animation: pulse-glow 2s ease-in-out infinite;
-            transition: all 0.3s;
-            z-index: 10;
-        }
-
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 0 40px var(--green-glow), 0 0 80px rgba(0, 255, 136, 0.5), 0 0 120px rgba(0, 255, 136, 0.3); }
-            50% { box-shadow: 0 0 60px var(--green-glow), 0 0 100px rgba(0, 255, 136, 0.6), 0 0 150px rgba(0, 255, 136, 0.4); }
-        }
-
-        .core-orb:hover {
-            transform: translate(-50%, -50%) scale(1.1);
-        }
-
-        .core-orb.gratitude {
-            background: radial-gradient(circle at 30% 30%, #FFD700, #D8B26A);
-            box-shadow: 0 0 50px #FFD700, 0 0 100px rgba(255, 215, 0, 0.5);
-        }
-
-        /* Orbit Rings */
-        .orbit-ring {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            border: 1px solid rgba(216, 178, 106, 0.2);
-            border-radius: 50%;
-            animation: rotate-orbit 20s linear infinite;
-        }
-
-        .orbit-ring-1 { width: 200px; height: 200px; animation-duration: 25s; }
-        .orbit-ring-2 { width: 280px; height: 280px; animation-duration: 35s; animation-direction: reverse; }
-        .orbit-ring-3 { width: 360px; height: 360px; animation-duration: 45s; }
-
-        @keyframes rotate-orbit {
-            from { transform: translate(-50%, -50%) rotate(0deg); }
-            to { transform: translate(-50%, -50%) rotate(360deg); }
-        }
-
-        /* Orbit Points */
-        .orbit-point {
-            position: absolute;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: var(--sacred-gold);
-            box-shadow: 0 0 10px var(--sacred-gold);
-        }
-
-        /* Arithmos Section */
+        /* Welcome Section */
         .arithmos-section {
             width: 100%;
             max-width: 500px;
@@ -373,26 +265,6 @@
             color: rgba(255, 255, 255, 0.5);
             margin-bottom: 1rem;
         }
-
-        .main-input {
-            width: 100%;
-            padding: 1rem 1.5rem;
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(216, 178, 106, 0.3);
-            border-radius: 8px;
-            color: white;
-            font-size: 1rem;
-            text-align: center;
-            transition: all 0.3s;
-        }
-
-        .main-input:focus {
-            outline: none;
-            border-color: var(--sacred-gold);
-            box-shadow: 0 0 20px rgba(216, 178, 106, 0.3);
-        }
-
-        .main-input::placeholder { color: rgba(255, 255, 255, 0.3); }
 
         .calc-button {
             margin-top: 1rem;
@@ -411,28 +283,6 @@
         .calc-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 20px rgba(216, 178, 106, 0.4);
-        }
-
-        .calc-button .hz { color: var(--dark-bg); opacity: 0.7; }
-
-        .arithmos-result {
-            margin-top: 1.5rem;
-            padding: 1.5rem;
-            background: rgba(216, 178, 106, 0.1);
-            border: 1px solid var(--sacred-gold);
-            border-radius: 12px;
-        }
-
-        .arithmos-result-value {
-            font-size: 3rem;
-            font-weight: bold;
-            color: var(--sacred-gold);
-        }
-
-        .arithmos-result-word {
-            font-size: 1rem;
-            color: rgba(255, 255, 255, 0.7);
-            margin-top: 0.5rem;
         }
 
         /* ═══════════════════════════════════════════════════════════════
@@ -490,34 +340,6 @@
         .status-value { font-size: 1rem; font-weight: bold; color: var(--sacred-gold); }
         .status-label { font-size: 0.65rem; color: rgba(255, 255, 255, 0.4); margin-top: 0.2rem; }
 
-        /* WebSocket Status */
-        .ws-status {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            padding: 0.75rem;
-            background: rgba(0, 255, 136, 0.05);
-            border: 1px solid rgba(0, 255, 136, 0.2);
-            border-radius: 8px;
-        }
-
-        .ws-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #888;
-            transition: all 0.3s;
-        }
-
-        .ws-dot.connected { background: var(--green-glow); box-shadow: 0 0 10px var(--green-glow); }
-        .ws-dot.disconnected { background: #FF6B6B; }
-        .ws-dot.gratitude { background: #FFD700; animation: pulse-dot 1s infinite; }
-
-        @keyframes pulse-dot { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
-
-        .ws-info { flex: 1; }
-        .ws-label { font-size: 0.85rem; color: white; }
-        .ws-detail { font-size: 0.7rem; color: rgba(255, 255, 255, 0.5); }
 
         /* Quick Actions */
         .quick-actions {
@@ -828,16 +650,6 @@
                 font-size: 1.8rem;
                 letter-spacing: 4px;
             }
-
-            .helix-container {
-                max-width: 280px;
-            }
-
-            .core-orb {
-                width: 70px;
-                height: 70px;
-                font-size: 2rem;
-            }
         }
     </style>
 </head>
@@ -846,8 +658,8 @@
          HEADER
     ═══════════════════════════════════════════════════════════════ -->
     <header class="header">
-        <a href="/" class="logo" style="text-decoration: none;">
-            <span class="logo-icon">Ψ</span>
+        <a href="/landing.html" class="logo" style="text-decoration: none;">
+            <span class="logo-icon" style="width:40px;height:40px;background:linear-gradient(135deg,#D8B26A,#c9a55a);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.25rem;color:#0a0a0f;font-weight:bold;">A</span>
             <div>
                 <div class="logo-text">AT·OM</div>
                 <div class="logo-subtitle">Intelligence collective</div>
@@ -857,15 +669,11 @@
         <div class="header-center">
             <div class="freq-display">
                 <div class="freq-value" id="agentCountHeader">400+</div>
-                <div class="freq-label">Agents actifs</div>
+                <div class="freq-label">Agents</div>
             </div>
             <div class="freq-display">
                 <div class="freq-value">9</div>
                 <div class="freq-label">Domaines</div>
-            </div>
-            <div class="freq-display">
-                <div class="freq-value" style="color: var(--green-glow);">●</div>
-                <div class="freq-label">Système en ligne</div>
             </div>
         </div>
 
@@ -956,7 +764,7 @@
             </aside>
 
             <!-- ═══════════════════════════════════════════════════════
-                 HUB 2 - CENTER: NEXUS CORE
+                 HUB 2 - CENTER: WELCOME & ACTIONS
             ═══════════════════════════════════════════════════════ -->
             <section class="nexus-hub">
                 <div class="nexus-title-section">
@@ -964,14 +772,12 @@
                     <p class="nexus-subtitle">Votre plateforme d'intelligence collective</p>
                 </div>
 
-                <div class="helix-container">
-                    <!-- Orbit Rings -->
-                    <div class="orbit-ring orbit-ring-1"></div>
-                    <div class="orbit-ring orbit-ring-2"></div>
-                    <div class="orbit-ring orbit-ring-3"></div>
-
-                    <!-- Core Orb -->
-                    <div class="core-orb" id="coreOrb">∞</div>
+                <!-- Placeholder visuel — sera remplacé par des images/symboles -->
+                <div style="width:100%;max-width:400px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:1px dashed rgba(216,178,106,0.3);border-radius:50%;background:rgba(216,178,106,0.03);">
+                    <div style="text-align:center;color:var(--text-muted);font-size:0.9rem;">
+                        <div style="font-size:3rem;margin-bottom:0.5rem;opacity:0.4;">⬡</div>
+                        <span>Visuel à venir</span>
+                    </div>
                 </div>
 
                 <!-- Welcome message for new users -->
@@ -992,37 +798,30 @@
                  HUB 3 - RIGHT: SYSTEM STATUS & QUICK ACTIONS
             ═══════════════════════════════════════════════════════ -->
             <aside class="status-hub">
-                <!-- System Status -->
+                <!-- Vos Guides -->
                 <div class="panel-section">
-                    <div class="panel-title"><span>📡</span> Statut Système</div>
-                    <div class="status-grid">
-                        <div class="status-item">
-                            <div class="status-value" id="agentCount">400+</div>
-                            <div class="status-label">Agents disponibles</div>
+                    <div class="panel-title"><span>✨</span> Vos Guides</div>
+                    <div class="quick-actions">
+                        <div class="quick-action" onclick="openAgentChat('aria')" style="cursor:pointer;">
+                            <div class="quick-action-icon" style="background:rgba(0,255,136,0.15);border:1px solid rgba(0,255,136,0.3);">✨</div>
+                            <div class="quick-action-info">
+                                <div class="quick-action-name" style="color:#00FF88;">Aria — Votre guide</div>
+                                <div class="quick-action-desc">Posez vos questions ici</div>
+                            </div>
                         </div>
-                        <div class="status-item">
-                            <div class="status-value">9</div>
-                            <div class="status-label">Domaines</div>
+                        <div class="quick-action" onclick="openAgentChat('orion')" style="cursor:pointer;">
+                            <div class="quick-action-icon" style="background:rgba(255,107,53,0.15);border:1px solid rgba(255,107,53,0.3);">🏛️</div>
+                            <div class="quick-action-info">
+                                <div class="quick-action-name" style="color:#FF6B35;">Orion — Coordinateur</div>
+                                <div class="quick-action-desc">Organisez vos projets</div>
+                            </div>
                         </div>
-                        <div class="status-item">
-                            <div class="status-value" style="color: var(--green-glow);">●</div>
-                            <div class="status-label">En ligne</div>
-                        </div>
-                        <div class="status-item">
-                            <div class="status-value">99.9%</div>
-                            <div class="status-label">Disponibilité</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- WebSocket Status -->
-                <div class="panel-section">
-                    <div class="panel-title"><span>🔌</span> Connexion</div>
-                    <div class="ws-status">
-                        <div class="ws-dot" id="wsDot"></div>
-                        <div class="ws-info">
-                            <div class="ws-label" id="wsLabel">Connexion...</div>
-                            <div class="ws-detail" id="wsDetail">WebSocket</div>
+                        <div class="quick-action" onclick="openAgentChat('nova')" style="cursor:pointer;">
+                            <div class="quick-action-icon" style="background:rgba(147,51,234,0.15);border:1px solid rgba(147,51,234,0.3);">🔱</div>
+                            <div class="quick-action-info">
+                                <div class="quick-action-name" style="color:#9333EA;">Nova — Superviseur</div>
+                                <div class="quick-action-desc">Vue système globale</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1043,6 +842,13 @@
                             <div class="quick-action-info">
                                 <div class="quick-action-name">Catalogue d'agents</div>
                                 <div class="quick-action-desc">400+ agents spécialisés</div>
+                            </div>
+                        </a>
+                        <a href="/dashboard.html" class="quick-action">
+                            <div class="quick-action-icon">📊</div>
+                            <div class="quick-action-info">
+                                <div class="quick-action-name">Tableau de bord</div>
+                                <div class="quick-action-desc">Statistiques et suivi</div>
                             </div>
                         </a>
                         <a href="/funder.html" class="quick-action">
@@ -1141,144 +947,30 @@
         }
 
         // ═══════════════════════════════════════════════════════════════
-        // WEBSOCKET CONNECTION
+        // WEBSOCKET CONNECTION (background, no UI)
         // ═══════════════════════════════════════════════════════════════
         let wsManager = null;
 
         function initWebSocket() {
             if (typeof initATOMWebSocket === 'undefined') {
-                console.warn('[AT-OM] WebSocket module not loaded');
-                document.getElementById('wsDot').className = 'ws-dot disconnected';
-                document.getElementById('wsLabel').textContent = 'Hors ligne';
-                document.getElementById('wsDetail').textContent = 'Mode local';
+                console.warn('[AT-OM] WebSocket module not loaded — mode local');
                 return;
             }
 
             wsManager = initATOMWebSocket({
                 onStatusChange: (status) => {
-                    const dot = document.getElementById('wsDot');
-                    const label = document.getElementById('wsLabel');
-                    const detail = document.getElementById('wsDetail');
-
-                    dot.className = 'ws-dot ' + status;
-
-                    switch(status) {
-                        case 'connected':
-                            label.textContent = 'Connecté';
-                            detail.textContent = 'Temps réel actif';
-                            break;
-                        case 'disconnected':
-                            label.textContent = 'Déconnecté';
-                            detail.textContent = 'Reconnexion...';
-                            break;
-                        case 'gratitude':
-                            label.textContent = 'Mode veille';
-                            detail.textContent = 'En attente';
-                            break;
-                        default:
-                            label.textContent = 'Connexion...';
-                            detail.textContent = 'WebSocket';
-                    }
+                    console.log('[AT-OM] WS status:', status);
                 },
                 onMessage: (data) => {
                     if (data.type === 'agent_count') {
-                        document.getElementById('agentCount').textContent = data.count;
+                        const el = document.getElementById('agentCountHeader');
+                        if (el) el.textContent = data.count;
                     }
                 }
             });
         }
 
         setTimeout(initWebSocket, 500);
-
-        // ═══════════════════════════════════════════════════════════════
-        // GRATITUDE MODE (hold 3s on Core Orb)
-        // ═══════════════════════════════════════════════════════════════
-        let holdTimer = null;
-        const coreOrb = document.getElementById('coreOrb');
-
-        if (coreOrb) {
-            const startHold = () => {
-                holdTimer = setTimeout(() => {
-                    console.log('%c[AT-OM] Easter egg activated', 'color: #00FF88; font-size: 14px;');
-                    coreOrb.classList.add('gratitude');
-                    coreOrb.textContent = '🙏';
-
-                    // Play 444Hz tone
-                    try {
-                        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                        const osc = audioCtx.createOscillator();
-                        const gain = audioCtx.createGain();
-                        osc.connect(gain);
-                        gain.connect(audioCtx.destination);
-                        osc.frequency.value = 444;
-                        osc.type = 'sine';
-                        gain.gain.value = 0.1;
-                        osc.start();
-                        setTimeout(() => {
-                            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 2);
-                            setTimeout(() => osc.stop(), 2000);
-                        }, 1000);
-                    } catch(e) {}
-
-                    // Reset after 5s
-                    setTimeout(() => {
-                        coreOrb.classList.remove('gratitude');
-                        coreOrb.textContent = '∞';
-                    }, 5000);
-                }, 3000);
-            };
-
-            const endHold = () => {
-                if (holdTimer) { clearTimeout(holdTimer); holdTimer = null; }
-            };
-
-            coreOrb.addEventListener('mousedown', startHold);
-            coreOrb.addEventListener('touchstart', startHold, { passive: true });
-            coreOrb.addEventListener('mouseup', endHold);
-            coreOrb.addEventListener('mouseleave', endHold);
-            coreOrb.addEventListener('touchend', endHold);
-            coreOrb.addEventListener('touchcancel', endHold);
-        }
-
-        // ═══════════════════════════════════════════════════════════════
-        // ARITHMOS CALCULATION
-        // ═══════════════════════════════════════════════════════════════
-        function calculateArithmos(text) {
-            if (!text) return 0;
-            const cleaned = text.toUpperCase().replace(/[^A-Z]/g, '');
-            let sum = 0;
-            for (let char of cleaned) {
-                sum += char.charCodeAt(0) - 64;
-            }
-            while (sum > 9) {
-                sum = String(sum).split('').reduce((a, b) => parseInt(a) + parseInt(b), 0);
-            }
-            return sum;
-        }
-
-        const input = document.getElementById('mainInput');
-        const calcBtn = document.getElementById('calcBtn');
-        const resultDiv = document.getElementById('arithmosResult');
-        const resultValue = document.getElementById('resultValue');
-        const resultWord = document.getElementById('resultWord');
-
-        if (calcBtn && input) {
-            calcBtn.addEventListener('click', () => {
-                const value = input.value.trim();
-                if (value) {
-                    const arithmos = calculateArithmos(value);
-                    console.log(`%c[ARITHMOS] "${value}" = ${arithmos}`, 'color: #D8B26A; font-size: 14px;');
-
-                    resultValue.textContent = arithmos;
-                    resultWord.textContent = `"${value}"`;
-                    resultDiv.style.display = 'block';
-                }
-            });
-
-            input.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') calcBtn.click();
-            });
-        }
 
         // ═══════════════════════════════════════════════════════════════
         // CORE AGENTS L0 - Nova, Aria, Orion

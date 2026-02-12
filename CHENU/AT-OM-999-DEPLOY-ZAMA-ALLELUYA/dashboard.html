@@ -963,8 +963,8 @@
             const kpis = [
                 { icon: '🤖', value: data.length, label: 'Agents', change: '+12%', up: true },
                 { icon: '🔮', value: spheres.length, label: 'Domaines', change: '+2', up: true },
-                { icon: '📡', value: avgFreq.toFixed(0), label: 'Score moy.', change: '+5%', up: true },
-                { icon: '⚡', value: maxFreq, label: 'Score max', change: '+15%', up: true },
+                { icon: '📡', value: avgFreq.toFixed(0), label: 'Performance moy.', change: '+5%', up: true },
+                { icon: '⚡', value: maxFreq, label: 'Performance max', change: '+15%', up: true },
             ];
 
             document.getElementById('kpiGrid').innerHTML = kpis.map(k => `
@@ -1081,8 +1081,8 @@
                             <th>Domaine</th>
                             <th>Agents</th>
                             <th>% Total</th>
-                            <th>Score moy.</th>
-                            <th>Score max</th>
+                            <th>Performance moy.</th>
+                            <th>Performance max</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -1095,8 +1095,8 @@
                                     <td><span style="color: ${COLORS[i % COLORS.length]}">●</span> ${sphere}</td>
                                     <td>${agentList.length}</td>
                                     <td>${((agentList.length / data.length) * 100).toFixed(1)}%</td>
-                                    <td>${avg.toFixed(0)} Hz</td>
-                                    <td>${max} Hz</td>
+                                    <td>${avg.toFixed(0)}</td>
+                                    <td>${max}</td>
                                 </tr>
                             `;
                         }).join('')}
@@ -1115,7 +1115,7 @@
                         <div class="performer-name">${a.name}</div>
                         <div class="performer-sphere">${a.sphere || 'Unknown'}</div>
                     </div>
-                    <span class="performer-freq">${a.frequency_hz || 0} Hz</span>
+                    <span class="performer-freq">${a.frequency_hz || 0}</span>
                 </div>
             `).join('');
         }
@@ -1127,7 +1127,7 @@
             const above741 = freqs.filter(f => f >= 741).length;
 
             const insights = [
-                { title: 'Score moyen', value: `${avg.toFixed(0)} — ${avg >= 528 ? 'Optimal' : 'À améliorer'}` },
+                { title: 'Performance moyenne', value: `${avg.toFixed(0)} — ${avg >= 528 ? 'Optimal' : 'À améliorer'}` },
                 { title: 'Agents performants', value: `${above444} agents (${((above444 / agents.length) * 100).toFixed(0)}%)` },
                 { title: 'Agents avancés', value: `${above741} agents haut niveau` },
                 { title: 'Tendance', value: 'Stabilité ↑' }
