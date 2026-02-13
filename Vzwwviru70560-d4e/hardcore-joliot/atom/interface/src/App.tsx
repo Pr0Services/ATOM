@@ -15,6 +15,7 @@ import { Genie } from '@/pages/Genie';
 import { Alchimie } from '@/pages/Alchimie';
 import { Flux } from '@/pages/Flux';
 import { Sante } from '@/pages/Sante';
+import { Sovereign } from '@/pages/Sovereign';
 import { useAtomStore } from '@/stores/atom.store';
 import {
   initializeRealTimeServices,
@@ -218,6 +219,9 @@ function AppContent() {
 
         {/* 5. Protocol-999 - Kill-Switch (INVISIBLE/CACHE) */}
         <Route path="/protocol-999" element={<Protocol999 />} />
+
+        {/* 6. Sovereign Dashboard - Monitoring Frequentiel (PRIVE) */}
+        <Route path="/sovereign" element={<Sovereign />} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
