@@ -38,6 +38,9 @@ import { OfflineService } from '@/services/offline.service';
 import { EncryptionService } from '@/services/encryption.service';
 import { errorMonitor } from '@/services/error-monitor.service';
 import { FloatingHealthIndicator } from '@/components/ServiceHealthWidget';
+import { SystemStatusRibbon } from '@/components/SystemStatusRibbon';
+import { NavigationCompass } from '@/components/NavigationCompass';
+import { GlossaryTrigger } from '@/components/ContextualGlossary';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // QUERY CLIENT
@@ -218,11 +221,20 @@ function AppContent() {
 
   return (
     <BrowserRouter>
+      {/* System Status Ribbon - shows beta/simulation/maintenance status */}
+      <SystemStatusRibbon />
+
       {/* Contextual Assistant - available on all pages */}
       <ContextualAssistant />
 
       {/* Floating Health Indicator - only shows if services are degraded */}
       <FloatingHealthIndicator />
+
+      {/* Navigation Compass - persistent navigation helper */}
+      <NavigationCompass position="bottom-right" />
+
+      {/* Glossary Trigger - contextual terminology help (debutant mode) */}
+      <GlossaryTrigger position="bottom-left" />
 
       {/* Onboarding Wizard - shows on first visit */}
       {showOnboarding && (
