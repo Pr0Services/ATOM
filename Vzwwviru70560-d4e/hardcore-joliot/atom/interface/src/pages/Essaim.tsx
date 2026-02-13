@@ -483,17 +483,124 @@ export function Essaim() {
           position: 'absolute',
           top: 20,
           left: 20,
-          color: 'rgba(255, 255, 255, 0.3)',
+          color: 'rgba(255, 255, 255, 0.4)',
           fontFamily: 'monospace',
-          fontSize: '12px',
+          fontSize: '13px',
         }}
       >
-        Scroll: Zoom | Drag: Pan | Click: Select
+        <div>Scroll: Zoom | Drag: Pan | Click: Select</div>
+        <div style={{ marginTop: '8px', color: COLORS.gold }}>
+          {totalAgents} agents · 9 sphères
+        </div>
       </div>
+
+      {/* Error banner with retry */}
+      {error && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            backgroundColor: 'rgba(0, 0, 0, 0.9)',
+            border: '1px solid #E74C3C',
+            borderRadius: '12px',
+            padding: '30px 40px',
+            textAlign: 'center',
+            maxWidth: '400px',
+          }}
+        >
+          <div style={{ fontSize: '40px', marginBottom: '15px' }}>⚠️</div>
+          <div style={{
+            color: '#E74C3C',
+            fontFamily: 'monospace',
+            fontSize: '16px',
+            fontWeight: 'bold',
+            marginBottom: '10px',
+          }}>
+            CONNEXION PERDUE
+          </div>
+          <div style={{
+            color: 'rgba(255, 255, 255, 0.6)',
+            fontFamily: 'monospace',
+            fontSize: '13px',
+            marginBottom: '20px',
+          }}>
+            {error}
+          </div>
+          <button
+            onClick={() => {
+              setError(null);
+              setLoading(true);
+              agentsService.getAllAgents(true).then(agents => {
+                setApiAgents(agents);
+                setTotalAgents(agents.length);
+                setLoading(false);
+              }).catch(err => {
+                setError('Impossible de se reconnecter. Vérifiez votre connexion.');
+                setLoading(false);
+              });
+            }}
+            style={{
+              backgroundColor: COLORS.gold,
+              border: 'none',
+              color: COLORS.black,
+              padding: '14px 28px',
+              fontFamily: 'monospace',
+              fontSize: '14px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              borderRadius: '8px',
+              letterSpacing: '0.1em',
+            }}
+          >
+            🔄 RÉESSAYER
+          </button>
+        </div>
+      )}
+
+      {/* Loading overlay */}
+      {loading && !error && (
+        <div
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            textAlign: 'center',
+          }}
+        >
+          <div style={{
+            width: '60px',
+            height: '60px',
+            border: `3px solid ${COLORS.gold}30`,
+            borderTop: `3px solid ${COLORS.gold}`,
+            borderRadius: '50%',
+            margin: '0 auto 20px',
+            animation: 'spin 1s linear infinite',
+          }} />
+          <div style={{
+            color: COLORS.gold,
+            fontFamily: 'monospace',
+            fontSize: '14px',
+            letterSpacing: '0.2em',
+          }}>
+            CHARGEMENT DES AGENTS...
+          </div>
+        </div>
+      )}
+
+      <style>{`
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
 
       {/* Back to Sceau */}
       <button
         onClick={() => navigate('/')}
+        aria-label="Retour au Sceau d'entrée"
         style={{
           position: 'absolute',
           top: 20,
@@ -501,52 +608,84 @@ export function Essaim() {
           background: 'transparent',
           border: `1px solid ${COLORS.cobalt}`,
           color: COLORS.cobalt,
-          padding: '8px 16px',
+          padding: '12px 24px',
+          minHeight: '44px',
           fontFamily: 'monospace',
-          fontSize: '12px',
+          fontSize: '14px',
           cursor: 'pointer',
-          borderRadius: '4px',
+          borderRadius: '6px',
+          transition: 'all 0.2s ease',
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.backgroundColor = COLORS.cobalt + '20';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.backgroundColor = 'transparent';
         }}
       >
-        LE SCEAU
+        ← LE SCEAU
       </button>
 
-      {/* Module navigation */}
-      <div
+      {/* Module navigation - Touch-friendly */}
+      <nav
+        aria-label="Navigation des modules"
         style={{
           position: 'absolute',
           bottom: 80,
           left: '50%',
           transform: 'translateX(-50%)',
           display: 'flex',
-          gap: '20px',
+          gap: '12px',
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+          maxWidth: '90vw',
+          padding: '0 20px',
         }}
       >
         {[
-          { path: '/genie', label: 'GENIE', color: '#FFD700' },
-          { path: '/alchimie', label: 'ALCHIMIE', color: '#9B59B6' },
-          { path: '/flux', label: 'FLUX', color: '#00CED1' },
-          { path: '/sante', label: 'SANTE', color: '#E74C3C' },
+          { path: '/genie', label: 'GENIE', icon: '🎓', color: '#FFD700', desc: 'Education' },
+          { path: '/alchimie', label: 'ALCHIMIE', icon: '⚗️', color: '#9B59B6', desc: 'Transmutation' },
+          { path: '/flux', label: 'FLUX', icon: '💫', color: '#00CED1', desc: 'Économie' },
+          { path: '/sante', label: 'SANTÉ', icon: '❤️', color: '#E74C3C', desc: 'Guérison' },
         ].map(module => (
           <button
             key={module.path}
             onClick={() => navigate(module.path)}
+            aria-label={`${module.label} - ${module.desc}`}
+            title={module.desc}
             style={{
-              background: 'transparent',
-              border: `1px solid ${module.color}`,
+              background: 'rgba(0, 0, 0, 0.5)',
+              border: `2px solid ${module.color}`,
               color: module.color,
-              padding: '8px 16px',
+              padding: '14px 20px',
+              minWidth: '100px',
+              minHeight: '48px',
               fontFamily: 'monospace',
-              fontSize: '11px',
+              fontSize: '13px',
+              fontWeight: 'bold',
               cursor: 'pointer',
-              borderRadius: '4px',
+              borderRadius: '8px',
               letterSpacing: '0.1em',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              gap: '8px',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = module.color + '30';
+              e.currentTarget.style.transform = 'scale(1.05)';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+              e.currentTarget.style.transform = 'scale(1)';
             }}
           >
+            <span role="img" aria-hidden="true">{module.icon}</span>
             {module.label}
           </button>
         ))}
-      </div>
+      </nav>
     </div>
   );
 }

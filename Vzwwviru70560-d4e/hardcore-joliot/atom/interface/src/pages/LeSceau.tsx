@@ -334,47 +334,130 @@ export function LeSceau() {
         }}
       />
 
-      {/* Hidden instruction - appears after 3s of inactivity */}
+      {/* Instruction - VISIBLE IMMEDIATELY */}
       {!state.isHolding && !state.isActivated && (
         <div
           style={{
             position: 'absolute',
-            bottom: '10%',
+            bottom: '15%',
             left: '50%',
             transform: 'translateX(-50%)',
-            color: 'rgba(255, 255, 255, 0.3)',
-            fontSize: '14px',
-            fontFamily: 'monospace',
-            letterSpacing: '0.2em',
-            animation: 'fadeIn 2s ease-in 3s forwards',
-            opacity: 0,
+            textAlign: 'center',
           }}
         >
-          MAINTENEZ POUR ACTIVER
+          <div
+            style={{
+              color: 'rgba(255, 255, 255, 0.6)',
+              fontSize: '16px',
+              fontFamily: 'monospace',
+              letterSpacing: '0.3em',
+              marginBottom: '12px',
+              animation: 'pulse 2s ease-in-out infinite',
+            }}
+          >
+            MAINTENEZ POUR ACTIVER
+          </div>
+          <div
+            style={{
+              color: 'rgba(255, 255, 255, 0.3)',
+              fontSize: '12px',
+              fontFamily: 'monospace',
+              letterSpacing: '0.1em',
+            }}
+          >
+            Hold anywhere to enter · Appuyez longuement
+          </div>
         </div>
       )}
 
-      {/* Frequency indicator */}
+      {/* Progress feedback during hold */}
       {state.isHolding && !state.isActivated && (
         <div
           style={{
             position: 'absolute',
-            top: '5%',
-            right: '5%',
-            color: state.frequency >= 999 ? COLORS.gold : COLORS.cobalt,
-            fontSize: '24px',
-            fontFamily: 'monospace',
-            fontWeight: 'bold',
+            bottom: '15%',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            textAlign: 'center',
           }}
         >
-          {Math.floor(state.frequency)} Hz
+          <div
+            style={{
+              color: COLORS.gold,
+              fontSize: '18px',
+              fontFamily: 'monospace',
+              letterSpacing: '0.2em',
+            }}
+          >
+            {state.holdProgress < 100 ? 'ACTIVATION...' : 'BIENVENUE'}
+          </div>
+          <div
+            style={{
+              marginTop: '10px',
+              width: '200px',
+              height: '4px',
+              backgroundColor: 'rgba(255, 255, 255, 0.1)',
+              borderRadius: '2px',
+              overflow: 'hidden',
+            }}
+          >
+            <div
+              style={{
+                width: `${state.holdProgress}%`,
+                height: '100%',
+                backgroundColor: COLORS.gold,
+                borderRadius: '2px',
+                transition: 'width 0.1s linear',
+              }}
+            />
+          </div>
         </div>
       )}
 
+      {/* Agent count indicator */}
+      <div
+        style={{
+          position: 'absolute',
+          top: '5%',
+          right: '5%',
+          color: 'rgba(255, 255, 255, 0.3)',
+          fontSize: '12px',
+          fontFamily: 'monospace',
+        }}
+      >
+        {essaimSize} AGENTS
+      </div>
+
+      {/* Accessibility: Skip link for keyboard users */}
+      <a
+        href="/essaim"
+        style={{
+          position: 'absolute',
+          top: '-100px',
+          left: '50%',
+          transform: 'translateX(-50%)',
+          padding: '12px 24px',
+          backgroundColor: COLORS.gold,
+          color: COLORS.black,
+          fontFamily: 'monospace',
+          textDecoration: 'none',
+          borderRadius: '4px',
+          zIndex: 1000,
+        }}
+        onFocus={(e) => {
+          e.currentTarget.style.top = '20px';
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.top = '-100px';
+        }}
+      >
+        Skip to Essaim (Press Enter)
+      </a>
+
       <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; }
-          to { opacity: 1; }
+        @keyframes pulse {
+          0%, 100% { opacity: 0.6; }
+          50% { opacity: 1; }
         }
       `}</style>
     </div>
