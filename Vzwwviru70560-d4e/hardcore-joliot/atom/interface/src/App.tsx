@@ -43,6 +43,7 @@ import { NavigationCompass } from '@/components/NavigationCompass';
 import { GlossaryTrigger } from '@/components/ContextualGlossary';
 import { ActivationWidget } from '@/components/GuidedActivationDashboard';
 import { funnelTracker } from '@/services/funnel-tracking.service';
+import { initializeSupabaseIntegration } from '@/services/supabase-integration.service';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // QUERY CLIENT
@@ -80,6 +81,9 @@ function useAppInitialization() {
 
         // Initialize funnel tracking
         funnelTracker.trackPlatformEnter();
+
+        // Initialize Supabase integration
+        await initializeSupabaseIntegration();
 
         // Initialize offline service and network monitoring
         OfflineService.onNetworkChange((isOnline) => {
