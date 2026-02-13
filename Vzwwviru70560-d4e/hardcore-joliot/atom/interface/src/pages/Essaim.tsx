@@ -18,6 +18,8 @@
 import React, { useState, useRef, useCallback, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { agentsService, Agent } from '@/services/agents.service';
+import { prefersReducedMotion, isTouchDevice } from '@/styles/tokens';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
 
 // =============================================================================
 // CONSTANTS - Canon AT·OM
@@ -100,6 +102,22 @@ export function Essaim() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [totalAgents, setTotalAgents] = useState(0);
+  const [reducedMotion, setReducedMotion] = useState(false);
+  const [isTouch, setIsTouch] = useState(false);
+  const [tappedAgent, setTappedAgent] = useState<VisualAgent | null>(null);
+
+  // Detect user preferences
+  useEffect(() => {
+    setReducedMotion(prefersReducedMotion());
+    setIsTouch(isTouchDevice());
+
+    // Listen for changes
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const handleMotionChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    motionQuery.addEventListener('change', handleMotionChange);
+
+    return () => motionQuery.removeEventListener('change', handleMotionChange);
+  }, []);
 
   // Fetch agents from API
   useEffect(() => {
@@ -228,9 +246,9 @@ export function Essaim() {
 
     // Draw agents
     agents.forEach(agent => {
-      // Gentle floating animation
-      const floatX = Math.sin(time + agent.id * 0.1) * 2;
-      const floatY = Math.cos(time + agent.id * 0.15) * 2;
+      // Gentle floating animation (disabled if user prefers reduced motion)
+      const floatX = reducedMotion ? 0 : Math.sin(time + agent.id * 0.1) * 2;
+      const floatY = reducedMotion ? 0 : Math.cos(time + agent.id * 0.15) * 2;
 
       const x = centerX + (agent.baseX + floatX) * viewState.zoom;
       const y = centerY + (agent.baseY + floatY) * viewState.zoom;
@@ -297,7 +315,7 @@ export function Essaim() {
     ctx.fillText(loading ? 'Chargement...' : (error ? 'Mode Hors-ligne' : 'NOVA-999 Hz'), centerX, canvas.height - 20);
 
     animationRef.current = requestAnimationFrame(animate);
-  }, [agents, viewState, hoveredAgent, sphereGroups, totalAgents, loading, error]);
+  }, [agents, viewState, hoveredAgent, sphereGroups, totalAgents, loading, error, reducedMotion]);
 
   // Setup canvas and animation
   useEffect(() => {
@@ -350,13 +368,49 @@ export function Essaim() {
     [agents, viewState]
   );
 
-  // Click to navigate to sphere
-  const handleClick = useCallback(() => {
-    if (hoveredAgent) {
-      const path = SPHERE_PATHS[hoveredAgent.sphereKey] || '/dashboard';
-      navigate(path);
+  // Click to navigate to sphere (desktop: direct, touch: double-tap)
+  const handleClick = useCallback((e: React.MouseEvent) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = canvas.width / 2 + viewState.offsetX;
+    const centerY = canvas.height / 2 + viewState.offsetY;
+
+    // Find clicked agent
+    const clickedAgent = agents.find(agent => {
+      const agentX = centerX + agent.x * viewState.zoom;
+      const agentY = centerY + agent.y * viewState.zoom;
+      const distance = Math.hypot(x - agentX, y - agentY);
+      return distance < 15;
+    });
+
+    if (isTouch) {
+      // Touch: first tap shows tooltip, second tap navigates
+      if (clickedAgent) {
+        if (tappedAgent?.id === clickedAgent.id) {
+          // Second tap - navigate
+          const path = SPHERE_PATHS[clickedAgent.sphereKey] || '/dashboard';
+          navigate(path);
+        } else {
+          // First tap - show tooltip
+          setTappedAgent(clickedAgent);
+          setMousePos({ x, y });
+        }
+      } else {
+        // Tap outside - dismiss tooltip
+        setTappedAgent(null);
+      }
+    } else {
+      // Desktop: direct navigation
+      if (hoveredAgent) {
+        const path = SPHERE_PATHS[hoveredAgent.sphereKey] || '/dashboard';
+        navigate(path);
+      }
     }
-  }, [hoveredAgent, navigate]);
+  }, [hoveredAgent, tappedAgent, navigate, agents, viewState, isTouch]);
 
   // Wheel zoom
   const handleWheel = useCallback((e: React.WheelEvent) => {
@@ -411,6 +465,9 @@ export function Essaim() {
         cursor: hoveredAgent ? 'pointer' : 'default',
       }}
     >
+      {/* Breadcrumbs navigation */}
+      <Breadcrumbs />
+
       <canvas
         ref={canvasRef}
         style={{ display: 'block', width: '100%', height: '100%' }}
@@ -421,61 +478,81 @@ export function Essaim() {
         onTouchMove={handleTouchMove}
       />
 
-      {/* Agent tooltip */}
-      {hoveredAgent && (
-        <div
-          style={{
-            position: 'absolute',
-            left: mousePos.x + 15,
-            top: mousePos.y - 30,
-            backgroundColor: 'rgba(0, 0, 0, 0.95)',
-            border: `1px solid ${hoveredAgent.color}`,
-            padding: '10px 14px',
-            borderRadius: '6px',
-            pointerEvents: 'none',
-            maxWidth: '280px',
-          }}
-        >
-          <div style={{ color: hoveredAgent.color, fontFamily: 'monospace', fontSize: '13px', fontWeight: 'bold' }}>
-            {hoveredAgent.displayName}
-          </div>
-          <div style={{ color: 'rgba(255, 255, 255, 0.6)', fontFamily: 'monospace', fontSize: '10px', marginTop: '4px' }}>
-            {sphereGroups[hoveredAgent.sphereKey]?.name || hoveredAgent.sphereKey}
-          </div>
-          <div style={{
-            color: 'rgba(255, 255, 255, 0.4)',
-            fontFamily: 'monospace',
-            fontSize: '9px',
-            marginTop: '6px',
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: '4px'
-          }}>
-            {hoveredAgent.capabilities.slice(0, 3).map(cap => (
-              <span key={cap} style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                padding: '2px 6px',
-                borderRadius: '3px'
-              }}>
-                {cap}
-              </span>
-            ))}
-          </div>
-          {hoveredAgent.requiresHumanGate && (
+      {/* Agent tooltip - Works with hover (desktop) or tap (touch) */}
+      {(() => {
+        const activeAgent = isTouch ? tappedAgent : hoveredAgent;
+        if (!activeAgent) return null;
+        return (
+          <div
+            role="tooltip"
+            aria-live="polite"
+            style={{
+              position: 'absolute',
+              left: Math.min(mousePos.x + 15, window.innerWidth - 300),
+              top: Math.max(mousePos.y - 30, 10),
+              backgroundColor: 'rgba(0, 0, 0, 0.95)',
+              border: `1px solid ${activeAgent.color}`,
+              padding: '12px 16px',
+              borderRadius: '8px',
+              pointerEvents: isTouch ? 'auto' : 'none',
+              maxWidth: '280px',
+              zIndex: 100,
+            }}
+          >
+            <div style={{ color: activeAgent.color, fontFamily: 'monospace', fontSize: '14px', fontWeight: 'bold' }}>
+              {activeAgent.displayName}
+            </div>
+            <div style={{ color: 'rgba(255, 255, 255, 0.6)', fontFamily: 'monospace', fontSize: '11px', marginTop: '4px' }}>
+              {sphereGroups[activeAgent.sphereKey]?.name || activeAgent.sphereKey}
+            </div>
             <div style={{
-              color: COLORS.gold,
+              color: 'rgba(255, 255, 255, 0.4)',
               fontFamily: 'monospace',
-              fontSize: '9px',
-              marginTop: '6px',
+              fontSize: '10px',
+              marginTop: '8px',
               display: 'flex',
-              alignItems: 'center',
+              flexWrap: 'wrap',
               gap: '4px'
             }}>
-              🔐 Approbation humaine requise
+              {activeAgent.capabilities.slice(0, 3).map(cap => (
+                <span key={cap} style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                  padding: '3px 8px',
+                  borderRadius: '4px'
+                }}>
+                  {cap}
+                </span>
+              ))}
             </div>
-          )}
-        </div>
-      )}
+            {activeAgent.requiresHumanGate && (
+              <div style={{
+                color: COLORS.gold,
+                fontFamily: 'monospace',
+                fontSize: '10px',
+                marginTop: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '4px'
+              }}>
+                🔐 Approbation humaine requise
+              </div>
+            )}
+            {isTouch && (
+              <div style={{
+                color: 'rgba(255, 255, 255, 0.5)',
+                fontFamily: 'monospace',
+                fontSize: '10px',
+                marginTop: '10px',
+                textAlign: 'center',
+                borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+                paddingTop: '8px',
+              }}>
+                Tapez à nouveau pour ouvrir
+              </div>
+            )}
+          </div>
+        );
+      })()}
 
       {/* Navigation hint */}
       <div
@@ -594,6 +671,14 @@ export function Essaim() {
         @keyframes spin {
           0% { transform: rotate(0deg); }
           100% { transform: rotate(360deg); }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+          }
         }
       `}</style>
 

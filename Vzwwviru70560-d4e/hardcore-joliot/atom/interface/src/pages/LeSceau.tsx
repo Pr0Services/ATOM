@@ -21,6 +21,7 @@
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { agentsService } from '@/services/agents.service';
+import { prefersReducedMotion } from '@/styles/tokens';
 
 // =============================================================================
 // CONSTANTS - Canon AT·OM
@@ -71,6 +72,16 @@ export function LeSceau() {
   const holdStartRef = useRef<number>(0);
 
   const [essaimSize, setEssaimSize] = useState(226); // Default, updated from API
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  // Detect reduced motion preference
+  useEffect(() => {
+    setReducedMotion(prefersReducedMotion());
+    const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const handleChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    motionQuery.addEventListener('change', handleChange);
+    return () => motionQuery.removeEventListener('change', handleChange);
+  }, []);
 
   const [state, setState] = useState<SealState>({
     isHolding: false,
@@ -131,7 +142,8 @@ export function LeSceau() {
     if (!state.isActivated) {
       // Draw the Seal (Le Sceau)
       const sealRadius = Math.min(canvas.width, canvas.height) * 0.15;
-      const pulseRadius = sealRadius * (1 + 0.05 * Math.sin(Date.now() / 500));
+      // Disable pulse animation if user prefers reduced motion
+      const pulseRadius = reducedMotion ? sealRadius : sealRadius * (1 + 0.05 * Math.sin(Date.now() / 500));
 
       // Outer glow
       const gradient = ctx.createRadialGradient(
@@ -227,7 +239,7 @@ export function LeSceau() {
     }
 
     animationRef.current = requestAnimationFrame(animate);
-  }, [state, navigate]);
+  }, [state, navigate, reducedMotion]);
 
   // Start animation
   useEffect(() => {
@@ -458,6 +470,14 @@ export function LeSceau() {
         @keyframes pulse {
           0%, 100% { opacity: 0.6; }
           50% { opacity: 1; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          * {
+            animation-duration: 0.01ms !important;
+            animation-iteration-count: 1 !important;
+            transition-duration: 0.01ms !important;
+          }
         }
       `}</style>
     </div>

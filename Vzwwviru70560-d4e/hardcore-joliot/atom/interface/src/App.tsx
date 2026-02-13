@@ -17,6 +17,7 @@ import { Flux } from '@/pages/Flux';
 import { Sante } from '@/pages/Sante';
 import { Sovereign } from '@/pages/Sovereign';
 import { AdminCockpit } from '@/pages/AdminCockpit';
+import { AgentWorkspace } from '@/pages/AgentWorkspace';
 import { useAtomStore } from '@/stores/atom.store';
 import {
   initializeRealTimeServices,
@@ -226,6 +227,9 @@ function AppContent() {
 
         {/* 7. Admin Cockpit - God Mode (ULTRA-PRIVE) */}
         <Route path="/admin" element={<AdminCockpit />} />
+
+        {/* 8. Agent Workspaces - Bureaux Isolés (ORCHESTRATEURS) */}
+        <Route path="/workspace/:agentId" element={<AgentWorkspace />} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />

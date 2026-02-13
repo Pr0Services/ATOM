@@ -16,6 +16,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Breadcrumbs } from '@/components/Breadcrumbs';
 
 // =============================================================================
 // CONSTANTS
@@ -455,12 +456,16 @@ export function Alchimie() {
       display: 'flex',
       flexDirection: 'column',
     }}>
-      {/* Header */}
+      {/* Breadcrumbs */}
+      <Breadcrumbs />
+
+      {/* Header - offset for breadcrumbs */}
       <header style={{
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         padding: '15px 30px',
+        paddingTop: '60px',
         borderBottom: '1px solid rgba(255, 255, 255, 0.1)',
       }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
