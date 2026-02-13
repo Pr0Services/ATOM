@@ -30,14 +30,13 @@
             --aria-color: #00FF88;
             --orion-color: #FF6B35;
 
-            /* Couleurs par niveau */
-            --freq-999: #9333EA;
-            --freq-741: #FF6B35;
-            --freq-528: #00FF88;
-            --freq-444: #FFD700;
-            --freq-432: #4ECDC4;
-            --freq-396: #FF6B6B;
-            --freq-369: #45B7D1;
+            /* Couleurs par niveau de compétence */
+            --level-expert: #9333EA;
+            --level-advanced: #FF6B35;
+            --level-confirmed: #00FF88;
+            --level-intermediate: #FFD700;
+            --level-standard: #45B7D1;
+            --level-assistant: #4ECDC4;
 
             /* Layout Canonique */
             --hub1-width: 280px;
@@ -423,8 +422,16 @@
         .agent-header {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center;
             margin-bottom: 0.75rem;
+        }
+
+        .agent-level {
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.15rem 0.5rem;
+            border-radius: 8px;
+            letter-spacing: 0.3px;
         }
 
         .agent-id {
@@ -1112,20 +1119,20 @@
                     <div class="hub-card-content">
                         <div class="stats-grid">
                             <div class="stat-item">
-                                <div class="stat-value" id="totalCount">--</div>
+                                <div class="stat-value" id="totalCount">400+</div>
                                 <div class="stat-label">Agents</div>
                             </div>
                             <div class="stat-item">
-                                <div class="stat-value" id="sphereCount">--</div>
+                                <div class="stat-value" id="sphereCount">9</div>
                                 <div class="stat-label">Domaines</div>
                             </div>
                             <div class="stat-item">
-                                <div class="stat-value" id="avgFreq">--</div>
-                                <div class="stat-label">Niveau Moy.</div>
+                                <div class="stat-value" id="filteredCount">400+</div>
+                                <div class="stat-label">Affichés</div>
                             </div>
                             <div class="stat-item">
-                                <div class="stat-value" id="filteredCount">--</div>
-                                <div class="stat-label">Affichés</div>
+                                <div class="stat-value" style="color: #00FF88; font-size: 1rem;">● En ligne</div>
+                                <div class="stat-label">Statut</div>
                             </div>
                         </div>
                     </div>
@@ -1142,7 +1149,7 @@
                             <div class="sphere-item active" data-sphere="">
                                 <span class="sphere-icon">✨</span>
                                 <span class="sphere-name">Tous les domaines</span>
-                                <span class="sphere-count" id="allCount">--</span>
+                                <span class="sphere-count" id="allCount">400+</span>
                             </div>
                             <!-- Dynamically populated -->
                         </div>
@@ -1164,8 +1171,8 @@
                     <select class="sort-select" id="sortSelect">
                         <option value="name">Trier par Nom</option>
                         <option value="sphere">Trier par Domaine</option>
-                        <option value="frequency">Trier par Niveau ↓</option>
-                        <option value="frequency-asc">Trier par Niveau ↑</option>
+                        <option value="frequency">Trier par Compétence ↓</option>
+                        <option value="frequency-asc">Trier par Compétence ↑</option>
                         <option value="id">Trier par ID</option>
                     </select>
                 </div>
@@ -1207,7 +1214,7 @@
                         </div>
 
                         <div class="agent-detail-section">
-                            <div class="section-title">Niveau</div>
+                            <div class="section-title">Niveau de compétence</div>
                             <div class="freq-display">
                                 <span class="freq-badge" id="detailFreqValue">--</span>
                             </div>
@@ -1359,14 +1366,18 @@
             'Monitoring': '👁️'
         };
 
-        // Frequency color mapping
+        // Level mapping from frequency to human label
+        function getAgentLevel(freq) {
+            if (freq >= 900) return { label: 'Expert', color: '#9333EA' };
+            if (freq >= 700) return { label: 'Avancé', color: '#FF6B35' };
+            if (freq >= 500) return { label: 'Confirmé', color: '#00FF88' };
+            if (freq >= 400) return { label: 'Intermédiaire', color: '#FFD700' };
+            if (freq >= 300) return { label: 'Standard', color: '#45B7D1' };
+            return { label: 'Assistant', color: '#4ECDC4' };
+        }
+
         function getFrequencyColor(freq) {
-            if (freq >= 900) return '#9333EA'; // Source
-            if (freq >= 700) return '#FF6B35'; // Awakening
-            if (freq >= 500) return '#00FF88'; // Love
-            if (freq >= 400) return '#FFD700'; // Heartbeat
-            if (freq >= 350) return '#45B7D1'; // Tesla
-            return '#4ECDC4';
+            return getAgentLevel(freq).color;
         }
 
         // Fallback data
@@ -1395,12 +1406,12 @@
                 name: 'Nova',
                 icon: '🔱',
                 title: 'Superviseur Système',
-                frequency: 999,
+                level: 'Expert',
                 color: '#9333EA',
                 greeting: 'Bienvenue dans le catalogue des agents. Je suis Nova, superviseur du système. Comment puis-je vous aider à naviguer parmi les 400+ agents de la plateforme?',
                 responses: {
                     agent: 'Chaque agent possède des capacités spécifiques qui définissent son rôle dans le système.',
-                    frequency: 'Les agents sont organisés par niveaux et domaines de compétence au sein de la plateforme.',
+                    frequency: 'Les agents sont organisés par niveaux de compétence (Expert, Avancé, Confirmé, etc.) et par domaines au sein de la plateforme.',
                     sphere: 'Les domaines organisent les agents par champ de compétence.',
                     help: 'Je peux vous aider à comprendre le rôle des agents et leur organisation dans la plateforme.'
                 }
@@ -1410,7 +1421,7 @@
                 name: 'Aria',
                 icon: '✨',
                 title: 'Votre Guide',
-                frequency: 528,
+                level: 'Expert',
                 color: '#00FF88',
                 greeting: 'Bonjour! Je suis Aria, votre guide dans le catalogue. Utilisez les filtres à gauche pour explorer les agents par domaine, ou la recherche pour trouver un agent spécifique.',
                 responses: {
@@ -1425,7 +1436,7 @@
                 name: 'Orion',
                 icon: '🏛️',
                 title: 'Votre Coordinateur',
-                frequency: 741,
+                level: 'Expert',
                 color: '#FF6B35',
                 greeting: 'Bonjour. Je suis Orion, votre coordinateur. Le catalogue vous permet d\'explorer et de coordonner les 400+ agents selon vos objectifs. Que souhaitez-vous accomplir?',
                 responses: {
@@ -1486,9 +1497,6 @@
 
             const spheres = new Set(allAgents.map(a => a.sphere));
             document.getElementById('sphereCount').textContent = spheres.size;
-
-            const avgFreq = allAgents.reduce((sum, a) => sum + (a.frequency_hz || 0), 0) / allAgents.length;
-            document.getElementById('avgFreq').textContent = avgFreq.toFixed(0);
         }
 
         function populateSphereFilter() {
@@ -1571,25 +1579,23 @@
             emptyState.style.display = 'none';
 
             grid.innerHTML = pageAgents.map(agent => {
-                const freqColor = getFrequencyColor(agent.frequency_hz || 0);
+                const level = getAgentLevel(agent.frequency_hz || 0);
                 const sphereIcon = SPHERE_ICONS[agent.sphere] || '🔮';
                 const isSelected = selectedAgent && selectedAgent.id === agent.id;
 
                 return `
                     <div class="agent-card ${isSelected ? 'selected' : ''}"
                          data-id="${agent.id}"
-                         style="--agent-freq-color: ${freqColor};"
+                         style="--agent-freq-color: ${level.color};"
                          onclick="selectAgent(${agent.id})">
                         <div class="agent-header">
                             <span class="agent-id">#${agent.id}</span>
+                            <span class="agent-level" style="background:${level.color}20;color:${level.color};">${level.label}</span>
                         </div>
                         <div class="agent-name">${agent.name}</div>
                         <div class="agent-sphere-tag">
                             <span>${sphereIcon}</span>
-                            <span>${agent.sphere || 'Unknown'}</span>
-                        </div>
-                        <div class="agent-freq">
-                            <span class="agent-freq-value">${agent.frequency_hz || 0}</span>
+                            <span>${agent.sphere || 'Général'}</span>
                         </div>
                     </div>
                 `;
@@ -1661,21 +1667,21 @@
             document.getElementById('detailsContent').classList.add('visible');
 
             // Populate details
-            const freqColor = getFrequencyColor(selectedAgent.frequency_hz || 0);
+            const level = getAgentLevel(selectedAgent.frequency_hz || 0);
             const sphereIcon = SPHERE_ICONS[selectedAgent.sphere] || '🔮';
 
             document.getElementById('detailAvatar').textContent = sphereIcon;
             document.getElementById('detailName').textContent = selectedAgent.name;
-            document.getElementById('detailTitle').textContent = `Agent ${selectedAgent.sphere || 'Universel'}`;
+            document.getElementById('detailTitle').textContent = `Agent ${selectedAgent.sphere || 'Général'}`;
             document.getElementById('detailId').textContent = `#${selectedAgent.id}`;
-            document.getElementById('detailSphere').textContent = selectedAgent.sphere || 'Unknown';
-            document.getElementById('detailFreqValue').textContent = selectedAgent.frequency_hz || 0;
-            document.getElementById('detailFreqValue').style.color = freqColor;
+            document.getElementById('detailSphere').textContent = selectedAgent.sphere || 'Général';
+            document.getElementById('detailFreqValue').textContent = level.label;
+            document.getElementById('detailFreqValue').style.color = level.color;
 
-            // Frequency bar (normalized to 1000 max)
+            // Level bar (normalized to 1000 max)
             const freqPercent = Math.min(100, ((selectedAgent.frequency_hz || 0) / 1000) * 100);
             document.getElementById('detailFreqBar').style.width = freqPercent + '%';
-            document.getElementById('detailFreqBar').style.background = freqColor;
+            document.getElementById('detailFreqBar').style.background = level.color;
         }
 
         function closeDetails() {
@@ -1774,8 +1780,8 @@
 
                 const lower = text.toLowerCase();
                 if (lower.includes('agent') || lower.includes('qui')) response = agent.responses.agent;
-                else if (lower.includes('fréquence') || lower.includes('hz')) response = agent.responses.frequency || agent.responses.agent;
-                else if (lower.includes('sphère') || lower.includes('domaine')) response = agent.responses.sphere || agent.responses.filter;
+                else if (lower.includes('niveau') || lower.includes('compétence')) response = agent.responses.frequency || agent.responses.agent;
+                else if (lower.includes('domaine') || lower.includes('categorie')) response = agent.responses.sphere || agent.responses.filter;
                 else if (lower.includes('recherche') || lower.includes('trouver')) response = agent.responses.search || agent.responses.agent;
                 else if (lower.includes('plan') || lower.includes('objectif')) response = agent.responses.plan || agent.responses.help;
                 else if (lower.includes('coordonner') || lower.includes('organiser')) response = agent.responses.coordinate || agent.responses.help;

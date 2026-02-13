@@ -90,29 +90,26 @@ const CORE_AGENTS_L0 = {
         id: 'nova',
         name: 'Nova',
         level: AGENT_LEVELS.L0_SYSTEM,
-        frequency: 999,
         icon: '🔱',
         role: 'System Overseer',
         color: '#9333EA',
         capabilities: ['system_control', 'governance', 'emergency', 'audit'],
-        description: 'Gardien des fréquences sacrées et superviseur système'
+        description: 'Superviseur système et coordinateur des agents'
     },
     aria: {
         id: 'aria',
         name: 'Aria',
         level: AGENT_LEVELS.L0_SYSTEM,
-        frequency: 528,
         icon: '✨',
         role: 'Onboarding Guide',
         color: '#00FF88',
         capabilities: ['onboarding', 'guidance', 'support', 'education'],
-        description: 'Guide vers la souveraineté et accompagnement utilisateur'
+        description: 'Guide d\'accueil et accompagnement utilisateur'
     },
     orion: {
         id: 'orion',
         name: 'Orion',
         level: AGENT_LEVELS.L1_ORCHESTRATOR, // L1, pas L0
-        frequency: 741,
         icon: '🏛️',
         role: 'User Orchestrator',
         color: '#FF6B35',

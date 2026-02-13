@@ -102,21 +102,18 @@ class ATOMGovernance {
                 id: 'nova',
                 name: 'Nova',
                 level: 'L0',
-                frequency: 999,
                 capabilities: ['system', 'monitor', 'orchestrate']
             },
             {
                 id: 'aria',
                 name: 'Aria',
                 level: 'L1',
-                frequency: 528,
                 capabilities: ['onboard', 'guide', 'educate']
             },
             {
                 id: 'orion',
                 name: 'Orion',
                 level: 'L1',
-                frequency: 741,
                 capabilities: ['orchestrate', 'coordinate', 'delegate']
             }
         ];

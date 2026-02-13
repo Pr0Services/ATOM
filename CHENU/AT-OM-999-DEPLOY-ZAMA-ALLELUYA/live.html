@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AT·OM | Activité en direct</title>
-    <meta name="description" content="AT·OM — Suivi en temps réel des agents et monitoring WebSocket">
+    <meta name="description" content="AT·OM — Suivi en temps réel de l'activité des agents">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
     <script src="/config.js"></script>
     <script src="/js/governance-init.js"></script>
@@ -848,7 +848,7 @@
                 <div class="hub-card">
                     <div class="hub-card-header">
                         <span>📡</span>
-                        <h3>Connexion WebSocket</h3>
+                        <h3>Connexion en direct</h3>
                     </div>
                     <div class="hub-card-content">
                         <div class="connection-status">
@@ -929,7 +929,7 @@
                     <canvas id="agentCanvas"></canvas>
                     <div class="canvas-overlay">
                         <span class="overlay-badge live" id="liveIndicator">LIVE</span>
-                        <span class="overlay-badge" id="particleCount">0 particules</span>
+                        <span class="overlay-badge" id="particleCount">0 agents actifs</span>
                     </div>
                 </div>
 
@@ -1064,17 +1064,17 @@
         const CORE_AGENTS = {
             nova: {
                 id: 'nova', name: 'Nova', icon: '🔱', title: 'Superviseur Système',
-                frequency: 999, color: '#9333EA',
+                level: 'Expert', color: '#9333EA',
                 greeting: 'Bienvenue sur la page d\'activité en direct. Je supervise le bon fonctionnement du système.',
                 responses: {
                     frequency: 'Les niveaux d\'activité reflètent l\'état de chaque agent.',
-                    ws: 'Le WebSocket maintient une connexion en temps réel avec le serveur.',
+                    ws: 'La connexion en direct vous permet de suivre l\'activité des agents en temps réel.',
                     help: 'Je supervise l\'activité en temps réel et garantis la cohérence du système.'
                 }
             },
             aria: {
                 id: 'aria', name: 'Aria', icon: '✨', title: 'Votre Guide',
-                frequency: 528, color: '#00FF88',
+                level: 'Expert', color: '#00FF88',
                 greeting: 'Bonjour! Cette page affiche les agents actifs en temps réel. Utilisez les contrôles pour gérer la visualisation.',
                 responses: {
                     canvas: 'Le canvas montre les agents et leurs connexions en temps réel.',
@@ -1084,7 +1084,7 @@
             },
             orion: {
                 id: 'orion', name: 'Orion', icon: '🏛️', title: 'Votre Coordinateur',
-                frequency: 741, color: '#FF6B35',
+                level: 'Expert', color: '#FF6B35',
                 greeting: 'Bonjour. Cette page permet d\'observer la coordination des agents en action. Que souhaitez-vous analyser?',
                 responses: {
                     agent: 'Chaque point représente un agent en activité dans le système.',
@@ -1119,7 +1119,7 @@
                 radius: 3 + Math.min(a.frequency_hz || 0, 1000) / 200,
                 color: getColorForSphere(a.sphere)
             }));
-            document.getElementById('particleCount').textContent = `${particles.length} particules`;
+            document.getElementById('particleCount').textContent = `${particles.length} agents actifs`;
         }
 
         function getColorForSphere(sphere) {
@@ -1223,7 +1223,7 @@
                     this.ws = new WebSocket(this.wsUrl);
                     this._setupHandlers();
                 } catch (error) {
-                    addEvent('error', 'Échec connexion WebSocket');
+                    addEvent('error', 'Échec de connexion au serveur');
                     this._scheduleReconnect();
                 }
             }
@@ -1232,7 +1232,7 @@
                 this.ws.onopen = () => {
                     this.reconnectAttempts = 0;
                     this._startHeartbeat();
-                    addEvent('ws', '✅ WebSocket connecté!');
+                    addEvent('ws', '✅ Connexion en direct établie !');
                     if (this.onStatusChange) this.onStatusChange('connected');
                     this._deactivateGratitudeMode();
                     document.getElementById('reconnectValue').textContent = this.reconnectAttempts;
@@ -1253,7 +1253,7 @@
 
                 this.ws.onclose = () => {
                     this._stopHeartbeat();
-                    addEvent('ws', '❌ WebSocket déconnecté');
+                    addEvent('ws', '❌ Connexion perdue');
                     if (this.onStatusChange) this.onStatusChange('disconnected');
 
                     this.gratitudeFallbackTimer = setTimeout(() => {
@@ -1264,7 +1264,7 @@
                 };
 
                 this.ws.onerror = () => {
-                    addEvent('error', 'Erreur WebSocket');
+                    addEvent('error', 'Erreur de connexion');
                 };
             }
 
@@ -1582,8 +1582,8 @@
                 const lower = text.toLowerCase();
 
                 if (lower.includes('fréquence') || lower.includes('hz')) response = agent.responses.frequency || agent.responses.help;
-                else if (lower.includes('websocket') || lower.includes('connexion')) response = agent.responses.ws || agent.responses.help;
-                else if (lower.includes('canvas') || lower.includes('particule')) response = agent.responses.canvas || agent.responses.help;
+                else if (lower.includes('connexion') || lower.includes('direct')) response = agent.responses.ws || agent.responses.help;
+                else if (lower.includes('canvas') || lower.includes('visualisation') || lower.includes('agent')) response = agent.responses.canvas || agent.responses.help;
                 else if (lower.includes('event') || lower.includes('événement')) response = agent.responses.event || agent.responses.help;
                 else if (lower.includes('agent')) response = agent.responses.agent || agent.responses.help;
 

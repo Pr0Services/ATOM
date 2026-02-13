@@ -1380,12 +1380,10 @@
                     <!-- Sphere cards will be rendered here -->
                 </div>
 
-                <div style="text-align: center;">
-                    <div class="xr-badge">
-                        <span>🥽</span>
-                        <span>XR Ready</span>
-                        <span style="opacity: 0.7;">| WebXR Compatible</span>
-                    </div>
+                <div style="text-align: center; margin-top: 0.5rem;">
+                    <p style="font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.5;">
+                        Cliquez sur un domaine dans le menu de gauche ou sur la grille pour explorer ses agents.
+                    </p>
                 </div>
             </section>
 
@@ -1396,8 +1394,9 @@
                 <!-- Selected Sphere -->
                 <div id="selectedSphereContainer">
                     <div class="empty-state">
-                        <div class="empty-state-icon">🌐</div>
-                        <div class="empty-state-text">Sélectionnez un domaine<br>pour voir ses agents</div>
+                        <div class="empty-state-icon">👈</div>
+                        <div class="empty-state-text">Choisissez un domaine à gauche<br>pour découvrir ses agents spécialisés</div>
+                        <p style="font-size:0.75rem;color:rgba(255,255,255,0.3);margin-top:0.75rem;">Chaque domaine contient des dizaines d'agents prêts à vous assister.</p>
                     </div>
                 </div>
 
@@ -2027,7 +2026,7 @@
                 name: 'Nova',
                 icon: '🔱',
                 title: 'Superviseur Systeme',
-                frequency: 999, // Internal use only
+                level: 'Expert',
                 color: '#9333EA',
                 personality: 'calm, wise, protective',
                 greeting: 'Bienvenue ! Je suis Nova, superviseur du système AT·OM. Je veille au bon fonctionnement de l\'ensemble. Comment puis-je vous aider ?'
@@ -2037,7 +2036,7 @@
                 name: 'Aria',
                 icon: '✨',
                 title: 'Guide d\'Accueil',
-                frequency: 528, // Internal use only
+                level: 'Expert',
                 color: '#00FF88',
                 personality: 'warm, patient, encouraging',
                 greeting: 'Bonjour ! Je suis Aria, votre guide d\'accueil. Je suis là pour vous accompagner dans la découverte du système. Que puis-je faire pour vous ?'
@@ -2047,7 +2046,7 @@
                 name: 'Orion',
                 icon: '🏛️',
                 title: 'Votre Coordinateur',
-                frequency: 741, // Internal use only
+                level: 'Expert',
                 color: '#FF6B35',
                 personality: 'analytical, precise, visionary',
                 greeting: 'Bonjour. Je suis Orion, votre coordinateur. Je coordonne les agents pour vous aider à atteindre vos objectifs. Quel est votre projet?'
