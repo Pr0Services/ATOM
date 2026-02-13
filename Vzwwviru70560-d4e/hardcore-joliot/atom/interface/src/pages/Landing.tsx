@@ -16,10 +16,11 @@
  * 5. Footer légal
  */
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { analyticsService } from '@/services/analytics.service';
 import { waitlistService } from '@/services/waitlist.service';
+import { abTestingService } from '@/services/ab-testing.service';
 import { COLORS, TYPOGRAPHY, TOUCH, prefersReducedMotion } from '@/styles/tokens';
 
 // =============================================================================
@@ -73,18 +74,43 @@ export function Landing() {
   const [waitlistMessage, setWaitlistMessage] = useState('');
   const [reducedMotion, setReducedMotion] = useState(false);
 
-  // Track landing view
+  // A/B Testing - Get variant configs
+  const heroConfig = useMemo(() => ({
+    headline: abTestingService.getConfig('landing_hero_v1', 'headline', "L'Intelligence Collective"),
+    subheadline: abTestingService.getConfig('landing_hero_v1', 'subheadline', 'à Votre Service'),
+    ctaText: abTestingService.getConfig('landing_hero_v1', 'ctaText', 'ENTRER MAINTENANT'),
+    ctaColor: abTestingService.getConfig('landing_hero_v1', 'ctaColor', COLORS.gold),
+  }), []);
+
+  const socialProofConfig = useMemo(() => ({
+    showSocialProof: abTestingService.getConfig('landing_social_proof', 'showSocialProof', false),
+    socialProofText: abTestingService.getConfig('landing_social_proof', 'socialProofText', ''),
+  }), []);
+
+  const urgencyConfig = useMemo(() => ({
+    showUrgency: abTestingService.getConfig('cta_urgency', 'showUrgency', false),
+    urgencyText: abTestingService.getConfig('cta_urgency', 'urgencyText', ''),
+  }), []);
+
+  // Track landing view with variant info
   useEffect(() => {
+    const assignments = abTestingService.getAssignments();
     analyticsService.track('landing_view', {
       referrer: document.referrer,
       utm_source: new URLSearchParams(window.location.search).get('utm_source'),
       utm_campaign: new URLSearchParams(window.location.search).get('utm_campaign'),
+      ab_variants: assignments.map(a => `${a.experimentId}:${a.variantId}`).join(','),
     });
     setReducedMotion(prefersReducedMotion());
   }, []);
 
   // Handle primary CTA click
   const handleEnterPlatform = () => {
+    // Track conversion for A/B tests
+    abTestingService.trackConversion('landing_hero_v1', 'cta_click');
+    abTestingService.trackConversion('landing_social_proof', 'cta_click');
+    abTestingService.trackConversion('cta_urgency', 'cta_click');
+
     analyticsService.track('cta_click', { cta: 'enter_platform', location: 'hero' });
     navigate('/');
   };
@@ -141,7 +167,7 @@ export function Landing() {
           AT·OM
         </div>
 
-        {/* Tagline */}
+        {/* Tagline - A/B Tested */}
         <h1 style={{
           fontSize: 'clamp(24px, 5vw, 48px)',
           fontWeight: 600,
@@ -149,10 +175,29 @@ export function Landing() {
           marginBottom: '24px',
           lineHeight: 1.2,
         }}>
-          L'Intelligence Collective
+          {heroConfig.headline}
           <br />
-          <span style={{ color: COLORS.gold }}>à Votre Service</span>
+          <span style={{ color: heroConfig.ctaColor }}>{heroConfig.subheadline}</span>
         </h1>
+
+        {/* Social Proof - A/B Tested */}
+        {socialProofConfig.showSocialProof && (
+          <div style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            marginBottom: '16px',
+            padding: '8px 16px',
+            backgroundColor: 'rgba(39, 174, 96, 0.1)',
+            borderRadius: '20px',
+            border: '1px solid rgba(39, 174, 96, 0.3)',
+          }}>
+            <span style={{ color: '#27AE60', fontSize: '14px' }}>●</span>
+            <span style={{ color: '#27AE60', fontSize: '14px', fontFamily: TYPOGRAPHY.fontFamily.mono }}>
+              {socialProofConfig.socialProofText}
+            </span>
+          </div>
+        )}
 
         {/* Value proposition */}
         <p style={{
@@ -167,7 +212,27 @@ export function Landing() {
           Aucun compte requis pour commencer.
         </p>
 
-        {/* Primary CTA */}
+        {/* Urgency Badge - A/B Tested */}
+        {urgencyConfig.showUrgency && (
+          <div style={{
+            marginBottom: '16px',
+            padding: '6px 12px',
+            backgroundColor: 'rgba(231, 76, 60, 0.1)',
+            borderRadius: '4px',
+            border: '1px solid rgba(231, 76, 60, 0.3)',
+          }}>
+            <span style={{
+              color: '#E74C3C',
+              fontSize: '12px',
+              fontFamily: TYPOGRAPHY.fontFamily.mono,
+              letterSpacing: '0.05em',
+            }}>
+              {urgencyConfig.urgencyText}
+            </span>
+          </div>
+        )}
+
+        {/* Primary CTA - A/B Tested */}
         <button
           onClick={handleEnterPlatform}
           style={{
@@ -175,28 +240,28 @@ export function Landing() {
             fontSize: '18px',
             fontWeight: 600,
             fontFamily: TYPOGRAPHY.fontFamily.mono,
-            backgroundColor: COLORS.gold,
-            color: '#000',
+            backgroundColor: heroConfig.ctaColor,
+            color: heroConfig.ctaColor === COLORS.gold ? '#000' : '#fff',
             border: 'none',
             borderRadius: '8px',
             cursor: 'pointer',
             minHeight: TOUCH.comfortable,
             letterSpacing: '0.1em',
             transition: reducedMotion ? 'none' : 'all 0.2s ease',
-            boxShadow: `0 0 30px ${COLORS.gold}40`,
+            boxShadow: `0 0 30px ${heroConfig.ctaColor}40`,
           }}
           onMouseEnter={(e) => {
             if (!reducedMotion) {
               e.currentTarget.style.transform = 'scale(1.05)';
-              e.currentTarget.style.boxShadow = `0 0 50px ${COLORS.gold}60`;
+              e.currentTarget.style.boxShadow = `0 0 50px ${heroConfig.ctaColor}60`;
             }
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.transform = 'scale(1)';
-            e.currentTarget.style.boxShadow = `0 0 30px ${COLORS.gold}40`;
+            e.currentTarget.style.boxShadow = `0 0 30px ${heroConfig.ctaColor}40`;
           }}
         >
-          ENTRER MAINTENANT
+          {heroConfig.ctaText}
         </button>
 
         {/* Secondary info */}

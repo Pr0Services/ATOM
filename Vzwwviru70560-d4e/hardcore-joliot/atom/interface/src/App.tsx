@@ -19,9 +19,13 @@ import { Sovereign } from '@/pages/Sovereign';
 import { AdminCockpit } from '@/pages/AdminCockpit';
 import { AgentWorkspace } from '@/pages/AgentWorkspace';
 import { Landing } from '@/pages/Landing';
+import { AnalyticsDashboard } from '@/pages/AnalyticsDashboard';
 import { CGU } from '@/pages/legal/CGU';
 import { Privacy } from '@/pages/legal/Privacy';
 import { Mentions } from '@/pages/legal/Mentions';
+// Components
+import { ContextualAssistant } from '@/components/ContextualAssistant';
+import { OnboardingWizard, hasCompletedOnboarding } from '@/components/OnboardingWizard';
 import { useAtomStore } from '@/stores/atom.store';
 import {
   initializeRealTimeServices,
@@ -193,6 +197,7 @@ function ErrorScreen({ error }: { error: string }) {
 
 function AppContent() {
   const { isInitialized, error } = useAppInitialization();
+  const [showOnboarding, setShowOnboarding] = useState(() => !hasCompletedOnboarding());
 
   if (error) {
     return <ErrorScreen error={error} />;
@@ -204,6 +209,16 @@ function AppContent() {
 
   return (
     <BrowserRouter>
+      {/* Contextual Assistant - available on all pages */}
+      <ContextualAssistant />
+
+      {/* Onboarding Wizard - shows on first visit */}
+      {showOnboarding && (
+        <OnboardingWizard
+          onComplete={() => setShowOnboarding(false)}
+          onSkip={() => setShowOnboarding(false)}
+        />
+      )}
       <Routes>
         {/* Canon AT·OM Routes */}
         {/* 1. L'Interface Maitresse - Le Sceau de l'Engagement */}
@@ -239,7 +254,10 @@ function AppContent() {
         <Route path="/landing" element={<Landing />} />
         <Route path="/welcome" element={<Landing />} />
 
-        {/* 10. Pages Légales */}
+        {/* 10. Analytics Dashboard - Funnel & Metrics (ADMIN) */}
+        <Route path="/analytics" element={<AnalyticsDashboard />} />
+
+        {/* 11. Pages Légales */}
         <Route path="/legal/cgu" element={<CGU />} />
         <Route path="/legal/privacy" element={<Privacy />} />
         <Route path="/legal/mentions" element={<Mentions />} />
