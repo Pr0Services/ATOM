@@ -19,6 +19,7 @@ import { Sovereign } from '@/pages/Sovereign';
 import { AdminCockpit } from '@/pages/AdminCockpit';
 import { AgentWorkspace } from '@/pages/AgentWorkspace';
 import { Landing } from '@/pages/Landing';
+import { ProgressiveRegister } from '@/pages/Register';
 import { AnalyticsDashboard } from '@/pages/AnalyticsDashboard';
 import { CGU } from '@/pages/legal/CGU';
 import { Privacy } from '@/pages/legal/Privacy';
@@ -257,7 +258,11 @@ function AppContent() {
         {/* 10. Analytics Dashboard - Funnel & Metrics (ADMIN) */}
         <Route path="/analytics" element={<AnalyticsDashboard />} />
 
-        {/* 11. Pages Légales */}
+        {/* 11. Authentication - Register/Login */}
+        <Route path="/register" element={<ProgressiveRegister />} />
+        <Route path="/auth/register" element={<ProgressiveRegister />} />
+
+        {/* 12. Pages Légales */}
         <Route path="/legal/cgu" element={<CGU />} />
         <Route path="/legal/privacy" element={<Privacy />} />
         <Route path="/legal/mentions" element={<Mentions />} />
