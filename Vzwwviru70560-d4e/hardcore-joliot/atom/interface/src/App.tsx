@@ -41,6 +41,8 @@ import { FloatingHealthIndicator } from '@/components/ServiceHealthWidget';
 import { SystemStatusRibbon } from '@/components/SystemStatusRibbon';
 import { NavigationCompass } from '@/components/NavigationCompass';
 import { GlossaryTrigger } from '@/components/ContextualGlossary';
+import { ActivationWidget } from '@/components/GuidedActivationDashboard';
+import { funnelTracker } from '@/services/funnel-tracking.service';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // QUERY CLIENT
@@ -75,6 +77,9 @@ function useAppInitialization() {
           enabled: true,
           reportEndpoint: import.meta.env.VITE_ERROR_REPORT_URL || undefined,
         });
+
+        // Initialize funnel tracking
+        funnelTracker.trackPlatformEnter();
 
         // Initialize offline service and network monitoring
         OfflineService.onNetworkChange((isOnline) => {
@@ -235,6 +240,9 @@ function AppContent() {
 
       {/* Glossary Trigger - contextual terminology help (debutant mode) */}
       <GlossaryTrigger position="bottom-left" />
+
+      {/* Activation Widget - guided next actions */}
+      <ActivationWidget />
 
       {/* Onboarding Wizard - shows on first visit */}
       {showOnboarding && (
