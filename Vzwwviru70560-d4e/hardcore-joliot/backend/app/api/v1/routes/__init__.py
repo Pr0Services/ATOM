@@ -4,7 +4,8 @@ CHE·NU™ API Routes
 All API route modules.
 """
 
-from app.api.routes import (
+from app.api.v1.routes import (
+    analytics_routes,
     auth_routes,
     sphere_routes,
     thread_routes,
@@ -13,9 +14,11 @@ from app.api.routes import (
     checkpoint_routes,
     agent_routes,
     nova_routes,
+    waitlist_routes,
 )
 
 __all__ = [
+    "analytics_routes",
     "auth_routes",
     "sphere_routes",
     "thread_routes",
@@ -24,4 +27,5 @@ __all__ = [
     "checkpoint_routes",
     "agent_routes",
     "nova_routes",
+    "waitlist_routes",
 ]

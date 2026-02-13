@@ -50,7 +50,11 @@ from app.services.governance.backlog_service import BacklogService
 
 logger = logging.getLogger(__name__)
 
+# Primary router with v2 prefix (main governance API)
 router = APIRouter(prefix="/api/v2/governance", tags=["Governance"])
+
+# V1 compatible router for health endpoint
+router_v1 = APIRouter(prefix="/api/v1/governance", tags=["Governance V1"])
 
 # ============================================================================
 # DEPENDENCY INJECTION
@@ -72,6 +76,45 @@ def get_backlog_service() -> BacklogService:
 # HEALTH & STATUS
 # ============================================================================
 
+# Module status levels
+class ModuleStatus:
+    GREEN = "green"      # Fully operational
+    ORANGE = "orange"    # Degraded but functional
+    RED = "red"          # Critical failure
+
+
+def _check_module_status(module_name: str, check_func) -> Dict[str, Any]:
+    """
+    Check module status with error handling.
+    Returns status (green/orange/red) and details.
+    """
+    try:
+        result = check_func()
+        if result.get("available", False):
+            return {
+                "status": ModuleStatus.GREEN,
+                "available": True,
+                "details": result.get("details", {}),
+                "message": f"{module_name} operational"
+            }
+        else:
+            logger.warning(f"{module_name} unavailable: {result.get('reason', 'unknown')}")
+            return {
+                "status": ModuleStatus.ORANGE,
+                "available": False,
+                "details": result.get("details", {}),
+                "message": result.get("reason", f"{module_name} unavailable")
+            }
+    except Exception as e:
+        logger.error(f"CRITICAL: {module_name} check failed: {e}")
+        return {
+            "status": ModuleStatus.RED,
+            "available": False,
+            "error": str(e),
+            "message": f"{module_name} critical failure"
+        }
+
+
 @router.get("/health")
 async def governance_health():
     """Health check for governance system."""
@@ -81,6 +124,166 @@ async def governance_health():
         "version": "1.0.0",
         "timestamp": datetime.utcnow().isoformat()
     }
+
+
+@router.get("/health/detailed")
+async def governance_health_detailed(
+    strict_mode: bool = Query(False, description="Fail-closed mode: return 503 if any critical module unavailable"),
+):
+    """
+    Comprehensive governance healthcheck with module status.
+
+    Returns green/orange/red status for each governance module:
+    - MessageBus: Inter-agent communication
+    - CheckpointManager: Governance checkpoint handling
+    - HITLController: Human-In-The-Loop controller
+    - OrchestratorService: Decision orchestration
+    - CEARegistry: Compliance evaluation agents
+    - BacklogService: Issue tracking and resolution
+
+    If strict_mode=true, returns HTTP 503 if any critical module is unavailable.
+    """
+    from agents.communication.messaging import MessageBus
+    from agents.checkpoints.manager import CheckpointManager, HITLController
+
+    modules = {}
+    critical_failures = []
+
+    # Check MessageBus
+    def check_message_bus():
+        try:
+            bus = MessageBus()
+            return {
+                "available": True,
+                "details": {
+                    "registered_agents": len(bus._mailboxes) if hasattr(bus, '_mailboxes') else 0,
+                    "subscriptions": len(bus._subscriptions) if hasattr(bus, '_subscriptions') else 0,
+                }
+            }
+        except Exception as e:
+            return {"available": False, "reason": str(e)}
+
+    modules["message_bus"] = _check_module_status("MessageBus", check_message_bus)
+    if modules["message_bus"]["status"] == ModuleStatus.RED:
+        critical_failures.append("MessageBus")
+
+    # Check CheckpointManager
+    def check_checkpoint_manager():
+        try:
+            manager = CheckpointManager()
+            pending_count = len(manager.get_pending()) if hasattr(manager, 'get_pending') else 0
+            return {
+                "available": True,
+                "details": {
+                    "rules_count": len(manager._rules) if hasattr(manager, '_rules') else 0,
+                    "pending_checkpoints": pending_count,
+                    "persistence_enabled": hasattr(manager, '_db_session'),
+                }
+            }
+        except Exception as e:
+            return {"available": False, "reason": str(e)}
+
+    modules["checkpoint_manager"] = _check_module_status("CheckpointManager", check_checkpoint_manager)
+    if modules["checkpoint_manager"]["status"] == ModuleStatus.RED:
+        critical_failures.append("CheckpointManager")
+
+    # Check HITLController
+    def check_hitl_controller():
+        try:
+            manager = CheckpointManager()
+            controller = HITLController(manager)
+            return {
+                "available": True,
+                "details": {
+                    "pending_approvals": len(controller.get_pending_approvals()) if hasattr(controller, 'get_pending_approvals') else 0,
+                }
+            }
+        except Exception as e:
+            return {"available": False, "reason": str(e)}
+
+    modules["hitl_controller"] = _check_module_status("HITLController", check_hitl_controller)
+    if modules["hitl_controller"]["status"] == ModuleStatus.RED:
+        critical_failures.append("HITLController")
+
+    # Check OrchestratorService
+    def check_orchestrator():
+        try:
+            orchestrator = OrchestratorService()
+            return {
+                "available": True,
+                "details": {
+                    "specs_count": len(orchestrator.specs) if hasattr(orchestrator, 'specs') else 0,
+                    "configs_count": len(orchestrator.config_costs) if hasattr(orchestrator, 'config_costs') else 0,
+                }
+            }
+        except Exception as e:
+            return {"available": False, "reason": str(e)}
+
+    modules["orchestrator_service"] = _check_module_status("OrchestratorService", check_orchestrator)
+
+    # Check CEARegistry
+    def check_cea_registry():
+        try:
+            registry = CEARegistry()
+            return {
+                "available": True,
+                "details": {
+                    "registered_ceas": len(registry.ceas) if hasattr(registry, 'ceas') else 0,
+                    "always_on_count": len(registry.always_on) if hasattr(registry, 'always_on') else 0,
+                }
+            }
+        except Exception as e:
+            return {"available": False, "reason": str(e)}
+
+    modules["cea_registry"] = _check_module_status("CEARegistry", check_cea_registry)
+
+    # Check BacklogService
+    def check_backlog():
+        try:
+            backlog = BacklogService()
+            return {
+                "available": True,
+                "details": {
+                    "pending_items": backlog.repository.count_pending() if hasattr(backlog, 'repository') else 0,
+                }
+            }
+        except Exception as e:
+            return {"available": False, "reason": str(e)}
+
+    modules["backlog_service"] = _check_module_status("BacklogService", check_backlog)
+
+    # Compute overall status
+    statuses = [m["status"] for m in modules.values()]
+    if ModuleStatus.RED in statuses:
+        overall_status = ModuleStatus.RED
+    elif ModuleStatus.ORANGE in statuses:
+        overall_status = ModuleStatus.ORANGE
+    else:
+        overall_status = ModuleStatus.GREEN
+
+    response = {
+        "status": overall_status,
+        "system": "AT-OM Governance Multi-Agent",
+        "version": "1.0.0",
+        "modules": modules,
+        "critical_failures": critical_failures,
+        "timestamp": datetime.utcnow().isoformat()
+    }
+
+    # Strict mode: fail-closed if critical modules unavailable
+    if strict_mode and critical_failures:
+        logger.error(f"GOVERNANCE FAIL-CLOSED: Critical modules unavailable: {critical_failures}")
+        return JSONResponse(
+            status_code=503,
+            content={
+                **response,
+                "error": "Critical governance modules unavailable",
+                "fail_closed": True,
+            }
+        )
+
+    return response
+
 
 @router.get("/status")
 async def governance_status(
@@ -107,6 +310,120 @@ async def governance_status(
         },
         "timestamp": datetime.utcnow().isoformat()
     }
+
+
+# ============================================================================
+# V1 COMPATIBLE HEALTH ENDPOINTS
+# ============================================================================
+
+@router_v1.get("/health")
+async def governance_health_v1(
+    strict_mode: bool = Query(False, description="Fail-closed mode: return 503 if critical module unavailable"),
+):
+    """
+    V1 compatible governance healthcheck.
+
+    Returns status of all governance modules:
+    - MessageBus: Inter-agent communication
+    - CheckpointManager: Governance checkpoint handling
+    - HITLController: Human-In-The-Loop controller
+
+    Status levels:
+    - green: Fully operational
+    - orange: Degraded but functional
+    - red: Critical failure
+
+    If strict_mode=true (fail-closed), returns HTTP 503 if any critical module unavailable.
+    """
+    from agents.communication.messaging import MessageBus
+    from agents.checkpoints.manager import CheckpointManager, HITLController
+
+    modules = {}
+    critical_failures = []
+
+    # Check MessageBus
+    try:
+        bus = MessageBus()
+        modules["message_bus"] = {
+            "status": ModuleStatus.GREEN,
+            "available": True,
+            "registered_agents": len(bus._mailboxes) if hasattr(bus, '_mailboxes') else 0,
+        }
+    except Exception as e:
+        logger.error(f"CRITICAL: MessageBus unavailable: {e}")
+        modules["message_bus"] = {
+            "status": ModuleStatus.RED,
+            "available": False,
+            "error": str(e),
+        }
+        critical_failures.append("MessageBus")
+
+    # Check CheckpointManager
+    try:
+        manager = CheckpointManager()
+        modules["checkpoint_manager"] = {
+            "status": ModuleStatus.GREEN,
+            "available": True,
+            "pending_checkpoints": len(manager.get_pending()) if hasattr(manager, 'get_pending') else 0,
+            "persistence_enabled": hasattr(manager, '_config') and manager._config.persistence_enabled,
+        }
+    except Exception as e:
+        logger.error(f"CRITICAL: CheckpointManager unavailable: {e}")
+        modules["checkpoint_manager"] = {
+            "status": ModuleStatus.RED,
+            "available": False,
+            "error": str(e),
+        }
+        critical_failures.append("CheckpointManager")
+
+    # Check HITLController
+    try:
+        manager = CheckpointManager()
+        controller = HITLController(manager)
+        modules["hitl_controller"] = {
+            "status": ModuleStatus.GREEN,
+            "available": True,
+            "pending_approvals": len(controller.get_pending_approvals()) if hasattr(controller, 'get_pending_approvals') else 0,
+        }
+    except Exception as e:
+        logger.error(f"CRITICAL: HITLController unavailable: {e}")
+        modules["hitl_controller"] = {
+            "status": ModuleStatus.RED,
+            "available": False,
+            "error": str(e),
+        }
+        critical_failures.append("HITLController")
+
+    # Compute overall status
+    statuses = [m.get("status", ModuleStatus.RED) for m in modules.values()]
+    if ModuleStatus.RED in statuses:
+        overall_status = ModuleStatus.RED
+    elif ModuleStatus.ORANGE in statuses:
+        overall_status = ModuleStatus.ORANGE
+    else:
+        overall_status = ModuleStatus.GREEN
+
+    response = {
+        "status": overall_status,
+        "modules": modules,
+        "critical_failures": critical_failures,
+        "version": "1.0.0",
+        "timestamp": datetime.utcnow().isoformat()
+    }
+
+    # Strict mode: fail-closed if critical modules unavailable
+    if strict_mode and critical_failures:
+        logger.error(f"GOVERNANCE FAIL-CLOSED: Critical modules unavailable: {critical_failures}")
+        return JSONResponse(
+            status_code=503,
+            content={
+                **response,
+                "error": "Critical governance modules unavailable - fail-closed mode active",
+                "fail_closed": True,
+            }
+        )
+
+    return response
 
 # ============================================================================
 # ORCHESTRATOR ENDPOINTS

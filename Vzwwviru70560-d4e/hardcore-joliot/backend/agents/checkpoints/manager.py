@@ -1,10 +1,17 @@
 """
 ============================================================================
-CHE·NU™ V69 — CHECKPOINT SYSTEM
+CHE-NU V69 - CHECKPOINT SYSTEM
 ============================================================================
-Version: 1.0.0
-Purpose: Governance checkpoints for agent actions
-Principle: GOUVERNANCE > EXÉCUTION — Human approval for sensitive actions
+Version: 1.1.0
+Purpose: Governance checkpoints for agent actions with database persistence
+Principle: GOUVERNANCE > EXECUTION - Human approval for sensitive actions
+
+Features:
+- In-memory checkpoint management for fast access
+- Database persistence for durability (survives restarts)
+- Recovery on startup from database
+- Fail-closed mode for critical operations
+- Full audit trail
 ============================================================================
 """
 
@@ -13,6 +20,7 @@ from typing import Any, Callable, Dict, List, Optional
 import logging
 import threading
 import uuid
+import os
 
 from ..core.models import (
     Checkpoint,
@@ -23,6 +31,38 @@ from ..core.models import (
 )
 
 logger = logging.getLogger(__name__)
+
+
+# ============================================================================
+# CONFIGURATION
+# ============================================================================
+
+class CheckpointConfig:
+    """
+    Configuration for checkpoint system behavior.
+
+    Environment variables:
+    - GOVERNANCE_FAIL_CLOSED: If true, operations fail when governance unavailable
+    - GOVERNANCE_PERSISTENCE_ENABLED: If true, checkpoints are persisted to database
+    - GOVERNANCE_RECOVERY_ON_STARTUP: If true, pending checkpoints loaded on startup
+    """
+
+    def __init__(self):
+        self.fail_closed = os.getenv("GOVERNANCE_FAIL_CLOSED", "false").lower() == "true"
+        self.persistence_enabled = os.getenv("GOVERNANCE_PERSISTENCE_ENABLED", "true").lower() == "true"
+        self.recovery_on_startup = os.getenv("GOVERNANCE_RECOVERY_ON_STARTUP", "true").lower() == "true"
+        self.default_timeout_minutes = int(os.getenv("CHECKPOINT_DEFAULT_TIMEOUT_MINUTES", "60"))
+
+    def __repr__(self):
+        return (
+            f"CheckpointConfig(fail_closed={self.fail_closed}, "
+            f"persistence_enabled={self.persistence_enabled}, "
+            f"recovery_on_startup={self.recovery_on_startup})"
+        )
+
+
+# Global configuration instance
+checkpoint_config = CheckpointConfig()
 
 
 # ============================================================================
@@ -64,16 +104,18 @@ class CheckpointRule:
 class CheckpointManager:
     """
     Manages governance checkpoints for agent actions.
-    
+
     The CheckpointManager:
     - Evaluates rules to determine checkpoint requirements
     - Creates and tracks checkpoints
     - Handles resolution (approval/denial)
     - Supports HITL (Human-In-The-Loop)
     - Logs all decisions for audit
-    
+    - Persists checkpoints to database for durability
+    - Recovers pending checkpoints on startup
+
     Architecture:
-    
+
         ┌─────────────────────────────────────────────────────────┐
         │                  CHECKPOINT MANAGER                     │
         ├─────────────────────────────────────────────────────────┤
@@ -89,12 +131,17 @@ class CheckpointManager:
         │              ┌───────────────────────┐                 │
         │              │  APPROVE / DENY       │                 │
         │              └───────────────────────┘                 │
+        │                          │                              │
+        │                          ▼                              │
+        │              ┌───────────────────────┐                 │
+        │              │  DATABASE PERSIST     │                 │
+        │              └───────────────────────┘                 │
         │                                                         │
         └─────────────────────────────────────────────────────────┘
-    
+
     Usage:
         manager = CheckpointManager()
-        
+
         # Add rules
         manager.add_rule(CheckpointRule(
             rule_id="high_impact",
@@ -102,27 +149,38 @@ class CheckpointManager:
             checkpoint_type=CheckpointType.HITL,
             condition=lambda a: a.estimated_impact > 0.5,
         ))
-        
+
         # Check if checkpoint needed
         checkpoint = manager.create_if_needed(action)
-        
+
         if checkpoint:
             # Wait for resolution
             status = manager.wait_for_resolution(checkpoint.checkpoint_id)
     """
-    
-    def __init__(self):
+
+    def __init__(self, db_session=None, config: Optional[CheckpointConfig] = None):
         self._rules: List[CheckpointRule] = []
         self._checkpoints: Dict[str, Checkpoint] = {}
         self._pending: Dict[str, Checkpoint] = {}
+        self._audit_log: List[Dict[str, Any]] = []
         self._lock = threading.Lock()
-        
+
+        # Configuration
+        self._config = config or checkpoint_config
+
+        # Database session for persistence
+        self._db_session = db_session
+
         # Resolution handlers
         self._hitl_handler: Optional[Callable[[Checkpoint], CheckpointStatus]] = None
         self._opa_handler: Optional[Callable[[Checkpoint], CheckpointStatus]] = None
-        
+
         # Add default rules
         self._add_default_rules()
+
+        # Recovery: Load pending checkpoints from database on startup
+        if self._config.recovery_on_startup and self._db_session is not None:
+            self._recover_pending_checkpoints()
     
     def _add_default_rules(self) -> None:
         """Add default checkpoint rules"""
@@ -220,9 +278,18 @@ class CheckpointManager:
         checkpoint_type: CheckpointType,
         reason: str,
         details: Optional[Dict[str, Any]] = None,
-        timeout_minutes: int = 60,
+        timeout_minutes: Optional[int] = None,
     ) -> Checkpoint:
         """Create a new checkpoint"""
+        # Use configured default timeout if not specified
+        if timeout_minutes is None:
+            timeout_minutes = self._config.default_timeout_minutes
+
+        # Fail-closed check
+        if self._config.fail_closed and not self.check_governance_available():
+            logger.error("FAIL-CLOSED: Cannot create checkpoint - governance unavailable")
+            raise RuntimeError("Governance system unavailable (fail-closed mode)")
+
         checkpoint = Checkpoint(
             agent_id=agent_id,
             action_id=action_id,
@@ -231,16 +298,29 @@ class CheckpointManager:
             details=details or {},
             timeout_at=datetime.utcnow() + timedelta(minutes=timeout_minutes),
         )
-        
+
         with self._lock:
             self._checkpoints[checkpoint.checkpoint_id] = checkpoint
             self._pending[checkpoint.checkpoint_id] = checkpoint
-        
+
+        # Persist to database
+        self._persist_checkpoint(checkpoint)
+
+        # Audit log
+        self._add_audit_event({
+            "type": "CHECKPOINT_CREATED",
+            "checkpoint_id": checkpoint.checkpoint_id,
+            "checkpoint_type": checkpoint_type.value,
+            "agent_id": agent_id,
+            "action_id": action_id,
+            "reason": reason,
+        })
+
         logger.info(
             f"Checkpoint created: {checkpoint.checkpoint_id} "
             f"({checkpoint_type.value}) for action {action_id}"
         )
-        
+
         return checkpoint
     
     def resolve(
@@ -254,22 +334,34 @@ class CheckpointManager:
         with self._lock:
             if checkpoint_id not in self._checkpoints:
                 raise ValueError(f"Checkpoint not found: {checkpoint_id}")
-            
+
             checkpoint = self._checkpoints[checkpoint_id]
-            
+
             checkpoint.status = status
             checkpoint.resolved_at = datetime.utcnow()
             checkpoint.resolved_by = resolved_by
             checkpoint.resolution_notes = notes
-            
+
             if checkpoint_id in self._pending:
                 del self._pending[checkpoint_id]
-        
+
+        # Persist update to database
+        event_type = f"CHECKPOINT_{status.value.upper()}"
+        self._persist_checkpoint_update(checkpoint, event_type, resolved_by)
+
+        # Audit log
+        self._add_audit_event({
+            "type": event_type,
+            "checkpoint_id": checkpoint_id,
+            "resolved_by": resolved_by,
+            "notes": notes,
+        })
+
         logger.info(
             f"Checkpoint resolved: {checkpoint_id} -> {status.value} "
             f"by {resolved_by}"
         )
-        
+
         return checkpoint
     
     def approve(
@@ -309,18 +401,29 @@ class CheckpointManager:
         with self._lock:
             if checkpoint_id not in self._checkpoints:
                 raise ValueError(f"Checkpoint not found: {checkpoint_id}")
-            
+
             checkpoint = self._checkpoints[checkpoint_id]
             checkpoint.escalated_to = escalated_to
             checkpoint.escalation_level += 1
             checkpoint.status = CheckpointStatus.ESCALATED
             checkpoint.resolved_at = datetime.utcnow()
-            
+
             if checkpoint_id in self._pending:
                 del self._pending[checkpoint_id]
-        
+
+        # Persist update to database
+        self._persist_checkpoint_update(checkpoint, "CHECKPOINT_ESCALATED", escalated_to)
+
+        # Audit log
+        self._add_audit_event({
+            "type": "CHECKPOINT_ESCALATED",
+            "checkpoint_id": checkpoint_id,
+            "escalated_to": escalated_to,
+            "escalation_level": checkpoint.escalation_level,
+        })
+
         logger.info(f"Checkpoint escalated: {checkpoint_id} -> {escalated_to}")
-        
+
         return checkpoint
     
     def auto_resolve(self, checkpoint: Checkpoint) -> CheckpointStatus:
@@ -393,7 +496,7 @@ class CheckpointManager:
         """Check for timed out checkpoints"""
         now = datetime.utcnow()
         timed_out = []
-        
+
         with self._lock:
             for checkpoint_id, checkpoint in list(self._pending.items()):
                 if checkpoint.timeout_at and checkpoint.timeout_at < now:
@@ -403,8 +506,249 @@ class CheckpointManager:
                     checkpoint.resolution_notes = "Timeout"
                     del self._pending[checkpoint_id]
                     timed_out.append(checkpoint)
-        
+
+                    # Persist timeout to database
+                    self._persist_checkpoint_update(checkpoint, "TIMEOUT")
+
         return timed_out
+
+    # ========================================================================
+    # DATABASE PERSISTENCE
+    # ========================================================================
+
+    def _recover_pending_checkpoints(self) -> int:
+        """
+        Recover pending checkpoints from database on startup.
+
+        Returns number of checkpoints recovered.
+        """
+        if not self._db_session:
+            logger.warning("No database session - skipping checkpoint recovery")
+            return 0
+
+        try:
+            from .models import PersistedCheckpoint, PersistedCheckpointStatus
+
+            # Query pending checkpoints
+            pending = self._db_session.query(PersistedCheckpoint).filter(
+                PersistedCheckpoint.status == PersistedCheckpointStatus.PENDING
+            ).all()
+
+            recovered = 0
+            for persisted in pending:
+                # Convert to in-memory Checkpoint
+                checkpoint = Checkpoint(
+                    checkpoint_id=str(persisted.id),
+                    agent_id=persisted.agent_id,
+                    action_id=persisted.action_id,
+                    checkpoint_type=CheckpointType(persisted.checkpoint_type.value),
+                    reason=persisted.reason,
+                    status=CheckpointStatus(persisted.status.value),
+                    details=persisted.details or {},
+                    resolved_by=persisted.resolved_by,
+                    resolution_notes=persisted.resolution_notes,
+                    resolved_at=persisted.resolved_at,
+                    timeout_at=persisted.timeout_at,
+                    escalated_to=persisted.escalated_to,
+                    escalation_level=persisted.escalation_level,
+                    created_at=persisted.created_at,
+                )
+
+                with self._lock:
+                    self._checkpoints[checkpoint.checkpoint_id] = checkpoint
+                    self._pending[checkpoint.checkpoint_id] = checkpoint
+
+                recovered += 1
+
+            if recovered > 0:
+                logger.info(f"Recovered {recovered} pending checkpoints from database")
+
+            # Log audit event
+            self._add_audit_event({
+                "type": "RECOVERY_COMPLETED",
+                "checkpoints_recovered": recovered,
+                "timestamp": datetime.utcnow().isoformat(),
+            })
+
+            return recovered
+
+        except ImportError:
+            logger.warning("Checkpoint models not available - skipping recovery")
+            return 0
+        except Exception as e:
+            logger.error(f"Failed to recover checkpoints: {e}")
+            return 0
+
+    def _persist_checkpoint(self, checkpoint: Checkpoint) -> bool:
+        """
+        Persist a checkpoint to the database.
+
+        Returns True if successful, False otherwise.
+        """
+        if not self._config.persistence_enabled:
+            return True
+
+        if not self._db_session:
+            logger.warning("No database session - checkpoint not persisted")
+            return False
+
+        try:
+            from .models import (
+                PersistedCheckpoint,
+                PersistedCheckpointType,
+                PersistedCheckpointStatus,
+                CheckpointAuditLog,
+            )
+
+            # Create persisted checkpoint
+            persisted = PersistedCheckpoint(
+                id=uuid.UUID(checkpoint.checkpoint_id),
+                agent_id=checkpoint.agent_id,
+                action_id=checkpoint.action_id,
+                checkpoint_type=PersistedCheckpointType(checkpoint.checkpoint_type.value),
+                reason=checkpoint.reason,
+                status=PersistedCheckpointStatus(checkpoint.status.value),
+                details=checkpoint.details,
+                timeout_at=checkpoint.timeout_at,
+                created_by="system",
+            )
+
+            self._db_session.add(persisted)
+
+            # Create audit log entry
+            audit_entry = CheckpointAuditLog(
+                checkpoint_id=persisted.id,
+                event_type="CHECKPOINT_CREATED",
+                event_data={
+                    "checkpoint_type": checkpoint.checkpoint_type.value,
+                    "reason": checkpoint.reason,
+                    "agent_id": checkpoint.agent_id,
+                    "action_id": checkpoint.action_id,
+                },
+                actor_type="system",
+            )
+            self._db_session.add(audit_entry)
+
+            self._db_session.commit()
+
+            logger.debug(f"Checkpoint {checkpoint.checkpoint_id} persisted to database")
+            return True
+
+        except ImportError:
+            logger.warning("Checkpoint models not available - persistence disabled")
+            return False
+        except Exception as e:
+            logger.error(f"Failed to persist checkpoint: {e}")
+            if self._db_session:
+                self._db_session.rollback()
+            return False
+
+    def _persist_checkpoint_update(
+        self,
+        checkpoint: Checkpoint,
+        event_type: str,
+        actor_id: Optional[str] = None,
+    ) -> bool:
+        """
+        Persist a checkpoint status update to the database.
+
+        Returns True if successful, False otherwise.
+        """
+        if not self._config.persistence_enabled:
+            return True
+
+        if not self._db_session:
+            return False
+
+        try:
+            from .models import (
+                PersistedCheckpoint,
+                PersistedCheckpointStatus,
+                CheckpointAuditLog,
+            )
+
+            # Update persisted checkpoint
+            persisted = self._db_session.query(PersistedCheckpoint).filter(
+                PersistedCheckpoint.id == uuid.UUID(checkpoint.checkpoint_id)
+            ).first()
+
+            if not persisted:
+                logger.warning(f"Checkpoint {checkpoint.checkpoint_id} not found in database")
+                return False
+
+            # Update fields
+            persisted.status = PersistedCheckpointStatus(checkpoint.status.value)
+            persisted.resolved_by = checkpoint.resolved_by
+            persisted.resolution_notes = checkpoint.resolution_notes
+            persisted.resolved_at = checkpoint.resolved_at
+            persisted.escalated_to = checkpoint.escalated_to
+            persisted.escalation_level = checkpoint.escalation_level
+
+            # Create audit log entry
+            audit_entry = CheckpointAuditLog(
+                checkpoint_id=persisted.id,
+                event_type=event_type,
+                event_data={
+                    "new_status": checkpoint.status.value,
+                    "resolved_by": checkpoint.resolved_by,
+                    "notes": checkpoint.resolution_notes,
+                },
+                actor_id=actor_id,
+                actor_type="user" if actor_id else "system",
+            )
+            self._db_session.add(audit_entry)
+
+            self._db_session.commit()
+
+            logger.debug(f"Checkpoint {checkpoint.checkpoint_id} updated in database")
+            return True
+
+        except ImportError:
+            return False
+        except Exception as e:
+            logger.error(f"Failed to update checkpoint in database: {e}")
+            if self._db_session:
+                self._db_session.rollback()
+            return False
+
+    def _add_audit_event(self, event: Dict[str, Any]) -> None:
+        """Add an event to the in-memory audit log."""
+        with self._lock:
+            self._audit_log.append({
+                **event,
+                "recorded_at": datetime.utcnow().isoformat(),
+            })
+            # Keep only last 1000 events in memory
+            if len(self._audit_log) > 1000:
+                self._audit_log = self._audit_log[-1000:]
+
+    def get_audit_log(self, limit: int = 100) -> List[Dict[str, Any]]:
+        """Get recent audit log entries."""
+        with self._lock:
+            return list(reversed(self._audit_log[-limit:]))
+
+    def check_governance_available(self) -> bool:
+        """
+        Check if governance system is available for operations.
+
+        In fail-closed mode, returns False if critical components unavailable.
+        """
+        try:
+            # Check basic functionality
+            if not self._rules:
+                return False
+
+            # If persistence required, check database
+            if self._config.persistence_enabled and self._config.fail_closed:
+                if self._db_session is None:
+                    logger.error("FAIL-CLOSED: Database session unavailable")
+                    return False
+
+            return True
+
+        except Exception as e:
+            logger.error(f"Governance availability check failed: {e}")
+            return not self._config.fail_closed
 
 
 # ============================================================================

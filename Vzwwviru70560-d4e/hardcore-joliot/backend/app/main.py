@@ -341,6 +341,21 @@ register_router("app.routers.meetings", "/api/v2/meetings", ["Meetings"], "meeti
 register_router("app.routers.notifications", "/api/v2/notifications", ["Notifications"], "notifications")
 register_router("app.routers.atom", "/api/v2/atom", ["AT-OM"], "atom")
 
+# API v1 routers (with prefix built into router)
+register_router("app.api.v1.routes.waitlist_routes", "", ["Waitlist"], "waitlist")
+register_router("app.api.v1.routes.analytics_routes", "/api/v1", ["Analytics"], "analytics")
+
+# Governance routers (v1 and v2) - both have prefix built into router
+try:
+    from app.api.v1.routes import governance_routes
+    app.include_router(governance_routes.router, tags=["Governance"])
+    app.include_router(governance_routes.router_v1, tags=["Governance V1"])
+    logger.info("Router registered: governance (v1 & v2)")
+except ImportError as e:
+    logger.warning(f"Governance router not available: {e}")
+except Exception as e:
+    logger.error(f"Governance router error: {e}")
+
 # ===========================================================================================
 # HEALTH ENDPOINTS
 # ===========================================================================================

@@ -18,6 +18,10 @@ import { Sante } from '@/pages/Sante';
 import { Sovereign } from '@/pages/Sovereign';
 import { AdminCockpit } from '@/pages/AdminCockpit';
 import { AgentWorkspace } from '@/pages/AgentWorkspace';
+import { Landing } from '@/pages/Landing';
+import { CGU } from '@/pages/legal/CGU';
+import { Privacy } from '@/pages/legal/Privacy';
+import { Mentions } from '@/pages/legal/Mentions';
 import { useAtomStore } from '@/stores/atom.store';
 import {
   initializeRealTimeServices,
@@ -230,6 +234,15 @@ function AppContent() {
 
         {/* 8. Agent Workspaces - Bureaux Isolés (ORCHESTRATEURS) */}
         <Route path="/workspace/:agentId" element={<AgentWorkspace />} />
+
+        {/* 9. Landing Page - Point d'entrée marketing */}
+        <Route path="/landing" element={<Landing />} />
+        <Route path="/welcome" element={<Landing />} />
+
+        {/* 10. Pages Légales */}
+        <Route path="/legal/cgu" element={<CGU />} />
+        <Route path="/legal/privacy" element={<Privacy />} />
+        <Route path="/legal/mentions" element={<Mentions />} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
