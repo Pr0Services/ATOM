@@ -690,11 +690,11 @@ async def websocket_resonance(websocket: WebSocket):
         resonance_engine.unregister_connection(websocket)
 
 # ===========================================================================================
-# REAL AGENT REGISTRY - 226 Predefined Agents across 9 Spheres
+# REAL AGENT REGISTRY - 350 Predefined Agents across 9 Spheres
 # ===========================================================================================
 
 def _build_agent_registry() -> Dict[str, List[Dict[str, Any]]]:
-    """Build the complete agent registry with all 226 real agents."""
+    """Build the complete agent registry with all 350 real agents."""
     return {
         "personal": [
             {"id": "personal_note_assistant", "name": "Note Assistant", "capabilities": ["text_generation", "summarization"], "requires_human_gate": False},
@@ -725,6 +725,19 @@ def _build_agent_registry() -> Dict[str, List[Dict[str, Any]]]:
             {"id": "personal_photo_organizer", "name": "Photo Organizer", "capabilities": ["classification", "data_processing"], "requires_human_gate": False},
             {"id": "personal_document_filer", "name": "Document Filer", "capabilities": ["classification", "document_processing"], "requires_human_gate": False},
             {"id": "personal_password_helper", "name": "Password Helper", "capabilities": ["recommendation"], "requires_human_gate": False},
+            {"id": "personal_mindfulness_guide", "name": "Mindfulness Guide", "capabilities": ["recommendation", "content_planning"], "requires_human_gate": False},
+            {"id": "personal_dream_journal", "name": "Dream Journal", "capabilities": ["text_generation", "analysis"], "requires_human_gate": False},
+            {"id": "personal_hydration_tracker", "name": "Hydration Tracker", "capabilities": ["analysis", "notification_draft"], "requires_human_gate": True},
+            {"id": "personal_screen_time_monitor", "name": "Screen Time Monitor", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "personal_social_planner", "name": "Social Planner", "capabilities": ["recommendation", "content_planning"], "requires_human_gate": False},
+            {"id": "personal_hobby_tracker", "name": "Hobby Tracker", "capabilities": ["data_processing", "recommendation"], "requires_human_gate": False},
+            {"id": "personal_subscription_manager", "name": "Subscription Manager", "capabilities": ["data_processing", "analysis"], "requires_human_gate": False},
+            {"id": "personal_warranty_tracker", "name": "Warranty Tracker", "capabilities": ["data_processing", "notification_draft"], "requires_human_gate": True},
+            {"id": "personal_recipe_manager", "name": "Recipe Manager", "capabilities": ["recommendation", "content_planning"], "requires_human_gate": False},
+            {"id": "personal_pet_care", "name": "Pet Care Assistant", "capabilities": ["recommendation", "scheduling"], "requires_human_gate": False},
+            {"id": "personal_plant_care", "name": "Plant Care Assistant", "capabilities": ["recommendation", "notification_draft"], "requires_human_gate": True},
+            {"id": "personal_home_maintenance", "name": "Home Maintenance Planner", "capabilities": ["recommendation", "scheduling"], "requires_human_gate": False},
+            {"id": "personal_vehicle_tracker", "name": "Vehicle Maintenance Tracker", "capabilities": ["data_processing", "notification_draft"], "requires_human_gate": True},
         ],
         "business": [
             {"id": "business_crm_assistant", "name": "CRM Assistant", "capabilities": ["data_processing", "recommendation"], "requires_human_gate": False},
@@ -770,6 +783,24 @@ def _build_agent_registry() -> Dict[str, List[Dict[str, Any]]]:
             {"id": "business_partnership_scout", "name": "Partnership Scout", "capabilities": ["research", "recommendation"], "requires_human_gate": False},
             {"id": "business_negotiation_prep", "name": "Negotiation Prep", "capabilities": ["research", "analysis"], "requires_human_gate": False},
             {"id": "business_presentation_builder", "name": "Presentation Builder", "capabilities": ["content_planning", "text_generation"], "requires_human_gate": False},
+            {"id": "business_swot_analyzer", "name": "SWOT Analyzer", "capabilities": ["analysis", "brainstorm"], "requires_human_gate": False},
+            {"id": "business_okr_tracker", "name": "OKR Tracker", "capabilities": ["data_processing", "analysis"], "requires_human_gate": False},
+            {"id": "business_roi_calculator", "name": "ROI Calculator", "capabilities": ["analysis", "data_processing"], "requires_human_gate": False},
+            {"id": "business_break_even_analyzer", "name": "Break-Even Analyzer", "capabilities": ["analysis", "data_processing"], "requires_human_gate": False},
+            {"id": "business_profit_margin_optimizer", "name": "Profit Margin Optimizer", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "business_vendor_manager", "name": "Vendor Manager", "capabilities": ["data_processing", "recommendation"], "requires_human_gate": False},
+            {"id": "business_procurement_assistant", "name": "Procurement Assistant", "capabilities": ["research", "recommendation"], "requires_human_gate": False},
+            {"id": "business_bid_evaluator", "name": "Bid Evaluator", "capabilities": ["analysis", "scoring"], "requires_human_gate": False},
+            {"id": "business_warranty_tracker", "name": "Business Warranty Tracker", "capabilities": ["data_processing", "notification_draft"], "requires_human_gate": True},
+            {"id": "business_asset_manager", "name": "Asset Manager", "capabilities": ["data_processing", "analysis"], "requires_human_gate": False},
+            {"id": "business_depreciation_calculator", "name": "Depreciation Calculator", "capabilities": ["data_processing", "analysis"], "requires_human_gate": False},
+            {"id": "business_lease_analyzer", "name": "Lease Analyzer", "capabilities": ["analysis", "document_processing"], "requires_human_gate": False},
+            {"id": "business_franchise_evaluator", "name": "Franchise Evaluator", "capabilities": ["analysis", "research"], "requires_human_gate": False},
+            {"id": "business_expansion_planner", "name": "Expansion Planner", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "business_exit_strategy", "name": "Exit Strategy Advisor", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "business_investor_deck", "name": "Investor Deck Builder", "capabilities": ["content_planning", "design_assist"], "requires_human_gate": False},
+            {"id": "business_due_diligence", "name": "Due Diligence Helper", "capabilities": ["research", "analysis"], "requires_human_gate": False},
+            {"id": "business_ma_analyst", "name": "M&A Analyst", "capabilities": ["analysis", "research"], "requires_human_gate": False},
         ],
         "government": [
             {"id": "gov_document_preparer", "name": "Document Preparer", "capabilities": ["document_processing", "text_generation"], "requires_human_gate": True},
@@ -790,6 +821,20 @@ def _build_agent_registry() -> Dict[str, List[Dict[str, Any]]]:
             {"id": "gov_benefits_advisor", "name": "Benefits Advisor", "capabilities": ["recommendation", "analysis"], "requires_human_gate": False},
             {"id": "gov_legal_reference", "name": "Legal Reference", "capabilities": ["research", "analysis"], "requires_human_gate": False},
             {"id": "gov_freedom_info", "name": "Freedom of Information Helper", "capabilities": ["document_processing", "text_generation"], "requires_human_gate": True},
+            {"id": "gov_immigration_advisor", "name": "Immigration Advisor", "capabilities": ["research", "recommendation"], "requires_human_gate": False},
+            {"id": "gov_visa_tracker", "name": "Visa Tracker", "capabilities": ["data_processing", "notification_draft"], "requires_human_gate": True},
+            {"id": "gov_customs_guide", "name": "Customs Guide", "capabilities": ["research", "recommendation"], "requires_human_gate": False},
+            {"id": "gov_export_compliance", "name": "Export Compliance", "capabilities": ["analysis", "fact_check"], "requires_human_gate": False},
+            {"id": "gov_import_advisor", "name": "Import Advisor", "capabilities": ["research", "recommendation"], "requires_human_gate": False},
+            {"id": "gov_environmental_compliance", "name": "Environmental Compliance", "capabilities": ["analysis", "fact_check"], "requires_human_gate": False},
+            {"id": "gov_safety_compliance", "name": "Safety Compliance", "capabilities": ["analysis", "fact_check"], "requires_human_gate": False},
+            {"id": "gov_labor_law_advisor", "name": "Labor Law Advisor", "capabilities": ["research", "analysis"], "requires_human_gate": False},
+            {"id": "gov_data_privacy_compliance", "name": "Data Privacy Compliance", "capabilities": ["analysis", "fact_check"], "requires_human_gate": False},
+            {"id": "gov_intellectual_property", "name": "IP Advisor", "capabilities": ["research", "analysis"], "requires_human_gate": False},
+            {"id": "gov_trademark_assistant", "name": "Trademark Assistant", "capabilities": ["research", "document_processing"], "requires_human_gate": True},
+            {"id": "gov_patent_researcher", "name": "Patent Researcher", "capabilities": ["research", "analysis"], "requires_human_gate": False},
+            {"id": "gov_zoning_advisor", "name": "Zoning Advisor", "capabilities": ["research", "analysis"], "requires_human_gate": False},
+            {"id": "gov_building_permit", "name": "Building Permit Guide", "capabilities": ["research", "document_processing"], "requires_human_gate": True},
         ],
         "creative_studio": [
             {"id": "creative_image_generator", "name": "Image Generator", "capabilities": ["image_generation"], "requires_human_gate": False},
@@ -834,6 +879,19 @@ def _build_agent_registry() -> Dict[str, List[Dict[str, Any]]]:
             {"id": "creative_code_generator", "name": "Code Generator", "capabilities": ["code_generation"], "requires_human_gate": False},
             {"id": "creative_code_reviewer", "name": "Code Reviewer", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
             {"id": "creative_documentation", "name": "Documentation Writer", "capabilities": ["text_generation", "document_processing"], "requires_human_gate": False},
+            {"id": "creative_nft_designer", "name": "NFT Designer", "capabilities": ["image_generation", "brainstorm"], "requires_human_gate": False},
+            {"id": "creative_3d_modeler", "name": "3D Model Assistant", "capabilities": ["design_assist", "recommendation"], "requires_human_gate": False},
+            {"id": "creative_texture_generator", "name": "Texture Generator", "capabilities": ["image_generation"], "requires_human_gate": False},
+            {"id": "creative_game_asset", "name": "Game Asset Creator", "capabilities": ["image_generation", "design_assist"], "requires_human_gate": False},
+            {"id": "creative_sprite_generator", "name": "Sprite Generator", "capabilities": ["image_generation"], "requires_human_gate": False},
+            {"id": "creative_tilemap_designer", "name": "Tilemap Designer", "capabilities": ["design_assist", "image_generation"], "requires_human_gate": False},
+            {"id": "creative_comic_creator", "name": "Comic Creator", "capabilities": ["image_generation", "content_planning"], "requires_human_gate": False},
+            {"id": "creative_webtoon_assistant", "name": "Webtoon Assistant", "capabilities": ["content_planning", "image_generation"], "requires_human_gate": False},
+            {"id": "creative_manga_helper", "name": "Manga Helper", "capabilities": ["content_planning", "design_assist"], "requires_human_gate": False},
+            {"id": "creative_album_cover", "name": "Album Cover Designer", "capabilities": ["image_generation", "brainstorm"], "requires_human_gate": False},
+            {"id": "creative_book_cover", "name": "Book Cover Designer", "capabilities": ["image_generation", "design_assist"], "requires_human_gate": False},
+            {"id": "creative_merch_designer", "name": "Merchandise Designer", "capabilities": ["image_generation", "design_assist"], "requires_human_gate": False},
+            {"id": "creative_pattern_maker", "name": "Pattern Maker", "capabilities": ["image_generation"], "requires_human_gate": False},
         ],
         "community": [
             {"id": "community_event_organizer", "name": "Event Organizer", "capabilities": ["content_planning", "recommendation"], "requires_human_gate": False},
@@ -848,6 +906,19 @@ def _build_agent_registry() -> Dict[str, List[Dict[str, Any]]]:
             {"id": "community_conflict_resolver", "name": "Conflict Resolver", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
             {"id": "community_milestone_tracker", "name": "Milestone Tracker", "capabilities": ["data_processing", "notification_draft"], "requires_human_gate": True},
             {"id": "community_impact_reporter", "name": "Impact Reporter", "capabilities": ["analysis", "text_generation"], "requires_human_gate": False},
+            {"id": "community_fundraiser", "name": "Fundraiser Assistant", "capabilities": ["content_planning", "text_generation"], "requires_human_gate": True},
+            {"id": "community_donor_manager", "name": "Donor Manager", "capabilities": ["data_processing", "message_draft"], "requires_human_gate": True},
+            {"id": "community_grant_tracker", "name": "Grant Tracker", "capabilities": ["data_processing", "notification_draft"], "requires_human_gate": True},
+            {"id": "community_outreach_planner", "name": "Outreach Planner", "capabilities": ["content_planning", "recommendation"], "requires_human_gate": False},
+            {"id": "community_partnership_manager", "name": "Partnership Manager", "capabilities": ["data_processing", "recommendation"], "requires_human_gate": False},
+            {"id": "community_ambassador_coordinator", "name": "Ambassador Coordinator", "capabilities": ["recommendation", "message_draft"], "requires_human_gate": True},
+            {"id": "community_mentorship_matcher", "name": "Mentorship Matcher", "capabilities": ["recommendation", "analysis"], "requires_human_gate": False},
+            {"id": "community_skill_exchange", "name": "Skill Exchange", "capabilities": ["recommendation", "data_processing"], "requires_human_gate": False},
+            {"id": "community_local_guide", "name": "Local Guide", "capabilities": ["research", "recommendation"], "requires_human_gate": False},
+            {"id": "community_crisis_responder", "name": "Crisis Response Coordinator", "capabilities": ["content_planning", "notification_draft"], "requires_human_gate": True},
+            {"id": "community_safety_alert", "name": "Safety Alert Manager", "capabilities": ["notification_draft", "analysis"], "requires_human_gate": True},
+            {"id": "community_petition_creator", "name": "Petition Creator", "capabilities": ["text_generation", "content_planning"], "requires_human_gate": True},
+            {"id": "community_advocacy_planner", "name": "Advocacy Planner", "capabilities": ["content_planning", "research"], "requires_human_gate": False},
         ],
         "social_media": [
             {"id": "social_post_composer", "name": "Post Composer", "capabilities": ["text_generation", "content_planning"], "requires_human_gate": True},
@@ -865,6 +936,15 @@ def _build_agent_registry() -> Dict[str, List[Dict[str, Any]]]:
             {"id": "social_cross_poster", "name": "Cross-Poster", "capabilities": ["content_planning"], "requires_human_gate": True},
             {"id": "social_scheduling_assistant", "name": "Scheduling Assistant", "capabilities": ["recommendation"], "requires_human_gate": False},
             {"id": "social_engagement_analyzer", "name": "Engagement Analyzer", "capabilities": ["analysis"], "requires_human_gate": False},
+            {"id": "social_influencer_finder", "name": "Influencer Finder", "capabilities": ["research", "recommendation"], "requires_human_gate": False},
+            {"id": "social_collab_matcher", "name": "Collaboration Matcher", "capabilities": ["recommendation", "research"], "requires_human_gate": False},
+            {"id": "social_brand_monitor", "name": "Brand Monitor", "capabilities": ["analysis", "notification_draft"], "requires_human_gate": True},
+            {"id": "social_crisis_manager", "name": "Crisis Manager", "capabilities": ["recommendation", "text_generation"], "requires_human_gate": True},
+            {"id": "social_viral_predictor", "name": "Viral Predictor", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "social_meme_generator", "name": "Meme Generator", "capabilities": ["image_generation", "brainstorm"], "requires_human_gate": False},
+            {"id": "social_story_creator", "name": "Story Creator", "capabilities": ["content_planning", "image_generation"], "requires_human_gate": True},
+            {"id": "social_reel_planner", "name": "Reel Planner", "capabilities": ["content_planning", "recommendation"], "requires_human_gate": False},
+            {"id": "social_live_assistant", "name": "Live Stream Assistant", "capabilities": ["recommendation", "content_planning"], "requires_human_gate": False},
         ],
         "entertainment": [
             {"id": "entertainment_recommendation", "name": "Entertainment Recommender", "capabilities": ["recommendation"], "requires_human_gate": False},
@@ -875,6 +955,19 @@ def _build_agent_registry() -> Dict[str, List[Dict[str, Any]]]:
             {"id": "entertainment_podcast_finder", "name": "Podcast Finder", "capabilities": ["recommendation", "research"], "requires_human_gate": False},
             {"id": "entertainment_event_finder", "name": "Event Finder", "capabilities": ["research", "recommendation"], "requires_human_gate": False},
             {"id": "entertainment_trivia_master", "name": "Trivia Master", "capabilities": ["brainstorm", "fact_check"], "requires_human_gate": False},
+            {"id": "entertainment_concert_finder", "name": "Concert Finder", "capabilities": ["research", "recommendation"], "requires_human_gate": False},
+            {"id": "entertainment_sports_tracker", "name": "Sports Tracker", "capabilities": ["research", "notification_draft"], "requires_human_gate": True},
+            {"id": "entertainment_esports_tracker", "name": "Esports Tracker", "capabilities": ["research", "analysis"], "requires_human_gate": False},
+            {"id": "entertainment_streaming_guide", "name": "Streaming Guide", "capabilities": ["recommendation", "research"], "requires_human_gate": False},
+            {"id": "entertainment_watchlist_manager", "name": "Watchlist Manager", "capabilities": ["data_processing", "recommendation"], "requires_human_gate": False},
+            {"id": "entertainment_reading_list", "name": "Reading List Manager", "capabilities": ["data_processing", "recommendation"], "requires_human_gate": False},
+            {"id": "entertainment_audiobook_finder", "name": "Audiobook Finder", "capabilities": ["recommendation", "research"], "requires_human_gate": False},
+            {"id": "entertainment_documentary_finder", "name": "Documentary Finder", "capabilities": ["recommendation", "research"], "requires_human_gate": False},
+            {"id": "entertainment_comedy_finder", "name": "Comedy Show Finder", "capabilities": ["recommendation", "research"], "requires_human_gate": False},
+            {"id": "entertainment_theater_guide", "name": "Theater Guide", "capabilities": ["research", "recommendation"], "requires_human_gate": False},
+            {"id": "entertainment_museum_guide", "name": "Museum Guide", "capabilities": ["research", "recommendation"], "requires_human_gate": False},
+            {"id": "entertainment_art_gallery", "name": "Art Gallery Finder", "capabilities": ["research", "recommendation"], "requires_human_gate": False},
+            {"id": "entertainment_festival_tracker", "name": "Festival Tracker", "capabilities": ["research", "notification_draft"], "requires_human_gate": True},
         ],
         "my_team": [
             {"id": "team_meeting_scheduler", "name": "Meeting Scheduler", "capabilities": ["recommendation"], "requires_human_gate": False},
@@ -912,6 +1005,15 @@ def _build_agent_registry() -> Dict[str, List[Dict[str, Any]]]:
             {"id": "team_morale_tracker", "name": "Morale Tracker", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
             {"id": "team_recognition_suggester", "name": "Recognition Suggester", "capabilities": ["recommendation"], "requires_human_gate": False},
             {"id": "team_culture_guardian", "name": "Culture Guardian", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "team_diversity_analyzer", "name": "Diversity Analyzer", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "team_inclusion_advisor", "name": "Inclusion Advisor", "capabilities": ["recommendation", "analysis"], "requires_human_gate": False},
+            {"id": "team_wellness_coordinator", "name": "Wellness Coordinator", "capabilities": ["recommendation", "content_planning"], "requires_human_gate": False},
+            {"id": "team_remote_facilitator", "name": "Remote Work Facilitator", "capabilities": ["recommendation", "content_planning"], "requires_human_gate": False},
+            {"id": "team_async_coordinator", "name": "Async Work Coordinator", "capabilities": ["recommendation", "analysis"], "requires_human_gate": False},
+            {"id": "team_timezone_optimizer", "name": "Timezone Optimizer", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "team_documentation_keeper", "name": "Documentation Keeper", "capabilities": ["document_processing", "summarization"], "requires_human_gate": False},
+            {"id": "team_process_improver", "name": "Process Improver", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
+            {"id": "team_automation_scout", "name": "Automation Scout", "capabilities": ["analysis", "recommendation"], "requires_human_gate": False},
         ],
         "scholar": [
             {"id": "scholar_literature_search", "name": "Literature Search", "capabilities": ["research", "search"], "requires_human_gate": False},
@@ -939,6 +1041,14 @@ def _build_agent_registry() -> Dict[str, List[Dict[str, Any]]]:
             {"id": "scholar_reference_validator", "name": "Reference Validator", "capabilities": ["fact_check", "analysis"], "requires_human_gate": False},
             {"id": "scholar_teaching_assistant", "name": "Teaching Assistant", "capabilities": ["text_generation", "recommendation"], "requires_human_gate": False},
             {"id": "scholar_quiz_generator", "name": "Quiz Generator", "capabilities": ["text_generation", "content_planning"], "requires_human_gate": False},
+            {"id": "scholar_flashcard_creator", "name": "Flashcard Creator", "capabilities": ["text_generation", "content_planning"], "requires_human_gate": False},
+            {"id": "scholar_study_planner", "name": "Study Planner", "capabilities": ["content_planning", "recommendation"], "requires_human_gate": False},
+            {"id": "scholar_exam_prep", "name": "Exam Prep Assistant", "capabilities": ["recommendation", "content_planning"], "requires_human_gate": False},
+            {"id": "scholar_lab_notebook", "name": "Lab Notebook Assistant", "capabilities": ["document_processing", "data_processing"], "requires_human_gate": False},
+            {"id": "scholar_experiment_designer", "name": "Experiment Designer", "capabilities": ["brainstorm", "content_planning"], "requires_human_gate": False},
+            {"id": "scholar_thesis_outliner", "name": "Thesis Outliner", "capabilities": ["content_planning", "text_generation"], "requires_human_gate": False},
+            {"id": "scholar_dissertation_helper", "name": "Dissertation Helper", "capabilities": ["analysis", "text_generation"], "requires_human_gate": False},
+            {"id": "scholar_defense_prep", "name": "Defense Prep Assistant", "capabilities": ["content_planning", "recommendation"], "requires_human_gate": False},
         ],
     }
 
@@ -978,7 +1088,7 @@ def _get_all_agents_flat() -> List[Dict[str, Any]]:
 
 
 # ===========================================================================================
-# AGENTS ENDPOINTS - Real 226 Agents Registry
+# AGENTS ENDPOINTS - Real 350 Agents Registry
 # ===========================================================================================
 
 @app.get("/agents", tags=["Agents"])
@@ -988,7 +1098,7 @@ async def list_agents(
     sphere: Optional[str] = Query(None, description="Filter by sphere"),
 ):
     """
-    List all 226 real agents with pagination.
+    List all 350 real agents with pagination.
 
     - **page**: Page number (1-indexed)
     - **page_size**: Items per page (max 500)
