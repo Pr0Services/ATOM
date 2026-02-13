@@ -5,7 +5,7 @@
  * CANON AT·OM - Securite / Protocole de Securite
  * Chemin: /protocol-999 (INVISIBLE / CACHE)
  *
- * Fonctionnalite: Kill-Switch. Dispersion instantanee des agents.
+ * Fonctionnalite: Kill-Switch. Dispersion instantanee des 226 agents reels.
  * Ce chemin n'apparait JAMAIS dans la navigation visible.
  * Accessible uniquement via:
  * - Sequence gestuelle secrete (triple tap + hold)
@@ -16,6 +16,7 @@
 
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { agentsService } from '@/services/agents.service';
 
 // =============================================================================
 // CONSTANTS
@@ -33,8 +34,6 @@ const DISPERSION_MODES = {
   SECTORAL: 'sectoral',
   TOTAL: 'total',
 };
-
-const ESSAIM_SIZE = 350;
 
 // =============================================================================
 // TYPES
@@ -58,6 +57,8 @@ export function Protocol999() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationRef = useRef<number>();
 
+  const [essaimSize, setEssaimSize] = useState(226); // Real agents from API
+
   const [isAuthorized, setIsAuthorized] = useState(false);
   const [authAttempts, setAuthAttempts] = useState(0);
   const [inputCode, setInputCode] = useState('');
@@ -69,6 +70,20 @@ export function Protocol999() {
     dispersedCount: 0,
     canAbort: true,
   });
+
+  // Fetch real agent count from API
+  useEffect(() => {
+    const fetchAgentCount = async () => {
+      try {
+        const stats = await agentsService.getStats();
+        setEssaimSize(stats.total_agents);
+        console.log(`[Protocol999] Essaim size: ${stats.total_agents} agents`);
+      } catch {
+        console.log('[Protocol999] Using default essaim size: 226');
+      }
+    };
+    fetchAgentCount();
+  }, []);
 
   // Verify authorization
   useEffect(() => {
@@ -157,10 +172,10 @@ export function Protocol999() {
     const interval = setInterval(() => {
       setDispersionState(prev => {
         const targetCount = prev.mode === DISPERSION_MODES.TOTAL
-          ? ESSAIM_SIZE
+          ? essaimSize
           : prev.mode === DISPERSION_MODES.SECTORAL
-            ? Math.floor(ESSAIM_SIZE * 0.5)
-            : Math.floor(ESSAIM_SIZE * 0.2);
+            ? Math.floor(essaimSize * 0.5)
+            : Math.floor(essaimSize * 0.2);
 
         if (prev.dispersedCount >= targetCount) {
           clearInterval(interval);
@@ -211,8 +226,8 @@ export function Protocol999() {
     // Dispersing particles
     if (dispersionState.dispersedCount > 0) {
       for (let i = 0; i < dispersionState.dispersedCount; i++) {
-        const angle = (i / ESSAIM_SIZE) * Math.PI * 2;
-        const speed = 2 + (dispersionState.dispersedCount / ESSAIM_SIZE) * 300;
+        const angle = (i / essaimSize) * Math.PI * 2;
+        const speed = 2 + (dispersionState.dispersedCount / essaimSize) * 300;
         const x = centerX + Math.cos(angle) * speed;
         const y = centerY + Math.sin(angle) * speed;
 
@@ -224,7 +239,7 @@ export function Protocol999() {
     }
 
     animationRef.current = requestAnimationFrame(animate);
-  }, [dispersionState]);
+  }, [dispersionState, essaimSize]);
 
   // Setup animation
   useEffect(() => {
@@ -361,7 +376,7 @@ export function Protocol999() {
             >
               DISPERSION PARTIELLE
               <div style={{ fontSize: '10px', marginTop: '5px', opacity: 0.7 }}>
-                70 agents (20%)
+                {Math.floor(essaimSize * 0.2)} agents (20%)
               </div>
             </button>
 
@@ -380,7 +395,7 @@ export function Protocol999() {
             >
               DISPERSION SECTORIELLE
               <div style={{ fontSize: '10px', marginTop: '5px', opacity: 0.7 }}>
-                175 agents (50%)
+                {Math.floor(essaimSize * 0.5)} agents (50%)
               </div>
             </button>
 
@@ -399,7 +414,7 @@ export function Protocol999() {
             >
               DISPERSION TOTALE
               <div style={{ fontSize: '10px', marginTop: '5px', opacity: 0.7 }}>
-                350 agents (100%) - VEILLE PROFONDE
+                {essaimSize} agents (100%) - VEILLE PROFONDE
               </div>
             </button>
           </div>
@@ -438,7 +453,7 @@ export function Protocol999() {
                   DISPERSION ACTIVE
                 </div>
                 <div style={{ color: COLORS.white, fontSize: '48px', marginBottom: '10px' }}>
-                  {dispersionState.dispersedCount} / {ESSAIM_SIZE}
+                  {dispersionState.dispersedCount} / {essaimSize}
                 </div>
                 <div style={{ color: 'rgba(255, 255, 255, 0.5)', fontSize: '12px' }}>
                   AGENTS DISPERSES
@@ -460,7 +475,7 @@ export function Protocol999() {
             textAlign: 'center',
           }}
         >
-          FREQUENCE: {dispersionState.isActive ? '0' : '999'} Hz | ESSAIM: {ESSAIM_SIZE - dispersionState.dispersedCount} ACTIFS
+          FREQUENCE: {dispersionState.isActive ? '0' : '999'} Hz | ESSAIM: {essaimSize - dispersionState.dispersedCount} ACTIFS
         </div>
       </div>
     </div>

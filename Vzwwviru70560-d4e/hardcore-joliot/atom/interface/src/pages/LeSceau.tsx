@@ -10,7 +10,7 @@
  *
  * PAS de bouton "Login" classique.
  * Une interaction tactile prolongee qui declenche l'animation de l'Essaim
- * (le cercle qui explose en 350 points de lumiere).
+ * (le cercle qui explose en 226 points de lumiere - vrais agents).
  *
  * VERIFICATION:
  * - Fond noir #000000
@@ -20,6 +20,7 @@
 
 import React, { useState, useRef, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { agentsService } from '@/services/agents.service';
 
 // =============================================================================
 // CONSTANTS - Canon AT·OM
@@ -32,7 +33,6 @@ const COLORS = {
   white: '#FFFFFF',
 };
 
-const ESSAIM_SIZE = 350; // Total agents in L'Essaim
 const ACTIVATION_DURATION = 2000; // 2 seconds hold to activate
 const TARGET_FREQUENCY = 999; // Hz - Perfect harmony
 
@@ -70,6 +70,8 @@ export function LeSceau() {
   const holdTimerRef = useRef<NodeJS.Timeout>();
   const holdStartRef = useRef<number>(0);
 
+  const [essaimSize, setEssaimSize] = useState(226); // Default, updated from API
+
   const [state, setState] = useState<SealState>({
     isHolding: false,
     holdProgress: 0,
@@ -78,10 +80,24 @@ export function LeSceau() {
     particles: [],
   });
 
+  // Fetch real agent count from API
+  useEffect(() => {
+    const fetchAgentCount = async () => {
+      try {
+        const stats = await agentsService.getStats();
+        setEssaimSize(stats.total_agents);
+        console.log(`[LeSceau] Essaim size: ${stats.total_agents} agents`);
+      } catch {
+        console.log('[LeSceau] Using default essaim size: 226');
+      }
+    };
+    fetchAgentCount();
+  }, []);
+
   // Generate particles for the explosion
   const generateParticles = useCallback((centerX: number, centerY: number): Particle[] => {
-    return Array.from({ length: ESSAIM_SIZE }, (_, i) => {
-      const angle = (i / ESSAIM_SIZE) * Math.PI * 2;
+    return Array.from({ length: essaimSize }, (_, i) => {
+      const angle = (i / essaimSize) * Math.PI * 2;
       const speed = 2 + Math.random() * 4;
 
       return {
@@ -95,7 +111,7 @@ export function LeSceau() {
         color: i % 7 === 0 ? COLORS.gold : i % 3 === 0 ? COLORS.cobalt : COLORS.white,
       };
     });
-  }, []);
+  }, [essaimSize]);
 
   // Animation loop
   const animate = useCallback(() => {
