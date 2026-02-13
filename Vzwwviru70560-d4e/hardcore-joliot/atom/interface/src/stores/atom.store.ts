@@ -163,6 +163,8 @@ interface AtomStore {
   // UI
   ui: UIState;
   setTheme: (theme: UIState['theme']) => void;
+  setLanguage: (language: UIState['language']) => void;
+  setExperienceMode: (mode: UIState['experienceMode']) => void;
   toggleSidebar: () => void;
   openModal: (modal: UIState['modalStack'][0]) => void;
   closeModal: (id?: string) => void;
@@ -221,6 +223,8 @@ const initialOffline: OfflineState = {
 
 const initialUI: UIState = {
   theme: 'dark',
+  language: 'symbolique',
+  experienceMode: 'debutant',
   sidebarOpen: true,
   activeSphere: null,
   modalStack: [],
@@ -326,7 +330,17 @@ export const useAtomStore = create<AtomStore>()(
         set((state) => ({
           ui: { ...state.ui, theme },
         })),
-      
+
+      setLanguage: (language) =>
+        set((state) => ({
+          ui: { ...state.ui, language },
+        })),
+
+      setExperienceMode: (mode) =>
+        set((state) => ({
+          ui: { ...state.ui, experienceMode: mode },
+        })),
+
       toggleSidebar: () =>
         set((state) => ({
           ui: { ...state.ui, sidebarOpen: !state.ui.sidebarOpen },
@@ -445,7 +459,12 @@ export const useAtomStore = create<AtomStore>()(
       storage: createJSONStorage(() => localStorage),
       partialize: (state) => ({
         // Only persist these fields
-        ui: { theme: state.ui.theme, sidebarOpen: state.ui.sidebarOpen },
+        ui: {
+          theme: state.ui.theme,
+          language: state.ui.language,
+          experienceMode: state.ui.experienceMode,
+          sidebarOpen: state.ui.sidebarOpen,
+        },
         spheres: state.spheres,
       }),
     }
@@ -477,6 +496,9 @@ export const selectSystemStatus = (state: AtomStore) => ({
   isConnected: state.heartbeat.isConnected,
   isOnline: state.offline.isOnline,
 });
+
+export const selectLanguage = (state: AtomStore) => state.ui.language;
+export const selectExperienceMode = (state: AtomStore) => state.ui.experienceMode;
 
 // ─────────────────────────────────────────────────────────────────────────────
 // HOOKS

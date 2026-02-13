@@ -36,6 +36,8 @@ import {
 } from '@/services/realtime.service';
 import { OfflineService } from '@/services/offline.service';
 import { EncryptionService } from '@/services/encryption.service';
+import { errorMonitor } from '@/services/error-monitor.service';
+import { FloatingHealthIndicator } from '@/components/ServiceHealthWidget';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // QUERY CLIENT
@@ -64,6 +66,12 @@ function useAppInitialization() {
     const initialize = async () => {
       try {
         console.log('[App] Initializing AT·OM Interface...');
+
+        // Initialize error monitoring
+        errorMonitor.init({
+          enabled: true,
+          reportEndpoint: import.meta.env.VITE_ERROR_REPORT_URL || undefined,
+        });
 
         // Initialize offline service and network monitoring
         OfflineService.onNetworkChange((isOnline) => {
@@ -212,6 +220,9 @@ function AppContent() {
     <BrowserRouter>
       {/* Contextual Assistant - available on all pages */}
       <ContextualAssistant />
+
+      {/* Floating Health Indicator - only shows if services are degraded */}
+      <FloatingHealthIndicator />
 
       {/* Onboarding Wizard - shows on first visit */}
       {showOnboarding && (

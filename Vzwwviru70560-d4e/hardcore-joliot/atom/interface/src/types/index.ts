@@ -246,6 +246,8 @@ export interface SyncError {
 
 export interface UIState {
   theme: 'light' | 'dark' | 'system';
+  language: 'symbolique' | 'clair';
+  experienceMode: 'debutant' | 'expert';
   sidebarOpen: boolean;
   activeSphere: SphereId | null;
   modalStack: ModalConfig[];

@@ -26,11 +26,15 @@ import {
   Sun,
   Command,
   ArrowRight,
+  Languages,
+  Sparkles,
+  BookOpen,
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAtomStore, SPHERE_CONFIG } from '@/stores/atom.store';
 import type { SphereId } from '@/types';
 import { cn } from '@/utils';
+import { getSphereLabel, getUILabel } from '@/services/navigation-labels.service';
 
 // ─────────────────────────────────────────────────────────────────────────────
 // TYPES
@@ -81,24 +85,32 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
   const setActiveSphere = useAtomStore((state) => state.setActiveSphere);
   const toggleSidebar = useAtomStore((state) => state.toggleSidebar);
   const setTheme = useAtomStore((state) => state.setTheme);
+  const setLanguage = useAtomStore((state) => state.setLanguage);
+  const setExperienceMode = useAtomStore((state) => state.setExperienceMode);
   const theme = useAtomStore((state) => state.ui.theme);
+  const language = useAtomStore((state) => state.ui.language);
+  const experienceMode = useAtomStore((state) => state.ui.experienceMode);
   const openModal = useAtomStore((state) => state.openModal);
 
   // Build command list
   const commands = useMemo<CommandItem[]>(() => {
-    const sphereCommands: CommandItem[] = Object.entries(SPHERE_CONFIG).map(([id, config]) => ({
-      id: `sphere-${id}`,
-      label: config.name,
-      description: config.description,
-      icon: SPHERE_ICONS[id as SphereId],
-      category: 'sphere',
-      action: () => {
-        setActiveSphere(id as SphereId);
-        navigate(`/sphere/${id}`);
-        onClose();
-      },
-      keywords: [config.name.toLowerCase(), id],
-    }));
+    const sphereCommands: CommandItem[] = Object.entries(SPHERE_CONFIG).map(([id, config]) => {
+      const label = language === 'clair' ? config.name : getSphereLabel(id, 'symbolique');
+      const alias = language === 'clair' ? getSphereLabel(id, 'symbolique') : config.name;
+      return {
+        id: `sphere-${id}`,
+        label,
+        description: `${alias} — ${config.description}`,
+        icon: SPHERE_ICONS[id as SphereId],
+        category: 'sphere',
+        action: () => {
+          setActiveSphere(id as SphereId);
+          navigate(`/sphere/${id}`);
+          onClose();
+        },
+        keywords: [config.name.toLowerCase(), id, alias.toLowerCase()],
+      };
+    });
 
     const actionCommands: CommandItem[] = [
       {
@@ -176,10 +188,38 @@ export function CommandPalette({ isOpen, onClose }: CommandPaletteProps) {
         },
         keywords: ['theme', 'dark', 'light', 'mode'],
       },
+      {
+        id: 'language',
+        label: language === 'symbolique' ? 'Mode Clair' : 'Mode Symbolique',
+        description: language === 'symbolique'
+          ? 'Noms simples et explicites (Accueil, Agents IA...)'
+          : 'Noms symboliques AT·OM (Le Sceau, L\'Essaim...)',
+        icon: Languages,
+        category: 'settings',
+        action: () => {
+          setLanguage(language === 'symbolique' ? 'clair' : 'symbolique');
+          onClose();
+        },
+        keywords: ['langage', 'language', 'symbolique', 'clair', 'français', 'noms'],
+      },
+      {
+        id: 'experience-mode',
+        label: experienceMode === 'debutant' ? 'Mode Expert' : 'Mode Débutant',
+        description: experienceMode === 'debutant'
+          ? 'Afficher toutes les options avancées'
+          : 'Interface simplifiée avec guidage',
+        icon: experienceMode === 'debutant' ? Sparkles : BookOpen,
+        category: 'settings',
+        action: () => {
+          setExperienceMode(experienceMode === 'debutant' ? 'expert' : 'debutant');
+          onClose();
+        },
+        keywords: ['expert', 'debutant', 'débutant', 'mode', 'avancé', 'simple'],
+      },
     ];
 
     return [...sphereCommands, ...actionCommands, ...settingsCommands];
-  }, [theme, setActiveSphere, navigate, onClose, openModal, setTheme]);
+  }, [theme, language, experienceMode, setActiveSphere, navigate, onClose, openModal, setTheme, setLanguage, setExperienceMode]);
 
   // Filter commands based on query
   const filteredCommands = useMemo(() => {
