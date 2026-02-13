@@ -27,6 +27,28 @@ import { COLORS, TYPOGRAPHY, TOUCH, prefersReducedMotion } from '@/styles/tokens
 // CONSTANTS
 // =============================================================================
 
+// Quick Comprehension Blocks (20 seconds)
+const QUICK_BLOCKS = [
+  {
+    id: 'what',
+    question: "C'est quoi AT·OM ?",
+    answer: "Une plateforme d'intelligence collective avec 350 agents IA organisés en 9 domaines de vie (santé, finance, créativité, etc.). Chaque agent est spécialisé pour vous aider concrètement.",
+    icon: '🌐',
+  },
+  {
+    id: 'benefit',
+    question: "Qu'est-ce que j'obtiens en 5 minutes ?",
+    answer: "Accès immédiat à l'Essaim d'agents. Vous pouvez explorer, interagir et obtenir des résultats sans créer de compte. Votre première valeur : une recommandation personnalisée.",
+    icon: '⚡',
+  },
+  {
+    id: 'governance',
+    question: "Pourquoi la gouvernance ?",
+    answer: "Vos données restent souveraines. Nous ne vendons rien, ne trackons pas. La gouvernance vous donne le contrôle total sur ce que les agents peuvent faire ou non.",
+    icon: '🛡️',
+  },
+];
+
 const BENEFITS = [
   {
     icon: '🤖',
@@ -42,6 +64,26 @@ const BENEFITS = [
     icon: '⚡',
     title: 'Activation Instantanée',
     description: 'Entrez en 30 secondes. Pas de formulaire, pas d\'attente.',
+  },
+];
+
+// FAQ - Objection-oriented
+const FAQ_ITEMS = [
+  {
+    question: "Est-ce vraiment gratuit ?",
+    answer: "Oui. L'exploration de l'Essaim et l'interaction avec les agents de base sont entièrement gratuites. Des fonctionnalités premium existeront pour les usages avancés.",
+  },
+  {
+    question: "Dois-je créer un compte ?",
+    answer: "Non. Vous pouvez explorer et utiliser les agents sans inscription. Un compte optionnel permet de sauvegarder vos préférences et historiques.",
+  },
+  {
+    question: "Mes données sont-elles sécurisées ?",
+    answer: "Absolument. Aucune donnée n'est partagée avec des tiers. Le système de gouvernance vous permet de contrôler précisément ce que chaque agent peut accéder.",
+  },
+  {
+    question: "C'est quoi les 9 sphères ?",
+    answer: "Les domaines de vie couverts : Personal, Business, Creative, Scholar, Social, Health, Tech, Meta et Sovereign. Chaque sphère contient des agents spécialisés.",
   },
 ];
 
@@ -103,6 +145,12 @@ export function Landing() {
     });
     setReducedMotion(prefersReducedMotion());
   }, []);
+
+  // Handle demo sandbox click
+  const handleTryDemo = () => {
+    analyticsService.track('cta_click', { cta: 'try_demo', location: 'quick_blocks' });
+    navigate('/essaim?demo=true');
+  };
 
   // Handle primary CTA click
   const handleEnterPlatform = () => {
@@ -282,6 +330,115 @@ export function Landing() {
           animation: reducedMotion ? 'none' : 'bounce 2s infinite',
         }}>
           <span style={{ color: 'rgba(255, 255, 255, 0.3)', fontSize: '24px' }}>↓</span>
+        </div>
+      </section>
+
+      {/* ================================================================== */}
+      {/* QUICK COMPREHENSION - AT·OM en 20 secondes */}
+      {/* ================================================================== */}
+      <section style={{
+        padding: '80px 20px',
+        backgroundColor: 'rgba(212, 175, 55, 0.03)',
+        borderTop: '1px solid rgba(212, 175, 55, 0.1)',
+        borderBottom: '1px solid rgba(212, 175, 55, 0.1)',
+      }}>
+        <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
+          <h2 style={{
+            textAlign: 'center',
+            fontSize: '28px',
+            fontWeight: 600,
+            marginBottom: '16px',
+            color: COLORS.gold,
+          }}>
+            AT·OM en 20 secondes
+          </h2>
+          <p style={{
+            textAlign: 'center',
+            color: 'rgba(255, 255, 255, 0.5)',
+            marginBottom: '50px',
+            fontSize: '16px',
+          }}>
+            Les 3 questions essentielles avant de commencer
+          </p>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+            gap: '24px',
+          }}>
+            {QUICK_BLOCKS.map((block) => (
+              <div
+                key={block.id}
+                style={{
+                  padding: '28px',
+                  backgroundColor: 'rgba(0, 0, 0, 0.4)',
+                  borderRadius: '12px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                }}
+              >
+                <div style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  marginBottom: '16px',
+                }}>
+                  <span style={{ fontSize: '28px' }}>{block.icon}</span>
+                  <h3 style={{
+                    fontSize: '18px',
+                    fontWeight: 600,
+                    color: '#fff',
+                    margin: 0,
+                  }}>
+                    {block.question}
+                  </h3>
+                </div>
+                <p style={{
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  lineHeight: 1.7,
+                  fontSize: '15px',
+                  margin: 0,
+                }}>
+                  {block.answer}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          {/* Demo CTA */}
+          <div style={{ textAlign: 'center', marginTop: '40px' }}>
+            <button
+              onClick={handleTryDemo}
+              style={{
+                padding: '14px 32px',
+                fontSize: '15px',
+                fontWeight: 500,
+                fontFamily: TYPOGRAPHY.fontFamily.mono,
+                backgroundColor: 'transparent',
+                color: COLORS.gold,
+                border: `1px solid ${COLORS.gold}`,
+                borderRadius: '6px',
+                cursor: 'pointer',
+                minHeight: TOUCH.minTarget,
+                letterSpacing: '0.05em',
+                transition: reducedMotion ? 'none' : 'all 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = 'rgba(212, 175, 55, 0.1)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = 'transparent';
+              }}
+            >
+              ESSAYER SANS COMPTE →
+            </button>
+            <p style={{
+              marginTop: '12px',
+              fontSize: '13px',
+              color: 'rgba(255, 255, 255, 0.4)',
+            }}>
+              Aperçu de l'Essaim en 90 secondes
+            </p>
+          </div>
         </div>
       </section>
 
@@ -525,6 +682,66 @@ export function Landing() {
             {waitlistMessage}
           </p>
         )}
+      </section>
+
+      {/* ================================================================== */}
+      {/* FAQ SECTION */}
+      {/* ================================================================== */}
+      <section style={{
+        padding: '80px 20px',
+        backgroundColor: 'rgba(0, 71, 171, 0.03)',
+      }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+          <h2 style={{
+            textAlign: 'center',
+            fontSize: '28px',
+            fontWeight: 600,
+            marginBottom: '50px',
+          }}>
+            Questions Fréquentes
+          </h2>
+
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px',
+          }}>
+            {FAQ_ITEMS.map((item, i) => (
+              <details
+                key={i}
+                style={{
+                  padding: '20px 24px',
+                  backgroundColor: 'rgba(0, 0, 0, 0.3)',
+                  borderRadius: '8px',
+                  border: '1px solid rgba(255, 255, 255, 0.1)',
+                  cursor: 'pointer',
+                }}
+              >
+                <summary style={{
+                  fontSize: '16px',
+                  fontWeight: 500,
+                  color: '#fff',
+                  listStyle: 'none',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                  {item.question}
+                  <span style={{ color: COLORS.gold, fontSize: '20px' }}>+</span>
+                </summary>
+                <p style={{
+                  marginTop: '16px',
+                  color: 'rgba(255, 255, 255, 0.7)',
+                  lineHeight: 1.7,
+                  paddingTop: '16px',
+                  borderTop: '1px solid rgba(255, 255, 255, 0.1)',
+                }}>
+                  {item.answer}
+                </p>
+              </details>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* ================================================================== */}
