@@ -16,6 +16,7 @@ import { Alchimie } from '@/pages/Alchimie';
 import { Flux } from '@/pages/Flux';
 import { Sante } from '@/pages/Sante';
 import { Sovereign } from '@/pages/Sovereign';
+import { AdminCockpit } from '@/pages/AdminCockpit';
 import { useAtomStore } from '@/stores/atom.store';
 import {
   initializeRealTimeServices,
@@ -222,6 +223,9 @@ function AppContent() {
 
         {/* 6. Sovereign Dashboard - Monitoring Frequentiel (PRIVE) */}
         <Route path="/sovereign" element={<Sovereign />} />
+
+        {/* 7. Admin Cockpit - God Mode (ULTRA-PRIVE) */}
+        <Route path="/admin" element={<AdminCockpit />} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
