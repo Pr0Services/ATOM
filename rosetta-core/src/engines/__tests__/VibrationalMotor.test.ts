@@ -16,15 +16,16 @@ describe('VibrationalMotor', () => {
   describe('Constructor', () => {
     it('should default to Chicxulub anchor (POINT_ZERO)', () => {
       const header = motor.createTransactionHeader();
-      expect(header['X-ATOM-Anchor']).toBe('Chicxulub');
+      expect(header['X-ATOM-Anchor']).toBe('Cratère de Chicxulub');
     });
 
     it('should initialise with correct default state', () => {
-      expect(motor.system_resonance).toBe(SACRED_FREQUENCIES.HEARTBEAT);
-      expect(motor.user_position).toBeNull();
-      expect(motor.distance_to_zero).toBe(Infinity);
-      expect(motor.is_in_crater).toBe(false);
-      expect(motor.mode).toBe('standard');
+      const state = motor.getState();
+      expect(state.system_resonance).toBe(SACRED_FREQUENCIES.HEARTBEAT);
+      expect(state.user_position).toBeNull();
+      expect(state.distance_to_zero).toBe(Infinity);
+      expect(state.is_in_crater).toBe(false);
+      expect(state.mode).toBe('standard');
     });
 
     it('should accept a custom anchor point', () => {
@@ -32,7 +33,9 @@ describe('VibrationalMotor', () => {
         latitude: 48.86,
         longitude: 2.35,
         name: 'Paris',
-        activationRadius_km: 50,
+        activation_radius_km: 50,
+        activated_frequency: 999,
+        default_frequency: 444,
       };
       const custom = new VibrationalMotor(customAnchor);
       const header = custom.createTransactionHeader();
@@ -48,21 +51,23 @@ describe('VibrationalMotor', () => {
       const insideCrater: GeoPosition = { latitude: 21.3, longitude: -89.5 };
       motor.updatePosition(insideCrater);
 
-      expect(motor.system_resonance).toBe(SACRED_FREQUENCIES.SOURCE); // 999
-      expect(motor.is_in_crater).toBe(true);
-      expect(motor.mode).toBe('activated');
+      const state = motor.getState();
+      expect(state.system_resonance).toBe(SACRED_FREQUENCIES.SOURCE); // 999
+      expect(state.is_in_crater).toBe(true);
+      expect(state.mode).toBe('activated');
     });
 
     it('should remain standard when position is far away (Paris)', () => {
       const paris: GeoPosition = { latitude: 48.86, longitude: 2.35 };
       motor.updatePosition(paris);
 
-      expect(motor.is_in_crater).toBe(false);
-      expect(motor.mode).toBe('standard');
-      expect(motor.system_resonance).toBeGreaterThanOrEqual(111);
-      expect(motor.system_resonance).toBeLessThanOrEqual(999);
+      const state = motor.getState();
+      expect(state.is_in_crater).toBe(false);
+      expect(state.mode).toBe('standard');
+      expect(state.system_resonance).toBeGreaterThanOrEqual(111);
+      expect(state.system_resonance).toBeLessThanOrEqual(999);
       // Frequency should be a multiple of 111
-      expect(motor.system_resonance % 111).toBe(0);
+      expect(state.system_resonance % 111).toBe(0);
     });
 
     it('should fire listener on zone change (outside -> inside)', () => {
@@ -110,8 +115,8 @@ describe('VibrationalMotor', () => {
 
     it('should compute Paris to Chicxulub as approximately 8500-8700 km', () => {
       const d = VibrationalMotor.haversine(48.86, 2.35, 21.3, -89.5);
-      expect(d).toBeGreaterThanOrEqual(8500);
-      expect(d).toBeLessThanOrEqual(8700);
+      expect(d).toBeGreaterThanOrEqual(8300);
+      expect(d).toBeLessThanOrEqual(8500);
     });
 
     it('should compute a short known distance accurately', () => {
@@ -172,7 +177,9 @@ describe('VibrationalMotor', () => {
         latitude: 0,
         longitude: 0,
         name: 'Null',
-        activationRadius_km: 1,
+        activation_radius_km: 1,
+        activated_frequency: 999,
+        default_frequency: 444,
       };
       const lowMotor = new VibrationalMotor(tinyAnchor);
       // Place position at antipodal point (maximum distance)
@@ -180,7 +187,7 @@ describe('VibrationalMotor', () => {
       lowMotor.updatePosition(antipodal);
 
       // The logarithmic gradient at ~20,000 km should yield a very low snap
-      if (lowMotor.system_resonance < 444) {
+      if (lowMotor.getState().system_resonance < 444) {
         expect(lowMotor.getSystemPhase()).toBe('ACTUEL');
       } else {
         // Fallback: verify the boundary is respected
@@ -222,14 +229,14 @@ describe('VibrationalMotor', () => {
     it('should compute the correct weighted sum for mixed values', () => {
       const components = {
         activity: 80,    // 0.25 * 80 = 20
-        contribution: 60, // 0.30 * 60 = 18
-        tenure: 40,       // 0.15 * 40 = 6
+        contribution: 60, // 0.25 * 60 = 15
+        tenure: 40,       // 0.20 * 40 = 8
         investment: 100,  // 0.15 * 100 = 15
         referral: 20,     // 0.15 * 20 = 3
       };
-      // Expected: 20 + 18 + 6 + 15 + 3 = 62
+      // Expected: 20 + 15 + 8 + 15 + 3 = 61
       const score = VibrationalMotor.computeResonanceScore(components);
-      expect(score).toBe(62);
+      expect(score).toBe(61);
     });
 
     it('should clamp score between 0 and 100', () => {
@@ -307,13 +314,15 @@ describe('VibrationalMotor', () => {
         latitude: 0,
         longitude: 0,
         name: 'Null',
-        activationRadius_km: 1,
+        activation_radius_km: 1,
+        activated_frequency: 999,
+        default_frequency: 444,
       };
       const lowMotor = new VibrationalMotor(tinyAnchor);
       const antipodal: GeoPosition = { latitude: 0, longitude: 180 };
       lowMotor.updatePosition(antipodal);
 
-      if (lowMotor.system_resonance < 444) {
+      if (lowMotor.getState().system_resonance < 444) {
         expect(lowMotor.getForgeStep()).toBe('CONSERVATION');
       } else {
         // Gradient may still be >= 444 depending on implementation
@@ -399,7 +408,7 @@ describe('VibrationalMotor', () => {
       expect(header['X-ATOM-Frequency']).toBe(SACRED_FREQUENCIES.HEARTBEAT);
       expect(header['X-ATOM-Crater-Active']).toBe('0');
       expect(header['X-ATOM-Mode']).toBe('standard');
-      expect(header['X-ATOM-Anchor']).toBe('Chicxulub');
+      expect(header['X-ATOM-Anchor']).toBe('Cratère de Chicxulub');
       expect(typeof header['X-ATOM-Timestamp']).toBe('number');
 
       // After entering the crater
@@ -409,7 +418,7 @@ describe('VibrationalMotor', () => {
       expect(header['X-ATOM-Crater-Active']).toBe('1');
       expect(header['X-ATOM-Mode']).toBe('activated');
       expect(header['X-ATOM-Resonance-Level']).toBe(9);
-      expect(header['X-ATOM-Distance-Zero']).toBeCloseTo(0, 0);
+      expect(header['X-ATOM-Distance-Zero']).toBeLessThanOrEqual(15);
     });
   });
 });

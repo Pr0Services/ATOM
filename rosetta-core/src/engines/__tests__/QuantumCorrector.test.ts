@@ -428,7 +428,7 @@ describe('QuantumCorrector', () => {
       // Corrompre SPIRIT mais garder l'ancien integrity_hash
       const corrupted: RosettaTranslation = {
         ...t,
-        spirit: { ...t.spirit, frequency_hz: -1, resonance_level: 9 },
+        spirit: { ...t.spirit, frequency_hz: -1, resonance_level: 9 as any },
       };
 
       const result = corrector.process(corrupted);

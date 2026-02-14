@@ -333,28 +333,43 @@ def register_router(module_path: str, prefix: str, tags: List[str], name: str, *
         logger.error(f"Optional router error: {name} ({e})")
 
 # Core routers — app MUST NOT start without these
-register_router("app.routers.threads", "/api/v2/threads", ["Threads"], "threads", core=True)
+# Note: routers with prefix baked into APIRouter() use prefix="" to avoid double-prefixing
+register_router("app.routers.threads", "", ["Threads"], "threads", core=True)
 register_router("app.routers.checkpoints", "/api/v2/checkpoints", ["Checkpoints"], "checkpoints", core=True)
 register_router("app.routers.nova", "/api/v2/nova", ["Nova Pipeline"], "nova", core=True)
-register_router("app.routers.agents", "/api/v2/agents", ["Agents"], "agents", core=True)
-register_router("app.routers.notifications", "/api/v2/notifications", ["Notifications"], "notifications", core=True)
-register_router("app.routers.spheres", "/api/v2/spheres", ["Spheres"], "spheres", core=True)
+register_router("app.routers.agents", "", ["Agents"], "agents", core=True)
+register_router("app.routers.notifications", "", ["Notifications"], "notifications", core=True)
+register_router("app.routers.spheres", "", ["Spheres"], "spheres", core=True)
 
 # Standard routers — important but non-blocking
 register_router("app.routers.memory", "/api/v2/memory", ["Memory"], "memory")
 register_router("app.routers.files", "/api/v2/files", ["Files"], "files")
-register_router("app.routers.identities", "/api/v2/identities", ["Identities"], "identities")
-register_router("app.routers.workspaces", "/api/v2/workspaces", ["Workspaces"], "workspaces")
-register_router("app.routers.dataspaces", "/api/v2/dataspaces", ["DataSpaces"], "dataspaces")
-register_router("app.routers.meetings", "/api/v2/meetings", ["Meetings"], "meetings")
+register_router("app.routers.identities", "", ["Identities"], "identities")
+register_router("app.routers.workspaces", "", ["Workspaces"], "workspaces")
+register_router("app.routers.dataspaces", "", ["DataSpaces"], "dataspaces")
+register_router("app.routers.meetings", "", ["Meetings"], "meetings")
 register_router("app.routers.atom", "/api/v2/atom", ["AT-OM"], "atom")
+
+# Sphere-specific routers — one per domain
+register_router("app.routers.community", "/api/v2/community", ["Community"], "community")
+register_router("app.routers.entertainment", "/api/v2/entertainment", ["Entertainment"], "entertainment")
+register_router("app.routers.government", "/api/v2/government", ["Government"], "government")
+register_router("app.routers.my_team", "/api/v2/my-team", ["My Team"], "my_team")
+register_router("app.routers.scholar", "/api/v2/scholar", ["Scholar"], "scholar")
+register_router("app.routers.social", "/api/v2/social", ["Social"], "social")
+
+# Engine & utility routers
+register_router("app.routers.decisions", "", ["Decisions"], "decisions")
+register_router("app.routers.ocw", "", ["OneClick Workspace"], "ocw")
+register_router("app.routers.oneclick_engine", "", ["OneClick Engine"], "oneclick_engine")
+register_router("app.routers.dataspace_engine", "/api/v2/dataspace-engine", ["DataSpace Engine"], "dataspace_engine")
+register_router("app.routers.layout_engine", "", ["Layout Engine"], "layout_engine")
+register_router("app.routers.xr", "/api/v2/xr", ["XR"], "xr")
 
 # Optional/experimental routers — fail silently
 register_router("api.v1.routes.tokenomics_routes", "/api/v2/tokenomics", ["Tokenomics"], "tokenomics")
 register_router("app.routers.neuromorphic", "/api/v2/neuromorphic", ["Neuromorphic"], "neuromorphic")
 register_router("app.routers.engines", "/api/v2/engines", ["Engines"], "engines")
-register_router("app.routers.verticals", "/api/v2/verticals", ["Verticals"], "verticals")
-register_router("app.routers.world_engine", "/api/v2/world-engine", ["WorldEngine"], "world_engine")
 
 # ===========================================================================================
 # HEALTH ENDPOINTS

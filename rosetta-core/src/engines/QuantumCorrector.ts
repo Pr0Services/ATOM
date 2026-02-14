@@ -368,7 +368,27 @@ export class QuantumCorrector {
     this.stats.detected++;
 
     // Etape 3 : Diagnostiquer
-    const diagnostic = this.diagnose(qt);
+    // Note : enrich() recalcule dimension_hashes depuis le contenu actuel.
+    // Si la corruption a eu lieu AVANT enrichissement (ex: RosettaTranslation
+    // corrompue avec integrity_hash original), diagnose() ne trouvera pas
+    // de dimensions corrompues car les hashes sont auto-coherents.
+    // Dans ce cas, on sait via detect() que le contenu ne correspond plus
+    // a l'integrity_hash original — on cree un diagnostic de corruption
+    // non-localisable.
+    let diagnostic = this.diagnose(qt);
+
+    if (!diagnostic.is_corrupted) {
+      // detect() dit corrompue mais diagnose() ne localise pas :
+      // la corruption a eu lieu avant enrichissement.
+      // Toutes les dimensions sont suspectes — irreparable sans les hashes originaux.
+      diagnostic = {
+        is_corrupted: true,
+        corrupted_dimensions: ['TECH', 'PEOPLE', 'SPIRIT'],
+        healthy_dimensions: [],
+        confidence: 0.0,
+        severity: 'critical',
+      };
+    }
 
     // Etape 4 : Corriger
     const result = this.correct(qt, diagnostic);
