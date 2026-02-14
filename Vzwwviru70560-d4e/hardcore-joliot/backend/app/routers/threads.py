@@ -235,11 +235,14 @@ async def list_threads(
 
         # Apply filters
         if sphere:
-            # Filter by sphere_id or metadata sphere
-            query = query.where(
-                (ThreadModel.sphere_id == UUID(sphere)) |
-                (ThreadModel.metadata["sphere"].astext == sphere)
-            )
+            # Validate sphere value — accept UUID or sphere name
+            try:
+                sphere_uuid = UUID(sphere)
+                query = query.where(ThreadModel.sphere_id == sphere_uuid)
+            except ValueError:
+                query = query.where(
+                    ThreadModel.metadata["sphere"].astext == sphere
+                )
 
         if status:
             query = query.where(ThreadModel.status == status.value)

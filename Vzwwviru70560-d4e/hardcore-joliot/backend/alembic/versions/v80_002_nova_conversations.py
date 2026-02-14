@@ -24,10 +24,10 @@ def upgrade() -> None:
         sa.Column('created_by', postgresql.UUID(as_uuid=True), nullable=False),
         sa.Column('owner_id', postgresql.UUID(as_uuid=True), sa.ForeignKey('identities.id', ondelete='CASCADE'), nullable=False),
         sa.Column('thread_id', postgresql.UUID(as_uuid=True), sa.ForeignKey('threads.id', ondelete='SET NULL'), nullable=True),
-        sa.Column('agent_name', sa.String(50), default='nova'),
-        sa.Column('status', sa.String(50), default='active'),
-        sa.Column('messages', postgresql.JSONB, default=[]),
-        sa.Column('total_tokens', sa.Integer, default=0),
+        sa.Column('agent_name', sa.String(50), server_default='nova'),
+        sa.Column('status', sa.String(50), server_default='active'),
+        sa.Column('messages', postgresql.JSONB, server_default='[]', nullable=False),
+        sa.Column('total_tokens', sa.Integer, server_default='0', nullable=False),
     )
 
     op.create_index('ix_nova_conversations_owner', 'nova_conversations', ['owner_id'])

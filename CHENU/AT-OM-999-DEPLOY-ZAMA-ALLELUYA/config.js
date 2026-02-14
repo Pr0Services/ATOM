@@ -46,7 +46,10 @@ const ATOM_CONFIG = {
 
     // Version
     VERSION: 'CHE·NU™ V76',
-    APP_NAME: 'AT-OM | Plateforme d\'Intelligence Collective'
+    APP_NAME: 'AT-OM | Plateforme d\'Intelligence Collective',
+
+    // Debug mode — append ?debug to URL for verbose logging
+    DEBUG: (new URLSearchParams(window.location.search)).has('debug')
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -220,8 +223,8 @@ function logATOMBanner() {
     console.log('%c═══════════════════════════════════════════════════════════════', 'color: #D8B26A;');
 }
 
-// Auto-log au chargement
-if (typeof window !== 'undefined') {
+// Auto-log only in debug mode
+if (typeof window !== 'undefined' && ATOM_CONFIG.DEBUG) {
     logATOMBanner();
 }
 

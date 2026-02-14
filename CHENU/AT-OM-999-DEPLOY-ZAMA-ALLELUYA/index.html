@@ -878,9 +878,27 @@
             box-shadow: 0 0 0 4px rgba(216, 178, 106, 0.5), 0 0 30px rgba(216, 178, 106, 0.3);
             border-radius: 12px;
         }
+
+        /* Toast notifications */
+        .atom-toast-container {
+            position: fixed; top: 20px; right: 20px; z-index: 100000;
+            display: flex; flex-direction: column; gap: 8px;
+        }
+        .atom-toast {
+            padding: 12px 20px; border-radius: 10px;
+            color: #fff; font-size: 0.85rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            animation: atomToastIn 0.3s ease-out;
+            max-width: 360px;
+        }
+        .atom-toast.warn { background: rgba(255, 107, 53, 0.95); }
+        .atom-toast.info { background: rgba(0, 255, 136, 0.15); border: 1px solid rgba(0, 255, 136, 0.3); }
+        .atom-toast.error { background: rgba(255, 50, 50, 0.95); }
+        @keyframes atomToastIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
     </style>
 </head>
 <body>
+    <div class="atom-toast-container" id="atomToastContainer"></div>
     <!-- ═══════════════════════════════════════════════════════════════
          HEADER
     ═══════════════════════════════════════════════════════════════ -->
@@ -1223,6 +1241,19 @@
     <script src="/js/governance-init.js"></script>
     <script>
         // ═══════════════════════════════════════════════════════════════
+        // TOAST NOTIFICATIONS
+        // ═══════════════════════════════════════════════════════════════
+        function showAtomToast(message, type = 'warn', duration = 4000) {
+            const container = document.getElementById('atomToastContainer');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = 'atom-toast ' + type;
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 300); }, duration);
+        }
+
+        // ═══════════════════════════════════════════════════════════════
         // SERVICE WORKER REGISTRATION
         // ═══════════════════════════════════════════════════════════════
         if ('serviceWorker' in navigator) {
@@ -1422,6 +1453,7 @@
             } catch (error) {
                 removeTypingIndicator();
                 console.warn('[AT-OM] Chat API indisponible, fallback local:', error.message);
+                showAtomToast('Service IA temporairement indisponible — réponse hors-ligne', 'warn');
                 const fallback = getAgentResponseFallback(currentChatAgent, text);
                 chatHistory[currentChatAgent].push({
                     role: 'agent',

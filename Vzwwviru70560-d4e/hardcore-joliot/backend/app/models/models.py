@@ -502,14 +502,16 @@ class Agent(TrackedMixin, Base):
     )
     
     name: Mapped[str] = mapped_column(String(255), nullable=False)
+    description: Mapped[Optional[str]] = mapped_column(String(500))
     agent_type: Mapped[str] = mapped_column(String(100), nullable=False)
-    
+    category: Mapped[str] = mapped_column(String(100), server_default="utility")
+
     # Scope
     sphere_id: Mapped[Optional[uuid.UUID]] = mapped_column(
         UUID(as_uuid=True),
         ForeignKey("spheres.id", ondelete="SET NULL")
     )
-    
+
     # Capabilities
     capabilities: Mapped[List] = mapped_column(JSONB, default=list)
     

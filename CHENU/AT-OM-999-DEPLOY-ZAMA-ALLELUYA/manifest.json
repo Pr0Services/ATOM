@@ -1,7 +1,7 @@
 {
-  "name": "AT-OM | L'Arche des Résonances",
-  "short_name": "AT-OM",
-  "description": "CHE·NU™ V76 - L'Arche des 287 Agents - 444 Hz",
+  "name": "AT·OM — Plateforme d'Intelligence Collective",
+  "short_name": "AT·OM",
+  "description": "400+ agents IA au service de 9 domaines de la vie quotidienne",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#1A1A1A",

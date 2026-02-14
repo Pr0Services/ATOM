@@ -211,17 +211,40 @@ def verify_refresh_token(token: str) -> TokenPayload:
 # TOKEN BLACKLIST (Optional - for logout)
 # ═══════════════════════════════════════════════════════════════════════════════
 
-# In production, use Redis for token blacklist
+# Redis-backed token blacklist (fallback to in-memory set)
 _token_blacklist: set[str] = set()
+_redis_client = None
 
 
-def blacklist_token(jti: str) -> None:
-    """Add token to blacklist (for logout)."""
-    _token_blacklist.add(jti)
+def _get_redis():
+    """Lazy-load Redis client for token blacklist."""
+    global _redis_client
+    if _redis_client is None:
+        try:
+            import redis
+            import os
+            redis_url = os.getenv("REDIS_URL", "redis://localhost:6379/0")
+            _redis_client = redis.from_url(redis_url, decode_responses=True)
+            _redis_client.ping()
+        except Exception:
+            _redis_client = False  # Mark as unavailable
+    return _redis_client if _redis_client else None
+
+
+def blacklist_token(jti: str, ttl: int = 86400) -> None:
+    """Add token to blacklist (for logout). TTL defaults to 24h."""
+    r = _get_redis()
+    if r:
+        r.setex(f"blacklist:{jti}", ttl, "1")
+    else:
+        _token_blacklist.add(jti)
 
 
 def is_token_blacklisted(jti: str) -> bool:
     """Check if token is blacklisted."""
+    r = _get_redis()
+    if r:
+        return r.exists(f"blacklist:{jti}") > 0
     return jti in _token_blacklist
 
 

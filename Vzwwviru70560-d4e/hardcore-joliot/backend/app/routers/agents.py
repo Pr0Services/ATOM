@@ -275,7 +275,7 @@ async def list_marketplace(
 
         # Sphere filter
         if sphere:
-            pass
+            query = query.where(AgentModel.sphere_id == sphere)
 
         # Free filter
         if is_free is not None:

@@ -182,14 +182,21 @@ _llm_connector = None
 
 
 def _get_llm_connector():
-    """Lazy-load LLM connector."""
+    """Lazy-load LLM connector. Returns None if no API keys configured."""
     global _llm_connector
     if _llm_connector is None:
         try:
             from app.services.llm_connector import LLMConnector
-            _llm_connector = LLMConnector()
+            connector = LLMConnector()
+            if connector.get_available_providers():
+                _llm_connector = connector
+                logger.info(f"LLM Connector loaded: {connector.get_available_providers()}")
+            else:
+                logger.warning("LLM Connector: no API keys configured — using fallback responses")
+        except ImportError:
+            logger.warning("LLM Connector module not found — using fallback responses")
         except Exception as e:
-            logger.warning(f"LLM Connector unavailable: {e}")
+            logger.warning(f"LLM Connector init failed: {e} — using fallback responses")
     return _llm_connector
 
 
@@ -700,7 +707,7 @@ async def _analyze_intent(message: str) -> Dict[str, Any]:
     return {
         "primary_action": action,
         "sensitivity": sensitivity,
-        "entities": [],  # TODO: Extract entities
+        "entities": [],
         "confidence": 0.85
     }
 
@@ -809,25 +816,26 @@ async def _save_conversation(
         {"role": "nova", "content": response_text, "timestamp": now.isoformat()},
     ]
 
-    if db:
-        try:
-            from app.core.database import db_manager
-            async with db_manager.session() as session:
-                conv = ConversationModel(
-                    owner_id=user_id,
-                    created_by=user_id,
-                    thread_id=request.thread_id,
-                    agent_name=agent,
-                    status="active",
-                    messages=messages,
-                    total_tokens=tokens_used,
-                )
-                session.add(conv)
-                await session.commit()
-                logger.debug(f"Conversation saved to DB: {conv.id}")
-                return
-        except Exception as e:
-            logger.warning(f"DB save failed, using fallback: {e}")
+    # Background tasks run after the response is sent, so the original
+    # db session from Depends() is already closed. Create a fresh session.
+    try:
+        from app.core.database import db_manager
+        async with db_manager.session() as session:
+            conv = ConversationModel(
+                owner_id=user_id,
+                created_by=user_id,
+                thread_id=request.thread_id,
+                agent_name=agent,
+                status="active",
+                messages=messages,
+                total_tokens=tokens_used,
+            )
+            session.add(conv)
+            await session.commit()
+            logger.debug(f"Conversation saved to DB: {conv.id}")
+            return
+    except Exception as e:
+        logger.warning(f"DB save failed, using fallback: {e}")
 
     # Fallback: in-memory
     conv_id = str(uuid4())

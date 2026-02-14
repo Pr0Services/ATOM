@@ -1,6 +1,5 @@
 /**
- * AT-OM Service Worker - CHE·NU™ V76
- * L'Arche des Résonances - 444 Hz
+ * AT·OM Service Worker - CHE·NU™ V76
  */
 
 const CACHE_NAME = 'atom-v1';
@@ -76,4 +75,4 @@ self.addEventListener('message', (event) => {
     }
 });
 
-console.log('[SW] AT-OM Service Worker loaded - 444 Hz');
+console.log('[SW] AT-OM Service Worker loaded');

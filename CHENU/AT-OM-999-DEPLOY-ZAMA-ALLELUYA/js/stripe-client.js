@@ -33,7 +33,7 @@ const STRIPE_CONFIG = {
             features: [
                 'Accès forum communautaire',
                 'Vote sur les besoins locaux',
-                'Calcul Arithmos illimité',
+                'Analyses illimitées',
                 'Connexion avec Nova, Aria et Orion'
             ],
             price: 0,

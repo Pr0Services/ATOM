@@ -45,7 +45,7 @@ class Config:
     APP_NAME: str = "NOVA-999 Sovereign Architecture"
     APP_VERSION: str = "999.0.0"
     DEBUG: bool = field(default_factory=lambda: os.getenv("DEBUG", "false").lower() == "true")
-    ENVIRONMENT: str = field(default_factory=lambda: os.getenv("ENVIRONMENT", "production"))
+    ENVIRONMENT: str = field(default_factory=lambda: os.getenv("ENVIRONMENT", "development"))
     HOST: str = "0.0.0.0"
     PORT: int = 8000
     DATABASE_URL: str = field(default_factory=lambda: os.getenv("DATABASE_URL", ""))
@@ -272,10 +272,10 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=config.CORS_ORIGINS,
-    allow_origin_regex=r"https://.*\.vercel\.app",
+    allow_origin_regex=r"https://atom-arche(-[a-z0-9]+)?\.vercel\.app",
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization", "X-Request-ID"],
 )
 
 # ===========================================================================================
@@ -315,45 +315,45 @@ async def forbidden_handler(request: Request, exc: HTTPException):
 # ROUTER REGISTRATION (with graceful fallback)
 # ===========================================================================================
 
-def register_router(module_path: str, prefix: str, tags: List[str], name: str):
+def register_router(module_path: str, prefix: str, tags: List[str], name: str, *, core: bool = False):
     try:
         import importlib
         module = importlib.import_module(module_path)
         app.include_router(module.router, prefix=prefix, tags=tags)
         logger.info(f"Router registered: {name}")
     except ImportError as e:
-        logger.warning(f"Router not available: {name} ({e})")
+        if core:
+            logger.critical(f"CORE router failed to load: {name} ({e})")
+            raise RuntimeError(f"Core router '{name}' unavailable: {e}")
+        logger.warning(f"Optional router not available: {name} ({e})")
     except Exception as e:
-        logger.error(f"Router error: {name} ({e})")
+        if core:
+            logger.critical(f"CORE router error: {name} ({e})")
+            raise RuntimeError(f"Core router '{name}' error: {e}")
+        logger.error(f"Optional router error: {name} ({e})")
 
-# Core routers
-register_router("app.routers.threads", "/api/v2/threads", ["Threads"], "threads")
-register_router("app.routers.checkpoints", "/api/v2/checkpoints", ["Checkpoints"], "checkpoints")
-register_router("app.routers.nova", "/api/v2/nova", ["Nova Pipeline"], "nova")
+# Core routers — app MUST NOT start without these
+register_router("app.routers.threads", "/api/v2/threads", ["Threads"], "threads", core=True)
+register_router("app.routers.checkpoints", "/api/v2/checkpoints", ["Checkpoints"], "checkpoints", core=True)
+register_router("app.routers.nova", "/api/v2/nova", ["Nova Pipeline"], "nova", core=True)
+register_router("app.routers.agents", "/api/v2/agents", ["Agents"], "agents", core=True)
+register_router("app.routers.notifications", "/api/v2/notifications", ["Notifications"], "notifications", core=True)
+register_router("app.routers.spheres", "/api/v2/spheres", ["Spheres"], "spheres", core=True)
+
+# Standard routers — important but non-blocking
 register_router("app.routers.memory", "/api/v2/memory", ["Memory"], "memory")
-register_router("app.routers.agents", "/api/v2/agents", ["Agents"], "agents")
 register_router("app.routers.files", "/api/v2/files", ["Files"], "files")
-register_router("app.routers.spheres", "/api/v2/spheres", ["Spheres"], "spheres")
 register_router("app.routers.identities", "/api/v2/identities", ["Identities"], "identities")
 register_router("app.routers.workspaces", "/api/v2/workspaces", ["Workspaces"], "workspaces")
 register_router("app.routers.dataspaces", "/api/v2/dataspaces", ["DataSpaces"], "dataspaces")
 register_router("app.routers.meetings", "/api/v2/meetings", ["Meetings"], "meetings")
-register_router("app.routers.notifications", "/api/v2/notifications", ["Notifications"], "notifications")
 register_router("app.routers.atom", "/api/v2/atom", ["AT-OM"], "atom")
 
-# Tokenomics engine (4-instrument economy: UR, JT, ATOM, NFT + Flow Keeper)
+# Optional/experimental routers — fail silently
 register_router("api.v1.routes.tokenomics_routes", "/api/v2/tokenomics", ["Tokenomics"], "tokenomics")
-
-# Neuromorphic Hub (5 systems + Lattice + Semantic Comm)
 register_router("app.routers.neuromorphic", "/api/v2/neuromorphic", ["Neuromorphic"], "neuromorphic")
-
-# Dimensional Engines (29 multidimensional perspective engines)
 register_router("app.routers.engines", "/api/v2/engines", ["Engines"], "engines")
-
-# Verticals (20 industry-specific modules)
 register_router("app.routers.verticals", "/api/v2/verticals", ["Verticals"], "verticals")
-
-# World Engine (scenarios, temporal, workers)
 register_router("app.routers.world_engine", "/api/v2/world-engine", ["WorldEngine"], "world_engine")
 
 # ===========================================================================================

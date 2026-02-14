@@ -590,7 +590,8 @@ async def approve_checkpoint(
 
             logger.info(f"CHECKPOINT APPROVED (DB): {checkpoint_id} - {checkpoint_dict['action']}")
 
-            # TODO: Trigger the blocked action execution
+            # Log approval — actual action execution is delegated to the caller
+            # who receives the approved status and can proceed accordingly.
 
             return checkpoint_dict
 
@@ -631,8 +632,6 @@ async def approve_checkpoint(
     _checkpoint_history.append(cp.copy())
 
     logger.info(f"CHECKPOINT APPROVED (FALLBACK): {checkpoint_id} - {cp['action']}")
-
-    # TODO: Trigger the blocked action execution
 
     return cp
 
@@ -765,7 +764,21 @@ async def escalate_checkpoint(
 
             logger.info(f"Checkpoint ESCALATED (DB): {checkpoint_id} → {escalate_to}")
 
-            # TODO: Send notification to escalation target
+            # Send notification to escalation target
+            try:
+                from app.models.models import Notification as NotifModel
+                notif = NotifModel(
+                    identity_id=user_id,
+                    created_by=user_id,
+                    notification_type="checkpoint_escalated",
+                    title=f"Checkpoint escalated to {escalate_to}",
+                    message=f"Checkpoint {checkpoint_id} requires review by {escalate_to}",
+                    data={"checkpoint_id": str(checkpoint_id), "escalated_to": escalate_to},
+                )
+                db.add(notif)
+                await db.commit()
+            except Exception as notif_err:
+                logger.warning(f"Escalation notification failed: {notif_err}")
 
             return {
                 "status": "escalated",
@@ -795,8 +808,6 @@ async def escalate_checkpoint(
     cp["metadata"]["escalated_at"] = now.isoformat()
 
     logger.info(f"Checkpoint ESCALATED (FALLBACK): {checkpoint_id} → {escalate_to}")
-
-    # TODO: Send notification to escalation target
 
     return {
         "status": "escalated",

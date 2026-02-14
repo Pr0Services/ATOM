@@ -23,11 +23,16 @@
     // CONFIGURATION
     // ═══════════════════════════════════════════════════════════════════════════
 
+    // Pages that actually need full governance (chat, agents, checkpoints)
+    const GOVERNANCE_PAGES = ['index.html', 'agents.html', 'live.html', 'dashboard.html'];
+    const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+    const needsFullGovernance = GOVERNANCE_PAGES.includes(currentPage);
+
     const GOVERNANCE_CONFIG = {
         enabled: true,
         autoInit: true,
         debug: false,
-        scripts: [
+        scripts: needsFullGovernance ? [
             '/js/message-types.js',
             '/js/message-bus.js',
             '/js/checkpoint-manager.js',
@@ -35,6 +40,10 @@
             '/js/atom-governance.js',
             '/js/agent-hierarchy.js',
             '/js/memory-manager.js'
+        ] : [
+            // Lightweight: only message-bus for event coordination
+            '/js/message-types.js',
+            '/js/message-bus.js'
         ]
     };
 
