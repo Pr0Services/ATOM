@@ -1,0 +1,10 @@
+{
+  "name": "atom-monorepo",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cd Vzwwviru70560-d4e/hardcore-joliot/atom/interface && npm install && npm run build",
+    "dev": "cd Vzwwviru70560-d4e/hardcore-joliot/atom/interface && npm run dev",
+    "install:interface": "cd Vzwwviru70560-d4e/hardcore-joliot/atom/interface && npm install"
+  }
+}
