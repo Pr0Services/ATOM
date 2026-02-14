@@ -130,6 +130,75 @@
             color: var(--sacred-gold);
         }
 
+        .notification-bell {
+            position: relative;
+            cursor: pointer;
+            font-size: 1.2rem;
+            padding: 6px 10px;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+        .notification-bell:hover { background: rgba(255,255,255,0.1); }
+
+        .notif-badge {
+            position: absolute;
+            top: 2px; right: 2px;
+            background: #FF6B6B;
+            color: white;
+            font-size: 0.65rem;
+            font-weight: bold;
+            min-width: 16px; height: 16px;
+            border-radius: 8px;
+            display: flex; align-items: center; justify-content: center;
+            padding: 0 4px;
+        }
+
+        .notif-dropdown {
+            display: none;
+            position: fixed;
+            top: 60px; right: 20px;
+            width: 320px; max-height: 400px;
+            background: #1a1a2e;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            z-index: 9999;
+            overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        .notif-dropdown.open { display: block; }
+
+        .notif-dropdown-header {
+            padding: 12px 16px;
+            font-weight: 600; color: var(--sacred-gold);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            font-size: 0.9rem;
+        }
+
+        .notif-dropdown-list {
+            max-height: 340px; overflow-y: auto;
+            padding: 8px;
+        }
+
+        .notif-item {
+            padding: 10px 12px;
+            border-radius: 8px;
+            margin-bottom: 4px;
+            font-size: 0.8rem; color: rgba(255,255,255,0.8);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .notif-item:hover { background: rgba(255,255,255,0.05); }
+
+        .notif-item .notif-time {
+            font-size: 0.7rem; color: rgba(255,255,255,0.4);
+            margin-top: 4px;
+        }
+
+        .notif-empty {
+            text-align: center; padding: 24px;
+            color: rgba(255,255,255,0.4); font-size: 0.85rem;
+        }
+
         /* ═══════════════════════════════════════════════════════════════
            MAIN LAYOUT - 3 HUBS (Canonical Grid)
         ═══════════════════════════════════════════════════════════════ */
@@ -228,33 +297,33 @@
 
 
         /* ═══════════════════════════════════════════════════════════════
-           HUB 2 - CENTER: NEXUS CORE
+           HUB 2 - CENTER: MAIN DASHBOARD
         ═══════════════════════════════════════════════════════════════ */
-        .nexus-hub {
+        .main-dashboard {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 1.5rem;
         }
 
-        .nexus-title-section {
+        .page-title-section {
             text-align: center;
         }
 
-        .nexus-title {
+        .page-title {
             font-size: 2.5rem;
             color: var(--sacred-gold);
             letter-spacing: 8px;
             margin-bottom: 0.5rem;
         }
 
-        .nexus-subtitle {
+        .page-subtitle {
             font-size: 1rem;
             color: rgba(255, 255, 255, 0.5);
         }
 
         /* Welcome Section */
-        .arithmos-section {
+        .welcome-section {
             width: 100%;
             max-width: 500px;
             text-align: center;
@@ -405,6 +474,46 @@
         }
 
         .agent-fab.dragging { cursor: grabbing; }
+
+        .agent-fab.first-visit .fab-main {
+            animation: fabPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes fabPulse {
+            0%, 100% { box-shadow: 0 4px 20px rgba(216, 178, 106, 0.4); }
+            50% { box-shadow: 0 4px 40px rgba(216, 178, 106, 0.9), 0 0 60px rgba(216, 178, 106, 0.3); }
+        }
+
+        .fab-tooltip {
+            position: absolute;
+            bottom: 70px; right: 0;
+            background: linear-gradient(135deg, #1a1a2e, #0a0a0f);
+            border: 1px solid var(--sacred-gold);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: tooltipAppear 0.5s 1s forwards;
+            pointer-events: none;
+        }
+
+        .fab-tooltip::after {
+            content: '';
+            position: absolute;
+            bottom: -6px; right: 20px;
+            width: 12px; height: 12px;
+            background: #1a1a2e;
+            border-right: 1px solid var(--sacred-gold);
+            border-bottom: 1px solid var(--sacred-gold);
+            transform: rotate(45deg);
+        }
+
+        @keyframes tooltipAppear {
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         .fab-main {
             width: 56px;
@@ -591,6 +700,30 @@
             color: white;
         }
 
+        .chat-message.typing {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 3px solid var(--agent-color);
+            color: rgba(255, 255, 255, 0.5);
+            font-style: italic;
+        }
+
+        .typing-dots {
+            display: inline-block;
+        }
+
+        .typing-dots span {
+            animation: typingDot 1.4s infinite;
+            opacity: 0.3;
+        }
+
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingDot {
+            0%, 60%, 100% { opacity: 0.3; }
+            30% { opacity: 1; }
+        }
+
         .chat-input-area {
             padding: 12px 16px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -633,7 +766,7 @@
             }
 
             .nav-hub { order: 2; }
-            .nexus-hub { order: 1; }
+            .main-dashboard { order: 1; }
             .status-hub { order: 3; }
 
             .nav-list { max-height: 200px; overflow-y: auto; }
@@ -646,10 +779,104 @@
                 left: 24px;
             }
 
-            .nexus-title {
+            .page-title {
                 font-size: 1.8rem;
                 letter-spacing: 4px;
             }
+        }
+        /* ═══════════════════════════════════════════════════════════════
+           GUIDED TOOLTIPS — Post-onboarding 3-step sequence
+        ═══════════════════════════════════════════════════════════════ */
+        .guided-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 9998;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .guided-overlay.active { opacity: 1; }
+
+        .guided-tooltip {
+            position: fixed;
+            z-index: 9999;
+            background: linear-gradient(135deg, #1a1a2e, #0a0a0f);
+            border: 2px solid var(--sacred-gold);
+            border-radius: 12px;
+            padding: 16px 20px;
+            max-width: 300px;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.4s, transform 0.4s;
+            pointer-events: none;
+        }
+        .guided-tooltip.active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+        .guided-tooltip-step {
+            font-size: 0.7rem;
+            color: var(--sacred-gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        .guided-tooltip-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .guided-tooltip-desc {
+            font-size: 0.85rem;
+            color: #ccc;
+            line-height: 1.4;
+            margin-bottom: 14px;
+        }
+        .guided-tooltip-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .guided-tooltip-skip {
+            background: none;
+            border: none;
+            color: #888;
+            cursor: pointer;
+            font-size: 0.8rem;
+            padding: 4px 8px;
+        }
+        .guided-tooltip-skip:hover { color: #bbb; }
+        .guided-tooltip-next {
+            background: var(--sacred-gold);
+            color: var(--dark-bg);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+        .guided-tooltip-next:hover { background: #f0c674; }
+        .guided-tooltip-dots {
+            display: flex;
+            gap: 6px;
+        }
+        .guided-tooltip-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.2);
+            transition: background 0.3s;
+        }
+        .guided-tooltip-dot.active { background: var(--sacred-gold); }
+
+        .guided-highlight {
+            position: relative;
+            z-index: 9999 !important;
+            box-shadow: 0 0 0 4px rgba(216, 178, 106, 0.5), 0 0 30px rgba(216, 178, 106, 0.3);
+            border-radius: 12px;
         }
     </style>
 </head>
@@ -685,8 +912,20 @@
             <a href="/live.html" class="header-btn">⚡ Activité</a>
             <a href="/dashboard.html" class="header-btn">📊 Tableau de bord</a>
             <a href="/funder.html" class="header-btn primary">💎 Partenaire</a>
+            <div class="notification-bell" id="notifBell" onclick="toggleNotifications()">
+                🔔
+                <span class="notif-badge" id="notifBadge" style="display:none;">0</span>
+            </div>
         </nav>
     </header>
+
+    <!-- Notification dropdown -->
+    <div class="notif-dropdown" id="notifDropdown">
+        <div class="notif-dropdown-header">Notifications</div>
+        <div class="notif-dropdown-list" id="notifList">
+            <div class="notif-empty">Aucune notification</div>
+        </div>
+    </div>
 
     <!-- ═══════════════════════════════════════════════════════════════
          MAIN CONTENT - 3 HUBS LAYOUT
@@ -766,10 +1005,10 @@
             <!-- ═══════════════════════════════════════════════════════
                  HUB 2 - CENTER: WELCOME & ACTIONS
             ═══════════════════════════════════════════════════════ -->
-            <section class="nexus-hub">
-                <div class="nexus-title-section">
-                    <h1 class="nexus-title">BIENVENUE</h1>
-                    <p class="nexus-subtitle">Votre plateforme d'intelligence collective</p>
+            <section class="main-dashboard">
+                <div class="page-title-section">
+                    <h1 class="page-title">BIENVENUE</h1>
+                    <p class="page-subtitle">Votre plateforme d'intelligence collective</p>
                 </div>
 
                 <!-- Résumé des 9 domaines -->
@@ -827,9 +1066,10 @@
                 </div>
 
                 <!-- Welcome message for new users -->
-                <div class="arithmos-section" id="welcomeSection">
+                <div class="welcome-section" id="welcomeSection">
                     <p class="input-hint" style="font-size: 1rem; color: rgba(255,255,255,0.7); line-height: 1.6;">
                         400+ agents IA organisés en 9 domaines travaillent pour vous.<br>
+                        <span style="font-size: 0.85rem; opacity: 0.8;">Un agent IA est un assistant spécialisé dans un domaine précis. Il analyse, recommande et exécute — vous validez.</span><br>
                         <strong style="color: var(--sacred-gold);">Cliquez sur 💫 en bas à droite</strong> pour parler à votre guide Aria.
                     </p>
 
@@ -915,6 +1155,7 @@
          FLOATING AGENT TOGGLE - AMOVIBLE (Nova, Aria, Orion + Quick Connect)
     ═══════════════════════════════════════════════════════════════ -->
     <div class="agent-fab" id="agentFab">
+        <div class="fab-tooltip" id="fabTooltip">Parlez à Aria, votre guide</div>
         <div class="agent-spheres">
             <!-- Nova - Superviseur -->
             <div class="agent-sphere" onclick="openAgentChat('nova')" style="--agent-color: #9333EA; --agent-bg: rgba(147, 51, 234, 0.2);">
@@ -1073,6 +1314,12 @@
             const agent = CORE_AGENTS[agentId];
             if (!agent) return;
 
+            // Désactiver le pulse et le tooltip de première visite
+            document.getElementById('agentFab').classList.remove('first-visit');
+            const tooltip = document.getElementById('fabTooltip');
+            if (tooltip) tooltip.style.display = 'none';
+            localStorage.setItem('atom_fab_used', 'true');
+
             currentChatAgent = agentId;
             fabOpen = false;
             document.getElementById('agentFab').classList.remove('open');
@@ -1108,16 +1355,19 @@
             const container = document.getElementById('chatMessages');
             const messages = chatHistory[currentChatAgent] || [];
 
-            container.innerHTML = messages.map(msg => `
-                <div class="chat-message ${msg.role}">
-                    ${msg.content}
-                </div>
-            `).join('');
+            container.innerHTML = messages.map(msg => {
+                const safe = msg.content
+                    .replace(/&/g, '&amp;')
+                    .replace(/</g, '&lt;')
+                    .replace(/>/g, '&gt;')
+                    .replace(/\n/g, '<br>');
+                return `<div class="chat-message ${msg.role}">${safe}</div>`;
+            }).join('');
 
             container.scrollTop = container.scrollHeight;
         }
 
-        function sendChatMessage() {
+        async function sendChatMessage() {
             const input = document.getElementById('chatInput');
             const text = input.value.trim();
             if (!text || !currentChatAgent) return;
@@ -1129,20 +1379,114 @@
             });
 
             input.value = '';
+            input.disabled = true;
             renderChatMessages();
 
-            setTimeout(() => {
-                const response = getAgentResponse(currentChatAgent, text);
+            // Publier l'événement sur le MessageBus si disponible
+            _publishChatEvent('chat.message.sent', { agent: currentChatAgent, text });
+
+            // Afficher l'indicateur de frappe
+            showTypingIndicator();
+
+            try {
+                const response = await atomPost('/api/v2/nova/chat', {
+                    message: text,
+                    agent_name: currentChatAgent
+                });
+
+                removeTypingIndicator();
+
+                if (response.ok) {
+                    const data = await response.json();
+
+                    // Vérifier si un checkpoint HITL est requis
+                    if (data.checkpoint_required && data.checkpoint_id) {
+                        _handleCheckpoint(data);
+                        chatHistory[currentChatAgent].push({
+                            role: 'agent',
+                            content: 'Cette action nécessite votre approbation. Veuillez confirmer dans la fenêtre qui s\'affiche.',
+                            timestamp: Date.now()
+                        });
+                    } else {
+                        const agentReply = data.message || data.response || 'Je suis à votre disposition.';
+                        chatHistory[currentChatAgent].push({
+                            role: 'agent',
+                            content: agentReply,
+                            timestamp: Date.now()
+                        });
+                        _publishChatEvent('chat.message.received', { agent: currentChatAgent, reply: agentReply });
+                    }
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                removeTypingIndicator();
+                console.warn('[AT-OM] Chat API indisponible, fallback local:', error.message);
+                const fallback = getAgentResponseFallback(currentChatAgent, text);
                 chatHistory[currentChatAgent].push({
                     role: 'agent',
-                    content: response,
+                    content: fallback,
                     timestamp: Date.now()
                 });
-                renderChatMessages();
-            }, 800 + Math.random() * 700);
+                _publishChatEvent('chat.fallback.used', { agent: currentChatAgent, reason: error.message });
+            }
+
+            input.disabled = false;
+            input.focus();
+            renderChatMessages();
         }
 
-        function getAgentResponse(agentId, userMessage) {
+        // Publie un événement sur le MessageBus (fire-and-forget)
+        function _publishChatEvent(topic, payload) {
+            if (typeof window.getATOMMessageBus === 'function') {
+                try {
+                    const bus = window.getATOMMessageBus();
+                    bus.publish(topic, {
+                        id: crypto.randomUUID(),
+                        from: 'chat-ui',
+                        type: topic,
+                        payload,
+                        timestamp: Date.now(),
+                        priority: 2
+                    });
+                } catch (e) { /* silencieux si bus pas prêt */ }
+            }
+        }
+
+        // Gère un checkpoint HITL retourné par le backend
+        function _handleCheckpoint(data) {
+            _publishChatEvent('checkpoint.required', {
+                checkpoint_id: data.checkpoint_id,
+                request_id: data.request_id
+            });
+
+            // Si le module HITL UI est chargé, déclencher la modal
+            if (typeof window.executeWithGovernance === 'function') {
+                window.executeWithGovernance({
+                    type: 'checkpoint',
+                    checkpoint_id: data.checkpoint_id,
+                    description: data.message || 'Action en attente d\'approbation'
+                });
+            }
+        }
+
+        function showTypingIndicator() {
+            const container = document.getElementById('chatMessages');
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'chat-message typing';
+            typingDiv.id = 'typingIndicator';
+            const agent = CORE_AGENTS[currentChatAgent];
+            typingDiv.innerHTML = `${agent?.name || 'Agent'} écrit<span class="typing-dots"><span>.</span><span>.</span><span>.</span></span>`;
+            container.appendChild(typingDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+
+        function removeTypingIndicator() {
+            const indicator = document.getElementById('typingIndicator');
+            if (indicator) indicator.remove();
+        }
+
+        function getAgentResponseFallback(agentId, userMessage) {
             const agent = CORE_AGENTS[agentId];
             const lowerMsg = userMessage.toLowerCase();
 
@@ -1271,39 +1615,235 @@
         console.log('%c[AT-OM] Tableau de bord actif', 'color: #D8B26A;');
 
         // ═══════════════════════════════════════════════════════════════
-        // AUTO-ONBOARDING — Bannière + Aria pour les nouveaux visiteurs
+        // AUTO-ONBOARDING — Redirige vers le wizard pour les nouveaux
         // ═══════════════════════════════════════════════════════════════
         (function autoOnboarding() {
-            const hasVisited = localStorage.getItem('atom_visited');
-            if (!hasVisited) {
-                localStorage.setItem('atom_visited', 'true');
+            const onboardingDone = localStorage.getItem('atom_onboarding_complete');
+            const charteAccepted = localStorage.getItem('atom_charte_accepted');
 
-                // Bannière de bienvenue en haut
-                const banner = document.createElement('div');
-                banner.id = 'welcomeBanner';
-                banner.style.cssText = 'position:fixed;top:60px;left:0;right:0;z-index:49;background:linear-gradient(135deg,rgba(216,178,106,0.15),rgba(0,255,136,0.1));border-bottom:1px solid rgba(216,178,106,0.3);padding:1rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;backdrop-filter:blur(10px);';
-                banner.innerHTML = `
-                    <div style="display:flex;align-items:center;gap:1rem;">
-                        <span style="font-size:1.5rem;">👋</span>
-                        <div>
-                            <div style="font-weight:600;color:var(--sacred-gold);font-size:1rem;">Bienvenue sur AT·OM !</div>
-                            <div style="font-size:0.85rem;color:rgba(255,255,255,0.7);">Explorez les 9 domaines et 400+ agents IA. Aria, votre guide, est prête à vous aider.</div>
-                        </div>
+            if (!onboardingDone || !charteAccepted) {
+                // Nouveau visiteur → wizard complet
+                window.location.href = '/onboarding.html';
+                return;
+            }
+
+            // Visiteur de retour → pulse dorée sur le FAB + tooltip
+            if (!localStorage.getItem('atom_fab_used')) {
+                document.getElementById('agentFab').classList.add('first-visit');
+            }
+
+            const hasSeenWelcome = localStorage.getItem('atom_welcome_shown');
+            if (!hasSeenWelcome) {
+                localStorage.setItem('atom_welcome_shown', 'true');
+                setTimeout(() => openAgentChat('aria'), 1500);
+            }
+        })();
+
+        // ═══════════════════════════════════════════════════════════════
+        // NOTIFICATIONS — Polling + Dropdown
+        // ═══════════════════════════════════════════════════════════════
+        let notifCache = [];
+
+        function toggleNotifications() {
+            const dropdown = document.getElementById('notifDropdown');
+            dropdown.classList.toggle('open');
+        }
+
+        // Fermer le dropdown au clic extérieur
+        document.addEventListener('click', (e) => {
+            const bell = document.getElementById('notifBell');
+            const dropdown = document.getElementById('notifDropdown');
+            if (bell && dropdown && !bell.contains(e.target) && !dropdown.contains(e.target)) {
+                dropdown.classList.remove('open');
+            }
+        });
+
+        async function fetchNotifications() {
+            try {
+                const response = await atomFetch('/api/v2/notifications/unread');
+                if (response.ok) {
+                    const data = await response.json();
+                    const notifs = Array.isArray(data) ? data : (data.notifications || []);
+                    updateNotifUI(notifs);
+                }
+            } catch (e) {
+                // Silencieux si API indisponible
+            }
+        }
+
+        function updateNotifUI(notifs) {
+            notifCache = notifs;
+            const badge = document.getElementById('notifBadge');
+            const list = document.getElementById('notifList');
+
+            if (notifs.length > 0) {
+                badge.textContent = notifs.length;
+                badge.style.display = 'flex';
+                list.innerHTML = notifs.slice(0, 10).map(n => `
+                    <div class="notif-item">
+                        <div>${(n.message || n.content || 'Notification').replace(/</g, '&lt;')}</div>
+                        <div class="notif-time">${n.created_at ? new Date(n.created_at).toLocaleString('fr-FR') : ''}</div>
                     </div>
-                    <button onclick="document.getElementById('welcomeBanner').style.display='none'" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:white;padding:0.4rem 0.8rem;border-radius:6px;cursor:pointer;font-size:0.8rem;white-space:nowrap;">Compris ✓</button>
-                `;
-                document.body.appendChild(banner);
+                `).join('');
+            } else {
+                badge.style.display = 'none';
+                list.innerHTML = '<div class="notif-empty">Aucune notification</div>';
+            }
+        }
 
-                // Ouvre Aria automatiquement après 2s
-                setTimeout(() => {
-                    openAgentChat('aria');
+        // Polling toutes les 60 secondes
+        fetchNotifications();
+        setInterval(fetchNotifications, 60000);
+
+        // ═══════════════════════════════════════════════════════════════
+        // GUIDED TOOLTIPS — 3-step post-onboarding sequence
+        // ═══════════════════════════════════════════════════════════════
+        (function initGuidedTooltips() {
+            if (localStorage.getItem('atom_tooltips_done')) return;
+            // Only show after onboarding (user has visited at least once)
+            if (!localStorage.getItem('atom_fab_used') && !localStorage.getItem('atom_onboarding_done')) {
+                // First-time user — let FAB pulse do its thing first
+                // Re-check after FAB is used
+                const fabObserver = setInterval(() => {
+                    if (localStorage.getItem('atom_fab_used')) {
+                        clearInterval(fabObserver);
+                        startGuidedSequence();
+                    }
                 }, 2000);
+                return;
+            }
+            // Returning user who hasn't seen tooltips yet
+            setTimeout(startGuidedSequence, 1500);
 
-                // Ferme la bannière au bout de 15s
-                setTimeout(() => {
-                    const b = document.getElementById('welcomeBanner');
-                    if (b) b.style.display = 'none';
-                }, 15000);
+            function startGuidedSequence() {
+                if (localStorage.getItem('atom_tooltips_done')) return;
+
+                const steps = [
+                    {
+                        target: '.agent-fab',
+                        position: 'top-left',
+                        step: 'Etape 1/3',
+                        title: 'Vos assistants IA',
+                        desc: 'Cliquez ici pour parler a Aria (guide), Nova (superviseur) ou Orion (strategie). Ils sont la pour vous accompagner.',
+                        next: 'Suivant'
+                    },
+                    {
+                        target: '.header-nav',
+                        position: 'bottom-center',
+                        step: 'Etape 2/3',
+                        title: 'Navigation',
+                        desc: 'Explorez les differentes sections : Domaines, Agents, Tableau de bord, et plus encore.',
+                        next: 'Suivant'
+                    },
+                    {
+                        target: '.quick-actions',
+                        position: 'left',
+                        step: 'Etape 3/3',
+                        title: 'Acces rapide',
+                        desc: 'Retrouvez ici les raccourcis vers les fonctionnalites principales. Commencez par explorer les 9 domaines !',
+                        next: 'Terminer'
+                    }
+                ];
+
+                let currentStep = 0;
+
+                // Create overlay
+                const overlay = document.createElement('div');
+                overlay.className = 'guided-overlay';
+                overlay.addEventListener('click', finishGuide);
+                document.body.appendChild(overlay);
+
+                // Create tooltip
+                const tooltip = document.createElement('div');
+                tooltip.className = 'guided-tooltip';
+                tooltip.innerHTML = `
+                    <div class="guided-tooltip-step"></div>
+                    <div class="guided-tooltip-title"></div>
+                    <div class="guided-tooltip-desc"></div>
+                    <div class="guided-tooltip-actions">
+                        <button class="guided-tooltip-skip" onclick="this.closest('.guided-tooltip').__finishGuide()">Passer</button>
+                        <div class="guided-tooltip-dots"></div>
+                        <button class="guided-tooltip-next" onclick="this.closest('.guided-tooltip').__nextStep()">Suivant</button>
+                    </div>
+                `;
+                tooltip.__finishGuide = finishGuide;
+                tooltip.__nextStep = nextStep;
+                document.body.appendChild(tooltip);
+
+                showStep(0);
+
+                function showStep(index) {
+                    currentStep = index;
+                    const step = steps[index];
+                    const targetEl = document.querySelector(step.target);
+                    if (!targetEl) { finishGuide(); return; }
+
+                    // Remove previous highlight
+                    document.querySelectorAll('.guided-highlight').forEach(el => el.classList.remove('guided-highlight'));
+
+                    // Highlight target
+                    targetEl.classList.add('guided-highlight');
+
+                    // Update tooltip content
+                    tooltip.querySelector('.guided-tooltip-step').textContent = step.step;
+                    tooltip.querySelector('.guided-tooltip-title').textContent = step.title;
+                    tooltip.querySelector('.guided-tooltip-desc').textContent = step.desc;
+                    tooltip.querySelector('.guided-tooltip-next').textContent = step.next;
+
+                    // Dots
+                    const dotsEl = tooltip.querySelector('.guided-tooltip-dots');
+                    dotsEl.innerHTML = steps.map((_, i) =>
+                        `<div class="guided-tooltip-dot ${i === index ? 'active' : ''}"></div>`
+                    ).join('');
+
+                    // Position tooltip relative to target
+                    const rect = targetEl.getBoundingClientRect();
+                    tooltip.classList.remove('active');
+
+                    requestAnimationFrame(() => {
+                        if (step.position === 'top-left') {
+                            tooltip.style.bottom = (window.innerHeight - rect.top + 12) + 'px';
+                            tooltip.style.right = (window.innerWidth - rect.right) + 'px';
+                            tooltip.style.top = 'auto';
+                            tooltip.style.left = 'auto';
+                        } else if (step.position === 'bottom-center') {
+                            tooltip.style.top = (rect.bottom + 12) + 'px';
+                            tooltip.style.left = Math.max(16, rect.left + rect.width / 2 - 150) + 'px';
+                            tooltip.style.bottom = 'auto';
+                            tooltip.style.right = 'auto';
+                        } else if (step.position === 'left') {
+                            tooltip.style.top = rect.top + 'px';
+                            tooltip.style.right = (window.innerWidth - rect.left + 12) + 'px';
+                            tooltip.style.left = 'auto';
+                            tooltip.style.bottom = 'auto';
+                        }
+                        tooltip.classList.add('active');
+                    });
+
+                    overlay.classList.add('active');
+
+                    // Scroll target into view if needed
+                    targetEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+
+                function nextStep() {
+                    if (currentStep < steps.length - 1) {
+                        showStep(currentStep + 1);
+                    } else {
+                        finishGuide();
+                    }
+                }
+
+                function finishGuide() {
+                    localStorage.setItem('atom_tooltips_done', '1');
+                    document.querySelectorAll('.guided-highlight').forEach(el => el.classList.remove('guided-highlight'));
+                    tooltip.classList.remove('active');
+                    overlay.classList.remove('active');
+                    setTimeout(() => {
+                        tooltip.remove();
+                        overlay.remove();
+                    }, 400);
+                }
             }
         })();
     </script>

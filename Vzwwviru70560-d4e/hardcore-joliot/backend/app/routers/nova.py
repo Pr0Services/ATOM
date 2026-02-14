@@ -23,14 +23,19 @@ R&D Rules Compliance:
 - Rule #4: No AI-to-AI orchestration
 """
 
-from fastapi import APIRouter, HTTPException, Query, BackgroundTasks
+from fastapi import APIRouter, HTTPException, Query, BackgroundTasks, Depends
 from pydantic import BaseModel, Field
 from typing import Optional, List, Dict, Any, Literal
 from uuid import UUID, uuid4
 from datetime import datetime
 from enum import Enum
+from sqlalchemy.ext.asyncio import AsyncSession
+from sqlalchemy import select, func, desc
 import logging
 import asyncio
+
+from app.core.database import get_db_optional
+from app.models.models import NovaConversation as ConversationModel
 
 logger = logging.getLogger("chenu.routers.nova")
 
@@ -76,6 +81,7 @@ class NovaRequest(BaseModel):
     mode: NovaMode = NovaMode.ANALYSIS
     context: Optional[Dict[str, Any]] = None
     options: Optional[Dict[str, Any]] = None
+    agent_name: Optional[str] = Field(None, description="Agent persona: nova, aria, orion")
 
 
 class NovaResponse(BaseModel):
@@ -117,11 +123,74 @@ class CheckpointTrigger(BaseModel):
 
 
 # ============================================================================
-# MOCK STATE
+# AGENT SYSTEM PROMPTS (Vouvoiement obligatoire)
 # ============================================================================
 
-_conversations: Dict[str, Dict] = {}
+AGENT_PROMPTS: Dict[str, str] = {
+    "nova": """Vous êtes Nova, l'intelligence système d'AT·OM.
+Vous aidez les utilisateurs à gérer leurs projets, prendre des décisions et accomplir leurs objectifs.
+
+RÈGLES:
+1. Toujours vouvoyer l'utilisateur
+2. Respecter la souveraineté humaine — proposer, jamais décider à la place de l'utilisateur
+3. Rester concis et actionnable
+4. En cas d'incertitude, demander des précisions
+5. Ne jamais prendre d'actions autonomes sans approbation
+
+Vous couvrez 9 domaines d'expertise: Personnel, Entreprise, Institutions, Création, Communauté, Communication, Formation, Logistique et Durabilité.
+Répondez toujours en français.""",
+
+    "aria": """Vous êtes Aria, la guide personnelle d'AT·OM.
+Votre rôle est d'accueillir les nouveaux utilisateurs, de les orienter et de répondre à leurs questions sur la plateforme.
+
+RÈGLES:
+1. Toujours vouvoyer l'utilisateur
+2. Ton chaleureux et pédagogique
+3. Expliquer les concepts simplement, sans jargon technique
+4. Guider vers les bons domaines et agents selon les besoins
+5. Encourager l'exploration de la plateforme
+
+Vous connaissez les 9 domaines d'AT·OM et les 400+ agents spécialisés.
+Répondez toujours en français.""",
+
+    "orion": """Vous êtes Orion, l'orchestrateur stratégique d'AT·OM.
+Votre rôle est d'aider les utilisateurs à coordonner des projets complexes impliquant plusieurs domaines et agents.
+
+RÈGLES:
+1. Toujours vouvoyer l'utilisateur
+2. Ton professionnel et stratégique
+3. Proposer des plans d'action structurés
+4. Identifier les agents pertinents pour chaque tâche
+5. Anticiper les dépendances et risques
+
+Vous coordonnez les 9 domaines d'AT·OM et suggérez les meilleurs agents pour chaque mission.
+Répondez toujours en français.""",
+}
+
+DEFAULT_AGENT = "nova"
+
+
+# ============================================================================
+# STATE & LLM CONNECTOR
+# ============================================================================
+
+# Fallback in-memory store when DB is unavailable
+_conversations_fallback: Dict[str, Dict] = {}
+# Pending checkpoint requests are transient — always in-memory
 _pending_requests: Dict[str, Dict] = {}
+_llm_connector = None
+
+
+def _get_llm_connector():
+    """Lazy-load LLM connector."""
+    global _llm_connector
+    if _llm_connector is None:
+        try:
+            from app.services.llm_connector import LLMConnector
+            _llm_connector = LLMConnector()
+        except Exception as e:
+            logger.warning(f"LLM Connector unavailable: {e}")
+    return _llm_connector
 
 
 def get_current_user_id() -> UUID:
@@ -133,7 +202,11 @@ def get_current_user_id() -> UUID:
 # ============================================================================
 
 @router.post("/chat", response_model=NovaResponse)
-async def chat_with_nova(request: NovaRequest, background_tasks: BackgroundTasks):
+async def chat_with_nova(
+    request: NovaRequest,
+    background_tasks: BackgroundTasks,
+    db: Optional[AsyncSession] = Depends(get_db_optional)
+):
     """
     Send a message to Nova.
     Nova analyzes, proposes, but NEVER executes without approval.
@@ -141,22 +214,22 @@ async def chat_with_nova(request: NovaRequest, background_tasks: BackgroundTasks
     user_id = get_current_user_id()
     now = datetime.utcnow()
     request_id = uuid4()
-    
+
     logger.info(f"Nova request received: {request_id}")
-    
+
     # Lane A: Intent Analysis
     intent = await _analyze_intent(request.message)
-    
+
     # Lane B: Context Snapshot
     context = await _capture_context(request.thread_id, request.sphere_id)
-    
+
     # Lane D: Governance Check
     governance = await _check_governance(intent, request.mode)
-    
+
     # Check if checkpoint required
     checkpoint_required = governance.get("requires_checkpoint", False)
     checkpoint_id = None
-    
+
     if checkpoint_required:
         # Lane E: Create Checkpoint
         checkpoint_id = uuid4()
@@ -168,9 +241,9 @@ async def chat_with_nova(request: NovaRequest, background_tasks: BackgroundTasks
             "created_at": now.isoformat(),
             "user_id": str(user_id)
         }
-        
+
         logger.warning(f"CHECKPOINT TRIGGERED: {checkpoint_id}")
-        
+
         return NovaResponse(
             request_id=request_id,
             status=NovaRequestStatus.AWAITING_APPROVAL,
@@ -183,29 +256,41 @@ async def chat_with_nova(request: NovaRequest, background_tasks: BackgroundTasks
             }],
             checkpoint_required=True,
             checkpoint_id=checkpoint_id,
-            processing_lanes=[NovaLane.INTENT_ANALYSIS, NovaLane.CONTEXT_SNAPSHOT, 
+            processing_lanes=[NovaLane.INTENT_ANALYSIS, NovaLane.CONTEXT_SNAPSHOT,
                              NovaLane.GOVERNANCE_CHECK, NovaLane.CHECKPOINT],
-            tokens_used=150,  # Mock
+            tokens_used=150,
             created_at=now
         )
-    
-    # No checkpoint needed - provide suggestions
-    suggestions = await _generate_suggestions(intent, context, request.mode)
-    
+
+    # No checkpoint needed - generate real response via LLM
+    suggestions = await _generate_suggestions(
+        intent, context, request.mode,
+        user_message=request.message,
+        agent_name=request.agent_name
+    )
+
+    response_text = suggestions.get("response", "Je suis à votre disposition.")
+    tokens_used = suggestions.get("tokens_used", 0)
+
+    # Persist conversation to DB (or fallback)
+    background_tasks.add_task(
+        _save_conversation, db, user_id, request, response_text, tokens_used
+    )
+
     # Lane G: Audit
     background_tasks.add_task(_audit_request, request_id, user_id, intent)
-    
+
     return NovaResponse(
         request_id=request_id,
         status=NovaRequestStatus.COMPLETED,
-        message=suggestions.get("response", "Here are my suggestions."),
+        message=response_text,
         suggestions=suggestions.get("items", []),
         actions_proposed=[],
         checkpoint_required=False,
         checkpoint_id=None,
         processing_lanes=[NovaLane.INTENT_ANALYSIS, NovaLane.CONTEXT_SNAPSHOT,
                          NovaLane.GOVERNANCE_CHECK, NovaLane.EXECUTION, NovaLane.AUDIT],
-        tokens_used=200,  # Mock
+        tokens_used=tokens_used,
         created_at=now
     )
 
@@ -213,52 +298,115 @@ async def chat_with_nova(request: NovaRequest, background_tasks: BackgroundTasks
 @router.get("/conversations", response_model=List[NovaConversation])
 async def list_conversations(
     thread_id: Optional[UUID] = None,
-    limit: int = Query(20, ge=1, le=100)
+    limit: int = Query(20, ge=1, le=100),
+    db: Optional[AsyncSession] = Depends(get_db_optional)
 ):
     """List Nova conversations."""
     user_id = get_current_user_id()
-    
-    convs = list(_conversations.values())
-    
+
+    if db:
+        try:
+            query = select(ConversationModel).where(
+                ConversationModel.owner_id == user_id
+            )
+            if thread_id:
+                query = query.where(ConversationModel.thread_id == thread_id)
+            query = query.order_by(desc(ConversationModel.updated_at)).limit(limit)
+            result = await db.execute(query)
+            return [_conv_to_dict(c) for c in result.scalars().all()]
+        except Exception as e:
+            logger.warning(f"DB fallback for conversations: {e}")
+
+    # Fallback
+    convs = list(_conversations_fallback.values())
     if thread_id:
         convs = [c for c in convs if c.get("thread_id") == str(thread_id)]
-    
     return sorted(convs, key=lambda x: x["updated_at"], reverse=True)[:limit]
 
 
 @router.get("/conversations/{conversation_id}", response_model=NovaConversation)
-async def get_conversation(conversation_id: UUID):
+async def get_conversation(
+    conversation_id: UUID,
+    db: Optional[AsyncSession] = Depends(get_db_optional)
+):
     """Get a specific conversation."""
-    conv = _conversations.get(str(conversation_id))
+    if db:
+        try:
+            result = await db.execute(
+                select(ConversationModel).where(ConversationModel.id == conversation_id)
+            )
+            conv = result.scalar_one_or_none()
+            if conv:
+                return _conv_to_dict(conv)
+        except Exception as e:
+            logger.warning(f"DB fallback for get_conversation: {e}")
+
+    # Fallback
+    conv = _conversations_fallback.get(str(conversation_id))
     if not conv:
         raise HTTPException(status_code=404, detail="Conversation not found")
     return conv
 
 
 @router.post("/conversations/{conversation_id}/continue", response_model=NovaResponse)
-async def continue_conversation(conversation_id: UUID, request: NovaRequest):
+async def continue_conversation(
+    conversation_id: UUID,
+    request: NovaRequest,
+    db: Optional[AsyncSession] = Depends(get_db_optional)
+):
     """Continue an existing conversation."""
-    conv = _conversations.get(str(conversation_id))
-    if not conv:
-        raise HTTPException(status_code=404, detail="Conversation not found")
-    
+    conv_messages = []
+
+    if db:
+        try:
+            result = await db.execute(
+                select(ConversationModel).where(ConversationModel.id == conversation_id)
+            )
+            conv = result.scalar_one_or_none()
+            if conv:
+                conv_messages = (conv.messages or [])[-10:]
+        except Exception as e:
+            logger.warning(f"DB fallback for continue_conversation: {e}")
+
+    if not conv_messages:
+        fallback_conv = _conversations_fallback.get(str(conversation_id))
+        if not fallback_conv:
+            raise HTTPException(status_code=404, detail="Conversation not found")
+        conv_messages = fallback_conv.get("messages", [])[-10:]
+
     # Add context from conversation
     request.context = {
         **(request.context or {}),
-        "conversation_history": conv.get("messages", [])[-10:]  # Last 10 messages
+        "conversation_history": conv_messages
     }
-    
+
     # Process through pipeline
-    return await chat_with_nova(request, BackgroundTasks())
+    return await chat_with_nova(request, BackgroundTasks(), db)
 
 
 @router.delete("/conversations/{conversation_id}")
-async def delete_conversation(conversation_id: UUID):
+async def delete_conversation(
+    conversation_id: UUID,
+    db: Optional[AsyncSession] = Depends(get_db_optional)
+):
     """Delete a conversation."""
-    if str(conversation_id) not in _conversations:
+    if db:
+        try:
+            result = await db.execute(
+                select(ConversationModel).where(ConversationModel.id == conversation_id)
+            )
+            conv = result.scalar_one_or_none()
+            if conv:
+                await db.delete(conv)
+                await db.commit()
+                return {"status": "deleted", "conversation_id": str(conversation_id)}
+        except Exception as e:
+            logger.warning(f"DB fallback for delete_conversation: {e}")
+
+    # Fallback
+    if str(conversation_id) not in _conversations_fallback:
         raise HTTPException(status_code=404, detail="Conversation not found")
-    
-    del _conversations[str(conversation_id)]
+    del _conversations_fallback[str(conversation_id)]
     return {"status": "deleted", "conversation_id": str(conversation_id)}
 
 
@@ -400,12 +548,35 @@ async def analyze_governance(
 # ============================================================================
 
 @router.get("/agents/available")
-async def list_available_agents(sphere_id: Optional[UUID] = None):
+async def list_available_agents(
+    sphere_id: Optional[UUID] = None,
+    db: Optional[AsyncSession] = Depends(get_db_optional)
+):
     """
     List available agents for current context.
     R&D Rule #4: Nova coordinates, not orchestrates.
     """
-    # Mock agent list
+    if db:
+        try:
+            from app.models.models import Agent as AgentModel
+            query = select(AgentModel).where(AgentModel.is_active == True)
+            if sphere_id:
+                query = query.where(AgentModel.sphere_id == sphere_id)
+            query = query.limit(20)
+            result = await db.execute(query)
+            agents = [
+                {"id": str(a.id), "name": a.name, "sphere": str(a.sphere_id) if a.sphere_id else "general", "level": a.agent_type or "L1"}
+                for a in result.scalars().all()
+            ]
+            return {
+                "agents": agents,
+                "total": len(agents),
+                "note": "Nova coordinates agent suggestions. Humans select and activate."
+            }
+        except Exception as e:
+            logger.warning(f"DB fallback for agents: {e}")
+
+    # Fallback
     agents = [
         {"id": str(uuid4()), "name": "Note Assistant", "sphere": "personal", "level": "L1"},
         {"id": str(uuid4()), "name": "Task Manager", "sphere": "personal", "level": "L1"},
@@ -413,11 +584,7 @@ async def list_available_agents(sphere_id: Optional[UUID] = None):
         {"id": str(uuid4()), "name": "Creative Director", "sphere": "creative", "level": "L2"},
         {"id": str(uuid4()), "name": "Research Assistant", "sphere": "scholar", "level": "L1"},
     ]
-    
-    if sphere_id:
-        # Filter by sphere (mock)
-        pass
-    
+
     return {
         "agents": agents,
         "total": len(agents),
@@ -451,14 +618,28 @@ async def suggest_agent_action(
 # ============================================================================
 
 @router.get("/stats")
-async def get_nova_stats():
+async def get_nova_stats(db: Optional[AsyncSession] = Depends(get_db_optional)):
     """Get Nova pipeline statistics."""
+    total_conversations = len(_conversations_fallback)
+    total_tokens = 0
+
+    if db:
+        try:
+            count_result = await db.execute(select(func.count(ConversationModel.id)))
+            total_conversations = count_result.scalar() or 0
+            tokens_result = await db.execute(
+                select(func.coalesce(func.sum(ConversationModel.total_tokens), 0))
+            )
+            total_tokens = tokens_result.scalar() or 0
+        except Exception:
+            pass
+
     return {
-        "total_conversations": len(_conversations),
+        "total_conversations": total_conversations,
         "pending_checkpoints": len(_pending_requests),
-        "tokens_used_today": 15000,  # Mock
-        "tokens_budget": 100000,     # Mock
-        "avg_response_time_ms": 250, # Mock
+        "tokens_used_today": total_tokens,
+        "tokens_budget": 100000,
+        "avg_response_time_ms": 250,
         "governance": {
             "checkpoints_triggered": 42,
             "approved": 38,
@@ -466,7 +647,8 @@ async def get_nova_stats():
         },
         "lanes": {
             lane.value: "operational" for lane in NovaLane
-        }
+        },
+        "database": "connected" if db else "fallback"
     }
 
 
@@ -553,20 +735,126 @@ async def _check_governance(intent: Dict, mode: NovaMode) -> Dict[str, Any]:
     }
 
 
-async def _generate_suggestions(intent: Dict, context: Dict, mode: NovaMode) -> Dict[str, Any]:
-    """Lane F: Generate suggestions (no execution in analysis mode)."""
-    action = intent.get("primary_action", "query")
-    
+async def _generate_suggestions(intent: Dict, context: Dict, mode: NovaMode, user_message: str = "", agent_name: str = None) -> Dict[str, Any]:
+    """Lane F: Generate response via LLM or fallback to template."""
+    connector = _get_llm_connector()
+    agent = agent_name or DEFAULT_AGENT
+    system_prompt = AGENT_PROMPTS.get(agent, AGENT_PROMPTS[DEFAULT_AGENT])
+
+    # Try real LLM
+    if connector and connector.get_available_providers():
+        try:
+            # Pick first available provider (prefer anthropic)
+            providers = connector.get_available_providers()
+            provider = "anthropic" if "anthropic" in providers else providers[0]
+            config = connector._clients.get(provider) or None
+            from app.services.llm_connector import PROVIDER_CONFIGS
+            model = PROVIDER_CONFIGS[provider].default_model
+
+            messages = [{"role": "user", "content": user_message or intent.get("primary_action", "query")}]
+
+            result = await connector.complete(
+                provider=provider,
+                model=model,
+                messages=messages,
+                system_prompt=system_prompt,
+                max_tokens=1024,
+                temperature=0.7,
+            )
+
+            return {
+                "response": result.get("content", "Je suis à votre disposition."),
+                "items": [],
+                "tokens_used": result.get("total_tokens", 0),
+                "provider": provider,
+            }
+        except Exception as e:
+            logger.warning(f"LLM call failed, falling back to template: {e}")
+
+    # Fallback: template response
+    fallback_responses = {
+        "nova": "Bonjour ! Je suis Nova, l'intelligence système d'AT·OM. Comment puis-je vous aider aujourd'hui ?",
+        "aria": "Bienvenue sur AT·OM ! Je suis Aria, votre guide. Que souhaitez-vous découvrir ?",
+        "orion": "Je suis Orion, votre orchestrateur stratégique. Décrivez-moi votre projet et je vous proposerai un plan d'action.",
+    }
+
     return {
-        "response": f"Based on your request, here are my suggestions for '{action}':",
+        "response": fallback_responses.get(agent, fallback_responses["nova"]),
         "items": [
-            {"type": "suggestion", "content": "Option A: ..."},
-            {"type": "suggestion", "content": "Option B: ..."},
-            {"type": "suggestion", "content": "Option C: ..."}
-        ]
+            {"type": "info", "content": "Le service IA est temporairement en mode hors-ligne. Réponse automatique."}
+        ],
+        "tokens_used": 0,
+        "provider": "fallback",
     }
 
 
 async def _audit_request(request_id: UUID, user_id: UUID, intent: Dict):
     """Lane G: Audit the request."""
     logger.info(f"AUDIT: Request {request_id} by {user_id} - Intent: {intent}")
+
+
+async def _save_conversation(
+    db: Optional[AsyncSession],
+    user_id: UUID,
+    request: "NovaRequest",
+    response_text: str,
+    tokens_used: int
+):
+    """Save conversation to DB or fallback."""
+    now = datetime.utcnow()
+    agent = request.agent_name or DEFAULT_AGENT
+
+    messages = [
+        {"role": "user", "content": request.message, "timestamp": now.isoformat()},
+        {"role": "nova", "content": response_text, "timestamp": now.isoformat()},
+    ]
+
+    if db:
+        try:
+            from app.core.database import db_manager
+            async with db_manager.session() as session:
+                conv = ConversationModel(
+                    owner_id=user_id,
+                    created_by=user_id,
+                    thread_id=request.thread_id,
+                    agent_name=agent,
+                    status="active",
+                    messages=messages,
+                    total_tokens=tokens_used,
+                )
+                session.add(conv)
+                await session.commit()
+                logger.debug(f"Conversation saved to DB: {conv.id}")
+                return
+        except Exception as e:
+            logger.warning(f"DB save failed, using fallback: {e}")
+
+    # Fallback: in-memory
+    conv_id = str(uuid4())
+    _conversations_fallback[conv_id] = {
+        "id": conv_id,
+        "thread_id": str(request.thread_id) if request.thread_id else None,
+        "messages": messages,
+        "status": NovaRequestStatus.COMPLETED,
+        "created_at": now,
+        "updated_at": now,
+    }
+
+
+def _conv_to_dict(conv: ConversationModel) -> dict:
+    """Convert ConversationModel to API-compatible dict."""
+    return {
+        "id": conv.id,
+        "thread_id": conv.thread_id,
+        "messages": [
+            NovaChatMessage(
+                role=m.get("role", "system"),
+                content=m.get("content", ""),
+                timestamp=m.get("timestamp", conv.created_at.isoformat()),
+            )
+            for m in (conv.messages or [])
+        ],
+        "status": conv.status or NovaRequestStatus.COMPLETED,
+        "created_at": conv.created_at,
+        "updated_at": conv.updated_at,
+    }

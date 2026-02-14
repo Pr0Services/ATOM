@@ -1621,8 +1621,6 @@
             environment:   { icon: '🌱', name: 'Environnement', color: '#2ECC71', count: 35 }
         };
 
-        const API_BASE = (typeof ATOM_CONFIG !== 'undefined') ? ATOM_CONFIG.API_BASE : 'https://atom-2autu.ondigitalocean.app';
-
         let allAgents = [];
         let selectedSphere = null;
         let currentView = 'planet';
@@ -1640,15 +1638,13 @@
         });
 
         // ═══════════════════════════════════════════════════════════════
-        // LOAD AGENTS FROM API
+        // LOAD AGENTS FROM API (uses config.js getAgents)
         // ═══════════════════════════════════════════════════════════════
         async function loadAgents() {
             try {
-                const response = await fetch(`${API_BASE}/agents`);
-                if (response.ok) {
-                    allAgents = await response.json();
-                    console.log(`[CIVILIZATION] Loaded ${allAgents.length} agents`);
-                }
+                const result = await getAgents();
+                allAgents = result.agents;
+                console.log(`[CIVILIZATION] Loaded ${allAgents.length} agents (${result.source})`);
             } catch (error) {
                 console.warn('[CIVILIZATION] Using generated agents');
                 allAgents = generateFallbackAgents();
@@ -1658,6 +1654,7 @@
         function generateFallbackAgents() {
             const agents = [];
             let id = 1;
+            const levels = ['L0', 'L1', 'L2', 'L2', 'L3', 'L3'];
             Object.entries(CIVILIZATION_SPHERES).forEach(([key, sphere]) => {
                 for (let i = 0; i < sphere.count; i++) {
                     agents.push({
@@ -1665,7 +1662,7 @@
                         name: `${sphere.name} Agent #${i + 1}`,
                         sphere: sphere.name,
                         sphere_key: key,
-                        frequency_hz: Math.floor(300 + Math.random() * 700),
+                        level: levels[i % levels.length],
                         status: 'active'
                     });
                 }
@@ -1994,7 +1991,7 @@
                         id: i,
                         name: `${sphere.name} Agent #${i + 1}`,
                         sphere: sphere.name,
-                        frequency_hz: Math.floor(300 + Math.random() * 700)
+                        level: ['L1', 'L2', 'L2', 'L3'][i % 4]
                     });
                 }
             }
@@ -2004,12 +2001,11 @@
 
         function updateStats() {
             const total = allAgents.length || Object.values(CIVILIZATION_SPHERES).reduce((sum, s) => sum + s.count, 0);
-            const avgFreq = allAgents.length > 0
-                ? Math.round(allAgents.reduce((sum, a) => sum + (a.frequency_hz || 444), 0) / allAgents.length)
-                : 444;
+            const activeCount = allAgents.filter(a => a.status === 'active' || !a.status).length;
+            const activePercent = total > 0 ? Math.round((activeCount / total) * 100) : 0;
 
             document.getElementById('totalAgents').textContent = total;
-            document.getElementById('avgFreq').textContent = avgFreq;
+            document.getElementById('avgFreq').textContent = activePercent + '%';
 
             document.getElementById('statPersonal').textContent = getSphereAgentCount('personal');
             document.getElementById('statBusiness').textContent = getSphereAgentCount('business');
@@ -2128,13 +2124,12 @@
             container.scrollTop = container.scrollHeight;
         }
 
-        // Send chat message
-        function sendChatMessage() {
+        // Send chat message (connected to backend API)
+        async function sendChatMessage() {
             const input = document.getElementById('chatInput');
             const text = input.value.trim();
             if (!text || !currentChatAgent) return;
 
-            // Add user message
             chatHistory[currentChatAgent].push({
                 role: 'user',
                 content: text,
@@ -2142,19 +2137,36 @@
             });
 
             input.value = '';
+            input.disabled = true;
             renderChatMessages();
 
-            // Simulate agent response
-            const agent = CORE_AGENTS[currentChatAgent];
-            setTimeout(() => {
-                const responses = getAgentResponse(currentChatAgent, text);
+            try {
+                const response = await atomPost('/api/v2/nova/chat', {
+                    message: text,
+                    agent_name: currentChatAgent
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    chatHistory[currentChatAgent].push({
+                        role: 'agent',
+                        content: data.message || 'Je suis à votre disposition.',
+                        timestamp: Date.now()
+                    });
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (e) {
+                const fallback = getAgentResponse(currentChatAgent, text);
                 chatHistory[currentChatAgent].push({
                     role: 'agent',
-                    content: responses,
+                    content: fallback,
                     timestamp: Date.now()
                 });
-                renderChatMessages();
-            }, 800 + Math.random() * 700);
+            }
+
+            input.disabled = false;
+            input.focus();
+            renderChatMessages();
         }
 
         // Get agent response based on context

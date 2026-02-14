@@ -1415,7 +1415,7 @@
         // ═══════════════════════════════════════════════════════════════
         // CONFIGURATION
         // ═══════════════════════════════════════════════════════════════
-        const API_BASE = (typeof ATOM_CONFIG !== 'undefined') ? ATOM_CONFIG.API_BASE : 'https://atom-2autu.ondigitalocean.app';
+        // Utilise ATOM_CONFIG et atomPost() depuis config.js
 
         // 9 Spheres de la Civilisation
         const CIVILIZATION_SPHERES = {
@@ -2147,7 +2147,7 @@
             container.scrollTop = container.scrollHeight;
         }
 
-        function sendChatMessage() {
+        async function sendChatMessage() {
             const input = document.getElementById('chatInput');
             const text = input.value.trim();
             if (!text || !currentChatAgent) return;
@@ -2159,18 +2159,36 @@
             });
 
             input.value = '';
+            input.disabled = true;
             renderChatMessages();
 
-            const agent = CORE_AGENTS[currentChatAgent];
-            setTimeout(() => {
-                const response = getAgentResponse(currentChatAgent, text);
+            try {
+                const response = await atomPost('/api/v2/nova/chat', {
+                    message: text,
+                    agent_name: currentChatAgent
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    chatHistory[currentChatAgent].push({
+                        role: 'agent',
+                        content: data.message || 'Je suis à votre disposition.',
+                        timestamp: Date.now()
+                    });
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (e) {
+                const fallback = getAgentResponse(currentChatAgent, text);
                 chatHistory[currentChatAgent].push({
                     role: 'agent',
-                    content: response,
+                    content: fallback,
                     timestamp: Date.now()
                 });
-                renderChatMessages();
-            }, 800 + Math.random() * 700);
+            }
+
+            input.disabled = false;
+            input.focus();
+            renderChatMessages();
         }
 
         function getAgentResponse(agentId, userMessage) {

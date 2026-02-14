@@ -517,7 +517,7 @@
             border-color: var(--sacred-gold);
         }
 
-        /* ADN Display */
+        /* Platform Indicators */
         .adn-display {
             display: flex;
             justify-content: center;
@@ -557,23 +557,23 @@
     </header>
 
     <main class="main-container">
-        <!-- ADN Vibratoire -->
+        <!-- Indicateurs Plateforme -->
         <div class="adn-display">
             <div class="adn-item">
-                <div class="adn-value">Φ 1.618</div>
-                <div class="adn-label">GOLDEN RATIO</div>
+                <div class="adn-value">437</div>
+                <div class="adn-label">AGENTS</div>
             </div>
             <div class="adn-item">
-                <div class="adn-value" style="color: var(--green-glow);">444 Hz</div>
-                <div class="adn-label">HEARTBEAT</div>
+                <div class="adn-value" style="color: var(--green-glow);">9</div>
+                <div class="adn-label">DOMAINES</div>
             </div>
             <div class="adn-item">
-                <div class="adn-value" style="color: var(--purple-glow);">369</div>
-                <div class="adn-label">TESLA KEY</div>
+                <div class="adn-value" style="color: var(--purple-glow);">18</div>
+                <div class="adn-label">WORKFLOWS</div>
             </div>
             <div class="adn-item">
-                <div class="adn-value" style="color: var(--orange-glow);">999 Hz</div>
-                <div class="adn-label">SOURCE</div>
+                <div class="adn-value" style="color: var(--orange-glow);">90j</div>
+                <div class="adn-label">SIMULATION</div>
             </div>
         </div>
 
@@ -617,7 +617,7 @@
             <!-- Left Panel: Spheres -->
             <div class="panel">
                 <div class="panel-header">
-                    <div class="panel-title">🌐 Les 9 Spheres</div>
+                    <div class="panel-title">🌐 Les 9 Domaines</div>
                     <span id="activeSpheres">0/9</span>
                 </div>
                 <div class="panel-content" id="spheresList">
@@ -647,8 +647,8 @@
                                 <div class="stat-label">Taches Completees</div>
                             </div>
                             <div class="stat-card">
-                                <div class="stat-value" id="avgFrequency">444</div>
-                                <div class="stat-label">Frequence Moy (Hz)</div>
+                                <div class="stat-value" id="avgFrequency">0</div>
+                                <div class="stat-label">Score Moyen</div>
                             </div>
                         </div>
 
@@ -737,15 +737,15 @@
         // Les 9 Spheres de la Civilisation - V2 EQUILIBREE (Post-Analyse)
         // Reequilibrage: de 404 a 437 agents (+8%), distribution optimisee
         const SPHERES = [
-            { id: 1, name: 'Personnel', icon: '👤', color: '#00FF88', agents: 48, frequency: 528, health: 100 },
-            { id: 2, name: 'Business', icon: '💼', color: '#D4AF37', agents: 55, frequency: 444, health: 100 },
-            { id: 3, name: 'Gouvernement', icon: '🏛', color: '#9333EA', agents: 50, frequency: 639, health: 100 },
-            { id: 4, name: 'Creatif', icon: '🎨', color: '#FF6B35', agents: 52, frequency: 741, health: 100 },
-            { id: 5, name: 'Communaute', icon: '🤝', color: '#4A90D9', agents: 45, frequency: 396, health: 100 },
-            { id: 6, name: 'Social', icon: '💬', color: '#FF6B6B', agents: 42, frequency: 417, health: 100 },
-            { id: 7, name: 'Education', icon: '📚', color: '#00CED1', agents: 50, frequency: 852, health: 100 },
-            { id: 8, name: 'Transport', icon: '🚀', color: '#FFD700', agents: 45, frequency: 963, health: 100 },
-            { id: 9, name: 'Environnement', icon: '🌿', color: '#32CD32', agents: 50, frequency: 432, health: 100 }
+            { id: 1, name: 'Personnel', icon: '👤', color: '#00FF88', agents: 48, score: 92, health: 100 },
+            { id: 2, name: 'Entreprise', icon: '💼', color: '#D4AF37', agents: 55, score: 95, health: 100 },
+            { id: 3, name: 'Institutions', icon: '🏛', color: '#9333EA', agents: 50, score: 88, health: 100 },
+            { id: 4, name: 'Création', icon: '🎨', color: '#FF6B35', agents: 52, score: 90, health: 100 },
+            { id: 5, name: 'Communauté', icon: '🤝', color: '#4A90D9', agents: 45, score: 85, health: 100 },
+            { id: 6, name: 'Communication', icon: '💬', color: '#FF6B6B', agents: 42, score: 87, health: 100 },
+            { id: 7, name: 'Formation', icon: '📚', color: '#00CED1', agents: 50, score: 91, health: 100 },
+            { id: 8, name: 'Logistique', icon: '🚀', color: '#FFD700', agents: 45, score: 89, health: 100 },
+            { id: 9, name: 'Durabilité', icon: '🌿', color: '#32CD32', agents: 50, score: 93, health: 100 }
         ];
         // Total: 437 agents | Ecart max: 13 (vs 33 avant)
 
@@ -789,7 +789,7 @@
                 agents: 0,
                 workflows: 0,
                 tasks: 0,
-                frequency: 444
+                score: 0
             },
             weeklyActivity: new Array(12).fill(0), // 12 weeks
             monthlyData: {
@@ -810,7 +810,7 @@
             renderSpheres();
             renderChart();
             log('info', 'Simulation prete. Cliquez sur Demarrer pour lancer 3 mois de simulation.');
-            log('info', `9 Spheres disponibles avec ${SPHERES.reduce((a, s) => a + s.agents, 0)} agents au total.`);
+            log('info', `9 domaines disponibles avec ${SPHERES.reduce((a, s) => a + s.agents, 0)} agents au total.`);
             log('info', `${WORKFLOWS.length} workflows inter-spheres configures.`);
         }
 
@@ -823,7 +823,7 @@
                     </div>
                     <div class="sphere-info">
                         <div class="sphere-name">${sphere.name}</div>
-                        <div class="sphere-agents">${sphere.agents} agents | ${sphere.frequency} Hz</div>
+                        <div class="sphere-agents">${sphere.agents} agents</div>
                     </div>
                     <div class="sphere-status" id="sphere-status-${sphere.id}"></div>
                 </div>
@@ -887,7 +887,7 @@
                 activeWorkflows: [],
                 completedWorkflows: [],
                 events: [],
-                stats: { agents: 0, workflows: 0, tasks: 0, frequency: 444 },
+                stats: { agents: 0, workflows: 0, tasks: 0, score: 0 },
                 weeklyActivity: new Array(12).fill(0),
                 monthlyData: {
                     1: { agents: 0, workflows: 0, tasks: 0 },
@@ -964,8 +964,8 @@
                 generateRandomEvent();
             }
 
-            // Calculate frequency
-            simState.stats.frequency = calculateAverageFrequency();
+            // Calculate score
+            simState.stats.score = calculateAverageScore();
 
             // Update UI
             updateStats();
@@ -991,12 +991,12 @@
             document.getElementById(`sphere-status-${sphereId}`).classList.add('active');
             document.getElementById('activeSpheres').textContent = `${simState.activeSpheres.length}/9`;
 
-            log('success', `Sphere ${sphere.icon} ${sphere.name} activee - ${sphere.agents} agents deployes`);
+            log('success', `Domaine ${sphere.icon} ${sphere.name} active - ${sphere.agents} agents deployes`);
 
             addTimelineEvent({
                 type: 'success',
-                title: `Sphere ${sphere.name} Activee`,
-                desc: `${sphere.agents} agents a ${sphere.frequency} Hz`,
+                title: `Domaine ${sphere.name} Active`,
+                desc: `${sphere.agents} agents - score ${sphere.score}%`,
                 day: simState.day
             });
         }
@@ -1116,11 +1116,11 @@
             `).join('');
         }
 
-        function calculateAverageFrequency() {
-            if (simState.activeSpheres.length === 0) return 444;
+        function calculateAverageScore() {
+            if (simState.activeSpheres.length === 0) return 0;
             const total = simState.activeSpheres.reduce((sum, id) => {
                 const sphere = SPHERES.find(s => s.id === id);
-                return sum + (sphere ? sphere.frequency : 0);
+                return sum + (sphere ? sphere.score : 0);
             }, 0);
             return Math.round(total / simState.activeSpheres.length);
         }
@@ -1129,7 +1129,7 @@
             document.getElementById('totalAgents').textContent = simState.stats.agents;
             document.getElementById('totalWorkflows').textContent = simState.stats.workflows;
             document.getElementById('totalTasks').textContent = simState.stats.tasks;
-            document.getElementById('avgFrequency').textContent = simState.stats.frequency;
+            document.getElementById('avgFrequency').textContent = simState.stats.score;
         }
 
         // ═══════════════════════════════════════════════════════════════════
@@ -1174,7 +1174,7 @@
             document.getElementById('agentsChange').textContent = `+${agentGrowth}% croissance`;
             document.getElementById('workflowsChange').textContent = `+${workflowGrowth}% croissance`;
             document.getElementById('tasksChange').textContent = `+${taskGrowth}% croissance`;
-            document.getElementById('efficiencyChange').textContent = `PHI = ${(efficiency * 0.01618).toFixed(3)}`;
+            document.getElementById('efficiencyChange').textContent = `Score: ${efficiency}%`;
 
             // Final event
             addTimelineEvent({

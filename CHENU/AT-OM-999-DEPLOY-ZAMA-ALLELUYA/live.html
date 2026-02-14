@@ -1044,12 +1044,12 @@
         let atlasApproaches = 0;
 
         const FALLBACK_AGENTS = [
-            { id: 1, name: "Nova", sphere: "Intelligence", frequency_hz: 999 },
-            { id: 2, name: "Aria", sphere: "Communication", frequency_hz: 528 },
-            { id: 3, name: "Orion", sphere: "Integration", frequency_hz: 741 },
-            { id: 4, name: "Atlas", sphere: "Construction", frequency_hz: 528 },
-            { id: 5, name: "Phoenix", sphere: "Analytics", frequency_hz: 639 },
-            { id: 6, name: "Guardian", sphere: "Security", frequency_hz: 741 },
+            { id: 1, name: "Nova", sphere: "Personnel", level: "L0" },
+            { id: 2, name: "Aria", sphere: "Personnel", level: "L0" },
+            { id: 3, name: "Orion", sphere: "Entreprise", level: "L1" },
+            { id: 4, name: "Atlas", sphere: "Entreprise", level: "L1" },
+            { id: 5, name: "Phoenix", sphere: "Création", level: "L2" },
+            { id: 6, name: "Guardian", sphere: "Institutions", level: "L1" },
         ];
 
         // Canvas
@@ -1107,16 +1107,18 @@
         window.addEventListener('resize', resizeCanvas);
 
         function initParticles() {
+            const levelSize = { 'L0': 8, 'L1': 6, 'L2': 4, 'L3': 3 };
+            const levelSpeed = { 'L0': 1.5, 'L1': 1.2, 'L2': 1.0, 'L3': 0.8 };
             particles = agents.slice(0, 100).map(a => ({
                 id: a.id,
                 name: a.name,
                 sphere: a.sphere,
-                freq: a.frequency_hz || 100,
+                level: a.level || 'L3',
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
-                vx: (Math.random() - 0.5) * 2,
-                vy: (Math.random() - 0.5) * 2,
-                radius: 3 + Math.min(a.frequency_hz || 0, 1000) / 200,
+                vx: (Math.random() - 0.5) * 2 * (levelSpeed[a.level] || 0.8),
+                vy: (Math.random() - 0.5) * 2 * (levelSpeed[a.level] || 0.8),
+                radius: levelSize[a.level] || 3,
                 color: getColorForSphere(a.sphere)
             }));
             document.getElementById('particleCount').textContent = `${particles.length} agents actifs`;
@@ -1124,13 +1126,15 @@
 
         function getColorForSphere(sphere) {
             const colors = {
-                'Intelligence': '#9333EA',
+                'Personnel': '#9333EA',
+                'Entreprise': '#FF6B35',
+                'Institutions': '#FFEAA7',
+                'Création': '#FF6B6B',
+                'Communauté': '#4ECDC4',
                 'Communication': '#00FF88',
-                'Integration': '#FF6B35',
-                'Construction': '#FF6B6B',
-                'Finance': '#4ECDC4',
-                'Analytics': '#96CEB4',
-                'Security': '#FFEAA7'
+                'Formation': '#96CEB4',
+                'Logistique': '#45B7D1',
+                'Durabilité': '#7CB342'
             };
             return colors[sphere] || '#D4AF37';
         }
@@ -1376,35 +1380,34 @@
         // DATA & EVENTS
         // ═══════════════════════════════════════════════════════════════════
 
-        async function fetchWithTimeout(url, timeout = FETCH_TIMEOUT) {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), timeout);
-            try {
-                const response = await fetch(url, { signal: controller.signal });
-                clearTimeout(timeoutId);
-                return response;
-            } catch (error) {
-                clearTimeout(timeoutId);
-                throw error;
-            }
-        }
-
         async function fetchAgents() {
             try {
-                const response = await fetchWithTimeout(`${API_BASE}/agents`);
-                agents = await response.json();
-                if (!Array.isArray(agents)) throw new Error('Invalid');
-                addEvent('system', `${agents.length} agents chargés`);
+                const result = await getAgents();
+                agents = result.agents;
+                addEvent('system', `${agents.length} agents chargés (${result.source})`);
             } catch (error) {
-                const cached = localStorage.getItem('atom_agents_cache');
-                agents = cached ? JSON.parse(cached) : FALLBACK_AGENTS;
+                agents = FALLBACK_AGENTS;
                 addEvent('system', `${agents.length} agents (fallback)`);
             }
 
             document.getElementById('agentCount').textContent = agents.length;
             initParticles();
             renderActiveAgents();
-            updateFrequencyMeter();
+            updateActivityMeter();
+        }
+
+        // Polling des threads actifs
+        async function fetchActiveThreads() {
+            try {
+                const response = await atomFetch('/api/v2/threads?status=active');
+                if (response.ok) {
+                    const threads = await response.json();
+                    const count = Array.isArray(threads) ? threads.length : 0;
+                    if (count > 0) {
+                        addEvent('system', `${count} threads actifs`);
+                    }
+                }
+            } catch (e) { /* silencieux */ }
         }
 
         function addEvent(type, message) {
@@ -1429,24 +1432,25 @@
 
         function renderActiveAgents() {
             const container = document.getElementById('activeAgents');
-            const top8 = [...agents].sort((a, b) => (b.frequency_hz || 0) - (a.frequency_hz || 0)).slice(0, 8);
+            const levelOrder = { 'L0': 0, 'L1': 1, 'L2': 2, 'L3': 3 };
+            const top8 = [...agents].sort((a, b) => (levelOrder[a.level] || 3) - (levelOrder[b.level] || 3)).slice(0, 8);
 
             container.innerHTML = top8.map(a => `
                 <div class="active-agent">
                     <div class="agent-info">
                         <span class="agent-name">${a.name}</span>
-                        <span class="agent-sphere">${a.sphere || 'Unknown'}</span>
+                        <span class="agent-sphere">${a.sphere || 'Général'}</span>
                     </div>
-                    <span class="agent-freq">${a.frequency_hz || 0}</span>
+                    <span class="agent-freq">${a.level || 'L3'}</span>
                 </div>
             `).join('');
         }
 
-        function updateFrequencyMeter() {
-            const avgFreq = agents.reduce((sum, a) => sum + (a.frequency_hz || 0), 0) / agents.length;
-            const percent = Math.min(100, (avgFreq / 1000) * 100);
+        function updateActivityMeter() {
+            const activeCount = agents.filter(a => a.status === 'active' || !a.status).length;
+            const percent = agents.length > 0 ? Math.round((activeCount / agents.length) * 100) : 0;
             document.getElementById('freqMeterFill').style.width = percent + '%';
-            document.getElementById('avgFreqDisplay').textContent = Math.round(avgFreq / 10) + '%';
+            document.getElementById('avgFreqDisplay').textContent = percent + '%';
         }
 
         function connectWS() {
@@ -1477,8 +1481,8 @@
         function handleMessage(data) {
             if (data.type === 'agent_update') {
                 addEvent('agent', `${data.agent?.name || 'Agent'} mis à jour`);
-            } else if (data.type === 'frequency_change') {
-                addEvent('freq', `Activité: ${data.frequency_hz}`);
+            } else if (data.type === 'activity_update' || data.type === 'frequency_change') {
+                addEvent('freq', `Activité: ${data.value || data.frequency_hz || ''}`);
             } else if (data.type === 'gratitude_pulse') {
                 addEvent('sync', `Signal de veille`);
             }
@@ -1568,27 +1572,42 @@
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
 
-        function sendChatMessage() {
+        async function sendChatMessage() {
             const input = document.getElementById('chatInput');
             const text = input.value.trim();
             if (!text) return;
 
             addChatMessage(text, 'user');
             input.value = '';
+            input.disabled = true;
 
-            setTimeout(() => {
+            try {
+                const response = await atomPost('/api/v2/nova/chat', {
+                    message: text,
+                    agent_name: currentChatAgent
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    addChatMessage(data.message || 'Je suis à votre disposition.', 'agent');
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (error) {
+                // Fallback local
                 const agent = CORE_AGENTS[currentChatAgent];
-                let response = agent.responses.help;
                 const lower = text.toLowerCase();
+                let reply = agent.responses.help;
 
-                if (lower.includes('fréquence') || lower.includes('hz')) response = agent.responses.frequency || agent.responses.help;
-                else if (lower.includes('connexion') || lower.includes('direct')) response = agent.responses.ws || agent.responses.help;
-                else if (lower.includes('canvas') || lower.includes('visualisation') || lower.includes('agent')) response = agent.responses.canvas || agent.responses.help;
-                else if (lower.includes('event') || lower.includes('événement')) response = agent.responses.event || agent.responses.help;
-                else if (lower.includes('agent')) response = agent.responses.agent || agent.responses.help;
+                if (lower.includes('connexion') || lower.includes('direct')) reply = agent.responses.ws || reply;
+                else if (lower.includes('agent') || lower.includes('visualisation')) reply = agent.responses.canvas || reply;
+                else if (lower.includes('event') || lower.includes('événement')) reply = agent.responses.event || reply;
 
-                addChatMessage(response, 'agent');
-            }, 500);
+                addChatMessage(reply, 'agent');
+            }
+
+            input.disabled = false;
+            input.focus();
         }
 
         document.getElementById('chatInput').addEventListener('keypress', (e) => {
@@ -1615,7 +1634,11 @@
 
             setTimeout(connectWS, 1500);
 
-            addEvent('system', '⚡ Activité en direct initialisée');
+            // Polling threads actifs toutes les 30s
+            fetchActiveThreads();
+            setInterval(fetchActiveThreads, 30000);
+
+            addEvent('system', 'Activité en direct initialisée');
         })();
     </script>
 </body>

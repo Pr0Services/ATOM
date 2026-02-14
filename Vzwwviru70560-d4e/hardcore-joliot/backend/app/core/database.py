@@ -364,6 +364,28 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
         yield session
 
 
+async def get_db_optional() -> AsyncGenerator[Optional[AsyncSession], None]:
+    """
+    FastAPI dependency that yields a DB session or None if DB is unavailable.
+
+    Usage:
+        @router.get("/items")
+        async def get_items(db: Optional[AsyncSession] = Depends(get_db_optional)):
+            if db:
+                result = await db.execute(select(Item))
+                return result.scalars().all()
+            return []  # Fallback
+    """
+    if not db_manager.is_connected:
+        yield None
+        return
+    try:
+        async with db_manager.session() as session:
+            yield session
+    except Exception:
+        yield None
+
+
 # ===========================================================================================
 # LIFECYCLE FUNCTIONS
 # ===========================================================================================

@@ -344,6 +344,18 @@ register_router("app.routers.atom", "/api/v2/atom", ["AT-OM"], "atom")
 # Tokenomics engine (4-instrument economy: UR, JT, ATOM, NFT + Flow Keeper)
 register_router("api.v1.routes.tokenomics_routes", "/api/v2/tokenomics", ["Tokenomics"], "tokenomics")
 
+# Neuromorphic Hub (5 systems + Lattice + Semantic Comm)
+register_router("app.routers.neuromorphic", "/api/v2/neuromorphic", ["Neuromorphic"], "neuromorphic")
+
+# Dimensional Engines (29 multidimensional perspective engines)
+register_router("app.routers.engines", "/api/v2/engines", ["Engines"], "engines")
+
+# Verticals (20 industry-specific modules)
+register_router("app.routers.verticals", "/api/v2/verticals", ["Verticals"], "verticals")
+
+# World Engine (scenarios, temporal, workers)
+register_router("app.routers.world_engine", "/api/v2/world-engine", ["WorldEngine"], "world_engine")
+
 # ===========================================================================================
 # HEALTH ENDPOINTS
 # ===========================================================================================

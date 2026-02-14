@@ -839,8 +839,7 @@
     </div>
 
     <script>
-        const API_BASE = (typeof ATOM_CONFIG !== 'undefined') ? ATOM_CONFIG.API_BASE : 'https://atom-2autu.ondigitalocean.app';
-        const FETCH_TIMEOUT = 5000;
+        // Utilise ATOM_CONFIG et getAgents() depuis config.js
 
         const SPHERE_ICONS = {
             'Personnel': '👤', 'Business': '💼', 'Gouvernement': '🏛️',
@@ -853,11 +852,11 @@
         const COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9'];
 
         const FALLBACK_AGENTS = [
-            { id: 1, name: "Nova", sphere: "Intelligence", frequency_hz: 999 },
-            { id: 2, name: "Aria", sphere: "Communication", frequency_hz: 528 },
-            { id: 3, name: "Orion", sphere: "Integration", frequency_hz: 741 },
-            { id: 4, name: "Atlas", sphere: "Construction", frequency_hz: 528 },
-            { id: 5, name: "Phoenix", sphere: "Analytics", frequency_hz: 639 },
+            { id: 1, name: "Nova", sphere: "Personnel", level: "L0" },
+            { id: 2, name: "Aria", sphere: "Personnel", level: "L0" },
+            { id: 3, name: "Orion", sphere: "Entreprise", level: "L1" },
+            { id: 4, name: "Atlas", sphere: "Entreprise", level: "L1" },
+            { id: 5, name: "Phoenix", sphere: "Création", level: "L2" },
         ];
 
         const CORE_AGENTS = {
@@ -891,27 +890,12 @@
         resizeCanvas();
         window.addEventListener('resize', () => { resizeCanvas(); initParticles(); });
 
-        async function fetchWithTimeout(url, timeout = FETCH_TIMEOUT) {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), timeout);
-            try {
-                const response = await fetch(url, { signal: controller.signal });
-                clearTimeout(timeoutId);
-                return response;
-            } catch (error) {
-                clearTimeout(timeoutId);
-                throw error;
-            }
-        }
-
         async function fetchAgents() {
             try {
-                const response = await fetchWithTimeout(`${API_BASE}/agents`);
-                agents = await response.json();
-                if (!Array.isArray(agents)) throw new Error('Invalid');
+                const result = await getAgents();
+                agents = result.agents;
             } catch (error) {
-                const cached = localStorage.getItem('atom_agents_cache');
-                agents = cached ? JSON.parse(cached) : FALLBACK_AGENTS;
+                agents = FALLBACK_AGENTS;
             }
 
             processSpheres();
@@ -1121,15 +1105,24 @@
             document.getElementById('chatMessages').appendChild(msg);
         }
 
-        function sendChatMessage() {
+        async function sendChatMessage() {
             const input = document.getElementById('chatInput');
             const text = input.value.trim();
             if (!text) return;
             addChatMessage(text, 'user');
             input.value = '';
-            setTimeout(() => {
+            input.disabled = true;
+            try {
+                const response = await atomPost('/api/v2/nova/chat', { message: text, agent_name: currentChatAgent });
+                if (response.ok) {
+                    const data = await response.json();
+                    addChatMessage(data.message || 'Je suis à votre disposition.', 'agent');
+                } else { throw new Error('HTTP ' + response.status); }
+            } catch (e) {
                 addChatMessage(CORE_AGENTS[currentChatAgent].responses.help, 'agent');
-            }, 500);
+            }
+            input.disabled = false;
+            input.focus();
         }
 
         document.getElementById('chatInput').addEventListener('keypress', e => {

@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AT·OM | Bienvenue</title>
+    <meta name="description" content="AT·OM — Configuration initiale de votre espace d'intelligence collective">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#D8B26A">
+    <script src="/config.js"></script>
+    <style>
+        :root {
+            --sacred-gold: #D8B26A;
+            --sacred-gold-dim: rgba(216, 178, 106, 0.15);
+            --dark-bg: #0a0a0f;
+            --green: #00FF88;
+            --purple: #9333EA;
+            --orange: #FF6B35;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--dark-bg);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        /* ═══════════════════════════════════════════
+           PROGRESS INDICATOR
+        ═══════════════════════════════════════════ */
+        .progress {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+        .progress-dot {
+            width: 8px; height: 8px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            transition: background 0.3s;
+        }
+        .progress-dot.active { background: var(--sacred-gold); }
+        .progress-dot.done { background: rgba(255,255,255,0.35); }
+
+        /* ═══════════════════════════════════════════
+           STEP CONTAINER
+        ═══════════════════════════════════════════ */
+        .step {
+            display: none;
+            width: 100%;
+            max-width: 540px;
+            animation: fadeIn 0.3s ease;
+        }
+        .step.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .step-center { text-align: center; }
+
+        h1 { font-size: 1.75rem; font-weight: 700; margin-bottom: 0.5rem; }
+        h2 { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.25rem; }
+        .subtitle { color: rgba(255,255,255,0.5); font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+        /* Nova Guide */
+        .nova-guide {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+        .nova-icon {
+            width: 32px; height: 32px;
+            border-radius: 50%;
+            background: rgba(216,178,106,0.15);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        .nova-text { font-size: 0.85rem; color: rgba(255,255,255,0.6); line-height: 1.5; }
+
+        /* ═══════════════════════════════════════════
+           GRID CHOICES (Univers, Sph\u00e8res, Plateformes)
+        ═══════════════════════════════════════════ */
+        .choice-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .choice-card {
+            padding: 1rem;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+        }
+        .choice-card:hover {
+            border-color: rgba(216,178,106,0.4);
+            background: rgba(216,178,106,0.05);
+        }
+        .choice-card.selected {
+            border-color: var(--sacred-gold);
+            background: var(--sacred-gold-dim);
+        }
+        .choice-card.connected {
+            border-color: var(--green);
+            background: rgba(0,255,136,0.08);
+        }
+        .choice-icon { font-size: 1.75rem; margin-bottom: 0.4rem; }
+        .choice-name { font-size: 0.95rem; font-weight: 500; color: white; }
+        .choice-desc { font-size: 0.75rem; color: rgba(255,255,255,0.45); margin-top: 0.15rem; }
+
+        /* ═══════════════════════════════════════════
+           ROOM INPUT LIST (Step 3)
+        ═══════════════════════════════════════════ */
+        .room-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .room-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 0.75rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+        }
+        .room-icon { font-size: 1.25rem; width: 2rem; text-align: center; }
+        .room-label { font-size: 0.85rem; color: rgba(255,255,255,0.5); width: 6rem; }
+        .room-input {
+            flex: 1;
+            padding: 0.5rem 0.75rem;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 8px;
+            color: white;
+            font-size: 0.85rem;
+        }
+        .room-input:focus { outline: none; border-color: var(--sacred-gold); }
+        .room-input::placeholder { color: rgba(255,255,255,0.25); }
+
+        /* ═══════════════════════════════════════════
+           TUTORIAL CONCEPTS (Step 4)
+        ═══════════════════════════════════════════ */
+        .concept-counter {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.35);
+            margin-bottom: 1rem;
+        }
+        .concept-title { font-size: 1.25rem; font-weight: 600; margin-bottom: 0.75rem; }
+        .concept-desc {
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.65);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        /* ═══════════════════════════════════════════
+           SUMMARY (Step 6)
+        ═══════════════════════════════════════════ */
+        .summary-block {
+            padding: 1rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+        }
+        .summary-label {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.35);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+        .summary-value { font-size: 0.95rem; }
+        .summary-rooms {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.4rem;
+        }
+        .summary-room {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* ═══════════════════════════════════════════
+           BUTTONS
+        ═══════════════════════════════════════════ */
+        .btn-row {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 0.5rem;
+        }
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+        .btn-primary {
+            flex: 1;
+            background: var(--sacred-gold);
+            color: var(--dark-bg);
+        }
+        .btn-primary:hover { background: #e6c476; }
+        .btn-primary:disabled {
+            background: rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.3);
+            cursor: not-allowed;
+        }
+        .btn-ghost {
+            background: none;
+            color: rgba(255,255,255,0.45);
+            border: none;
+        }
+        .btn-ghost:hover { color: white; }
+
+        /* ═══════════════════════════════════════════
+           FOOTER
+        ═══════════════════════════════════════════ */
+        .footer {
+            position: fixed;
+            bottom: 1rem;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.2);
+        }
+
+        /* Mobile */
+        @media (max-width: 480px) {
+            .choice-grid { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+            .choice-card { padding: 0.75rem; }
+            .choice-icon { font-size: 1.5rem; }
+            .room-label { width: 4.5rem; font-size: 0.75rem; }
+            h1 { font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ═══════════════════════════════════════════════════
+         PROGRESS DOTS
+    ═══════════════════════════════════════════════════ -->
+    <div class="progress" id="progressDots"></div>
+
+    <!-- ═══════════════════════════════════════════════════
+         STEP 1: BIENVENUE
+    ═══════════════════════════════════════════════════ -->
+    <div class="step active step-center" id="step1">
+        <div style="font-size:3.5rem;margin-bottom:1rem;">🔱</div>
+        <h1>Bienvenue sur AT·OM</h1>
+        <p class="subtitle">Un systeme a 9 domaines pour organiser votre vie numerique.</p>
+
+        <div class="nova-guide">
+            <div class="nova-icon">🌟</div>
+            <div class="nova-text">Bienvenue. Ce parcours prend environ 3 minutes. Les etapes 5 et 7 sont optionnelles.</div>
+        </div>
+
+        <button class="btn btn-primary" onclick="goToStep(2)" style="width:100%;">Commencer</button>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+         STEP 2: CHOIX DE L'UNIVERS
+    ═══════════════════════════════════════════════════ -->
+    <div class="step step-center" id="step2">
+        <h2>Choisissez votre univers</h2>
+        <p class="subtitle">Le theme visuel de votre espace.</p>
+
+        <div class="nova-guide">
+            <div class="nova-icon">🌟</div>
+            <div class="nova-text">L'univers definit l'ambiance visuelle. Vous pourrez le changer plus tard.</div>
+        </div>
+
+        <div class="choice-grid" id="universeGrid"></div>
+
+        <div class="btn-row">
+            <button class="btn btn-ghost" onclick="goToStep(1)">Retour</button>
+            <button class="btn btn-primary" id="btnStep2Next" disabled onclick="goToStep(3)">Continuer</button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+         STEP 3: NOMMER LES PIECES
+    ═══════════════════════════════════════════════════ -->
+    <div class="step" id="step3">
+        <div class="step-center">
+            <h2>Nommez vos pieces</h2>
+            <p class="subtitle">Chaque domaine a sa piece dans votre espace.</p>
+        </div>
+
+        <div class="nova-guide">
+            <div class="nova-icon">🌟</div>
+            <div class="nova-text">Les noms par defaut fonctionnent bien. Personnalisez si vous le souhaitez.</div>
+        </div>
+
+        <div class="room-list" id="roomList"></div>
+
+        <div class="btn-row">
+            <button class="btn btn-ghost" onclick="goToStep(2)">Retour</button>
+            <button class="btn btn-primary" onclick="goToStep(4)">Continuer</button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+         STEP 4: TUTORIAL (4 concepts)
+    ═══════════════════════════════════════════════════ -->
+    <div class="step step-center" id="step4">
+        <div class="concept-counter" id="conceptCounter"></div>
+        <div class="concept-title" id="conceptTitle"></div>
+        <div class="concept-desc" id="conceptDesc"></div>
+
+        <div class="btn-row">
+            <button class="btn btn-ghost" id="btnTutorialBack" onclick="tutorialBack()">Retour</button>
+            <button class="btn btn-primary" id="btnTutorialNext" onclick="tutorialNext()">Suivant</button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+         STEP 5: CONNEXIONS PLATEFORMES (Optionnel)
+    ═══════════════════════════════════════════════════ -->
+    <div class="step step-center" id="step5">
+        <h2>Connexions</h2>
+        <p class="subtitle">Optionnel. Vous pouvez le faire plus tard.</p>
+
+        <div class="nova-guide">
+            <div class="nova-icon">🌟</div>
+            <div class="nova-text">Les connexions permettent de synchroniser vos donnees existantes.</div>
+        </div>
+
+        <div class="choice-grid" id="platformGrid"></div>
+
+        <div class="btn-row">
+            <button class="btn btn-ghost" onclick="goToStep(4)">Retour</button>
+            <button class="btn btn-ghost" onclick="goToStep(6)">Passer</button>
+            <button class="btn btn-primary" onclick="goToStep(6)">Continuer</button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+         STEP 6: RESUME
+    ═══════════════════════════════════════════════════ -->
+    <div class="step" id="step6">
+        <div class="step-center">
+            <h2>Resume</h2>
+            <p class="subtitle" style="margin-bottom:1rem;"></p>
+        </div>
+
+        <div id="summaryContent"></div>
+
+        <div class="btn-row" style="margin-top:1rem;">
+            <button class="btn btn-ghost" onclick="goToStep(5)">Modifier</button>
+            <button class="btn btn-primary" onclick="goToStep(7)">Valider et Terminer</button>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════
+         STEP 7: PROFILS (Optionnel)
+    ═══════════════════════════════════════════════════ -->
+    <div class="step step-center" id="step7">
+        <h2>Configuration avancee</h2>
+        <p class="subtitle">Vous pouvez configurer chaque domaine en detail maintenant ou plus tard depuis les parametres.</p>
+
+        <div class="nova-guide">
+            <div class="nova-icon">🌟</div>
+            <div class="nova-text">La plupart des utilisateurs preferent explorer d'abord, puis configurer.</div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:0.75rem;width:100%;">
+            <button class="btn btn-primary" onclick="completeOnboarding()" style="width:100%;">Commencer a explorer</button>
+            <button class="btn btn-ghost" onclick="completeOnboarding()" style="width:100%;">Configurer maintenant</button>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">CHE·NU V76</div>
+
+    <!-- ═══════════════════════════════════════════════════
+         JAVASCRIPT — ONBOARDING WIZARD (Vanilla)
+         Converti depuis OnboardingWizard.js (React)
+    ═══════════════════════════════════════════════════ -->
+    <script>
+        // ═══════════════════════════════════════════
+        // DATA — Identique au React source
+        // ═══════════════════════════════════════════
+
+        const TOTAL_STEPS = 7;
+        let currentStep = 1;
+        let tutorialIndex = 0;
+
+        const UNIVERS = [
+            { id: 'minimal', name: 'Minimal', desc: 'Epure, essentiel', preview: '⬜' },
+            { id: 'nature', name: 'Nature', desc: 'Organique, calme', preview: '🌿' },
+            { id: 'cosmos', name: 'Cosmos', desc: 'Profond, infini', preview: '🌌' },
+            { id: 'arche', name: 'Arche', desc: 'Dore, souverain', preview: '🔱' }
+        ];
+
+        const SPHERES = [
+            { id: 'personal', name: 'Personnel', icon: '👤', defaultRoom: 'Chambre' },
+            { id: 'business', name: 'Entreprise', icon: '💼', defaultRoom: 'Bureau' },
+            { id: 'government', name: 'Institutions', icon: '🏛️', defaultRoom: 'Hall' },
+            { id: 'studio', name: 'Creation', icon: '🎨', defaultRoom: 'Atelier' },
+            { id: 'community', name: 'Communaute', icon: '🤝', defaultRoom: 'Agora' },
+            { id: 'social', name: 'Communication', icon: '💬', defaultRoom: 'Salon' },
+            { id: 'education', name: 'Formation', icon: '📚', defaultRoom: 'Classe' },
+            { id: 'logistics', name: 'Logistique', icon: '🚀', defaultRoom: 'Poste' },
+            { id: 'sustainability', name: 'Durabilite', icon: '🌍', defaultRoom: 'Jardin' }
+        ];
+
+        const CONCEPTS = [
+            { title: 'Qu\'est-ce qu\'un agent IA ?', desc: 'Un agent IA est un assistant specialise dans un domaine precis. Il analyse vos donnees, recommande des actions et execute — mais c\'est toujours vous qui validez. AT·OM en reunit plus de 400.' },
+            { title: 'Vos 3 agents principaux', desc: 'Nova supervise le systeme. Aria vous guide pas a pas. Orion coordonne les agents pour atteindre vos objectifs. Vous pouvez leur parler via le bouton dore en bas a droite.' },
+            { title: 'Les 9 Domaines', desc: '9 contextes d\'expertise separes. Chaque domaine isole vos donnees et vos agents specialises.' },
+            { title: 'Le Bureau Unifie', desc: 'Chaque domaine a son espace de travail avec agents, fichiers, conversations et outils dedies.' },
+            { title: 'Gouvernance & Controle', desc: 'Vous controlez. Les agents proposent, vous decidez. Toute action importante necessite votre approbation.' }
+        ];
+
+        const PLATFORMS = [
+            { id: 'google', name: 'Google', icon: '📧', desc: 'Gmail, Calendar, Drive' },
+            { id: 'outlook', name: 'Outlook', icon: '📬', desc: 'Email, Calendar' },
+            { id: 'notion', name: 'Notion', icon: '📝', desc: 'Notes, Bases de donnees' },
+            { id: 'slack', name: 'Slack', icon: '💬', desc: 'Messages, Canaux' }
+        ];
+
+        // State
+        const onboardingData = {
+            universe: null,
+            rooms: {},
+            connections: []
+        };
+
+        // ═══════════════════════════════════════════
+        // INITIALIZATION
+        // ═══════════════════════════════════════════
+
+        function init() {
+            // Check if already onboarded
+            if (localStorage.getItem('atom_onboarding_complete') && localStorage.getItem('atom_charte_accepted')) {
+                window.location.href = '/';
+                return;
+            }
+
+            renderProgress();
+            renderUniverseGrid();
+            renderRoomList();
+            renderPlatformGrid();
+            renderTutorial();
+        }
+
+        // ═══════════════════════════════════════════
+        // NAVIGATION
+        // ═══════════════════════════════════════════
+
+        function goToStep(step) {
+            // Hide current
+            document.getElementById('step' + currentStep).classList.remove('active');
+            currentStep = step;
+            // Show new
+            document.getElementById('step' + currentStep).classList.add('active');
+            renderProgress();
+
+            // Step-specific renders
+            if (step === 4) renderTutorial();
+            if (step === 6) renderSummary();
+        }
+
+        function renderProgress() {
+            const container = document.getElementById('progressDots');
+            container.innerHTML = '';
+            for (let i = 1; i <= TOTAL_STEPS; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'progress-dot' +
+                    (i === currentStep ? ' active' : '') +
+                    (i < currentStep ? ' done' : '');
+                container.appendChild(dot);
+            }
+        }
+
+        // ═══════════════════════════════════════════
+        // STEP 2: UNIVERSE
+        // ═══════════════════════════════════════════
+
+        function renderUniverseGrid() {
+            const grid = document.getElementById('universeGrid');
+            grid.innerHTML = UNIVERS.map(u => `
+                <div class="choice-card${onboardingData.universe === u.id ? ' selected' : ''}"
+                     onclick="selectUniverse('${u.id}')" data-uid="${u.id}">
+                    <div class="choice-icon">${u.preview}</div>
+                    <div class="choice-name">${u.name}</div>
+                    <div class="choice-desc">${u.desc}</div>
+                </div>
+            `).join('');
+        }
+
+        function selectUniverse(id) {
+            onboardingData.universe = id;
+            // Update UI
+            document.querySelectorAll('#universeGrid .choice-card').forEach(c => {
+                c.classList.toggle('selected', c.dataset.uid === id);
+            });
+            document.getElementById('btnStep2Next').disabled = false;
+        }
+
+        // ═══════════════════════════════════════════
+        // STEP 3: ROOMS
+        // ═══════════════════════════════════════════
+
+        function renderRoomList() {
+            const list = document.getElementById('roomList');
+            list.innerHTML = SPHERES.map(s => `
+                <div class="room-item">
+                    <span class="room-icon">${s.icon}</span>
+                    <span class="room-label">${s.name}</span>
+                    <input class="room-input" type="text"
+                        placeholder="${s.defaultRoom}"
+                        value="${onboardingData.rooms[s.id] || ''}"
+                        oninput="updateRoom('${s.id}', this.value)"
+                    />
+                </div>
+            `).join('');
+        }
+
+        function updateRoom(sphereId, value) {
+            onboardingData.rooms[sphereId] = value;
+        }
+
+        // ═══════════════════════════════════════════
+        // STEP 4: TUTORIAL
+        // ═══════════════════════════════════════════
+
+        function renderTutorial() {
+            const concept = CONCEPTS[tutorialIndex];
+            document.getElementById('conceptCounter').textContent =
+                `Concept ${tutorialIndex + 1} / ${CONCEPTS.length}`;
+            document.getElementById('conceptTitle').textContent = concept.title;
+            document.getElementById('conceptDesc').textContent = concept.desc;
+            document.getElementById('btnTutorialNext').textContent =
+                tutorialIndex === CONCEPTS.length - 1 ? 'Compris' : 'Suivant';
+        }
+
+        function tutorialNext() {
+            if (tutorialIndex < CONCEPTS.length - 1) {
+                tutorialIndex++;
+                renderTutorial();
+            } else {
+                goToStep(5);
+            }
+        }
+
+        function tutorialBack() {
+            if (tutorialIndex > 0) {
+                tutorialIndex--;
+                renderTutorial();
+            } else {
+                goToStep(3);
+            }
+        }
+
+        // ═══════════════════════════════════════════
+        // STEP 5: PLATFORMS
+        // ═══════════════════════════════════════════
+
+        function renderPlatformGrid() {
+            const grid = document.getElementById('platformGrid');
+            grid.innerHTML = PLATFORMS.map(p => `
+                <div class="choice-card${onboardingData.connections.includes(p.id) ? ' connected' : ''}"
+                     onclick="togglePlatform('${p.id}')" data-pid="${p.id}">
+                    <div class="choice-icon">${p.icon}</div>
+                    <div class="choice-name">${p.name}</div>
+                    <div class="choice-desc">${p.desc}</div>
+                </div>
+            `).join('');
+        }
+
+        function togglePlatform(id) {
+            const idx = onboardingData.connections.indexOf(id);
+            if (idx >= 0) {
+                onboardingData.connections.splice(idx, 1);
+            } else {
+                onboardingData.connections.push(id);
+            }
+            renderPlatformGrid();
+        }
+
+        // ═══════════════════════════════════════════
+        // STEP 6: SUMMARY
+        // ═══════════════════════════════════════════
+
+        function renderSummary() {
+            const universe = UNIVERS.find(u => u.id === onboardingData.universe);
+            let html = '';
+
+            // Universe
+            html += `<div class="summary-block">
+                <div class="summary-label">Univers</div>
+                <div class="summary-value">${universe ? universe.preview + ' ' + universe.name : 'Non choisi'}</div>
+            </div>`;
+
+            // Rooms
+            html += `<div class="summary-block">
+                <div class="summary-label">Vos 9 Pieces</div>
+                <div class="summary-rooms">
+                    ${SPHERES.map(s => `
+                        <div class="summary-room">
+                            <span>${s.icon}</span>
+                            <span>${onboardingData.rooms[s.id] || s.defaultRoom}</span>
+                        </div>
+                    `).join('')}
+                </div>
+            </div>`;
+
+            // Connections
+            if (onboardingData.connections.length > 0) {
+                const connectedPlatforms = onboardingData.connections.map(c =>
+                    PLATFORMS.find(p => p.id === c)
+                ).filter(Boolean);
+                html += `<div class="summary-block">
+                    <div class="summary-label">Connexions</div>
+                    <div class="summary-value">${connectedPlatforms.map(p => p.icon + ' ' + p.name).join(', ')}</div>
+                </div>`;
+            }
+
+            document.getElementById('summaryContent').innerHTML = html;
+        }
+
+        // ═══════════════════════════════════════════
+        // STEP 7: COMPLETE
+        // ═══════════════════════════════════════════
+
+        function completeOnboarding() {
+            // Save to localStorage (same keys as React version)
+            localStorage.setItem('atom_onboarding_complete', 'true');
+            localStorage.setItem('atom_onboarding_data', JSON.stringify(onboardingData));
+            localStorage.setItem('atom_charte_accepted', 'true');
+            localStorage.setItem('atom_visited', 'true');
+
+            // Redirect to main app
+            window.location.href = '/';
+        }
+
+        // ═══════════════════════════════════════════
+        // INIT
+        // ═══════════════════════════════════════════
+        init();
+    </script>
+</body>
+</html>

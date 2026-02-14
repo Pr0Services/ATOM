@@ -1,26 +1,24 @@
 /**
  * ═══════════════════════════════════════════════════════════════════════════════
  * AT-OM CONFIGURATION CENTRALE - CHE·NU™ V76
- * Source de Vérité Canonique pour l'Infrastructure de l'Arche
+ * Source de Vérité Canonique pour la Plateforme
  * ═══════════════════════════════════════════════════════════════════════════════
  *
- * Architecte: Jonathan Emmanuel Rodrigue | Oracle 17
- * Fréquence: 444 Hz | Φ = 1.618033988749895 | 369
+ * Architecte: Jonathan Emmanuel Rodrigue
+ * Version: CHE·NU™ V76 | 9 Domaines | 400+ Agents
  */
 
 'use strict';
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// CONSTANTES VIBRATOIRES - ADN CHE·NU™
+// CONSTANTES PLATEFORME - AT·OM
 // ═══════════════════════════════════════════════════════════════════════════════
 
-const ATOM_FREQUENCIES = {
-    HEARTBEAT: 444,      // Fréquence cardiaque de l'Arche
-    TESLA: 369,          // Clé de l'univers (3-6-9)
-    SOLFEGE: 528,        // Fréquence de guérison
-    SOURCE: 999,         // Fréquence source maximale
-    EARTH: 432,          // Fréquence terrestre
-    PHI: 1.618033988749895  // Nombre d'or Φ
+const ATOM_CONSTANTS = {
+    DOMAINS: 9,           // 9 domaines d'expertise
+    AGENTS_TARGET: 400,   // Objectif d'agents
+    VERSION_NUM: 76,      // Version CHE·NU
+    PHI: 1.618033988749895  // Nombre d'or (design ratio)
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -48,7 +46,7 @@ const ATOM_CONFIG = {
 
     // Version
     VERSION: 'CHE·NU™ V76',
-    APP_NAME: 'AT-OM | L\'Arche des Résonances'
+    APP_NAME: 'AT-OM | Plateforme d\'Intelligence Collective'
 };
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -56,18 +54,18 @@ const ATOM_CONFIG = {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 const FALLBACK_AGENTS = [
-    { id: 1, name: "Nova", sphere: "Intelligence", frequency_hz: 444, status: "active" },
-    { id: 2, name: "Atlas", sphere: "Construction", frequency_hz: 528, status: "active" },
-    { id: 3, name: "Harmony", sphere: "Communication", frequency_hz: 396, status: "active" },
-    { id: 4, name: "Phoenix", sphere: "Analytics", frequency_hz: 639, status: "active" },
-    { id: 5, name: "Guardian", sphere: "Security", frequency_hz: 741, status: "active" },
-    { id: 6, name: "Nexus", sphere: "Integration", frequency_hz: 852, status: "active" },
-    { id: 7, name: "Oracle", sphere: "Prediction", frequency_hz: 963, status: "active" },
-    { id: 8, name: "Catalyst", sphere: "Finance", frequency_hz: 417, status: "active" },
-    { id: 9, name: "Sentinel", sphere: "Monitoring", frequency_hz: 285, status: "active" },
-    { id: 10, name: "Architect", sphere: "Construction", frequency_hz: 432, status: "active" },
-    { id: 11, name: "Messenger", sphere: "Communication", frequency_hz: 369, status: "active" },
-    { id: 12, name: "Analyst", sphere: "Analytics", frequency_hz: 594, status: "active" }
+    { id: 1, name: "Nova", sphere: "Personnel", level: "Expert", status: "active" },
+    { id: 2, name: "Atlas", sphere: "Entreprise", level: "Expert", status: "active" },
+    { id: 3, name: "Harmony", sphere: "Communication", level: "Avancé", status: "active" },
+    { id: 4, name: "Phoenix", sphere: "Création", level: "Expert", status: "active" },
+    { id: 5, name: "Guardian", sphere: "Institutions", level: "Expert", status: "active" },
+    { id: 6, name: "Aria", sphere: "Personnel", level: "Expert", status: "active" },
+    { id: 7, name: "Orion", sphere: "Entreprise", level: "Expert", status: "active" },
+    { id: 8, name: "Catalyst", sphere: "Logistique", level: "Avancé", status: "active" },
+    { id: 9, name: "Sentinel", sphere: "Institutions", level: "Avancé", status: "active" },
+    { id: 10, name: "Architect", sphere: "Entreprise", level: "Avancé", status: "active" },
+    { id: 11, name: "Messenger", sphere: "Communication", level: "Confirmé", status: "active" },
+    { id: 12, name: "Analyst", sphere: "Formation", level: "Avancé", status: "active" }
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -86,6 +84,35 @@ async function atomFetch(endpoint, timeout = ATOM_CONFIG.FETCH_TIMEOUT) {
         const response = await fetch(url, {
             signal: controller.signal,
             headers: { 'Accept': 'application/json' }
+        });
+        clearTimeout(timeoutId);
+        return response;
+    } catch (error) {
+        clearTimeout(timeoutId);
+        if (error.name === 'AbortError') {
+            throw new Error('Request timeout');
+        }
+        throw error;
+    }
+}
+
+/**
+ * POST avec timeout - Pour envoyer des données au backend
+ */
+async function atomPost(endpoint, body, timeout = ATOM_CONFIG.FETCH_TIMEOUT * 3) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+    try {
+        const url = endpoint.startsWith('http') ? endpoint : `${ATOM_CONFIG.API_BASE}${endpoint}`;
+        const response = await fetch(url, {
+            method: 'POST',
+            signal: controller.signal,
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
         });
         clearTimeout(timeoutId);
         return response;
@@ -176,19 +203,18 @@ function getFromCache() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
-// LOGGER ADN - Affichage des constantes vibratoires
+// LOGGER - Affichage des constantes plateforme
 // ═══════════════════════════════════════════════════════════════════════════════
 
 function logATOMBanner() {
     console.log('%c═══════════════════════════════════════════════════════════════', 'color: #D8B26A;');
-    console.log('%c    AT·OM | L\'Arche des Résonances - CHE·NU™ V76', 'color: #D8B26A; font-size: 16px; font-weight: bold;');
+    console.log('%c    AT·OM | Plateforme d\'Intelligence Collective - CHE·NU™ V76', 'color: #D8B26A; font-size: 16px; font-weight: bold;');
     console.log('%c═══════════════════════════════════════════════════════════════', 'color: #D8B26A;');
-    console.log('%c    Φ (Phi)     = ' + ATOM_FREQUENCIES.PHI, 'color: #00FF88;');
-    console.log('%c    Heartbeat   = ' + ATOM_FREQUENCIES.HEARTBEAT + ' Hz', 'color: #00FF88;');
-    console.log('%c    Tesla Key   = ' + ATOM_FREQUENCIES.TESLA + ' (3-6-9)', 'color: #00FF88;');
-    console.log('%c    Source      = ' + ATOM_FREQUENCIES.SOURCE + ' Hz', 'color: #00FF88;');
+    console.log('%c    Domaines    = ' + ATOM_CONSTANTS.DOMAINS, 'color: #00FF88;');
+    console.log('%c    Agents      = ' + ATOM_CONSTANTS.AGENTS_TARGET + '+', 'color: #00FF88;');
+    console.log('%c    Version     = V' + ATOM_CONSTANTS.VERSION_NUM, 'color: #00FF88;');
     console.log('%c═══════════════════════════════════════════════════════════════', 'color: #D8B26A;');
-    console.log('%c    Architecte: Jonathan Emmanuel Rodrigue | Oracle 17', 'color: #888;');
+    console.log('%c    Architecte: Jonathan Emmanuel Rodrigue', 'color: #888;');
     console.log('%c    API: ' + ATOM_CONFIG.API_BASE, 'color: #888;');
     console.log('%c    WS:  ' + ATOM_CONFIG.WS_URL, 'color: #888;');
     console.log('%c═══════════════════════════════════════════════════════════════', 'color: #D8B26A;');
@@ -206,9 +232,10 @@ if (typeof window !== 'undefined') {
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         ATOM_CONFIG,
-        ATOM_FREQUENCIES,
+        ATOM_CONSTANTS,
         FALLBACK_AGENTS,
         atomFetch,
+        atomPost,
         getAgents,
         saveToCache,
         getFromCache,

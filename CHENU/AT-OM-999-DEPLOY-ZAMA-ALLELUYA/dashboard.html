@@ -877,30 +877,29 @@
     </div>
 
     <script>
-        const API_BASE = (typeof ATOM_CONFIG !== 'undefined') ? ATOM_CONFIG.API_BASE : 'https://atom-2autu.ondigitalocean.app';
-        const FETCH_TIMEOUT = 5000;
         const COLORS = ['#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7', '#DDA0DD', '#98D8C8', '#F7DC6F'];
 
         let agents = [];
         let selectedSpheres = new Set();
 
-        // Level mapping from internal score to human label
-        function getAgentLevel(freq) {
-            if (freq >= 900) return { label: 'Expert', color: '#9333EA' };
-            if (freq >= 700) return { label: 'Avancé', color: '#FF6B35' };
-            if (freq >= 500) return { label: 'Confirmé', color: '#00FF88' };
-            if (freq >= 400) return { label: 'Intermédiaire', color: '#FFD700' };
-            if (freq >= 300) return { label: 'Standard', color: '#45B7D1' };
-            return { label: 'Assistant', color: '#4ECDC4' };
+        // Niveaux d'agents L0-L3
+        const LEVEL_MAP = {
+            'L0': { label: 'L0 — System', color: '#9333EA', rank: 0 },
+            'L1': { label: 'L1 — Orchestrator', color: '#FF6B35', rank: 1 },
+            'L2': { label: 'L2 — Specialist', color: '#00FF88', rank: 2 },
+            'L3': { label: 'L3 — Assistant', color: '#45B7D1', rank: 3 }
+        };
+
+        function getAgentLevel(agent) {
+            if (typeof agent === 'object' && agent.level && LEVEL_MAP[agent.level]) {
+                return LEVEL_MAP[agent.level];
+            }
+            return LEVEL_MAP['L3'];
         }
 
-        const FALLBACK_AGENTS = [
-            { id: 1, name: "Nova", sphere: "Intelligence", frequency_hz: 999 },
-            { id: 2, name: "Aria", sphere: "Communication", frequency_hz: 528 },
-            { id: 3, name: "Orion", sphere: "Integration", frequency_hz: 741 },
-            { id: 4, name: "Atlas", sphere: "Construction", frequency_hz: 528 },
-            { id: 5, name: "Phoenix", sphere: "Analytics", frequency_hz: 639 },
-        ];
+        function getLevelRank(agent) {
+            return (LEVEL_MAP[agent.level] || LEVEL_MAP['L3']).rank;
+        }
 
         const CORE_AGENTS = {
             nova: {
@@ -920,27 +919,12 @@
             }
         };
 
-        async function fetchWithTimeout(url, timeout = FETCH_TIMEOUT) {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), timeout);
-            try {
-                const response = await fetch(url, { signal: controller.signal });
-                clearTimeout(timeoutId);
-                return response;
-            } catch (error) {
-                clearTimeout(timeoutId);
-                throw error;
-            }
-        }
-
         async function fetchAgents() {
             try {
-                const response = await fetchWithTimeout(`${API_BASE}/agents`);
-                agents = await response.json();
-                if (!Array.isArray(agents)) throw new Error('Invalid');
+                const result = await getAgents();
+                agents = result.agents;
             } catch (error) {
-                const cached = localStorage.getItem('atom_agents_cache');
-                agents = cached ? JSON.parse(cached) : FALLBACK_AGENTS;
+                agents = (typeof FALLBACK_AGENTS !== 'undefined') ? FALLBACK_AGENTS : [];
             }
 
             document.getElementById('loadingState').style.display = 'none';
@@ -965,15 +949,13 @@
 
         function renderKPIs() {
             const data = getFilteredAgents();
-            const freqs = data.map(a => a.frequency_hz || 0);
             const spheres = [...new Set(data.map(a => a.sphere))];
-            const avgFreq = freqs.length ? freqs.reduce((a, b) => a + b, 0) / freqs.length : 0;
-            const maxFreq = freqs.length ? Math.max(...freqs) : 0;
+            const activeCount = data.filter(a => a.status === 'active' || !a.status).length;
 
             const kpis = [
                 { icon: '🤖', value: data.length, label: 'Agents actifs', change: '+12%', up: true },
                 { icon: '🔮', value: spheres.length, label: 'Domaines', change: '', up: true },
-                { icon: '✅', value: Math.round(data.length * 0.94), label: 'Disponibles', change: '94%', up: true },
+                { icon: '✅', value: activeCount, label: 'Disponibles', change: Math.round((activeCount / Math.max(data.length, 1)) * 100) + '%', up: true },
                 { icon: '⚡', value: '● En ligne', label: 'Statut système', change: '', up: true },
             ];
 
@@ -1058,12 +1040,12 @@
 
         function renderBarChart() {
             const data = getFilteredAgents();
-            const top7 = [...data].sort((a, b) => (b.frequency_hz || 0) - (a.frequency_hz || 0)).slice(0, 7);
-            const maxVal = Math.max(...top7.map(a => a.frequency_hz || 0));
+            const top7 = [...data].sort((a, b) => getLevelRank(a) - getLevelRank(b)).slice(0, 7);
+            const barHeights = { 0: 150, 1: 112, 2: 75, 3: 37 };
 
             document.getElementById('barChart').innerHTML = top7.map((a, i) => {
-                const height = ((a.frequency_hz || 0) / maxVal) * 150;
-                const level = getAgentLevel(a.frequency_hz || 0);
+                const level = getAgentLevel(a);
+                const height = barHeights[getLevelRank(a)] || 37;
                 return `
                     <div class="bar-wrapper">
                         <span class="bar-value" style="color:${level.color}">${level.label}</span>
@@ -1098,18 +1080,18 @@
                     </thead>
                     <tbody>
                         ${entries.map(([sphere, agentList], i) => {
-                            const freqs = agentList.map(a => a.frequency_hz || 0);
-                            const avg = freqs.reduce((a, b) => a + b, 0) / freqs.length;
-                            const max = Math.max(...freqs);
-                            const avgLevel = getAgentLevel(avg);
-                            const maxLevel = getAgentLevel(max);
+                            const ranks = agentList.map(a => getLevelRank(a));
+                            const bestRank = Math.min(...ranks);
+                            const avgRank = Math.round(ranks.reduce((a, b) => a + b, 0) / ranks.length);
+                            const avgLevel = LEVEL_MAP['L' + avgRank] || LEVEL_MAP['L3'];
+                            const bestLevel = LEVEL_MAP['L' + bestRank] || LEVEL_MAP['L3'];
                             return `
                                 <tr>
                                     <td><span style="color: ${COLORS[i % COLORS.length]}">●</span> ${sphere}</td>
                                     <td>${agentList.length}</td>
                                     <td>${((agentList.length / data.length) * 100).toFixed(1)}%</td>
                                     <td style="color:${avgLevel.color}">${avgLevel.label}</td>
-                                    <td style="color:${maxLevel.color}">${maxLevel.label}</td>
+                                    <td style="color:${bestLevel.color}">${bestLevel.label}</td>
                                 </tr>
                             `;
                         }).join('')}
@@ -1119,10 +1101,10 @@
         }
 
         function renderPerformers() {
-            const top5 = [...agents].sort((a, b) => (b.frequency_hz || 0) - (a.frequency_hz || 0)).slice(0, 5);
+            const top5 = [...agents].sort((a, b) => getLevelRank(a) - getLevelRank(b)).slice(0, 5);
 
             document.getElementById('performersList').innerHTML = top5.map((a, i) => {
-                const level = getAgentLevel(a.frequency_hz || 0);
+                const level = getAgentLevel(a);
                 return `
                 <div class="performer-item">
                     <span class="performer-rank">#${i + 1}</span>
@@ -1137,16 +1119,16 @@
         }
 
         function renderInsights() {
-            const freqs = agents.map(a => a.frequency_hz || 0);
-            const confirmed = freqs.filter(f => f >= 500).length;
-            const advanced = freqs.filter(f => f >= 700).length;
-            const expert = freqs.filter(f => f >= 900).length;
+            const l0Count = agents.filter(a => a.level === 'L0').length;
+            const l1Count = agents.filter(a => a.level === 'L1').length;
+            const l2Count = agents.filter(a => a.level === 'L2').length;
+            const l3Count = agents.filter(a => a.level === 'L3' || !a.level).length;
 
             const insights = [
-                { title: 'Agents confirmés+', value: `${confirmed} agents (${((confirmed / agents.length) * 100).toFixed(0)}%)` },
-                { title: 'Agents avancés+', value: `${advanced} agents de haut niveau` },
-                { title: 'Agents experts', value: `${expert} agents niveau expert` },
-                { title: 'Tendance', value: 'Croissance stable ↑' }
+                { title: 'System (L0)', value: `${l0Count} agents core` },
+                { title: 'Orchestrators (L1)', value: `${l1Count} coordinateurs` },
+                { title: 'Specialists (L2)', value: `${l2Count} experts domaine` },
+                { title: 'Assistants (L3)', value: `${l3Count} assistants` }
             ];
 
             document.getElementById('insightList').innerHTML = insights.map(i => `
@@ -1188,15 +1170,31 @@
             document.getElementById('chatMessages').appendChild(msg);
         }
 
-        function sendChatMessage() {
+        async function sendChatMessage() {
             const input = document.getElementById('chatInput');
             const text = input.value.trim();
             if (!text) return;
             addChatMessage(text, 'user');
             input.value = '';
-            setTimeout(() => {
+            input.disabled = true;
+
+            try {
+                const response = await atomPost('/api/v2/nova/chat', {
+                    message: text,
+                    agent_name: currentChatAgent
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    addChatMessage(data.message || 'Je suis à votre disposition.', 'agent');
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (e) {
                 addChatMessage(CORE_AGENTS[currentChatAgent].responses.help, 'agent');
-            }, 500);
+            }
+
+            input.disabled = false;
+            input.focus();
         }
 
         document.getElementById('chatInput').addEventListener('keypress', e => {

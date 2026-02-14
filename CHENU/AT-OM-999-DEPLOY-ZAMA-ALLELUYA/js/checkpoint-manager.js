@@ -473,6 +473,9 @@ class ATOMCheckpointManager {
             this.onCheckpointResolved(checkpoint, 'approved');
         }
 
+        // Synchroniser avec le backend (fire-and-forget)
+        this._syncResolution(checkpointId, 'approve', approvedBy, notes);
+
         console.log(`%c[CheckpointManager] Checkpoint APPROVED: ${checkpointId}`, 'color: #00FF88;');
         return { success: true, checkpoint };
     }
@@ -500,6 +503,9 @@ class ATOMCheckpointManager {
             this.onCheckpointResolved(checkpoint, 'rejected');
         }
 
+        // Synchroniser avec le backend (fire-and-forget)
+        this._syncResolution(checkpointId, 'reject', rejectedBy, notes);
+
         console.log(`%c[CheckpointManager] Checkpoint REJECTED: ${checkpointId}`, 'color: #FF6B6B;');
         return { success: true, checkpoint };
     }
@@ -524,6 +530,26 @@ class ATOMCheckpointManager {
 
         console.log(`%c[CheckpointManager] Checkpoint ESCALATED: ${checkpointId} → ${escalatedTo}`, 'color: #FFD700;');
         return { success: true, checkpoint };
+    }
+
+    /**
+     * Synchronise la résolution d'un checkpoint avec le backend API
+     * Fire-and-forget : ne bloque pas le flux local
+     */
+    _syncResolution(checkpointId, action, resolvedBy, notes) {
+        if (typeof atomPost !== 'function') return;
+        atomPost(`/api/v2/checkpoints/${checkpointId}/${action}`, {
+            resolved_by: resolvedBy,
+            notes: notes
+        }).then(resp => {
+            if (resp.ok) {
+                console.log(`[CheckpointManager] Backend synced: ${checkpointId} → ${action}`);
+            } else {
+                console.warn(`[CheckpointManager] Backend sync failed: HTTP ${resp.status}`);
+            }
+        }).catch(err => {
+            console.warn(`[CheckpointManager] Backend sync error: ${err.message}`);
+        });
     }
 
     /**

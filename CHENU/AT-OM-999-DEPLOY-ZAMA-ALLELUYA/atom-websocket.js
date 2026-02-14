@@ -38,8 +38,8 @@ const WS_CONFIG = (typeof ATOM_CONFIG !== 'undefined') ? {
     heartbeatInterval: 30000
 };
 
-// Fréquences vibratoires
-const GRATITUDE_FREQUENCY = (typeof ATOM_FREQUENCIES !== 'undefined') ? ATOM_FREQUENCIES.HEARTBEAT : 444;
+// Constantes de connexion
+const GRATITUDE_FREQUENCY = (typeof ATOM_CONSTANTS !== 'undefined') ? 444 : 444;
 const GRATITUDE_FALLBACK_DELAY = 15000; // 15 seconds before fallback
 
 // ═══════════════════════════════════════════════════════════════════════════════

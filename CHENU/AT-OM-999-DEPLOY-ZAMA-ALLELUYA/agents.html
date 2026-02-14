@@ -1087,6 +1087,7 @@
             <div class="logo-section">
                 <a href="/" class="logo">AT·OM</a>
                 <span class="page-title">Catalogue d'agents</span>
+                <span style="font-size:0.7rem; color:rgba(255,255,255,0.5); margin-left:8px;">Un agent IA analyse, recommande et exécute — vous validez.</span>
             </div>
             <nav class="global-nav">
                 <a href="/" class="nav-link">🏠 Accueil</a>
@@ -1171,8 +1172,8 @@
                     <select class="sort-select" id="sortSelect">
                         <option value="name">Trier par Nom</option>
                         <option value="sphere">Trier par Domaine</option>
-                        <option value="frequency">Trier par Compétence ↓</option>
-                        <option value="frequency-asc">Trier par Compétence ↑</option>
+                        <option value="level">Trier par Niveau ↑</option>
+                        <option value="level-desc">Trier par Niveau ↓</option>
                         <option value="id">Trier par ID</option>
                     </select>
                 </div>
@@ -1334,8 +1335,7 @@
         // CONFIGURATION
         // ═══════════════════════════════════════════════════════════════════
 
-        const API_BASE = (typeof ATOM_CONFIG !== 'undefined') ? ATOM_CONFIG.API_BASE : 'https://atom-2autu.ondigitalocean.app';
-        const FETCH_TIMEOUT = 5000;
+        // Utilise ATOM_CONFIG et getAgents() depuis config.js
 
         // State
         let allAgents = [];
@@ -1366,34 +1366,46 @@
             'Monitoring': '👁️'
         };
 
-        // Level mapping from frequency to human label
-        function getAgentLevel(freq) {
-            if (freq >= 900) return { label: 'Expert', color: '#9333EA' };
-            if (freq >= 700) return { label: 'Avancé', color: '#FF6B35' };
-            if (freq >= 500) return { label: 'Confirmé', color: '#00FF88' };
-            if (freq >= 400) return { label: 'Intermédiaire', color: '#FFD700' };
-            if (freq >= 300) return { label: 'Standard', color: '#45B7D1' };
-            return { label: 'Assistant', color: '#4ECDC4' };
+        // Niveaux d'agents L0-L3
+        // Niveaux d'agents L0-L3 (aligné avec agent-hierarchy.js)
+        const AGENT_LEVEL_MAP = {
+            'L0': { label: 'L0 — System', color: '#9333EA' },
+            'L1': { label: 'L1 — Orchestrator', color: '#FF6B35' },
+            'L2': { label: 'L2 — Specialist', color: '#00FF88' },
+            'L3': { label: 'L3 — Assistant', color: '#45B7D1' }
+        };
+
+        function getAgentLevel(agent) {
+            // Si l'agent a un champ level explicite (L0-L3)
+            if (agent.level && AGENT_LEVEL_MAP[agent.level]) {
+                return AGENT_LEVEL_MAP[agent.level];
+            }
+            // Fallback : déduire depuis le nom du niveau textuel
+            const lvl = (agent.level || '').toLowerCase();
+            if (lvl === 'expert' || lvl === 'system') return AGENT_LEVEL_MAP['L0'];
+            if (lvl === 'avancé' || lvl === 'orchestrator') return AGENT_LEVEL_MAP['L1'];
+            if (lvl === 'confirmé' || lvl === 'specialist') return AGENT_LEVEL_MAP['L2'];
+            return AGENT_LEVEL_MAP['L3'];
         }
 
-        function getFrequencyColor(freq) {
-            return getAgentLevel(freq).color;
+        function getFrequencyColor(agent) {
+            return getAgentLevel(agent).color;
         }
 
-        // Fallback data
+        // Fallback data (domaines canoniques + niveaux L0-L3)
         const FALLBACK_AGENTS = [
-            { id: 1, name: "Nova", sphere: "Intelligence", frequency_hz: 999 },
-            { id: 2, name: "Aria", sphere: "Communication", frequency_hz: 528 },
-            { id: 3, name: "Orion", sphere: "Integration", frequency_hz: 741 },
-            { id: 4, name: "Atlas", sphere: "Construction", frequency_hz: 528 },
-            { id: 5, name: "Harmony", sphere: "Communication", frequency_hz: 396 },
-            { id: 6, name: "Phoenix", sphere: "Analytics", frequency_hz: 639 },
-            { id: 7, name: "Guardian", sphere: "Security", frequency_hz: 741 },
-            { id: 8, name: "Nexus", sphere: "Integration", frequency_hz: 852 },
-            { id: 9, name: "Oracle", sphere: "Prediction", frequency_hz: 963 },
-            { id: 10, name: "Catalyst", sphere: "Finance", frequency_hz: 417 },
-            { id: 11, name: "Sentinel", sphere: "Monitoring", frequency_hz: 285 },
-            { id: 12, name: "Echo", sphere: "Communication", frequency_hz: 432 }
+            { id: 1, name: "Nova", sphere: "Personnel", level: "L0" },
+            { id: 2, name: "Aria", sphere: "Personnel", level: "L0" },
+            { id: 3, name: "Orion", sphere: "Entreprise", level: "L1" },
+            { id: 4, name: "Atlas", sphere: "Entreprise", level: "L1" },
+            { id: 5, name: "Harmony", sphere: "Communication", level: "L2" },
+            { id: 6, name: "Phoenix", sphere: "Création", level: "L2" },
+            { id: 7, name: "Guardian", sphere: "Institutions", level: "L1" },
+            { id: 8, name: "Catalyst", sphere: "Logistique", level: "L2" },
+            { id: 9, name: "Sentinel", sphere: "Institutions", level: "L2" },
+            { id: 10, name: "Architect", sphere: "Entreprise", level: "L2" },
+            { id: 11, name: "Messenger", sphere: "Communication", level: "L3" },
+            { id: 12, name: "Analyst", sphere: "Formation", level: "L2" }
         ];
 
         // ═══════════════════════════════════════════════════════════════════
@@ -1452,31 +1464,12 @@
         // DATA FETCHING
         // ═══════════════════════════════════════════════════════════════════
 
-        async function fetchWithTimeout(url, timeout = FETCH_TIMEOUT) {
-            const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), timeout);
-            try {
-                const response = await fetch(url, { signal: controller.signal });
-                clearTimeout(timeoutId);
-                return response;
-            } catch (error) {
-                clearTimeout(timeoutId);
-                throw error;
-            }
-        }
-
         async function fetchAgents() {
             try {
-                const response = await fetchWithTimeout(`${API_BASE}/agents`);
-                allAgents = await response.json();
-                if (!Array.isArray(allAgents)) allAgents = FALLBACK_AGENTS;
-                // Cache
-                try { localStorage.setItem('atom_agents_cache', JSON.stringify(allAgents)); } catch(e) {}
+                const result = await getAgents();
+                allAgents = result.agents;
             } catch (error) {
-                console.warn('API error, using fallback:', error.message);
-                // Try cache first
-                const cached = localStorage.getItem('atom_agents_cache');
-                allAgents = cached ? JSON.parse(cached) : FALLBACK_AGENTS;
+                allAgents = FALLBACK_AGENTS;
             }
 
             filteredAgents = [...allAgents];
@@ -1549,8 +1542,8 @@
             filteredAgents.sort((a, b) => {
                 if (sort === 'name') return a.name.localeCompare(b.name);
                 if (sort === 'sphere') return (a.sphere || '').localeCompare(b.sphere || '');
-                if (sort === 'frequency') return (b.frequency_hz || 0) - (a.frequency_hz || 0);
-                if (sort === 'frequency-asc') return (a.frequency_hz || 0) - (b.frequency_hz || 0);
+                if (sort === 'level') return (a.level || 'L3').localeCompare(b.level || 'L3');
+                if (sort === 'level-desc') return (b.level || 'L3').localeCompare(a.level || 'L3');
                 return a.id - b.id;
             });
 
@@ -1579,7 +1572,7 @@
             emptyState.style.display = 'none';
 
             grid.innerHTML = pageAgents.map(agent => {
-                const level = getAgentLevel(agent.frequency_hz || 0);
+                const level = getAgentLevel(agent);
                 const sphereIcon = SPHERE_ICONS[agent.sphere] || '🔮';
                 const isSelected = selectedAgent && selectedAgent.id === agent.id;
 
@@ -1667,7 +1660,7 @@
             document.getElementById('detailsContent').classList.add('visible');
 
             // Populate details
-            const level = getAgentLevel(selectedAgent.frequency_hz || 0);
+            const level = getAgentLevel(selectedAgent);
             const sphereIcon = SPHERE_ICONS[selectedAgent.sphere] || '🔮';
 
             document.getElementById('detailAvatar').textContent = sphereIcon;
@@ -1678,9 +1671,10 @@
             document.getElementById('detailFreqValue').textContent = level.label;
             document.getElementById('detailFreqValue').style.color = level.color;
 
-            // Level bar (normalized to 1000 max)
-            const freqPercent = Math.min(100, ((selectedAgent.frequency_hz || 0) / 1000) * 100);
-            document.getElementById('detailFreqBar').style.width = freqPercent + '%';
+            // Level bar (L0=100%, L1=75%, L2=50%, L3=25%)
+            const levelPercent = { 'L0': 100, 'L1': 75, 'L2': 50, 'L3': 25 };
+            const barPercent = levelPercent[selectedAgent.level] || 25;
+            document.getElementById('detailFreqBar').style.width = barPercent + '%';
             document.getElementById('detailFreqBar').style.background = level.color;
         }
 
@@ -1764,30 +1758,39 @@
             messagesDiv.scrollTop = messagesDiv.scrollHeight;
         }
 
-        function sendChatMessage() {
+        async function sendChatMessage() {
             const input = document.getElementById('chatInput');
             const text = input.value.trim();
-
             if (!text) return;
 
             addChatMessage(text, 'user');
             input.value = '';
+            input.disabled = true;
 
-            // Generate response
-            setTimeout(() => {
+            try {
+                const response = await atomPost('/api/v2/nova/chat', {
+                    message: text,
+                    agent_name: currentChatAgent
+                });
+                if (response.ok) {
+                    const data = await response.json();
+                    addChatMessage(data.message || 'Je suis à votre disposition.', 'agent');
+                } else {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+            } catch (e) {
+                // Fallback local
                 const agent = CORE_AGENTS[currentChatAgent];
-                let response = agent.responses.help;
-
                 const lower = text.toLowerCase();
-                if (lower.includes('agent') || lower.includes('qui')) response = agent.responses.agent;
-                else if (lower.includes('niveau') || lower.includes('compétence')) response = agent.responses.frequency || agent.responses.agent;
-                else if (lower.includes('domaine') || lower.includes('categorie')) response = agent.responses.sphere || agent.responses.filter;
-                else if (lower.includes('recherche') || lower.includes('trouver')) response = agent.responses.search || agent.responses.agent;
-                else if (lower.includes('plan') || lower.includes('objectif')) response = agent.responses.plan || agent.responses.help;
-                else if (lower.includes('coordonner') || lower.includes('organiser')) response = agent.responses.coordinate || agent.responses.help;
+                let reply = agent.responses.help;
+                if (lower.includes('agent') || lower.includes('qui')) reply = agent.responses.agent;
+                else if (lower.includes('domaine')) reply = agent.responses.sphere || reply;
+                else if (lower.includes('recherche')) reply = agent.responses.search || reply;
+                addChatMessage(reply, 'agent');
+            }
 
-                addChatMessage(response, 'agent');
-            }, 500);
+            input.disabled = false;
+            input.focus();
         }
 
         // Enter key to send

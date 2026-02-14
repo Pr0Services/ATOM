@@ -220,9 +220,9 @@
     <div class="toast" id="toast"></div>
 
     <script>
-        // Use centralized config if available
-        const API_BASE = (typeof ATOM_CONFIG !== 'undefined') ? ATOM_CONFIG.API_BASE : 'https://atom-2autu.ondigitalocean.app';
-        const WS_URL = (typeof ATOM_CONFIG !== 'undefined') ? ATOM_CONFIG.WS_URL : 'wss://atom-2autu.ondigitalocean.app/ws';
+        // Utilise ATOM_CONFIG depuis config.js
+        const API_BASE = ATOM_CONFIG.API_BASE;
+        const WS_URL = ATOM_CONFIG.WS_URL;
 
         // Update displayed URLs from config
         document.addEventListener('DOMContentLoaded', () => {
@@ -234,7 +234,7 @@
         async function testConnections() {
             // Test API
             try {
-                const response = await fetch(`${API_BASE}/agents`);
+                const response = await atomFetch('/agents');
                 const data = await response.json();
                 document.getElementById('apiDot').className = 'status-dot ok';
                 document.getElementById('apiStatusText').textContent = `OK (${data.length} agents)`;
@@ -291,9 +291,9 @@
         // Copy config
         function copyConfig() {
             const config = {
-                api: API_BASE + '/agents',
-                websocket: WS_URL,
-                version: 'v1.0.0',
+                api: ATOM_CONFIG.API_BASE + '/agents',
+                websocket: ATOM_CONFIG.WS_URL,
+                version: ATOM_CONFIG.VERSION,
                 backend: 'AT·OM Backend'
             };
             navigator.clipboard.writeText(JSON.stringify(config, null, 2));
@@ -303,8 +303,8 @@
         // Export data
         async function exportData() {
             try {
-                const response = await fetch(`${API_BASE}/agents`);
-                const data = await response.json();
+                const result = await getAgents();
+                const data = result.agents;
                 const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
                 const url = URL.createObjectURL(blob);
                 const a = document.createElement('a');

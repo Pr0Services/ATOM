@@ -634,3 +634,41 @@ class Notification(TrackedMixin, Base):
         Index("ix_notifications_owner", "owner_id"),
         Index("ix_notifications_unread", "owner_id", "is_read"),
     )
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# NOVA CONVERSATION
+# ═══════════════════════════════════════════════════════════════════════════════
+
+class NovaConversation(TrackedMixin, Base):
+    """
+    Nova chat conversation.
+    Stores conversation history for continuity.
+    """
+
+    __tablename__ = "nova_conversations"
+
+    owner_id: Mapped[uuid.UUID] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("identities.id", ondelete="CASCADE"),
+        nullable=False
+    )
+
+    thread_id: Mapped[Optional[uuid.UUID]] = mapped_column(
+        UUID(as_uuid=True),
+        ForeignKey("threads.id", ondelete="SET NULL")
+    )
+
+    agent_name: Mapped[str] = mapped_column(String(50), default="nova")
+    status: Mapped[str] = mapped_column(String(50), default="active")
+
+    # Messages stored as JSONB array
+    messages: Mapped[List] = mapped_column(JSONB, default=list)
+
+    # Token tracking
+    total_tokens: Mapped[int] = mapped_column(Integer, default=0)
+
+    __table_args__ = (
+        Index("ix_nova_conversations_owner", "owner_id"),
+        Index("ix_nova_conversations_thread", "thread_id"),
+    )
